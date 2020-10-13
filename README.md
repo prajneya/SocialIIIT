@@ -7,6 +7,7 @@ Repository for Algorithms and Analysis Design Course Project
 ### Pull Requests
 
 * No pushes to master should be made directly, only merges shall be made.
+* Always pull before you push.
 * Try to make as small pull requests as you can so that it is easy to review your code (which is why it is advised to create branches for every little feature/fix/chore).
 * Although each one of you has been given rights to merge to master, it is recommended that no one merges their own PRs. Please make sure to add reviewers to PR, and only after the approval from a minimium of three reviewers,  the PR will be merged to master.
 
