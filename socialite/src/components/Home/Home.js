@@ -23,7 +23,7 @@ class Home extends Component {
 			  </form>
 			  <div className="no-account">
 			    <span>Don't have an account yet?</span>
-			    <button className="signup">Sign Up</button>
+			    <a href="/register"><button className="signup">Sign Up</button></a>
 			  </div>
 			</div>
 
