@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 
-import "./Register.css"
-
 class Register extends Component {
 
  	render() {
    		return (
       		<div className="signup-container">
-			<div className="signup">Sign Up</div>
+			<div className="signin">Sign Up</div>
 			<form action="#">
 
 			<div className="email">
@@ -35,9 +33,9 @@ class Register extends Component {
 			<button className="btn">Sign Up</button>
 			</form>
 
-			<div className="already-account">
+			<div className="no-account">
 			    <span>Already have an account?</span>
-			    <button className="signin">Sign In</button>
+			    <a href="/"><button className="signup">Sign In</button></a>
 			</div>
 
 		</div>
