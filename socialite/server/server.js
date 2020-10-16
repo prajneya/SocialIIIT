@@ -4,6 +4,7 @@ const cors = require('cors')
 
 const db = require('./db/index')
 const userRouter = require('./routes/user-router');
+const recosys = require('./recosys/collab')
 
 const app = express();
 const path = require('path');
@@ -46,4 +47,5 @@ db.collection('Users').insertOne(data,function(err, collection){
     return res.send('Good work! Signup done!');
 })
 
+app.post('/recommend', recosys.main); 
 app.listen(process.env.PORT || 8080);
