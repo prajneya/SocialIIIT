@@ -6,18 +6,18 @@ class Register extends Component {
    		return (
       		<div className="signup-container">
 			<div className="signin">Sign Up</div>
-			<form action="#">
+			<form action="/register" method="post">
 
 			<div className="email">
 				<label for="email">Email Address (only iiit.ac.in ids allowed)</label>
 				<br/>
-				<input type="text" placeholder="Enter your email" />
+				<input type="text" id="email" placeholder="Enter your email" />
 			</div>
 
 			<div className="rollno">
 				<label for="rollno">Roll Number</label>
 				<br/>
-				<input type="text" placeholder="Enter your roll number" />
+				<input type="text" id="rollnumber" placeholder="Enter your roll number" />
 			</div>
 
 			<div className="password">
@@ -27,10 +27,11 @@ class Register extends Component {
 
 			<div className="password">
 				<label for="password">Confirm Password</label>
-				<input type="password" placeholder="Enter your password" />
+				<input type="password" id="password" placeholder="Enter your password" />
 			</div>
 
 			<button className="btn">Sign Up</button>
+
 			</form>
 
 			<div className="no-account">
