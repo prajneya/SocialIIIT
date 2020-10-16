@@ -22,12 +22,12 @@ class Register extends Component {
 
 			<div className="password">
 				<label for="password">Password</label>
-				<input type="password" placeholder="Enter your password" />
+				<input type="password" id="password" placeholder="Enter your password" />
 			</div>
 
 			<div className="password">
 				<label for="password">Confirm Password</label>
-				<input type="password" id="password" placeholder="Enter your password" />
+				<input type="password" placeholder="Enter your password" />
 			</div>
 
 			<button className="btn">Sign Up</button>

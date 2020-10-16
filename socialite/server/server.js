@@ -1,16 +1,21 @@
 const express = require('express');
 const bodyParser = require('body-parser')
-const path = require('path');
-const app = express();
-const db = require('./db/index')
+const cors = require('cors')
 
-app.use(bodyParser.json());
+const db = require('./db/index')
+const userRouter = require('./routes/user-router');
+
+const app = express();
+const path = require('path');
+
 app.use(express.static(path.join(__dirname, 'build')));
-app.use(bodyParser.urlencoded({ 
-    extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
+app.use(bodyParser.json());
 
 db.on('error', console.error.bind(console, 'MongoDB connection error:'))
+
+app.use('/api/user', userRouter)
 
 app.get('/ping', function (req, res) {
     return res.send('pong');
