@@ -1,49 +1,24 @@
-const express = require('express');
-const bodyParser = require('body-parser')
-const cors = require('cors')
+const { MONGODB } = require('./config.js');
+const { ApolloServer } = require('apollo-server');
+const gql = require('graphql-tag');
 
-const db = require('./db/index')
-const userRouter = require('./routes/user-router');
+const typeDefs = require('./graphql/typeDefs')
+const resolvers = require('./graphql/resolvers')
+const mongoose = require('mongoose');
 
-const app = express();
-const path = require('path');
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors());
-app.use(bodyParser.json());
-
-db.on('error', console.error.bind(console, 'MongoDB connection error:'))
-
-app.use('/api/user', userRouter)
-
-app.get('/ping', function (req, res) {
-    return res.send('pong');
+const server = new ApolloServer({
+    typeDefs,
+    resolvers
 });
 
-app.get('/', function (req, res) {
-    return res.send('Express Connected.');
+mongoose.connect(MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log(`MongoDB connected.`)
+        return server.listen({ port: 5000});
+    })
+    .then((res) => {
+    console.log(`Server running at ${res.url}`);
 });
 
-app.post('/register', function(req, res) { 
-    var email = req.body.email; 
-    var pass = req.body.password; 
-    var rollno = req.body.rollnumber; 
-  
-    var data = {  
-        "email":email, 
-        "password":pass, 
-        "roll_no":rollno,
-	"token":"TOK123",
-	"friends":[]
-    } 
-db.collection('Users').insertOne(data,function(err, collection){ 
-        if (err) throw err; 
-        console.log("Record inserted Successfully"); 
-              
-    }); 
-          
-    return res.send('Good work! Signup done!');
-})
-
-app.listen(process.env.PORT || 8080);
+//app.listen(process.env.PORT || 8080)
