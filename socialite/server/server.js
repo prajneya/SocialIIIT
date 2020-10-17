@@ -1,11 +1,12 @@
 const { MONGODB } = require('./config.js');
 const { ApolloServer } = require('apollo-server');
 const gql = require('graphql-tag');
-
 const typeDefs = require('./graphql/typeDefs')
 const resolvers = require('./graphql/resolvers')
 const mongoose = require('mongoose');
 
+const userRouter = require('./routes/user-router');
+const recosys = require('./recosys/collab')
 
 const server = new ApolloServer({
     typeDefs,
@@ -21,4 +22,4 @@ mongoose.connect(MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log(`Server running at ${res.url}`);
 });
 
-//app.listen(process.env.PORT || 8080)
+app.post('/recommend', recosys.main);
