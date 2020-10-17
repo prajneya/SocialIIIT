@@ -22,12 +22,13 @@ function host_hous(id)
 	hosnum = cur.hosnum;
 	hosname = cur.hosname;
 	house = cur.house;
-	var total = cur.friendsrecom.length;
-	for(i = 0; i < cur.friendsrecom.length; ++i)
+	const total = cur.friends.length;
+	for(i = 0; i < cur.friends.length; ++i)
 	{
-		count_hostel=count_hostel+check(hosnum,cur.friendsrecom[i].hosnum);
-		count_hosname=count_hosname+check(hosname,cur.friendsrecom[i].hosname);
-		count_house=count_house+check(house,cur.friendsrecom[i].house);
+		var fren = util.getUserById(cur.friends[i]);
+		count_hostel=count_hostel+check(hosnum,fren.hosnum);
+		count_hosname=count_hosname+check(hosname,fren.hosname);
+		count_house=count_house+check(house,fren.house);
 	}
 	return [count_hostel/total*100, count_hosname/total*100, count_house/total*100];
 }
@@ -36,13 +37,14 @@ function sporty(id)
 {
 	const cur = util(body);
 	var sports = cur.sports;
-	var sporlen = cur.sports.length;
-	var total = cur.friendsrecom.length;
+	const sporlen = cur.sports.length;
+	const total = cur.friends.length;
 	var sporarr = Array(sporlen).fill(0);
-	for(i = 0; i < cur.friendsrecom.length; ++i)
+	for(i = 0; i < cur.friends.length; ++i)
 	{
-		var spofre = cur.friendsrecom[i].sports;
-		var spofrelen = cur.friendsrecom.sports.length;
+		var fren = util.getUserById(cur.friends[i]);
+		var spofre = fren.sports;
+		var spofrelen = fren.length;
 		for(j = 0; j < sporlen; ++j)
 		{
 			for(k = 0; k < spofrelen; ++k)
@@ -59,13 +61,14 @@ function club(id)
 {
 	const cur = util(body);
 	var clubs = cur.clubs;
-	var clulen = cur.clubs.length;
-	var total = cur.friendsrecom.length;
+	const clulen = cur.clubs.length;
+	const total = cur.friends.length;
 	var cluarr = Array(clulen).fill(0);
-	for(i = 0; i < cur.friendsrecom.length; ++i)
+	for(i = 0; i < cur.friends.length; ++i)
 	{
-		var clufre = cur.friendsrecom[i].clubs;
-		var clufrelen = cur.friendsrecom.clubs.length;
+		var fren = util.getUserById(cur.friends[i]);
+		var clufre = fren.clubs;
+		var clufrelen = fren.length;
 		for(j = 0; j < clulen; ++j)
 		{
 			for(k = 0; k < clufrelen; ++k)
