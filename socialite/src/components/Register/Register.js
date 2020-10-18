@@ -1,34 +1,45 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 
-function Register() {
+import { AuthContext } from '../../context/auth';
+import { useForm } from '../../util/hooks';
 
-	const [values, setValues] = useState({
+function Register(props) {
+
+	const context = useContext(AuthContext)
+
+	const [errors, setErrors] = useState({});
+
+	const initialState = {
+		email: '',
+		password: '',
+		confirmPassword: ''
+	}
+
+	const { onChange, onSubmit, values } = useForm(registerUser, {
 		email: '',
 		password: '',
 		confirmPassword: ''
 	})
 
-	const onChange = (event) => {
-		setValues({ ...values, [event.target.name]: event.target.value});
-	}
-
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
-		update(proxy, result){
-			console.log(result);
+		update(_, { data: { register: userData } }){
+			context.login(userData);
+			props.history.push('/dashboard')
+		},
+		onError(err){
+			setErrors(err.graphQLErrors[0].extensions.exception.errors);
 		},
 		variables: values
 	})
 
-	const onSubmit = (event) => {
-		event.preventDefault();
-		console.log(values)
+	function registerUser(){
 		addUser();
 	}
 
-   		return (
-      		<div className="signup-container">
+	return (
+		<div className="signup-container">
 			<div className="signin">Sign Up</div>
 			<form onSubmit={onSubmit}>
 
@@ -63,10 +74,18 @@ function Register() {
 			    <a href="/"><button className="signup">Sign In</button></a>
 			</div>
 
+			{Object.keys(errors).length > 0 && (<div className="error-message">
+				<ul>
+					{Object.values(errors).map(value => (
+						<li key={value}>{value}</li>
+					))}
+				</ul>
+			</div>)}
+
 		</div>
 
-    	);
-   	}
+	);
+}
   	
 
 const REGISTER_USER = gql`
