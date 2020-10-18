@@ -1,0 +1,67 @@
+.authenticate-nav{
+	margin: 2rem;
+}
+
+.a-nav-right{
+	text-align: right;
+}
+
+.rounded{
+	padding: 0.4rem 1.5rem;
+	border-radius: 25px !important;
+	background-color: rgba(0,204,187, 0.5);
+	border-style: none;
+}
+
+.rounded:hover{
+	background-color: rgba(0,204,187, 0.9);
+}
+
+.wall{
+	margin: 5rem 0;
+}
+
+input{
+	width: 100%;
+	border-radius: 10px;
+	padding: 1rem; 
+	background-color: #3a4750;
+	color: #00adb5;
+}
+
+.feature{
+	position: relative;
+	background-color: rgba(0, 0, 0, .2);
+	border-radius: 10px;
+	padding: 0 1rem;
+	height: 350px;
+	text-align: center;
+	color: #00adb5;
+	margin-top: 1rem;
+}
+
+.feature:hover{
+	background-color: #3a4750;
+	cursor: pointer;
+}
+
+.feature img{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -65%);
+	opacity: 0.7;
+	height: 250px;
+	object-fit: cover;
+}
+
+.feature img:hover{
+	opacity: 0.9;
+}
+
+.feature-content{
+	position: absolute;
+	bottom: 25px;
+	left: 50%;
+	transform: translateX(-50%);
+}

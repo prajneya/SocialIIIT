@@ -16,7 +16,7 @@
 body{
   font-family: 'Lato', sans-serif;
   font-weight: 400;
-  background: var(--main-bg);
+  background: var(--main-bg) !important;
 }
 
 .signup-container{
@@ -70,7 +70,7 @@ input{
   padding-top: 0.3em;
 }
 
-.btn{
+.btn-submit{
   outline: none;
   border: none;
   border-radius: 5px;
@@ -79,6 +79,7 @@ input{
   font-size: 1.125rem;
   background: var(--cyan);
   color: white;
+  margin-top: 1rem;
 }
 
 .no-account{
@@ -101,6 +102,25 @@ input{
   font-size: 1rem;
   margin-left: 1em;
   color: white;
+}
+
+.email{
+  margin-top: 1rem;
+}
+
+.password{
+  margin-top: 1rem;
+}
+
+.rollno{
+  margin-top: 1rem;
+}
+
+.subsection-header{
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #00adb5;
+  font-family: 'Lato', sans-serif;
 }
 
 @media only screen and (max-width: 768px) {
