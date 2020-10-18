@@ -12,14 +12,14 @@ class Home extends Component {
 			    <div className="email">
 			      <label for="email">Email Address</label>
 			      <br/>
-			      <input type="text" placeholder="Enter your email" />
+			      <input type="text" name="email" placeholder="Enter your email" />
 			    </div>
 			    <div className="password">
 			      <label for="password">Password</label>
 			      <a href="/" className="forgot">Forgot your password?</a>
-			      <input type="password" placeholder="Enter your password" />
+			      <input type="password" name="password" placeholder="Enter your password" />
 			    </div>
-			    <button className="btn">Sign In</button>
+			    <button className="btn-submit">Sign In</button>
 			  </form>
 			  <div className="no-account">
 			    <span>Don't have an account yet?</span>

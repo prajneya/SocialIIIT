@@ -54,7 +54,7 @@ function Register() {
 				<input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter your password" onChange={onChange} value={values.confirmPassword} />
 			</div>
 
-			<button type="submit" className="btn">Sign Up</button>
+			<button type="submit" className="btn-submit">Sign Up</button>
 
 			</form>
 
