@@ -104,6 +104,7 @@ function percen(id)
 	total = perhos[0] + perhos[1] + perhos[2] + totclub + totsport;
 	return total; 
 }
+
 function scoring(a,b)
 {
 	const cur = util.getUserById(a);
