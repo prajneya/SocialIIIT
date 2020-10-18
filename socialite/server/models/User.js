@@ -6,4 +6,8 @@ const userSchema = new Schema({
   createdAt: String
 });
 
+//const userFriends = new Schema({
+	//id: String,
+	//friends: { type: [ {type: String} ] }
+//});
 module.exports = model('User', userSchema);
