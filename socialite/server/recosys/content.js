@@ -12,6 +12,23 @@ function check (a,b)
 		return 0;
 }
 
+function checkhos (a,b)
+{
+	if(a < 100) //for obh 
+	{
+		if(b < 100)
+			return 1;
+		else 
+			return 0;
+	}
+	else // for non obh
+	{
+		x = (a/100)%100| 0 ; // for hundred's place 
+		y = (b/100)%100| 0 ; // for hundred's place 
+		z = check(x,y);
+		return z;
+	}
+}
 function host_hous(id)
 {
 	const cur = util.getUserById(id);
@@ -25,7 +42,7 @@ function host_hous(id)
 	for(i = 0; i < cur.friends.length; ++i)
 	{
 		var fren = util.getUserById(cur.friends[i]);
-		count_hostel = count_hostel+check(hosnum,fren.hosnum);
+		count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
 		count_hosname = count_hosname+check(hosname,fren.hosname);
 		count_house = count_house+check(house,fren.house);
 	}
@@ -114,7 +131,7 @@ function scoring(a,b)
 	var persport = sporty(a);
 	var perclub = club(a);
 	var score = 0;
-	score = score + perhos[0]*check(cur.hosnum,nonfren.hosnum);
+	score = score + perhos[0]*checkhos(cur.hosnum,nonfren.hosnum);
 	score = score + perhos[1]*check(cur.hosname,nonfren.hosname);
 	score = score + perhos[2]*check(cur.house,nonfren.house);
 
