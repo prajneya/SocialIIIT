@@ -7,12 +7,17 @@ import "./Dashboard.css"
 
 function Dashboard(props){
 
-      const { user, logout} = useContext(AuthContext)
+	const { user, logout} = useContext(AuthContext)
 
-      function logUserOut(){
-            logout();
-            props.history.push('/')
-      }
+	function logUserOut(){
+		logout();
+		props.history.push('/')
+	}
+	  
+	function recommendFriend()
+    {
+        props.history.push('/recommend')
+    }
 
 	return (
             <>
@@ -40,7 +45,7 @@ function Dashboard(props){
       						</div>
       					</div>
       					<div className="col-lg-4">
-      						<div className="feature">
+      						<div className="feature" onClick={recommendFriend}>
       							<div className="feature-icon">
       							<img src='/img/find_friend.png' alt=""></img>
       							</div>
