@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { AuthContext } from '../../context/auth'
 
-import "../Dashboard/Dashboard.css"
+import "./Recommend.css"
 
 function Recommend(props)
 {
