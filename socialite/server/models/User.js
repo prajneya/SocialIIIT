@@ -1,13 +1,19 @@
-const { model, Schema } = require('mongoose');
+const mongoose = require('mongoose');
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
   email: String,
   password: String,
   createdAt: String
 });
 
-//const userFriends = new Schema({
-	//id: String,
-	//friends: { type: [ {type: String} ] }
-//});
-module.exports = model('User', userSchema);
+const Profile = new mongoose.Schema({
+	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	friends: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	house: String,
+	hosnum: Number,
+	hosname: String,
+	sports: [String],
+	clubs: [String]
+});
+
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile)};
