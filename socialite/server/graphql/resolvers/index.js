@@ -4,7 +4,7 @@ const recoResolvers = require('./recommend')
 
 module.exports = {
 	Query: {
-		...postResolvers.Query
+		...postResolvers.Query,
 		...recoResolvers.recommend
 	},
 	Mutation: {

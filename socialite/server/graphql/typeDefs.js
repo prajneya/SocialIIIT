@@ -17,7 +17,7 @@ module.exports = gql`
 	id: ID!
 	friends: [ID]!
 	house: String!
-	hosnum: Number!
+	hosnum: Int!
 	hosname: String!
 	sports: [String]!
 	clubs: [String]!

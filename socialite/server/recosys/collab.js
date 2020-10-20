@@ -144,7 +144,7 @@ function friendlist(id, flag)
 	return score;
 }
 
-recomain = (id) => {
+module.exports = function recomain(id) {
 	var graph = graphgen();
 	e = 2;
 	r = 2;
@@ -153,7 +153,3 @@ recomain = (id) => {
 	cluster(graph)
 	return friendlist(id, 0);
 }
-
-module.exports = {
-	recomain
-};
