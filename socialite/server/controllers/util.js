@@ -1,18 +1,17 @@
-const User = require("../models/user-model");
+const User = require("../models/User");
 const e = require("express");
 
 
-module.exports = function getUserById(body){
-	User.findById(body.Id, (err, user) => {
-		if (err) {
-			console.log(err);
-			return null;
-		}
-
-		if (!user) {
-			console.log("User not found!");
-			return null;
-		}
-		return user;
-	}).catch((err) => console.log(err));
-};
+module.exports = {
+	getUserById: function getUserById(id){
+		return User.findById(id, (err, user) => {
+			return user;
+		});
+	},
+	getUsers: function getUsers(){
+		return User.find({}, (err, users) => {
+			console.log(users);
+			return users;
+		});
+	}
+}
