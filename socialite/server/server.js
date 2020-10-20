@@ -8,8 +8,6 @@ const mongoose = require('mongoose');
 //const userRouter = require('./routes/user-router');
 //const recosys = require('./recosys/collab')
 
-const recosys = require('./recosys/collab')
-
 const server = new ApolloServer({
     typeDefs,
     resolvers
