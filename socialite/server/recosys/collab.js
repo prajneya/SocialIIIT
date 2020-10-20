@@ -1,5 +1,4 @@
-const User = require("../models/User");
-const util = require("../controllers/util");
+const data = require("../util/userdata");
 const content = require("./content")
 
 //const empty = require("is-empty");
@@ -28,7 +27,7 @@ function cluster(graph)
 	clusters = Array(users.length);
 	for(i = 0; i < users.length; ++i)
 	{
-		clusters[i] = ++k;
+		++k;
 		for(j = 0; j < users.length; ++j)
 		{
 			if(graph[j][i])
@@ -64,7 +63,7 @@ function inflate(graph, r)
 		}
 
 		for(j = 0; j < users.length; ++j)
-			graph[i][j] = norm * graph[i][j];
+			graph[i][j] = graph[i][j] / norm;
 	}
 
 	return graph;
@@ -93,10 +92,13 @@ function expand(graph, e)
 
 function graphgen()
 {
-	users = util.getUsers();
+	users = data.getProfiles();
 	var graph = Array(users.length);
 	for(let i = 0; i < users.length; ++i)
+	{
 		graph[i] = Array(users.length).fill(0);
+		graph[i][i] = 1 / (users[i].friends.length + 1);
+	}
 
 	for(i = 0; i < users.length; ++i)
 		mapping[users[i]._id] = i;
@@ -104,7 +106,7 @@ function graphgen()
 	for(i = 0; i < users.length; ++i)
 	{
 		for(j = 0; j < users[i].friends.length; ++j)
-			graph[i][mapping[users.friends[j]]] = 1 / users[i].friends.length;
+			graph[i][mapping[users.friends[j]]] = 1 / (users[i].friends.length + 1);
 	}
 
 	return graph;
@@ -122,7 +124,7 @@ function markov(graph, e, r, threshold)
 
 function friendlist(id, flag)
 {
-	const cur = util.getUserById(id);
+	const cur = data.getProfileById(id);
 	for(i = 0; i < cur.friends.length; ++i)
 		clusters[mapping[cur.friends[i]]] = -1;
 
@@ -131,25 +133,27 @@ function friendlist(id, flag)
 	{
 		if(mapping[id] == i || clusters[i] == -1)
 			continue;
-		score[++k] = {"id": users[i]._id, "val": 0.5 * content.scoring(id, users[i]._id)};
+		email =  data.getUserEmail(users[i]._id);
+		score[++k] = {"id": users[i]._id, "match": 0.5 * content.scoring(id, users[i]._id), "email": email};
 		if(clusters[mapping[id]] == clusters[i])
-			score[k].users._id += 0.5;
+			score[k].match+= 0.5;
+		score[k].match *= 100;
 	}
 
-	score.sort(custom("val"));
+	score.sort(custom("match"));
 	return score;
 }
 
-main = async(req, res) => {
-	const body = req.body;
-
+recomain = (id) => {
 	var graph = graphgen();
+	e = 2;
+	r = 2;
+	threshold = 0.01;
 	graph = markov(graph, e, r, threshold);
 	cluster(graph)
-	return friendlist(body.Id, 0);
-	//User x = await util(body);
+	return friendlist(id, 0);
 }
 
 module.exports = {
-	main
+	recomain
 };

@@ -13,6 +13,20 @@ module.exports = gql`
     	token: String!
     	createdAt: String!
     }
+    type Profile{
+	id: ID!
+	friends: [ID]!
+	house: String!
+	hosnum: Number!
+	hosname: String!
+	sports: [String]!
+	clubs: [String]!
+    }
+    type Recommend{
+	id: ID!
+	match: Float!
+	email: String!
+    }
     input RegisterInput{
     	email: String!
     	password: String!
@@ -20,6 +34,7 @@ module.exports = gql`
     }
     type Query{
         getPosts: [Post]
+	recommend(id: String!): [Recommend]!
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!

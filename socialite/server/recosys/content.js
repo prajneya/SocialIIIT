@@ -1,7 +1,5 @@
-const User = require("../models/user-model");
-const util = require("../controllers/util");
+const data = require("../util/userdata");
 
-//const empty = require("is-empty");
 const ex = require("express");
 
 function check (a,b)
@@ -31,7 +29,7 @@ function checkhos (a,b)
 }
 function host_hous(id)
 {
-	const cur = util.getUserById(id);
+	const cur = data.getProfileById(id);
 	var hosnum = cur.hosnum;
 	var hosname = cur.hosname;
 	var house = cur.house;
@@ -41,7 +39,7 @@ function host_hous(id)
 	const total = cur.friends.length;
 	for(i = 0; i < cur.friends.length; ++i)
 	{
-		var fren = util.getUserById(cur.friends[i]);
+		var fren = data.getProfileById(cur.friends[i]);
 		count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
 		count_hosname = count_hosname+check(hosname,fren.hosname);
 		count_house = count_house+check(house,fren.house);
@@ -54,14 +52,14 @@ function host_hous(id)
 
 function sporty(id)
 {
-	const cur = util.getUserById(id);
+	const cur = data.getProfileById(id);
 	var sports = cur.sports;
 	const sporlen = cur.sports.length;
 	const total = cur.friends.length;
 	var sporarr = Array(sporlen).fill(0);
 	for(i = 0; i < cur.friends.length; ++i)
 	{
-		var fren = util.getUserById(cur.friends[i]);
+		var fren = data.getProfileById(cur.friends[i]);
 		var spofre = fren.sports;
 		var spofrelen = fren.length;
 		for(j = 0; j < sporlen; ++j)
@@ -78,14 +76,14 @@ function sporty(id)
 
 function club(id)
 {
-	const cur = util.getUserById(id);
+	const cur = data.getProfileById(id);
 	var clubs = cur.clubs;
 	const clulen = cur.clubs.length;
 	const total = cur.friends.length;
 	var cluarr = Array(clulen).fill(0);
 	for(i = 0; i < cur.friends.length; ++i)
 	{
-		var fren = util.getUserById(cur.friends[i]);
+		var fren = data.getProfileById(cur.friends[i]);
 		var clufre = fren.clubs;
 		var clufrelen = fren.length;
 		for(j = 0; j < clulen; ++j)
@@ -102,7 +100,7 @@ function club(id)
 
 function percen(id)
 {
-	const cur = util.getUserById(id);
+	const cur = data.getProfileById(id);
 	var perhos = host_hous(id);
 	var persport = sporty(id);
 	var perclub = club(id);
@@ -124,8 +122,8 @@ function percen(id)
 
 function scoring(a,b)
 {
-	const cur = util.getUserById(a);
-	const nonfren = util.getUserById(b);
+	const cur = data.getProfileById(a);
+	const nonfren = data.getProfileById(b);
 	var total = percen(a);
 	var perhos = host_hous(a);
 	var persport = sporty(a);
