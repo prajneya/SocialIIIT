@@ -5,6 +5,9 @@ const typeDefs = require('./graphql/typeDefs')
 const resolvers = require('./graphql/resolvers')
 const mongoose = require('mongoose');
 
+//const userRouter = require('./routes/user-router');
+//const recosys = require('./recosys/collab')
+
 const recosys = require('./recosys/collab')
 
 const server = new ApolloServer({
@@ -20,3 +23,5 @@ mongoose.connect(MONGODB, { useNewUrlParser: true, useUnifiedTopology: true })
     .then((res) => {
     console.log(`Server running at ${res.url}`);
 });
+
+//app.post('/recommend', recosys.main);
