@@ -4,11 +4,10 @@ const content = require("./content")
 //const empty = require("is-empty");
 const ex = require("express");
 const math = require("mathjs");
-var users;
-ctr = 0;
-var score = [];
-var mapping = {};
-var clusters = [];
+users = [];
+score = [];
+mapping = {};
+clusters = [];
 
 function custom(x) {
 	return function(a, b) {
@@ -90,9 +89,9 @@ function expand(graph, e)
 	return res;
 }
 
-function graphgen()
+async function graphgen()
 {
-	users = data.getProfiles();
+	users = await data.getProfiles();
 	var graph = Array(users.length);
 	for(let i = 0; i < users.length; ++i)
 	{
@@ -106,7 +105,7 @@ function graphgen()
 	for(i = 0; i < users.length; ++i)
 	{
 		for(j = 0; j < users[i].friends.length; ++j)
-			graph[i][mapping[users.friends[j]]] = 1 / (users[i].friends.length + 1);
+			graph[i][mapping[users[i].friends[j]]] = 1 / (users[i].friends.length + 1);
 	}
 
 	return graph;
@@ -122,9 +121,9 @@ function markov(graph, e, r, threshold)
 	return markov(graph, e, r, threshold);
 }
 
-function friendlist(id, flag)
+async function friendlist(id, flag)
 {
-	const cur = data.getProfileById(id);
+	const cur = await data.getProfileById(id);
 	for(i = 0; i < cur.friends.length; ++i)
 		clusters[mapping[cur.friends[i]]] = -1;
 
@@ -133,7 +132,7 @@ function friendlist(id, flag)
 	{
 		if(mapping[id] == i || clusters[i] == -1)
 			continue;
-		email =  data.getUserEmail(users[i]._id);
+		email =  await data.getUserEmail(users[i]._id);
 		score[++k] = {"id": users[i]._id, "match": 0.5 * content.scoring(id, users[i]._id), "email": email};
 		if(clusters[mapping[id]] == clusters[i])
 			score[k].match+= 0.5;
@@ -151,5 +150,6 @@ module.exports = function recomain(id) {
 	threshold = 0.01;
 	graph = markov(graph, e, r, threshold);
 	cluster(graph)
+	console.log(clusters);
 	return friendlist(id, 0);
 }
