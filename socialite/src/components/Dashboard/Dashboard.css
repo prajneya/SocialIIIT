@@ -6,6 +6,11 @@
 	text-align: right;
 }
 
+.a-nav-right a{
+	display: inline-block;
+	text-align: right;
+	margin: 1rem;
+}
 .rounded{
 	padding: 0.4rem 1.5rem;
 	border-radius: 25px !important;

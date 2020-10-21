@@ -42,7 +42,7 @@ export default (
             <LoginRoute exact path="/register" component={Register} exact/>
             <AuthRoute exact path="/dashboard" component={Dashboard} exact/>
             <AuthRoute exact path="/recommend" component={Recommend} exact/>
-            <LoginRoute exact path="/profile" component={Profile} exact/>
+            <AuthRoute exact path="/profile" component={Profile} exact/>
           </Switch>
         </div>
     </BrowserRouter>

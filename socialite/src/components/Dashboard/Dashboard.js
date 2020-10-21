@@ -14,16 +14,16 @@ function Dashboard(props){
 		props.history.push('/')
 	}
 	  
-	function recommendFriend()
-    {
-        props.history.push('/recommend')
-    }
+	function recommendFriend(){
+            props.history.push('/recommend')
+      }
 
 	return (
             <>
       		<div className="container">
       			<div className="authenticate-nav">
       				<div className="a-nav-right">
+                                    <a href="/profile">MY PROFILE</a>
       					<button className="rounded" onClick={logUserOut}>LOGOUT</button>
       				</div>
       			</div>

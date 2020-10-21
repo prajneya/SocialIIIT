@@ -34,7 +34,7 @@ module.exports = gql`
     }
     type Query{
         getPosts: [Post]
-	recommend(id: String!): [Recommend]!
+        recommend(id: String!): [Recommend]!
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!
