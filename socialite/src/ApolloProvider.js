@@ -15,9 +15,9 @@ import Home from './components/Home/Home';
 import Register from './components/Register/Register';
 import Dashboard from './components/Dashboard/Dashboard';
 import Recommend from './components/Recommend/Recommend';
+import Profile from './components/Profile/Profile';
 
 import './App.css';
-
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:5000'
@@ -42,6 +42,7 @@ export default (
             <LoginRoute exact path="/register" component={Register} exact/>
             <AuthRoute exact path="/dashboard" component={Dashboard} exact/>
             <AuthRoute exact path="/recommend" component={Recommend} exact/>
+            <LoginRoute exact path="/profile" component={Profile} exact/>
           </Switch>
         </div>
     </BrowserRouter>
