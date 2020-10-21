@@ -16,4 +16,4 @@ const Profile = new mongoose.Schema({
 	clubs: [String]
 });
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile)};
+module.exports = {User: mongoose.model('User', userSchema, 'User'), Profile: mongoose.model('Profile', Profile, 'Profile')};
