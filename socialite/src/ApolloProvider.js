@@ -10,6 +10,7 @@ import { onError } from 'apollo-link-error'
 import Home from './components/Home/Home';
 import Register from './components/Register/Register';
 import Dashboard from './components/Dashboard/Dashboard';
+import Profile from './components/Profile/Profile';
 
 import './App.css';
 
@@ -34,6 +35,7 @@ export default (
           <Route path="/" component={Home} exact/>
           <Route path="/register" component={Register} exact/>
           <Route path="/dashboard" component={Dashboard} exact/>
+          <Route path="/profile" component={Profile} exact/>
         </Switch>
       </div>
     </BrowserRouter>

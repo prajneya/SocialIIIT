@@ -1,0 +1,66 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+ 
+.profile-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: var(--bg-clr);
+    color: white;
+    margin: 2rem;
+    padding: 5rem 1rem;
+    border-radius: 20px;
+    position: relative;
+    width: 50%;
+    transform: translateX(50%);
+  }
+
+.house .hostel .room .sports .clubs{
+    margin-top: 1rem;
+   }
+
+#multiselectContainerReact {
+    margin-bottom: 10px;
+    background: #303841;
+    float: none;
+}
+
+.optionContainer li:hover,
+.optionContainer .highlight {
+  background: #00adb5;
+  color: #fff;
+}
+
+.room {
+  width: 100%;
+  padding: 0em;
+  margin: 0.6em 0 0.6em 0;
+  outline: none;
+}
+
+input {
+    color: white;
+}
+
+.house .hostel {
+    margin-top: 40px;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .profile-container {
+      width: 90%;
+      margin-left: -40%;
+    }
+  }
