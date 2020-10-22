@@ -1,11 +1,9 @@
 const data = require("../util/userdata");
 const content = require("./content")
 
-//const empty = require("is-empty");
 const ex = require("express");
 const math = require("mathjs");
 users = [];
-score = [];
 mapping = {};
 clusters = [];
 
@@ -81,8 +79,8 @@ function expand(graph, e)
 	while(e)
 	{
 		if(e & 1)
-			res = res * x;
-		x = x * x;
+			res = math.multiply(res, x);
+		x = math.multiply(x, x);
 		e = e >> 1;
 	}
 
@@ -128,14 +126,16 @@ async function friendlist(id, flag)
 		clusters[mapping[cur.friends[i]]] = -1;
 
 	k = -1;
+	score = Array(users.length - 1 - cur.friends.length);
 	for(i = 0; i < users.length; ++i)
 	{
 		if(mapping[id] == i || clusters[i] == -1)
 			continue;
 		email =  await data.getUserEmail(users[i]._id);
-		score[++k] = {"id": users[i]._id, "match": 0.5 * content.scoring(id, users[i]._id), "email": email};
+		conscore = await content.scoring(id, users[i]._id);
+		score[++k] = {"id": users[i]._id, "match": 0.5 * conscore, "email": email};
 		if(clusters[mapping[id]] == clusters[i])
-			score[k].match+= 0.5;
+			score[k].match += 0.5;
 		score[k].match *= 100;
 	}
 
@@ -143,13 +143,14 @@ async function friendlist(id, flag)
 	return score;
 }
 
-module.exports = function recomain(id) {
-	var graph = graphgen();
+module.exports = async function recomain(id) {
+	var graph = await graphgen();
 	e = 2;
 	r = 2;
 	threshold = 0.01;
 	graph = markov(graph, e, r, threshold);
 	cluster(graph)
-	console.log(clusters);
-	return friendlist(id, 0);
+	ret = await friendlist(id, 0);
+	console.log(ret);
+	return ret;
 }
