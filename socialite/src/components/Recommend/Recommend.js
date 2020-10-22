@@ -1,19 +1,37 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import { AuthContext } from '../../context/auth'
 
 import "./Recommend.css"
 
-function Recommend(props)
-{
-    const { user, logout } = useContext(AuthContext)
+function Recommend(props){
+
+    const { user, logout } = useContext(AuthContext);
 
     function logUserOut()
     {
         logout();
         props.history.push('/')
     }
+
+    const userId = user.id;
+    console.log(userId);
+
+    const { data } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
+        variables: {
+            userId
+        }
+    });
+
+    if(data)
+        for(var i = 0; i<data.recommend.length; i++){
+            console.log(data.recommend[i]['email']);
+        }
+
+    var recommendations = data ? data.recommend : "";
 
     return (
             <>
@@ -27,39 +45,30 @@ function Recommend(props)
             <div className="feature-display">
                 <div className="subsection-header"> Let us recommend you some friends! </div>
                 <div className="row">
-                    <div className="col-lg-12">
+                    {recommendations && recommendations.map(recommendation => (
+                        <div className="col-lg-12">
                         <div className="friend">
                             <div className="friend-content">
-                                Raja
+                                <strong>Email: {recommendation['email']}</strong>
+                                <br />
+                                Friend Match Probalitiy: {recommendation['match']} %
                             </div>
                         </div>
                     </div>
-                    <div className="col-lg-12">
-                        <div className="friend">
-                            <div className="friend-content">
-                                Ram
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-12">
-                        <div className="friend">
-                            <div className="friend-content">
-                                Mohan
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-lg-12">
-                        <div className="friend">
-                            <div className="friend-content">
-                                Roy
-                            </div>
-                        </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </div>
         </>
     )
 }
+
+const FETCH_RECOMMENDATIONS_QUERY = gql`
+    query($userId: String!){
+        recommend(id: $userId){
+            id match email
+        }
+    }
+`
 
 export default Recommend;
