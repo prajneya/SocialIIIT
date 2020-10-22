@@ -122,8 +122,12 @@ function markov(graph, e, r, threshold)
 async function friendlist(id, flag)
 {
 	const cur = await data.getProfileById(id);
+	send = Array(cur.friends.length);
 	for(i = 0; i < cur.friends.length; ++i)
+	{
 		clusters[mapping[cur.friends[i]]] = -1;
+		send[i] = users[mapping[cur.friends[i]]];
+	}
 
 	k = -1;
 	score = Array(users.length - 1 - cur.friends.length);
@@ -132,7 +136,7 @@ async function friendlist(id, flag)
 		if(mapping[id] == i || clusters[i] == -1)
 			continue;
 		email =  await data.getUserEmail(users[i]._id);
-		conscore = await content.scoring(id, users[i]._id);
+		conscore = await content.scoring(cur, users[i], send);
 		score[++k] = {"id": users[i]._id, "match": 0.5 * conscore, "email": email};
 		if(clusters[mapping[id]] == clusters[i])
 			score[k].match += 0.5;
