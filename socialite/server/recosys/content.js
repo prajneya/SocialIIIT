@@ -1,5 +1,3 @@
-const data = require("../util/userdata");
-
 const ex = require("express");
 
 function check (a,b)
@@ -28,7 +26,7 @@ function checkhos (a,b)
 	}
 }
 
-async function host_hous(profile,arr)
+function host_hous(profile,arr)
 {
 	var hosnum = profile.hosnum;
 	var hosname = profile.hosname;
@@ -37,7 +35,7 @@ async function host_hous(profile,arr)
 	var count_hosname = 0;
 	var count_house = 0;
 	const total = profile.friends.length;
-	for(i = 0; i < total; ++i)
+	for(let i = 0; i < total; ++i)
 	{
 		var fren = arr[i];
 		count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
@@ -50,13 +48,13 @@ async function host_hous(profile,arr)
 	return [count_hostel, count_hosname, count_house];
 }
 
-async function sporty(profile,arr)
+function sporty(profile,arr)
 {
 	var sports = profile.sports;
 	const sporlen = profile.sports.length;
 	const total = profile.friends.length;
 	var sporarr = Array(sporlen).fill(0);
-	for(i = 0; i < total; ++i)
+	for(let i = 0; i < total; ++i)
 	{
 		var fren = arr[i];
 		var spofre = fren.sports;
@@ -73,13 +71,13 @@ async function sporty(profile,arr)
 	return sporarr;
 }
 
-async function club(profile,arr)
+function club(profile,arr)
 {
 	var clubs = profile.clubs;
 	const clulen = profile.clubs.length;
 	const total = profile.friends.length;
 	var cluarr = Array(clulen).fill(0);
-	for(i = 0; i < total; ++i)
+	for(let i = 0; i < total; ++i)
 	{
 		var fren = arr[i];
 		var clufre = fren.clubs;
@@ -96,7 +94,7 @@ async function club(profile,arr)
 	return cluarr;
 }
 
-async function scoring(a,b,arr)
+function scoring(a,b,arr)
 {
 	profile = a;
 	const nonfren = b;
@@ -142,9 +140,9 @@ async function scoring(a,b,arr)
 	}
 	else
 	{
-		perhos = await host_hous(a,arr);
-		persport = await sporty(a,arr);
-		perclub = await club(a,arr);
+		perhos = host_hous(a,arr);
+		persport = sporty(a,arr);
+		perclub = club(a,arr);
 		score = score + perhos[0]*checkhos(profile.hosnum,nonfren.hosnum);
 		score = score + perhos[1]*check(profile.hosname,nonfren.hosname);
 		score = score + perhos[2]*check(profile.house,nonfren.house);
