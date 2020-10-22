@@ -1,5 +1,3 @@
-const data = require("../util/userdata");
-
 const ex = require("express");
 
 function check (a,b)
@@ -12,7 +10,7 @@ function check (a,b)
 
 function checkhos (a,b)
 {
-	if(a < 100) //for obh 
+	if(a < 100) //for obh ground floor
 	{
 		if(b < 100)
 			return 1;
@@ -28,19 +26,18 @@ function checkhos (a,b)
 	}
 }
 
-async function host_hous(id)
+function host_hous(profile,arr)
 {
-	cur = await data.getProfileById(id);
-	var hosnum = cur.hosnum;
-	var hosname = cur.hosname;
-	var house = cur.house;
+	var hosnum = profile.hosnum;
+	var hosname = profile.hosname;
+	var house = profile.house;
 	var count_hostel = 0;
 	var count_hosname = 0;
 	var count_house = 0;
-	const total = cur.friends.length;
-	for(i = 0; i < cur.friends.length; ++i)
+	const total = profile.friends.length;
+	for(let i = 0; i < total; ++i)
 	{
-		var fren = await data.getProfileById(cur.friends[i]);
+		var fren = arr[i];
 		count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
 		count_hosname = count_hosname+check(hosname,fren.hosname);
 		count_house = count_house+check(house,fren.house);
@@ -51,16 +48,15 @@ async function host_hous(id)
 	return [count_hostel, count_hosname, count_house];
 }
 
-async function sporty(id)
+function sporty(profile,arr)
 {
-	cur = await data.getProfileById(id);
-	var sports = cur.sports;
-	const sporlen = cur.sports.length;
-	const total = cur.friends.length;
+	var sports = profile.sports;
+	const sporlen = profile.sports.length;
+	const total = profile.friends.length;
 	var sporarr = Array(sporlen).fill(0);
-	for(i = 0; i < cur.friends.length; ++i)
+	for(let i = 0; i < total; ++i)
 	{
-		var fren = await data.getProfileById(cur.friends[i]);
+		var fren = arr[i];
 		var spofre = fren.sports;
 		var spofrelen = fren.length;
 		for(j = 0; j < sporlen; ++j)
@@ -75,16 +71,15 @@ async function sporty(id)
 	return sporarr;
 }
 
-async function club(id)
+function club(profile,arr)
 {
-	cur = await data.getProfileById(id);
-	var clubs = cur.clubs;
-	const clulen = cur.clubs.length;
-	const total = cur.friends.length;
+	var clubs = profile.clubs;
+	const clulen = profile.clubs.length;
+	const total = profile.friends.length;
 	var cluarr = Array(clulen).fill(0);
-	for(i = 0; i < cur.friends.length; ++i)
+	for(let i = 0; i < total; ++i)
 	{
-		var fren = await data.getProfileById(cur.friends[i]);
+		var fren = arr[i];
 		var clufre = fren.clubs;
 		var clufrelen = fren.length;
 		for(j = 0; j < clulen; ++j)
@@ -99,59 +94,84 @@ async function club(id)
 	return cluarr;
 }
 
-async function percen(id)
+function scoring(a,b,arr)
 {
-	cur = await data.getProfileById(id);
-	var perhos = await host_hous(id);
-	var persport = await sporty(id);
-	var perclub = await club(id);
-	const sporlen = cur.sports.length;
-	var totsport;
-	var totclub;
-	for(j = 0; j < sporlen; ++j)
-	{
-		totsport = totsport + persport[j];
-	}
-	const clulen = cur.clubs.length;
-	for(j = 0; j < clulen; ++j)
-	{
-		totclub = totclub + perclub[j];
-	}
-	total = perhos[0] + perhos[1] + perhos[2] + totclub + totsport;
-	return total; 
-}
-
-async function scoring(a,b)
-{
-	cur = await data.getProfileById(a);
-	const nonfren = await data.getProfileById(b);
-	var total = await percen(a);
-	var perhos = await host_hous(a);
-	var persport = await sporty(a);
-	var perclub = await club(a);
+	profile = a;
+	const nonfren = b;
+	var total = 0;
+	var perhos;
+	var persport;
+	var perclub;
 	var score = 0;
-	score = score + perhos[0]*checkhos(cur.hosnum,nonfren.hosnum);
-	score = score + perhos[1]*check(cur.hosname,nonfren.hosname);
-	score = score + perhos[2]*check(cur.house,nonfren.house);
+	var totsport = 0;
+	var totclub = 0;
 
-	const sporlenuser = cur.sports.length;
-	const sporlennon = nonfren.sports.length;
-	for(j = 0; j < sporlenuser; ++j)
+	if(profile.friends.length == 0) // for new user
 	{
-		for(k = 0; k < sporlennon; ++k)
+		totsport = profile.sports.length;
+		totclub = profile.clubs.length;
+		score = score + checkhos(profile.hosnum,nonfren.hosnum);
+		score = score + check(profile.hosname,nonfren.hosname);
+		score = score + check(profile.house,nonfren.house);
+
+		const sporlenuser = profile.sports.length;
+		const sporlennon = nonfren.sports.length;
+		for(j = 0; j < sporlenuser; ++j)
 		{
-			score = score + persport[j]*check(cur.sports[j],nonfren.sports[k]);	
+			totsport = totsport + persport[j];
+			for(k = 0; k < sporlennon; ++k)
+			{
+				
+				score = score + check(profile.sports[j],nonfren.sports[k]);	
+			}
 		}
+
+		const clulenuser = profile.clubs.length;
+		const clulennon = nonfren.clubs.length;
+		for(j = 0; j < clulenuser; ++j)
+		{
+			totclub = totclub + perclub[j];
+			for(k = 0; k < clulennon; ++k)
+			{
+				score = score + check(profile.clubs[j],nonfren.clubs[k]);		
+			}
+		}
+		total = 3 + totclub + totsport;
 	}
-	const clulenuser = cur.clubs.length;
-	const clulennon = nonfren.clubs.length;
-	for(j = 0; j < clulenuser; ++j)
+	else
 	{
-		for(k = 0; k < clulennon; ++k)
+		perhos = host_hous(a,arr);
+		persport = sporty(a,arr);
+		perclub = club(a,arr);
+		score = score + perhos[0]*checkhos(profile.hosnum,nonfren.hosnum);
+		score = score + perhos[1]*check(profile.hosname,nonfren.hosname);
+		score = score + perhos[2]*check(profile.house,nonfren.house);
+
+		const sporlenuser = profile.sports.length;
+		const sporlennon = nonfren.sports.length;
+		for(j = 0; j < sporlenuser; ++j)
 		{
-			score = score + perclub[j]*check(cur.clubs[j],nonfren.clubs[k]);		
+			totsport = totsport + persport[j];
+			for(k = 0; k < sporlennon; ++k)
+			{
+				
+				score = score + persport[j]*check(profile.sports[j],nonfren.sports[k]);	
+			}
 		}
+
+		const clulenuser = profile.clubs.length;
+		const clulennon = nonfren.clubs.length;
+		for(j = 0; j < clulenuser; ++j)
+		{
+			totclub = totclub + perclub[j];
+			for(k = 0; k < clulennon; ++k)
+			{
+				score = score + perclub[j]*check(profile.clubs[j],nonfren.clubs[k]);		
+			}
+		}
+		total = perhos[0] + perhos[1] + perhos[2] + totclub + totsport;
 	}
+	score = score/total;
 	return score;
 }
 

@@ -9,9 +9,9 @@ clusters = [];
 
 function custom(x) {
 	return function(a, b) {
-		if (a[x] > b[x]) {
+		if (a[x] <= b[x]) {
 			return 1;
-		} else if (a[x] < b[x]) {
+		} else if (a[x] > b[x]) {
 			return -1;
 		}
 		return 0;
@@ -122,21 +122,25 @@ function markov(graph, e, r, threshold)
 async function friendlist(id, flag)
 {
 	const cur = await data.getProfileById(id);
+	send = Array(cur.friends.length);
 	for(i = 0; i < cur.friends.length; ++i)
+	{
 		clusters[mapping[cur.friends[i]]] = -1;
+		send[i] = users[mapping[cur.friends[i]]];
+	}
 
-	k = -1;
-	score = Array(users.length - 1 - cur.friends.length);
+	l = -1;
+	score = Array(users.length - 1 - cur.friends.length).fill({});
 	for(i = 0; i < users.length; ++i)
 	{
 		if(mapping[id] == i || clusters[i] == -1)
 			continue;
 		email =  await data.getUserEmail(users[i]._id);
-		conscore = await content.scoring(id, users[i]._id);
-		score[++k] = {"id": users[i]._id, "match": 0.5 * conscore, "email": email};
+		conscore = await content.scoring(cur, users[i], send);
+		score[++l] = {"id": users[i]._id, "match": 0.5 * conscore, "email": email};
 		if(clusters[mapping[id]] == clusters[i])
-			score[k].match += 0.5;
-		score[k].match *= 100;
+			score[l].match += 0.5;
+		score[l].match *= 100;
 	}
 
 	score.sort(custom("match"));
