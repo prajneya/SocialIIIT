@@ -26,40 +26,35 @@ function Recommend(props){
         }
     });
 
-    if(data)
-        for(var i = 0; i<data.recommend.length; i++){
-            console.log(data.recommend[i]['email']);
-        }
-
     var recommendations = data ? data.recommend : "";
 
     return (
             <>
             <div className="container">
-            <div className="authenticate-nav">
-                <div className="a-nav-right">
-                    <button className="rounded" onClick={logUserOut}>LOGOUT</button>
+                <div className="authenticate-nav">
+                    <div className="a-nav-right">
+                        <button className="rounded" onClick={logUserOut}>LOGOUT</button>
+                    </div>
                 </div>
-            </div>
 
-            <div className="feature-display">
-                <div className="subsection-header"> Let us recommend you some friends! </div>
-                <div className="row">
-                    {recommendations && recommendations.map(recommendation => (
-                        <div className="col-lg-12">
-                        <div className="friend">
-                            <div className="friend-content">
-                                <strong>Email: {recommendation['email']}</strong>
-                                <br />
-                                Friend Match Probalitiy: {recommendation['match']} %
+                <div className="feature-display">
+                    <div className="subsection-header"> Let us recommend you some friends! </div>
+                    <div className="row">
+                        {recommendations && recommendations.map(recommendation => (
+                            <div className="col-lg-12">
+                            <div className="friend">
+                                <div className="friend-content">
+                                    <strong>Email: {recommendation['email']}</strong>
+                                    <br />
+                                    Friend Match Probalitiy: {recommendation['match']} %
+                                </div>
                             </div>
                         </div>
+                        ))}
                     </div>
-                    ))}
                 </div>
             </div>
-        </div>
-        </>
+            </>
     )
 }
 
