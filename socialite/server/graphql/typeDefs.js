@@ -14,18 +14,18 @@ module.exports = gql`
     	createdAt: String!
     }
     type Profile{
-	id: ID!
-	friends: [ID]!
-	house: String!
-	hosnum: Int!
-	hosname: String!
-	sports: [String]!
-	clubs: [String]!
+        id: ID!
+        friends: [ID]!
+        house: String!
+        hosnum: Int!
+        hosname: String!
+        sports: [String]!
+        clubs: [String]!
     }
     type Recommend{
-	id: ID!
-	match: Float!
-	email: String!
+        id: ID!
+        match: Float!
+        email: String!
     }
     input RegisterInput{
     	email: String!
@@ -34,10 +34,13 @@ module.exports = gql`
     }
     type Query{
         getPosts: [Post]
-	recommend(id: String!): [Recommend]!
+        getPost(postId: ID!): Post
+        recommend(id: String!): [Recommend]!
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!
     	login(email: String!, password: String!): User!
+        createPost(body: String!): Post!
+        deletePost(postId: ID!): String!
     } 
 `

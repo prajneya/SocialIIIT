@@ -7,23 +7,27 @@ import "./Dashboard.css"
 
 function Dashboard(props){
 
-	const { user, logout} = useContext(AuthContext)
+	const { user, logout } = useContext(AuthContext)
 
 	function logUserOut(){
 		logout();
 		props.history.push('/')
 	}
 	  
-	function recommendFriend()
-    {
-        props.history.push('/recommend')
-    }
+	function recommendFriend(){
+            props.history.push('/recommend')
+      }
+
+      function stackOverflow(){
+            props.history.push('/stack-overflow')
+      }
 
 	return (
             <>
       		<div className="container">
       			<div className="authenticate-nav">
       				<div className="a-nav-right">
+                                    <a href="/profile">MY PROFILE</a>
       					<button className="rounded" onClick={logUserOut}>LOGOUT</button>
       				</div>
       			</div>
@@ -35,12 +39,12 @@ function Dashboard(props){
       				<div className="subsection-header"> WHAT DO YOU WANT TO DO TODAY? </div>
       				<div className="row">
       					<div className="col-lg-4">
-      						<div className="feature">
+      						<div className="feature" onClick={stackOverflow}>
       							<div className="feature-icon">
-      								<img src='/img/cab_sharing.png' alt=""></img>
+      								<img src='/img/study.png' alt=""></img>
       							</div>
       							<div className="feature-content">
-      								SHARE A CAB
+      								STACK OVERFLOW
       							</div>
       						</div>
       					</div>

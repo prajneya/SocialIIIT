@@ -8,6 +8,7 @@ module.exports = {
 		...recoResolvers.recommend
 	},
 	Mutation: {
-		...userResolvers.Mutation
+		...userResolvers.Mutation,
+		...postResolvers.Mutation
 	}
 }
