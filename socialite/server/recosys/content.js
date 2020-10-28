@@ -176,11 +176,11 @@ function scoring(a,b,arr)
 	return score;
 }
 // first argument is of profile which we want to see and second argument is of user whose account we are using
-async function common(profile, user)  
+function common(profile, user)  
 {											
-	hostel = checkhos(profile.hosnum, user.hosnum);
-	hosname = check(profile.hosname, user.hosname);
-	house = check(profile.house, user.house);
+	var hostel = checkhos(profile.hosnum, user.hosnum);
+	var hosname = check(profile.hosname, user.hosname);
+	var house = check(profile.house, user.house);
 
 	var sports = profile.sports;
 	const sporlen = profile.sports.length;
