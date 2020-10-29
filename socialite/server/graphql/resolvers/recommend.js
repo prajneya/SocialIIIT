@@ -1,5 +1,5 @@
 const {User, Profile} = require('../../models/User');
-const recomain = require('../../recosys/collab')
+const recomain = require('../../recosys/score')
 
 module.exports = {
 	recommend: {

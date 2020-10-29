@@ -21,6 +21,7 @@ module.exports = gql`
         hosname: String!
         sports: [String]!
         clubs: [String]!
+	cluster_no: Int!
     }
     type Recommend{
         id: ID!

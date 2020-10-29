@@ -23,5 +23,8 @@ module.exports = {
 			ret = user.email;
 		});
 		return ret;
+	},
+	updateProfile: async function (id, cluster){
+		await Profile.update({_id: id}, {$set: { cluster_no: cluster }}, {}, {});
 	}
 }
