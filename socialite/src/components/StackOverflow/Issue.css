@@ -17,7 +17,7 @@
 }
 
 .issue-question{
-	font-size: 1.57692308rem;
+	font-size: 2.07692308rem;
 	font-weight: bold; 
 }
 
@@ -78,6 +78,6 @@
 		float: none !important;
 	}
 	.issue-question {
-		font-size: 1.17692308rem;
+		font-size: 1.57692308rem;
 	}
 }

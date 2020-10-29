@@ -40,5 +40,26 @@ module.exports = {
 
             return post;
         }
+        async addAnswer(_, { postId, body }, context){
+            const user = checkAuth(context);
+
+            try{
+                const post = await Post.findById(postId);
+                if(post){
+                    const answer = new Answer({
+                        body,
+                        email: user.email,
+                        createdAt: new Date().toISOString()
+                    })
+                    
+                    return post;
+                }
+                else{
+                    throw new Error('Post not Found');
+                }
+            } catch (err){
+                throw new Error(err);
+            }
+        }
     }
 }

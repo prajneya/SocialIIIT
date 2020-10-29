@@ -7,6 +7,31 @@ module.exports = gql`
         body: String!
         email: String!
         createdAt: String!
+        answers: [Answer]!
+        upvotes: [Upvote]!
+        tags: [Tag]!
+    }
+    type Upvote{
+        id: ID!
+        email: String!
+        createdAt: String!
+    }
+    type Answer{
+        id: ID!
+        body: String!
+        email: String!
+        upvotes: [Upvote]!
+        createdAt: String!
+    }
+    type Report{
+        id: ID!
+        body: String!
+        email: String!
+        createdAt: String!
+    }
+    type Tag{
+        id: ID!
+        tag: String!
     }
     type User{
     	id: ID!
@@ -43,5 +68,6 @@ module.exports = gql`
     	login(email: String!, password: String!): User!
         createPost(title: String!, body: String!): Post!
         deletePost(postId: ID!): String!
+        addAnswer(postId: ID!, body: String!): Post!
     } 
 `
