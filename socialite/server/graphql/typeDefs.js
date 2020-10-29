@@ -13,15 +13,26 @@ module.exports = gql`
     	token: String!
     	createdAt: String!
     }
+    type field1{
+	val: Int!
+	flag: Int!
+    }
+    type field2{
+	val: String!
+	flag: Int!
+    }
+    type field3{
+	val: [String]!
+	flag: [Int]!
+    }
     type Profile{
-        id: ID!
-        friends: [ID]!
-        house: String!
-        hosnum: Int!
-        hosname: String!
-        sports: [String]!
-        clubs: [String]!
-	cluster_no: Int!
+	hosnum: field1
+	hosname: field2
+	house: field2
+	sports: field3
+	clubs: field3
+	match: Float
+	email: String
     }
     type Recommend{
         id: ID!
@@ -37,6 +48,7 @@ module.exports = gql`
         getPosts: [Post]
         getPost(postId: ID!): Post
         recommend(id: String!): [Recommend]!
+	profile(curid: String!, id: String!): Profile!
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!

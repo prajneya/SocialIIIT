@@ -176,7 +176,7 @@ function scoring(a,b,arr)
 	return score;
 }
 // first argument is of profile which we want to see and second argument is of user whose account we are using
-function common(profile, user)  
+function common(profile, user, friends, email)  
 {											
 	var hostel = checkhos(profile.hosnum, user.hosnum);
 	var hosname = check(profile.hosname, user.hosname);
@@ -207,9 +207,22 @@ function common(profile, user)
 			cluarr[j]=check(clubs[j],cluuser[k]);	
 		}
 	}
-	return [hostel, hosname, house, sporarr, cluarr];
+
+	var sval = 0.5 * scoring(profile, user, friends);
+	if(profile.cluster_no == user.cluster_no)
+		sval += 0.5;
+
+	sval *= 100;
+	return {
+		hosnum: {val: user.hosnum, flag: hostel},
+		hosname: {val: user.hosname, flag: hosname},
+		house: {val: user.house, flag: house},
+		sports: {val: user.sports, flag: sporarr},
+		clubs: {val: user.clubs, flag: cluarr},
+		match: sval,
+		email: email
+	};
 }
 
 module.exports = { "scoring": scoring };
 module.exports = { "common": common };
-
