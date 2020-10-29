@@ -1,6 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 const postSchema = new Schema({
+  title: String,
   body: String,
   email: String,
   createdAt: String,

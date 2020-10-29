@@ -17,11 +17,12 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Recommend from './components/Recommend/Recommend';
 import Profile from './components/Profile/Profile';
 import StackOverflow from './components/StackOverflow/StackOverflow';
+import Issue from './components/StackOverflow/Issue';
 
 import './App.css';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000'
+  uri: 'http://192.168.0.114:5000'
 })
 
 const errorLink = onError(({ graphQLErrors }) => {
@@ -45,6 +46,7 @@ export default (
             <AuthRoute exact path="/recommend" component={Recommend} exact/>
             <AuthRoute exact path="/profile" component={Profile} exact/>
             <AuthRoute exact path="/stack-overflow" component={StackOverflow} exact/>
+            <AuthRoute exact path="/issue/:postId" component={Issue} exact/>
           </Switch>
         </div>
     </BrowserRouter>

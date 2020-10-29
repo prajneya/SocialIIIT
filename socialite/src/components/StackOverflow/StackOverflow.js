@@ -12,14 +12,18 @@ function StackOverflow(props){
 	const { user, logout } = useContext(AuthContext)
 
 	function logUserOut(){
+    console.log("logginh ou")
 		logout();
 		props.history.push('/')
 	}
 
-      const { data } = useQuery(FETCH_POSTS_QUERY);
+  function showIssue(postId){
+    props.history.push('/issue/'+postId);
+  }
 
-      var post_list = data? data.getPosts : "";
-      console.log(post_list);
+  const { data } = useQuery(FETCH_POSTS_QUERY);
+
+  var post_list = data? data.getPosts : "";
 
 	return (
             <>
@@ -35,7 +39,7 @@ function StackOverflow(props){
                                     <div className="row">
                                      {post_list && post_list.map(post => ( 
                                         <div className="col-lg-12">
-                                          <div className="friend">
+                                          <div className="friend" onClick={() => showIssue(post['id'])}>
                                             <div className="friend-content">
                                                 <strong>Created By: </strong>  {post['email']}
                                                 <br />
