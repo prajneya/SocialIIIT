@@ -13,7 +13,8 @@ const Profile = new mongoose.Schema({
 	hosnum: Number,
 	hosname: String,
 	sports: [String],
-	clubs: [String]
+	clubs: [String],
+	cluster_no: Number
 });
 
 module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile')};
