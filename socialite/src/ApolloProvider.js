@@ -17,6 +17,7 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Recommend from './components/Recommend/Recommend';
 import Profile from './components/Profile/Profile';
 import StackOverflow from './components/StackOverflow/StackOverflow';
+import CreatePost from './components/StackOverflow/CreatePost';
 
 import './App.css';
 
@@ -45,6 +46,7 @@ export default (
             <AuthRoute exact path="/recommend" component={Recommend} exact/>
             <AuthRoute exact path="/profile" component={Profile} exact/>
             <AuthRoute exact path="/stack-overflow" component={StackOverflow} exact/>
+            <AuthRoute exact path ="/createpost" component={CreatePost} exact/>
           </Switch>
         </div>
     </BrowserRouter>
