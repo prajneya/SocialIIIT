@@ -1,4 +1,5 @@
 const ex = require("express");
+const data = require("../util/userdata");
 
 function check (a,b)
 {
@@ -26,7 +27,7 @@ function checkhos (a,b)
 	}
 }
 
-function updateratio(profile, user, arr)
+function updateratio(user, profile, arr)
 {
 	var total = arr.length; // this includes the new friend included 
 	if(total <= 1)
@@ -37,9 +38,10 @@ function updateratio(profile, user, arr)
 	{
 		p = 1;
 	}
-	var hosnum = ((user.hosnum*((total-1)*p)) + check(profile.hosnum, user.hosnum))/total;
-	var hosname = ((user.hosname*((total-1)*p)) + check(profile.hosname, user.hosname))/total;
-	var house = ((user.house*((total-1)*p)) + check(profile.house, user.house))/total;
+	const cur = await data.getUserDetsById(user.id);
+	var hosnum = ((cur.hosnum*((total-1)*p)) + check(profile.hosnum, user.hosnum))/total;
+	var hosname = ((cur.hosname*((total-1)*p)) + check(profile.hosname, user.hosname))/total;
+	var house = ((cur.house*((total-1)*p)) + check(profile.house, user.house))/total;
 	
 	var sports = profile.sports;
 	const sporlen = profile.sports.length;
@@ -52,7 +54,7 @@ function updateratio(profile, user, arr)
 		{
 			sporarr[j]=check(sports[j],spouser[k]);	
 		}
-		sporarr[j] = ((sports*((total-1)*p)) + sporarr[j])/total; 
+		sporarr[j] = ((cur.sports*((total-1)*p)) + sporarr[j])/total; 
 	}
 
 	var clubs = profile.clubs;
@@ -66,7 +68,7 @@ function updateratio(profile, user, arr)
 		{
 			cluarr[j]=check(clubs[j],cluuser[k]);	
 		}
-		cluarr[j] = ((cluuser[j]*((total-1)*p)) +cluarr[j])/total; 
+		cluarr[j] = ((cur.cluuser[j]*((total-1)*p)) +cluarr[j])/total; 
 	}
 	return [hosnum, hosname, house, sporarr, cluarr];
 }
