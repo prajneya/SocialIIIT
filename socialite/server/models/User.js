@@ -17,7 +17,7 @@ const Profile = new mongoose.Schema({
 	cluster_no: Number
 });
 
-const request = new mongoose.Schema({
+const UserDets = new mongoose.Schema({
 	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	house: String,
 	hosnum: Number,
