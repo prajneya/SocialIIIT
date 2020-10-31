@@ -1,5 +1,5 @@
 const data = require("../util/userdata");
-const content = require("./content")
+const content = require("./content");
 
 const ex = require("express");
 users = [];
