@@ -84,6 +84,12 @@ module.exports = {
 
 			const ret = await newProfile.save();
 
+			const newrequest = new request({
+				id: id
+			});
+
+			const rex = await newrequest.save();
+
 			const token = generateToken(res);
 
 			return {
