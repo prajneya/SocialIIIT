@@ -29,4 +29,4 @@ const UserDets = new mongoose.Schema({
 	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile')};
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets')};
