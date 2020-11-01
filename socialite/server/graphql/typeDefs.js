@@ -7,24 +7,33 @@ module.exports = gql`
         body: String!
         email: String!
         createdAt: String!
-        answers: [Answer]!
-        upvotes: [Upvote]!
+        answers: [Answer]
+        upvotes: [Upvote]
+        downvotes: [Downvote]
         tags: [Tag]!
     }
     type Upvote{
-        id: ID!
-        email: String!
-        createdAt: String!
+        id: ID
+        email: String
+        createdAt: String
+    }
+    type Downvote{
+        id: ID
+        email: String
+        createdAt: String
     }
     type Answer{
-        id: ID!
-        body: String!
-        email: String!
-        upvotes: [Upvote]!
-        createdAt: String!
+        id: ID
+        body: String
+        email: String
+        upvotes: [Upvote]
+        downvotes: [Downvote]
+        createdAt: String
     }
     type Report{
         id: ID!
+        postId: ID!
+        answerId: ID
         body: String!
         email: String!
         createdAt: String!
@@ -62,6 +71,10 @@ module.exports = gql`
         getPosts: [Post]
         getPost(postId: ID!): Post
         recommend(id: String!): [Recommend]!
+        didIUpvoteQuestion(postId: ID!, email: String!): Boolean!
+        didIDownvoteQuestion(postId: ID!, email: String!): Boolean!
+        didIUpvoteAnswer(postId: ID!, answerId: ID!, email: String!): Boolean!
+        didIDownvoteAnswer(postId: ID!, answerId: ID!, email: String!): Boolean!
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!
@@ -69,5 +82,9 @@ module.exports = gql`
         createPost(title: String!, body: String!): Post!
         deletePost(postId: ID!): String!
         addAnswer(postId: ID!, body: String!): Post!
+        upvoteQuestion(postId: ID!, email: String!): Post!
+        upvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
+        downvoteQuestion(postId: ID!, email: String!): Post!
+        downvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
     } 
 `

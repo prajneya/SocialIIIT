@@ -67,6 +67,10 @@
 	float: right;
 }
 
+.ck{
+	color: black !important;
+}
+
 @media only screen and (max-width: 762px) {
 	.info-details{
 		float: none;
