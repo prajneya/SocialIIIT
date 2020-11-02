@@ -34,8 +34,9 @@ function host_hous(profile,arr)
 	var count_hostel = 0;
 	var count_hosname = 0;
 	var count_house = 0;
-	const total = profile.friends.length;
-	for(let i = 0; i < total; ++i)
+	const total = arr.length;
+	for(i = 0; i < total; ++i)
+
 	{
 		var fren = arr[i];
 		count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
@@ -52,13 +53,13 @@ function sporty(profile,arr)
 {
 	var sports = profile.sports;
 	const sporlen = profile.sports.length;
-	const total = profile.friends.length;
+	const total = arr.length;
 	var sporarr = Array(sporlen).fill(0);
 	for(let i = 0; i < total; ++i)
 	{
 		var fren = arr[i];
 		var spofre = fren.sports;
-		var spofrelen = fren.length;
+		var spofrelen = fren.sports.length;
 		for(j = 0; j < sporlen; ++j)
 		{
 			for(k = 0; k < spofrelen; ++k)
@@ -75,13 +76,13 @@ function club(profile,arr)
 {
 	var clubs = profile.clubs;
 	const clulen = profile.clubs.length;
-	const total = profile.friends.length;
+	const total = arr.length;
 	var cluarr = Array(clulen).fill(0);
 	for(let i = 0; i < total; ++i)
 	{
 		var fren = arr[i];
 		var clufre = fren.clubs;
-		var clufrelen = fren.length;
+		var clufrelen = fren.clubs.length;
 		for(j = 0; j < clulen; ++j)
 		{
 			for(k = 0; k < clufrelen; ++k)
@@ -106,7 +107,7 @@ function scoring(a,b,arr)
 	var totsport = 0;
 	var totclub = 0;
 
-	if(profile.friends.length == 0) // for new user
+	if(arr.length == 0) // for new user
 	{
 		totsport = profile.sports.length;
 		totclub = profile.clubs.length;
@@ -174,5 +175,54 @@ function scoring(a,b,arr)
 	score = score/total;
 	return score;
 }
+// first argument is of profile which we want to see and second argument is of user whose account we are using
+function common(profile, user, friends, email)  
+{											
+	var hostel = checkhos(profile.hosnum, user.hosnum);
+	var hosname = check(profile.hosname, user.hosname);
+	var house = check(profile.house, user.house);
+
+	var sports = profile.sports;
+	const sporlen = profile.sports.length;
+	var sporarr = Array(sporlen).fill(0);
+	var spouser = user.sports;
+	var spouserlen = user.sports.length;
+	for(j = 0; j < sporlen; ++j)
+	{
+		for(k = 0; k < spouserlen; ++k)
+		{
+			sporarr[j]=check(sports[j],spouser[k]);	
+		}
+	}
+
+	var clubs = profile.clubs;
+	const clulen = profile.clubs.length;
+	var cluarr = Array(clulen).fill(0);
+	var cluuser = user.clubs;
+	var cluuserlen = user.length;
+	for(j = 0; j < clulen; ++j)
+	{
+		for(k = 0; k < cluuserlen; ++k)
+		{
+			cluarr[j]=check(clubs[j],cluuser[k]);	
+		}
+	}
+
+	var sval = 0.5 * scoring(profile, user, friends);
+	if(profile.cluster_no == user.cluster_no)
+		sval += 0.5;
+
+	sval *= 100;
+	return {
+		hosnum: {val: user.hosnum, flag: hostel},
+		hosname: {val: user.hosname, flag: hosname},
+		house: {val: user.house, flag: house},
+		sports: {val: user.sports, flag: sporarr},
+		clubs: {val: user.clubs, flag: cluarr},
+		match: sval,
+		email: email
+	};
+}
 
 module.exports = { "scoring": scoring };
+module.exports = { "common": common };

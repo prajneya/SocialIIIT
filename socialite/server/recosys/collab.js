@@ -1,22 +1,10 @@
 const data = require("../util/userdata");
-const content = require("./content")
 
 const ex = require("express");
 const math = require("mathjs");
 users = [];
 mapping = {};
 clusters = [];
-
-function custom(x) {
-	return function(a, b) {
-		if (a[x] <= b[x]) {
-			return 1;
-		} else if (a[x] > b[x]) {
-			return -1;
-		}
-		return 0;
-	}
-}
 
 function cluster(graph)
 {
@@ -119,42 +107,19 @@ function markov(graph, e, r, threshold)
 	return markov(graph, e, r, threshold);
 }
 
-async function friendlist(id, flag)
+async function clusupdate()
 {
-	const cur = await data.getProfileById(id);
-	send = Array(cur.friends.length);
-	for(i = 0; i < cur.friends.length; ++i)
-	{
-		clusters[mapping[cur.friends[i]]] = -1;
-		send[i] = users[mapping[cur.friends[i]]];
-	}
-
-	l = -1;
-	score = Array(users.length - 1 - cur.friends.length).fill({});
-	for(i = 0; i < users.length; ++i)
-	{
-		if(mapping[id] == i || clusters[i] == -1)
-			continue;
-		email =  await data.getUserEmail(users[i]._id);
-		conscore = await content.scoring(cur, users[i], send);
-		score[++l] = {"id": users[i]._id, "match": 0.5 * conscore, "email": email};
-		if(clusters[mapping[id]] == clusters[i])
-			score[l].match += 0.5;
-		score[l].match *= 100;
-	}
-
-	score.sort(custom("match"));
-	return score;
+	for(var i = 0; i < users.length; ++i)
+		await data.updateProfile(users[i]._id, clusters[mapping[users[i]._id]]);
 }
 
-module.exports = async function recomain(id) {
+module.exports = async function clusallot(id) {
 	var graph = await graphgen();
 	e = 2;
 	r = 2;
 	threshold = 0.01;
 	graph = markov(graph, e, r, threshold);
-	cluster(graph)
-	ret = await friendlist(id, 0);
-	console.log(ret);
-	return ret;
+	cluster(graph);
+	clusupdate();
+	return clusters[mapping[id]];
 }

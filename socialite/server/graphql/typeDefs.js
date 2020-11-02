@@ -52,14 +52,26 @@ module.exports = gql`
     	token: String!
     	createdAt: String!
     }
+    type field1{
+	val: Int!
+	flag: Int!
+    }
+    type field2{
+	val: String!
+	flag: Int!
+    }
+    type field3{
+	val: [String]!
+	flag: [Int]!
+    }
     type Profile{
-        id: ID!
-        friends: [ID]!
-        house: String!
-        hosnum: Int!
-        hosname: String!
-        sports: [String]!
-        clubs: [String]!
+	hosnum: field1
+	hosname: field2
+	house: field2
+	sports: field3
+	clubs: field3
+	match: Float
+	email: String
     }
     type Recommend{
         id: ID!
@@ -79,6 +91,7 @@ module.exports = gql`
         didIDownvoteQuestion(postId: ID!, email: String!): Boolean!
         didIUpvoteAnswer(postId: ID!, email: String!): JSONObject
         didIDownvoteAnswer(postId: ID!, email: String!): JSONObject
+        profile(curid: String!, id: String!): Profile!
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!

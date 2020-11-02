@@ -73,7 +73,22 @@ module.exports = {
 				createdAt: new Date().toISOString()
 			});
 
-			const res = await newUser.save();
+			id = "";
+			const res = await newUser.save(function(err, saved){
+				id = saved.id;
+			});
+
+			const newProfile = new Profile({
+				id: id
+			});
+
+			const ret = await newProfile.save();
+
+			const UserDets = new UserDets({
+				id: id
+			});
+
+			const rex = await UserDets.save();
 
 			const token = generateToken(res);
 
