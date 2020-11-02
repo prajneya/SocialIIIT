@@ -19,9 +19,9 @@ const Profile = new mongoose.Schema({
 
 const UserDets = new mongoose.Schema({
 	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-	house: String,
+	house: Number,
 	hosnum: Number,
-	hosname: String,
+	hosname: Number,
 	sports: [Number],
 	clubs: [Number],
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],

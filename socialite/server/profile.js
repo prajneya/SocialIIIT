@@ -10,7 +10,7 @@ module.exports = async function profiledisp(curid, id) {
 		send[i] = await data.getProfileById(cur.friends[i]);
 
 	email = await data.getUserEmail(id);
-	ret = await content.common(cur, user, send, email);
-	console.log(ret);
+	curdets = await data.getUserDetsById(cur);
+	ret = await content.common(cur, user, send, email, curdets);
 	return ret;
 }

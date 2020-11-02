@@ -1,4 +1,4 @@
-const {User, Profile} = require("../models/User");
+const {User, Profile, UserDets} = require("../models/User");
 const e = require("express");
 
 
