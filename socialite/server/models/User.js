@@ -22,9 +22,8 @@ const UserDets = new mongoose.Schema({
 	house: String,
 	hosnum: Number,
 	hosname: String,
-	sports: [String],
-	clubs: [String],
-	cluster_no: Number,
+	sports: [Number],
+	clubs: [Number],
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });

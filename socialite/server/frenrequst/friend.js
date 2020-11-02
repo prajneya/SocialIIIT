@@ -5,7 +5,7 @@ const collab = require("../recosys/collab");
 async function frenaccept(user_id, fren_id)
 {
 	await data.updateFriendlist(user_id, fren_id);
-	await data.updateRequest(user_id, fren_id);
+	await data.updateAccRej(user_id, fren_id);
 	
 	const cur1 = await data.getProfileById(user_id);
 	const cur2 = await data.getProfileById(fren_id);
@@ -14,12 +14,25 @@ async function frenaccept(user_id, fren_id)
 	friendlist2 = Array(cur2.friends.length);
 
 	var arr1 = await ratio.updateratio(cur1, cur2, friendlist1);
-	arr1.push(await collab.clusallot(user_id));
-	
 	var arr2 = await ratio.updateratio(cur2, cur1, friendlist2);
-	arr2.push(await collab.clusallot(fren_id));
+	await collab.clusallot();
 	
 	await data.updateDets(user_id, arr1);
 	await data.updateDets(fren_id, arr2);
 
 }
+
+async function frenreject(user_id, fren_id)
+{
+	await data.updateAccRej(user_id, fren_id);
+}
+
+async function frenrequest(user_id, fren_id)
+{
+	await data.updateRequest(user_id, fren_id);
+}
+
+
+module.exports = { "frenrequest": frenrequest };
+module.exports = { "frenaccept": frenaccept };
+module.exports = { "frenreject": frenreject };

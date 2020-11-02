@@ -39,10 +39,14 @@ module.exports = {
 		await Profile.update({_id: id}, {$set: { cluster_no: cluster }}, {}, {});
 	},
 	updateDets: async function (id, arr){
-		await request.update({_id: id}, {$set: { cluster_no: arr[5], hosnum : arr[0], hosname : arr[1], house: arr[2], sports : arr[3], clubs : arr[4]}})
+		await UserDets.update({_id: id}, {$set: { hosnum : arr[0], hosname : arr[1], house: arr[2], sports : arr[3], clubs : arr[4]}})
+	},
+	updateAccRej: async function (ida, idb){
+		await UserDets.update( { _id: ida }, { $pull: { send: idb } } ); // this is to remove the send request from user of the friend id
+		await UserDets.update( { _id: idb }, { $pull: { request: ida } } ); // this is to remove the request from friend of the user
 	},
 	updateRequest: async function (ida, idb){
-		await request.update( { _id: ida }, { $pull: { send: idb } } ); // this is to remove the send request from user of the friend id
-		await request.update( { _id: idb }, { $pull: { request: ida } } ); // this is to remove the request from friend of the user
+		await UserDets.update( { _id: ida }, { $push: { send: idb } } ); 
+		await UserDets.update( { _id: idb }, { $push: { request: ida } } ); 
 	}
 }
