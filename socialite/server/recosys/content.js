@@ -1,4 +1,5 @@
 const ex = require("express");
+const data = require("../util/userdata");
 
 function check (a,b)
 {
@@ -95,7 +96,16 @@ function club(profile,arr)
 	return cluarr;
 }
 
-function scoring(a,b,arr)
+async function resetratio(a,arr)
+{
+	var host_hou = host_hous(a,arr);
+	var sporarr = sporty(a,arr);
+	var cluarr = club(a,arr);
+	var arra = [host_hou[0], host_hou[1], host_hou[2], sporarr, cluarr ];
+	await data.updateDets(a.id, arra);
+}
+
+function scoring(a,b,cur,arr)
 {
 	profile = a;
 	const nonfren = b;
@@ -119,7 +129,6 @@ function scoring(a,b,arr)
 		const sporlennon = nonfren.sports.length;
 		for(j = 0; j < sporlenuser; ++j)
 		{
-			totsport = totsport + persport[j];
 			for(k = 0; k < sporlennon; ++k)
 			{
 				
@@ -131,32 +140,28 @@ function scoring(a,b,arr)
 		const clulennon = nonfren.clubs.length;
 		for(j = 0; j < clulenuser; ++j)
 		{
-			totclub = totclub + perclub[j];
 			for(k = 0; k < clulennon; ++k)
 			{
 				score = score + check(profile.clubs[j],nonfren.clubs[k]);		
 			}
 		}
-		total = 3 + totclub + totsport;
+		total = 3 + clulenuser + sporlenuser;
 	}
 	else
 	{
-		perhos = host_hous(a,arr);
-		persport = sporty(a,arr);
-		perclub = club(a,arr);
-		score = score + perhos[0]*checkhos(profile.hosnum,nonfren.hosnum);
-		score = score + perhos[1]*check(profile.hosname,nonfren.hosname);
-		score = score + perhos[2]*check(profile.house,nonfren.house);
+		score = score + cur.hosnum*checkhos(profile.hosnum,nonfren.hosnum);
+		score = score + cur.hosname*check(profile.hosname,nonfren.hosname);
+		score = score + cur.house*check(profile.house,nonfren.house);
 
 		const sporlenuser = profile.sports.length;
 		const sporlennon = nonfren.sports.length;
 		for(j = 0; j < sporlenuser; ++j)
 		{
-			totsport = totsport + persport[j];
+			totsport = totsport + cur.sports[j];
 			for(k = 0; k < sporlennon; ++k)
 			{
 				
-				score = score + persport[j]*check(profile.sports[j],nonfren.sports[k]);	
+				score = score + cur.sports[j]*check(profile.sports[j],nonfren.sports[k]);	
 			}
 		}
 
@@ -164,13 +169,13 @@ function scoring(a,b,arr)
 		const clulennon = nonfren.clubs.length;
 		for(j = 0; j < clulenuser; ++j)
 		{
-			totclub = totclub + perclub[j];
+			totclub = totclub + cur.clubs[j];
 			for(k = 0; k < clulennon; ++k)
 			{
-				score = score + perclub[j]*check(profile.clubs[j],nonfren.clubs[k]);		
+				score = score + cur.clubs[j]*check(profile.clubs[j],nonfren.clubs[k]);		
 			}
 		}
-		total = perhos[0] + perhos[1] + perhos[2] + totclub + totsport;
+		total = cur.hosnum + cur.hosname + cur.house + totclub + totsport;
 	}
 	score = score/total;
 	return score;
@@ -226,3 +231,5 @@ function common(profile, user, friends, email)
 
 module.exports = { "scoring": scoring };
 module.exports = { "common": common };
+module.exports = { "resetratio": resetratio };
+

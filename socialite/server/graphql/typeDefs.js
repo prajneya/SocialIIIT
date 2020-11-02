@@ -55,5 +55,8 @@ module.exports = gql`
     	login(email: String!, password: String!): User!
         createPost(body: String!): Post!
         deletePost(postId: ID!): String!
+        frenaccept(user_id: ID!, fren_id: ID!) ID
+        frenreject(user_id: ID!, fren_id: ID!) ID
+        frenrequest(user_id: ID!, fren_id: ID!) ID
     } 
 `
