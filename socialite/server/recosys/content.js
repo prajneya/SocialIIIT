@@ -181,7 +181,7 @@ function scoring(a,b,cur,arr)
 	return score;
 }
 // first argument is of profile which we want to see and second argument is of user whose account we are using
-function common(profile, user, friends, email)  
+function common(profile, user, friends, email, curdets)  
 {											
 	var hostel = checkhos(profile.hosnum, user.hosnum);
 	var hosname = check(profile.hosname, user.hosname);
@@ -197,6 +197,8 @@ function common(profile, user, friends, email)
 		for(k = 0; k < spouserlen; ++k)
 		{
 			sporarr[j]=check(sports[j],spouser[k]);	
+			if(sporarr[j])
+				break;
 		}
 	}
 
@@ -204,16 +206,18 @@ function common(profile, user, friends, email)
 	const clulen = profile.clubs.length;
 	var cluarr = Array(clulen).fill(0);
 	var cluuser = user.clubs;
-	var cluuserlen = user.length;
+	var cluuserlen = user.clubs.length;
 	for(j = 0; j < clulen; ++j)
 	{
 		for(k = 0; k < cluuserlen; ++k)
 		{
 			cluarr[j]=check(clubs[j],cluuser[k]);	
+			if(cluarr[j])
+				break;
 		}
 	}
 
-	var sval = 0.5 * scoring(profile, user, friends);
+	var sval = 0.5 * scoring(profile, user, curdets, friends);
 	if(profile.cluster_no == user.cluster_no)
 		sval += 0.5;
 
@@ -229,6 +233,4 @@ function common(profile, user, friends, email)
 	};
 }
 
-module.exports = { "scoring": scoring };
-module.exports = { "common": common };
-module.exports = { "resetratio": resetratio };
+module.exports = { "scoring": scoring, "common": common, "resetratio": resetratio };
