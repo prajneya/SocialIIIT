@@ -96,7 +96,7 @@ function club(profile,arr)
 	return cluarr;
 }
 
-function resetratio(a,arr)
+async function resetratio(a,arr)
 {
 	var host_hou = host_hous(a,arr);
 	var sporarr = sporty(a,arr);
@@ -105,7 +105,7 @@ function resetratio(a,arr)
 	await data.updateDets(a.id, arra);
 }
 
-function scoring(a,b,arr)
+function scoring(a,b,cur,arr)
 {
 	profile = a;
 	const nonfren = b;
@@ -149,7 +149,6 @@ function scoring(a,b,arr)
 	}
 	else
 	{
-		const cur = await data.getUserDetsById(a.id);
 		score = score + cur.hosnum*checkhos(profile.hosnum,nonfren.hosnum);
 		score = score + cur.hosname*check(profile.hosname,nonfren.hosname);
 		score = score + cur.house*check(profile.house,nonfren.house);
