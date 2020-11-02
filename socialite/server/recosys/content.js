@@ -232,4 +232,3 @@ function common(profile, user, friends, email)
 module.exports = { "scoring": scoring };
 module.exports = { "common": common };
 module.exports = { "resetratio": resetratio };
-
