@@ -27,7 +27,7 @@ function checkhos (a,b)
 	}
 }
 
-function updateratio(user, profile, arr)
+async function updateratio(user, profile, arr)
 {
 	var total = arr.length; // this includes the new friend included 
 	if(total <= 1)
@@ -55,6 +55,8 @@ function updateratio(user, profile, arr)
 		for(k = 0; k < sporlen; ++k)
 		{
 			sporarr[j]=check(sports[j],spouser[k]);	
+			if(sporarr[j])
+				break;
 		}
 		sporarr[j] = ((cur.sports[j]*(total-1)) + sporarr[j])/total; 
 	}
@@ -69,6 +71,8 @@ function updateratio(user, profile, arr)
 		for(k = 0; k < clulen; ++k)
 		{
 			cluarr[j]=check(clubs[j],cluuser[k]);	
+			if(cluarr[j])
+				break;
 		}
 		cluarr[j] = ((cur.clubs[j]*(total-1)) +cluarr[j])/total; 
 	}
