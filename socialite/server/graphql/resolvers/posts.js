@@ -67,24 +67,24 @@ module.exports = {
                 throw new Error(err);
             }
         },
-        async didIUpvoteAnswer(_, { postId, answerId, email }, context){
+        async didIUpvoteAnswer(_, { postId, email }, context){
             try{
                 const user = checkAuth(context);
 
+                const hasUpvoted = {}
+
                 const post = await Post.findById(postId);
                 if(post){
-                    const answer = post.answers.find((r_answer) => r_answer.id === answerId);
-                    if(answer){
-                        if(answer.upvotes.find((upvote) => upvote.email === user.email)){
-                            return true;
+                    for(var answer in post.answers){
+                        const upvote = post.answers[answer].upvotes.find((upvote_answer) => upvote_answer.email === user.email);
+                        if(upvote){
+                            hasUpvoted[post.answers[answer].id] = true;
                         }
                         else{
-                            return false;  
-                        }    
+                            hasUpvoted[post.answers[answer].id] = false;
+                        }
                     }
-                    else{
-                        throw new Error('Answer not Found');
-                    }
+                    return hasUpvoted;
                 }
                 else{
                     throw new Error('Post not Found');
@@ -97,20 +97,20 @@ module.exports = {
             try{
                 const user = checkAuth(context);
 
+                const hasDownvoted = {}
+
                 const post = await Post.findById(postId);
                 if(post){
-                    const answer = post.answers.find((r_answer) => r_answer.id === answerId);
-                    if(answer){
-                        if(answer.downvotes.find((downvote) => downvote.email === user.email)){
-                            return true;
+                    for(var answer in post.answers){
+                        const downvote = post.answers[answer].downvotes.find((downvote_answer) => downvote_answer.email === user.email);
+                        if(downvote){
+                            hasDownvoted[post.answers[answer].id] = true;
                         }
                         else{
-                            return false;  
-                        }    
+                            hasDownvoted[post.answers[answer].id] = false;
+                        }
                     }
-                    else{
-                        throw new Error('Answer not Found');
-                    }
+                    return hasDownvoted;
                 }
                 else{
                     throw new Error('Post not Found');
@@ -190,6 +190,25 @@ module.exports = {
                 throw new Error('Post not Found');
             }
         },
+        async removeUpvoteQuestion(_, { postId, email }, context){
+            const user = checkAuth(context);
+
+            const post = await Post.findById(postId);
+            if(post){
+                if(post.upvotes.find((upvote) => upvote.email === user.email)){
+                    const upvoteIndex = post.upvotes.find((upvote) => upvote.email === user.email);
+                    post.upvotes.splice(upvoteIndex, 1);
+                    await post.save();
+                    return post;
+                }
+                else{
+                    throw new Error('Question Not Upvoted');   
+                }
+            }
+            else{
+                throw new Error('Post not Found');
+            }
+        },
         async downvoteQuestion(_, { postId, email }, context){
             const user = checkAuth(context);
 
@@ -210,6 +229,25 @@ module.exports = {
                         await post.save();
                         return post; 
                     }
+                }
+            }
+            else{
+                throw new Error('Post not Found');
+            }
+        },
+        async removeDownvoteQuestion(_, { postId, email }, context){
+            const user = checkAuth(context);
+
+            const post = await Post.findById(postId);
+            if(post){
+                if(post.downvotes.find((downvote) => downvote.email === user.email)){
+                    const downvoteIndex = post.downvotes.find((downvote) => downvote.email === user.email);
+                    post.downvotes.splice(downvoteIndex, 1);
+                    await post.save();
+                    return post;
+                }
+                else{
+                    throw new Error('Question Not Downvoted');   
                 }
             }
             else{
@@ -249,6 +287,32 @@ module.exports = {
                 throw new Error('Post not Found');
             }
         },
+        async removeUpvoteAnswer(_, { postId, answerId, email }, context){
+            const user = checkAuth(context);
+
+            const post = await Post.findById(postId);
+            if(post){
+                const answer = post.answers.find((r_answer) => r_answer.id === answerId);
+                if(answer){
+                    if(answer.upvotes.find((upvote) => upvote.email === user.email)){
+                        const upvoteIndex = answer.upvotes.find((upvote) => upvote.email === user.email);
+                        answer.upvotes.splice(upvoteIndex, 1);
+                        await post.save();
+                        return post;
+                    }
+                    else{
+                        throw new Error('Answer not Upvoted')  
+                    }    
+                }
+                else{
+                    throw new Error('Answer not Found');
+                }
+                
+            }
+            else{
+                throw new Error('Post not Found');
+            }
+        },
         async downvoteAnswer(_, { postId, answerId, email }, context){
             const user = checkAuth(context);
 
@@ -272,6 +336,32 @@ module.exports = {
                             return post;    
                         }  
                     }     
+                }
+                else{
+                    throw new Error('Answer not Found');
+                }
+                
+            }
+            else{
+                throw new Error('Post not Found');
+            }
+        },
+        async removeDownvoteAnswer(_, { postId, answerId, email }, context){
+            const user = checkAuth(context);
+
+            const post = await Post.findById(postId);
+            if(post){
+                const answer = post.answers.find((r_answer) => r_answer.id === answerId);
+                if(answer){
+                    if(answer.downvotes.find((downvote) => downvote.email === user.email)){
+                        const downvoteIndex = answer.downvotes.find((downvote) => downvote.email === user.email);
+                        answer.downvotes.splice(downvoteIndex, 1);
+                        await post.save();
+                        return post;
+                    }
+                    else{
+                        throw new Error('Answer not Downvoted')  
+                    }    
                 }
                 else{
                     throw new Error('Answer not Found');

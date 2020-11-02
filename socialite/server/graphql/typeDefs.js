@@ -1,6 +1,10 @@
 const { gql } = require('apollo-server');
+const { GraphQLJSON, GraphQLJSONObject } = require('graphql-type-json');
 
 module.exports = gql`
+    
+    scalar JSONObject
+
     type Post{
         id: ID!
         title: String!
@@ -73,8 +77,8 @@ module.exports = gql`
         recommend(id: String!): [Recommend]!
         didIUpvoteQuestion(postId: ID!, email: String!): Boolean!
         didIDownvoteQuestion(postId: ID!, email: String!): Boolean!
-        didIUpvoteAnswer(postId: ID!, answerId: ID!, email: String!): Boolean!
-        didIDownvoteAnswer(postId: ID!, answerId: ID!, email: String!): Boolean!
+        didIUpvoteAnswer(postId: ID!, email: String!): JSONObject
+        didIDownvoteAnswer(postId: ID!, email: String!): JSONObject
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!
@@ -86,5 +90,14 @@ module.exports = gql`
         upvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
         downvoteQuestion(postId: ID!, email: String!): Post!
         downvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
+        removeUpvoteQuestion(postId: ID!, email: String!): Post!
+        removeUpvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
+        removeDownvoteQuestion(postId: ID!, email: String!): Post!
+        removeDownvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
     } 
-`
+`;
+
+const resolvers = {
+  JSON: GraphQLJSON,
+  JSONObject: GraphQLJSONObject,
+};

@@ -15,6 +15,12 @@ const postSchema = new Schema({
           createdAt: String
         }
       ],
+      downvotes: [
+        {
+          email: String,
+          createdAt: String
+        }
+      ],
       createdAt: String
     }
   ],

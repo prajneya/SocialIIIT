@@ -48,6 +48,36 @@ function Issue(props){
     }
   })
 
+  const [removeUpvoteQuestion, { rUpvoteQ }] = useMutation(REMOVE_UPVOTE_QUESTION, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+      postId,
+      email
+    }
+  })
+
+  const [downvoteQuestion, { downvoteQ }] = useMutation(DOWNVOTE_QUESTION, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+      postId,
+      email
+    }
+  })
+
+  const [removeDownvoteQuestion, { rDownvoteQ }] = useMutation(REMOVE_DOWNVOTE_QUESTION, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+      postId,
+      email
+    }
+  })
+
   const [upvoteAnswer, { upvoteA }] = useMutation(UPVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
@@ -59,14 +89,61 @@ function Issue(props){
     }
   })
 
+  const [removeUpvoteAnswer, { rUpvoteA }] = useMutation(REMOVE_UPVOTE_ANSWER, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+      postId,
+      answerId,
+      email
+    }
+  })
+
+  const [downvoteAnswer, { downvoteA }] = useMutation(DOWNVOTE_ANSWER, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+      postId,
+      answerId,
+      email
+    }
+  })
+
+  const [removeDownvoteAnswer, { rDownvoteA }] = useMutation(REMOVE_DOWNVOTE_ANSWER, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+      postId,
+      answerId,
+      email
+    }
+  })
+
   function addAnswerCallback(){
-    console.log(body);
     addAnswer();
   }
 
   async function upvoteAnswerCallback(r_answerId){
     await setAnswerId(r_answerId);
     upvoteAnswer();
+  }
+
+  async function removeUpvoteAnswerCallback(r_answerId){
+    await setAnswerId(r_answerId);
+    removeUpvoteAnswer();
+  }
+
+  async function removeDownvoteAnswerCallback(r_answerId){
+    await setAnswerId(r_answerId);
+    removeDownvoteAnswer();
+  }
+
+  async function downvoteAnswerCallback(r_answerId){
+    await setAnswerId(r_answerId);
+    downvoteAnswer();
   }
 
   const { data: postData } = useQuery(FETCH_POST_QUERY, {
@@ -91,6 +168,24 @@ function Issue(props){
         }
   });
   var isQuestionDownvoted = downvoteQuestionData ? downvoteQuestionData.didIDownvoteQuestion : true;
+
+  const { data: upvoteAnswerData } = useQuery(UPVOTE_ANSWER_CHECK_QUERY, {
+        variables: {
+            postId,
+            answerId,
+            email
+        }
+  });
+  var areAnswersUpvoted = upvoteAnswerData ? upvoteAnswerData.didIUpvoteAnswer : [];
+
+  const { data: downvoteAnswerData } = useQuery(DOWNVOTE_ANSWER_CHECK_QUERY, {
+        variables: {
+            postId,
+            answerId,
+            email
+        }
+  });
+  var areAnswersDownvoted = downvoteAnswerData ? downvoteAnswerData.didIDownvoteAnswer : [];
 
 	return (
           <>
@@ -117,8 +212,8 @@ function Issue(props){
                           Upvotes
                           </div>
                           <div className="user-polls">
-                            <div className="user-poll my-2 py-1 px-3 bg-success" onClick={upvoteQuestion}>{isQuestionUpvoted ? "UPVOTED" : "UPVOTE"}</div>
-                            <div className="user-poll my-2 py-1 px-3 bg-danger">Downvote</div>
+                            {isQuestionUpvoted ? <div className="user-poll my-2 py-1 px-3 bg-success" onClick={removeUpvoteQuestion}>UPVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-success" onClick={upvoteQuestion}>UPVOTE</div> }
+                            {isQuestionDownvoted ? <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={removeDownvoteQuestion}>DOWNVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={downvoteQuestion}>DOWNVOTE</div> }
                           </div>
                         </div>
                       </div>
@@ -149,8 +244,8 @@ function Issue(props){
                         {/* SMALL DEVICE UPVOTE-2 STARTS */}
                         <div className="d-block d-lg-none">
                           <div className="small-user-polls d-inline-block">
-                            <div className="user-poll mt-2 mb-2 mr-1 py-1 px-3 bg-success d-inline-block" onClick={upvoteQuestion}>Upvote</div>
-                            <div className="user-poll mb-3 mr-1 py-1 px-3 bg-danger d-inline-block">Downvote</div>
+                            {isQuestionUpvoted ? <div className="user-poll my-2 py-1 px-3 bg-success" onClick={removeUpvoteQuestion}>UPVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-success" onClick={upvoteQuestion}>UPVOTE</div> }
+                            {isQuestionDownvoted ? <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={removeDownvoteQuestion}>DOWNVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={downvoteQuestion}>DOWNVOTE</div> }
                           </div>
                         </div>
                         {/* SMALL DEVICE UPVOTE-2 ENDS */}
@@ -182,10 +277,6 @@ function Issue(props){
                   <CKEditor
                     editor={ ClassicEditor }
                     data=""
-                    onReady={ editor => {
-                        // You can store the "editor" and use when it is needed.
-                        console.log( 'Editor is ready to use!', editor );
-                    } }
                     onChange={ ( event, editor ) => {
                         setBody(editor.getData())
                     } }
@@ -214,8 +305,8 @@ function Issue(props){
                   <div className="answer-info mt-2">
                     <div className="small-upvote-count d-inline-block mr-2 px-2 py-1">{answer['upvotes'] ? answer['upvotes'].length: "0"} upvotes</div>
                     <div className="answer-polls d-inline-block">  
-                      <div className="user-poll mt-2 mb-2 mr-1 py-1 px-3 bg-success d-inline-block" onClick={() => upvoteAnswerCallback(answer['id'])}>Upvote</div>
-                      <div className="user-poll mb-3 mr-1 py-1 px-3 bg-danger d-inline-block">Downvote</div>
+                      { areAnswersUpvoted[answer['id']] ? <div className="user-poll mt-2 mb-2 mr-1 py-1 px-3 bg-success d-inline-block" onClick={() => removeUpvoteAnswerCallback(answer['id'])}> UPVOTED </div> : <div className="user-poll mt-2 mb-2 mr-1 py-1 px-3 bg-success d-inline-block" onClick={() => upvoteAnswerCallback(answer['id'])}> UPVOTE </div> }
+                      { areAnswersDownvoted[answer['id']] ? <div className="user-poll mb-3 mr-1 py-1 px-3 bg-danger d-inline-block" onClick={() => removeDownvoteAnswerCallback(answer['id'])}> DOWNVOTED </div> : <div className="user-poll mb-3 mr-1 py-1 px-3 bg-danger d-inline-block" onClick={() => downvoteAnswerCallback(answer['id'])}>DOWNVOTE </div> }
                     </div>
                     <div className="info-details">
                       <div className="user-poll bg-danger text-white px-2 py-1 d-inline-block">Report</div>
@@ -255,6 +346,18 @@ const DOWNVOTE_QUESTION_CHECK_QUERY = gql`
     }
 `;
 
+const UPVOTE_ANSWER_CHECK_QUERY = gql`
+    query($postId: ID!, $email: String!){
+        didIUpvoteAnswer(postId: $postId, email: $email)
+    }
+`;
+
+const DOWNVOTE_ANSWER_CHECK_QUERY = gql`
+    query($postId: ID!, $email: String!){
+        didIDownvoteAnswer(postId: $postId, email: $email)
+    }
+`;
+
 const ADD_ANSWER = gql`
   mutation addAnswer($postId: ID!, $body: String!) {
     addAnswer(postId: $postId, body: $body) {
@@ -271,9 +374,57 @@ const UPVOTE_QUESTION = gql`
   }
 `;
 
+const REMOVE_UPVOTE_QUESTION = gql`
+  mutation removeUpvoteQuestion($postId: ID!, $email: String!) {
+    removeUpvoteQuestion(postId: $postId, email: $email) {
+      id
+    }
+  }
+`;
+
+const DOWNVOTE_QUESTION = gql`
+  mutation downvoteQuestion($postId: ID!, $email: String!) {
+    downvoteQuestion(postId: $postId, email: $email) {
+      id
+    }
+  }
+`;
+
+const REMOVE_DOWNVOTE_QUESTION = gql`
+  mutation removeDownvoteQuestion($postId: ID!, $email: String!) {
+    removeDownvoteQuestion(postId: $postId, email: $email) {
+      id
+    }
+  }
+`;
+
 const UPVOTE_ANSWER = gql`
   mutation upvoteAnswer($postId: ID!, $answerId: ID!, $email: String!) {
     upvoteAnswer(postId: $postId, answerId: $answerId, email: $email) {
+      id
+    }
+  }
+`;
+
+const REMOVE_UPVOTE_ANSWER = gql`
+  mutation removeUpvoteAnswer($postId: ID!, $answerId: ID!, $email: String!) {
+    removeUpvoteAnswer(postId: $postId, answerId: $answerId, email: $email) {
+      id
+    }
+  }
+`;
+
+const REMOVE_DOWNVOTE_ANSWER = gql`
+  mutation removeDownvoteAnswer($postId: ID!, $answerId: ID!, $email: String!) {
+    removeDownvoteAnswer(postId: $postId, answerId: $answerId, email: $email) {
+      id
+    }
+  }
+`;
+
+const DOWNVOTE_ANSWER = gql`
+  mutation downvoteAnswer($postId: ID!, $answerId: ID!, $email: String!) {
+    downvoteAnswer(postId: $postId, answerId: $answerId, email: $email) {
       id
     }
   }

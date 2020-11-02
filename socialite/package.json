@@ -23,6 +23,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
+    "graphql-type-json": "^0.3.2",
     "html-react-parser": "^0.14.0",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
@@ -37,6 +38,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "sweetalert2": "^10.9.0",
     "validator": "^13.1.17"
   },
   "scripts": {
