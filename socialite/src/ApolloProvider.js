@@ -23,7 +23,7 @@ import Issue from './components/StackOverflow/Issue';
 import './App.css';
 
 const httpLink = createHttpLink({
-  uri: 'http://192.168.0.114:5000'
+  uri: 'http://localhost:5000'
 })
 
 const errorLink = onError(({ graphQLErrors }) => {
