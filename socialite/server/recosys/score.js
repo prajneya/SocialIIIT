@@ -40,10 +40,11 @@ async function friendlist(id, flag)
 			continue;
 
 		email =  await data.getUserEmail(users[i]._id);
+		const curdets = await data.getUserDetsById(a.id);
 		if(cur.cluster_no == users[i].cluster_no)
 			sval = 0.5;
 
-		conscore = await content.scoring(cur, users[i], send);
+		conscore = await content.scoring(cur, users[i], curdets, send);
 		sval += (0.5 * conscore);
 		if(sval == 0)
 			continue;
