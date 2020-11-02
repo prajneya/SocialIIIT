@@ -27,7 +27,7 @@ function checkhos (a,b)
 	}
 }
 
-function updateratio(user, profile, arr)
+async function updateratio(user, profile, arr)
 {
 	var total = arr.length; // this includes the new friend included 
 	if(total <= 1)
