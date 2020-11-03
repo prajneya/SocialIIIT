@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
-  createdAt: String,
-  rating: Number,
-  volatility: Number,
-  times_answered: Number
+	username: String,
+	email: String,
+	password: String,
+	createdAt: String,
+	rating: { type: Number, default: 1000 },
+	volatility: { type: Number, default: 400.00 },
+	times_answered: { type: Number, default: 0 }
 });
 
 const Profile = new mongoose.Schema({

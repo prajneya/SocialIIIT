@@ -12,12 +12,14 @@ function Register(props) {
 	const [errors, setErrors] = useState({});
 
 	const initialState = {
+		username: '',
 		email: '',
 		password: '',
 		confirmPassword: ''
 	}
 
 	const { onChange, onSubmit, values } = useForm(registerUser, {
+		username: '',
 		email: '',
 		password: '',
 		confirmPassword: ''
@@ -29,7 +31,8 @@ function Register(props) {
 			props.history.push('/dashboard')
 		},
 		onError(err){
-			setErrors(err.graphQLErrors[0].extensions.exception.errors);
+			if(err.graphQLErrors.length > 0)
+				setErrors(err.graphQLErrors[0].extensions.exception.errors);
 		},
 		variables: values
 	})
@@ -47,6 +50,12 @@ function Register(props) {
 				<label for="email">Email Address (only iiit.ac.in ids allowed)</label>
 				<br/>
 				<input type="text" id="email" name="email" placeholder="Enter your email" onChange={onChange} value={values.email} />
+			</div>
+
+			<div className="username">
+				<label for="username">Username (try to be witty)</label>
+				<br/>
+				<input type="text" id="username" name="username" placeholder="Enter your username" onChange={onChange} value={values.username} />
 			</div>
 
 			<div className="rollno">
@@ -90,12 +99,14 @@ function Register(props) {
 
 const REGISTER_USER = gql`
   mutation register(
+  	$username: String!
     $email: String!
     $password: String!
     $confirmPassword: String!
   ) {
     register(
       registerInput: {
+      	username: $username
         email: $email
         password: $password
         confirmPassword: $confirmPassword
