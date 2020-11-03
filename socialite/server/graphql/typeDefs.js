@@ -48,30 +48,34 @@ module.exports = gql`
     }
     type User{
     	id: ID!
+        username: String!
     	email: String!
     	token: String!
     	createdAt: String!
+        rating: Int!
+        volatility: Float!
+        time_answered: Int!
     }
     type field1{
-	val: Int!
-	flag: Int!
+        val: Int!
+        flag: Int!
     }
     type field2{
-	val: String!
-	flag: Int!
+        val: String!
+        flag: Int!
     }
     type field3{
-	val: [String]!
-	flag: [Int]!
+        val: [String]!
+        flag: [Int]!
     }
     type Profile{
-	hosnum: field1
-	hosname: field2
-	house: field2
-	sports: field3
-	clubs: field3
-	match: Float
-	email: String
+    	hosnum: field1
+    	hosname: field2
+    	house: field2
+    	sports: field3
+    	clubs: field3
+    	match: Float
+    	email: String
     }
     type Recommend{
         id: ID!
@@ -79,6 +83,7 @@ module.exports = gql`
         email: String!
     }
     input RegisterInput{
+        username: String!
     	email: String!
     	password: String!
     	confirmPassword: String!
