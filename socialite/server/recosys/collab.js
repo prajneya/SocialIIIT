@@ -113,7 +113,7 @@ async function clusupdate()
 		await data.updateProfile(users[i]._id, clusters[mapping[users[i]._id]]);
 }
 
-module.exports = async function clusallot(id) {
+module.exports = {clusallot: async function clusallot() {
 	var graph = await graphgen();
 	e = 2;
 	r = 2;
@@ -121,5 +121,5 @@ module.exports = async function clusallot(id) {
 	graph = markov(graph, e, r, threshold);
 	cluster(graph);
 	clusupdate();
-	return clusters[mapping[id]];
+}
 }

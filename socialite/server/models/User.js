@@ -19,12 +19,11 @@ const Profile = new mongoose.Schema({
 
 const UserDets = new mongoose.Schema({
 	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-	house: String,
+	house: Number,
 	hosnum: Number,
-	hosname: String,
-	sports: [String],
-	clubs: [String],
-	cluster_no: Number,
+	hosname: Number,
+	sports: [Number],
+	clubs: [Number],
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });

@@ -63,6 +63,8 @@ $ npm start
 ```
 to start the frontend server.
 
+Go to server/ directory and run
+
 ```sh
 $ node server.js
 ```
@@ -74,4 +76,4 @@ Note that you might need to run
 $ npm install
 ```
 
-the first time you run this project and when someone adds a new package to the client side.
+the first time you run this project or when someone adds a new package to the client/server side.

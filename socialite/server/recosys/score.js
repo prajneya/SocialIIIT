@@ -24,6 +24,7 @@ async function friendlist(id, flag)
 	marked = Array(users.length).fill(0);
 
 	const cur = await data.getProfileById(id);
+	curdets =  await data.getUserDetsById(id);
 	send = Array(cur.friends.length);
 	for(i = 0; i < cur.friends.length; ++i)
 	{
@@ -43,7 +44,7 @@ async function friendlist(id, flag)
 		if(cur.cluster_no == users[i].cluster_no)
 			sval = 0.5;
 
-		conscore = await content.scoring(cur, users[i], send);
+		conscore = await content.scoring(cur, users[i], curdets, send);
 		sval += (0.5 * conscore);
 		if(sval == 0)
 			continue;

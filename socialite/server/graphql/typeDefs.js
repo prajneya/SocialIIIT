@@ -107,6 +107,9 @@ module.exports = gql`
         removeUpvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
         removeDownvoteQuestion(postId: ID!, email: String!): Post!
         removeDownvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
+        frenaccept(user_id: String!, fren_id: String!): ID
+        frenreject(user_id: String!, fren_id: String!): ID
+        frenrequest(user_id: String!, fren_id: String!): ID
     } 
 `;
 
