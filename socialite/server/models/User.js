@@ -3,7 +3,10 @@ const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   email: String,
   password: String,
-  createdAt: String
+  createdAt: String,
+  rating: Number,
+  volatility: Number,
+  times_answered: Number
 });
 
 const Profile = new mongoose.Schema({
