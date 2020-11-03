@@ -4,12 +4,16 @@
   "private": true,
   "dependencies": {
     "@apollo/react-hooks": "^4.0.0",
+    "@ckeditor/ckeditor5-build-classic": "^23.1.0",
+    "@ckeditor/ckeditor5-react": "^3.0.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "Dante2": "^0.5.0-rc4",
     "Math": "0.0.1-security",
     "apollo-cache-inmemory": "^1.6.6",
     "apollo-client": "^2.6.10",
+    "apollo-link-context": "^1.0.20",
     "apollo-link-error": "^1.1.13",
     "apollo-link-http": "^1.5.17",
     "apollo-server": "^2.18.2",
@@ -19,6 +23,8 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "graphql": "^15.3.0",
+    "graphql-type-json": "^0.3.2",
+    "html-react-parser": "^0.14.0",
     "is-empty": "^1.2.0",
     "jsonwebtoken": "^8.5.1",
     "jwt-decode": "^3.0.0",
@@ -32,6 +38,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "sweetalert2": "^10.9.0",
     "validator": "^13.1.17"
   },
   "scripts": {
