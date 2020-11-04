@@ -1,0 +1,87 @@
+.issue-container{
+	border-style: solid;
+	border-radius: 1rem;
+	border-width: 1px;
+}
+
+.issue-content{
+	background-color: rgba(0, 0, 0, .2);
+	border-style: none;
+	border-radius: 1rem;
+	margin: 1rem;
+	padding: 2rem;
+}
+
+.issue-body{
+	min-height: 10rem;
+}
+
+.issue-question{
+	font-size: 2.07692308rem;
+	font-weight: bold; 
+}
+
+.upvote-container{
+	text-align: center;
+	position: relative;
+	height: 100%;
+}
+
+.upvote-content{
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+.upvote-count{
+	font-size: 4rem;
+}
+
+.user-poll{
+	border-radius: 5px;
+}
+
+.user-poll:hover{
+	cursor: pointer;	
+}
+
+.tag{
+	border-radius: 5px;
+	background-color: rgba(0, 0, 0, .2);
+	display: inline-block;
+}
+
+.tag:hover{
+	background-color: #3a4750;
+	cursor: pointer;
+}
+
+.small-upvote-count{
+	border-style: solid;
+	border-radius: 5px;
+	text-transform: uppercase;
+}
+
+.info-details{
+	float: right;
+}
+
+.ck{
+	color: black !important;
+}
+
+@media only screen and (max-width: 762px) {
+	.info-details{
+		float: none;
+	}
+}
+
+@media only screen and (max-width: 576px) {
+	.small-upvote-container{
+		float: none !important;
+	}
+	.issue-question {
+		font-size: 1.57692308rem;
+	}
+}

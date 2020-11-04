@@ -1,9 +1,13 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  email: String,
-  password: String,
-  createdAt: String
+	username: String,
+	email: String,
+	password: String,
+	createdAt: String,
+	rating: { type: Number, default: 1000 },
+	volatility: { type: Number, default: 400.00 },
+	times_answered: { type: Number, default: 0 }
 });
 
 const Profile = new mongoose.Schema({
@@ -13,7 +17,19 @@ const Profile = new mongoose.Schema({
 	hosnum: Number,
 	hosname: String,
 	sports: [String],
-	clubs: [String]
+	clubs: [String],
+	cluster_no: Number
 });
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile')};
+const UserDets = new mongoose.Schema({
+	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	house: Number,
+	hosnum: Number,
+	hosname: Number,
+	sports: [Number],
+	clubs: [Number],
+	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+});
+
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets')};

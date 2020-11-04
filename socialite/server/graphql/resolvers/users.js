@@ -4,7 +4,7 @@ const { UserInputError } = require('apollo-server')
 
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators')
 const { SECRET_KEY } = require('../../config');
-const {User, Profile} = require('../../models/User');
+const {User, Profile, UserDets} = require('../../models/User');
 
 function generateToken(user) {
   return jwt.sign(
@@ -50,30 +50,55 @@ module.exports = {
 	    },
 
 		async register(_, 
-			{ registerInput: { email, password, confirmPassword } 
+			{ registerInput: { username, email, password, confirmPassword } 
 			}
 		){
 			const { valid, errors } = validateRegisterInput(email, password, confirmPassword)
 			if(!valid){
 				throw new UserInputError('Errors', { errors });
 			}
-			const user = User.findOne({ email });
-			if(user==null){
+			const user = await User.findOne({ email });
+			if(user){
 				throw new UserInputError('Email is already taken', {
 					errors: {
 						email: email + ' is already taken'
 					}
 				})
 			}
+			const user_byName = await User.findOne({ username });
+			if(user_byName){
+				throw new UserInputError('Username is already taken', {
+					errors: {
+						username: username + ' is already taken'
+					}
+				})
+			}
 			password = await bcrypt.hash(password, 12);
 
 			const newUser = new User({
+				username,
 				email,
 				password, 
 				createdAt: new Date().toISOString()
 			});
 
-			const res = await newUser.save();
+			id = "";
+			const res = await newUser.save(function(err, saved){
+				if(saved)
+					id = saved.id;
+			});
+
+			const newProfile = new Profile({
+				id: id
+			});
+
+			const ret = await newProfile.save();
+
+			const UserDets = new UserDets({
+				id: id
+			});
+
+			const rex = await UserDets.save();
 
 			const token = generateToken(res);
 
