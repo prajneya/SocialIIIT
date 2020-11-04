@@ -30,6 +30,8 @@ const UserDets = new mongoose.Schema({
 	clubs: [Number],
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+	sendmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	requestmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
 module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets')};

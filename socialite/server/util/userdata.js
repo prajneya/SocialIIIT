@@ -48,5 +48,13 @@ module.exports = {
 	updateRequest: async function (ida, idb){
 		await UserDets.update( { _id: ida }, { $push: { send: idb } } ); 
 		await UserDets.update( { _id: idb }, { $push: { request: ida } } ); 
+	},
+	updateAccRejMeet: async function (ida, idb){
+		await UserDets.update( { _id: ida }, { $pull: { sendmeet: idb } } ); // this is to remove the send request from user of the friend id
+		await UserDets.update( { _id: idb }, { $pull: { requestmeet: ida } } ); // this is to remove the request from friend of the user
+	},
+	updateRequestMeet: async function (ida, idb){
+		await UserDets.update( { _id: ida }, { $push: { sendmeet: idb } } ); 
+		await UserDets.update( { _id: idb }, { $push: { requestmeet: ida } } ); 
 	}
 }
