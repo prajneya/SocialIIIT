@@ -8,7 +8,6 @@ import "./Dashboard.css"
 function Dashboard(props){
 
 	const { user, logout } = useContext(AuthContext)
-
 	function logUserOut(){
 		logout();
 		props.history.push('/')

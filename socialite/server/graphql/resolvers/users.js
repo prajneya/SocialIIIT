@@ -10,7 +10,10 @@ function generateToken(user) {
   return jwt.sign(
     {
       id: user.id,
-      email: user.email
+      email: user.email,
+      username: user.username,
+      rating: user.rating,
+      times_answered: user.times_answered
     },
     SECRET_KEY,
     { expiresIn: '1h' }
