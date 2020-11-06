@@ -115,6 +115,9 @@ module.exports = gql`
         frenaccept(user_id: String!, fren_id: String!): ID
         frenreject(user_id: String!, fren_id: String!): ID
         frenrequest(user_id: String!, fren_id: String!): ID
+        meetaccept(user_id: String!, fren_id: String!): ID
+        meetreject(user_id: String!, fren_id: String!): ID
+        meetrequest(user_id: String!, fren_id: String!): ID
     } 
 `;
 
