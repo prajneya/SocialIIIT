@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import { AuthContext } from '../../context/auth'
 
 import "./Recommend.css"
+import Dashboard from '../Dashboard/Dashboard';
 
 function Recommend(props){
 
@@ -16,6 +17,11 @@ function Recommend(props){
     {
         logout();
         props.history.push('/')
+    }
+
+    function dashboard()
+    {
+        props.history.push('/dashboard')
     }
 
     const user_id = user.id;
@@ -65,6 +71,8 @@ function Recommend(props){
             <div className="container">
                 <div className="authenticate-nav">
                     <div className="a-nav-right">
+                        <button className="rounded" onClick={dashboard}>DASHBOARD</button>
+                        &nbsp;&nbsp;
                         <button className="rounded" onClick={logUserOut}>LOGOUT</button>
                     </div>
                 </div>
