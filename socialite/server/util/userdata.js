@@ -50,8 +50,8 @@ module.exports = {
 		await UserDets.update( { _id: idb }, { $push: { request: ida } } ); 
 	},
 	updateAccRejMeet: async function (ida, idb){
-		await UserDets.update( { _id: ida }, { $pull: { sendmeet: idb } } ); // this is to remove the send request from user of the friend id
-		await UserDets.update( { _id: idb }, { $pull: { requestmeet: ida } } ); // this is to remove the request from friend of the user
+		await UserDets.update( { _id: ida }, { $pull: { requestmeet: idb } } ); // this is to remove the send request from user of the friend id
+		await UserDets.update( { _id: idb }, { $pull: { sendmeet: ida } } ); // this is to remove the request from friend of the user
 	},
 	updateRequestMeet: async function (ida, idb){
 		await UserDets.update( { _id: ida }, { $push: { sendmeet: idb } } ); 
