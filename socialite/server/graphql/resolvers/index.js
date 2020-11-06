@@ -4,6 +4,7 @@ const recoResolvers = require('./recommend')
 const profileResolvers = require('./profile')
 const requestResolvers = require('./friendreq')
 const subResolvers = require('./sub')
+const meetrequestResolvers = require('./meetreq')
 
 module.exports = {
 	Query: {
@@ -17,6 +18,9 @@ module.exports = {
 		...requestResolvers.frenrequest,
 		...requestResolvers.frenaccept,
 		...requestResolvers.frenreject,
-		...subResolvers.subsave
+		...subResolvers.subsave,
+		...meetrequestResolvers.meetrequest,
+		...meetrequestResolvers.meetaccept,
+		...meetrequestResolvers.meetreject
 	}
 }

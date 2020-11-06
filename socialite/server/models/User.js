@@ -29,7 +29,9 @@ const UserDets = new mongoose.Schema({
 	sports: [Number],
 	clubs: [Number],
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	sendmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	requestmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
 const UserSub = new mongoose.Schema({
