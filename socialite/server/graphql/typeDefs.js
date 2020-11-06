@@ -114,7 +114,8 @@ module.exports = gql`
         removeDownvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
         frenaccept(user_id: String!, fren_id: String!): ID
         frenreject(user_id: String!, fren_id: String!): ID
-	      subsave(id: String!, sub: String!): ID
+        frenrequest(user_id: String!, fren_id: String!): ID
+	    subsave(id: String!, sub: String!): ID
         meetaccept(user_id: String!, fren_id: String!): ID
         meetreject(user_id: String!, fren_id: String!): ID
         meetrequest(user_id: String!, fren_id: String!): ID

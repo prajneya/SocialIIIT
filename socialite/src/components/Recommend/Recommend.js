@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation} from '@apollo/react-hooks';
+import { useState } from 'react';
 import gql from 'graphql-tag';
 
 import { AuthContext } from '../../context/auth'
@@ -17,13 +18,45 @@ function Recommend(props){
         props.history.push('/')
     }
 
-    const userId = user.id;
+    const user_id = user.id;
+    const [fren_id, setfren_id] = useState('');
+    console.log(user)
+
+    const [frenrequest, { frequest }] = useMutation(FREN_REQUEST, {
+        update(_, { data: { login: userData } }){
+          window.location.reload(false);
+        },
+        variables: {
+            user_id,
+            fren_id
+        }
+    })
+
+    const [meetrequest, { mrequest }] = useMutation(MEET_REQUEST, {
+        update(_, { data: { login: userData } }){
+          window.location.reload(false);
+        },
+        variables: {
+            user_id,
+            fren_id
+        }
+    })
 
     const { data } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
         variables: {
-            userId
+            user_id
         }
     });
+
+    async function send_frenrequest(fren_id){
+        await setfren_id(fren_id);
+        frenrequest();
+    }
+
+    async function send_meetrequest(fren_id){
+        await setfren_id(fren_id);
+        meetrequest();
+    }
 
     var recommendations = data ? data.recommend : "";
 
@@ -45,7 +78,11 @@ function Recommend(props){
                                 <div className="friend-content">
                                     <strong>Email: {recommendation['email']}</strong>
                                     <br />
-                                    Friend Match Probalitiy: {recommendation['match']} %
+                                    Friend Match Probability: {Math.round((recommendation['match'] + Number.EPSILON) * 100)/100}%
+                                    <br />
+                                    <button className="rounded" onClick={() => send_frenrequest(recommendation['id'])}>SEND A FRIEND REQUEST</button>
+                                    &nbsp;&nbsp;
+                                    <button className="rounded" onClick={() => send_meetrequest(recommendation['id'])}>SEND A MEET REQUEST</button>
                                 </div>
                             </div>
                         </div>
@@ -57,12 +94,23 @@ function Recommend(props){
     )
 }
 
+const FREN_REQUEST = gql`
+    mutation frenrequest($user_id: String!, $fren_id: String!) {
+        frenrequest(user_id: $user_id, fren_id: $fren_id)
+    }
+`;
+
+const MEET_REQUEST = gql`
+    mutation meetrequest($user_id: String!, $fren_id: String!) {
+        meetrequest(user_id: $user_id, fren_id: $fren_id)
+    }
+`;
+
 const FETCH_RECOMMENDATIONS_QUERY = gql`
-    query($userId: String!){
-        recommend(id: $userId){
+    query($user_id: String!){
+        recommend(id: $user_id){
             id match email
         }
     }
 `
-
 export default Recommend;
