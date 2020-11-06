@@ -20,6 +20,18 @@ body{
   background: var(--main-bg) !important;
 }
 
+.a-nav-right{
+  margin: 2 rem;
+	text-align: left;
+}
+
+.rounded{
+	padding: 0.4rem 1.5rem;
+	border-radius: 25px !important;
+	background-color: rgba(0,204,187, 0.5);
+	border-style: none;
+}
+
 .signup-container{
   display: flex;
   justify-content: center;

@@ -41,7 +41,7 @@ function Dashboard(props){
       		<div className="container">
       			<div className="authenticate-nav">
       				<div className="a-nav-right">
-                                    <a href="/profile">MY PROFILE</a>
+                    	<a href="/profile">MY PROFILE</a>
       					<button className="rounded" onClick={logUserOut}>LOGOUT</button>
       				</div>
       			</div>
