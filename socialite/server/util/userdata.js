@@ -1,4 +1,4 @@
-const {User, Profile, UserDets} = require("../models/User");
+const {User, Profile, UserDets, UserSub} = require("../models/User");
 const e = require("express");
 
 
@@ -21,6 +21,13 @@ module.exports = {
 		ret = ""
 		await User.findById(id).then((user) => {
 			ret = user.email;
+		});
+		return ret;
+	},
+	getUserSub: async function getUserSub(id){
+		ret = {};
+		await UserSub.findById(id).then((UserSub) => {
+			ret = UserSub.sub;
 		});
 		return ret;
 	},

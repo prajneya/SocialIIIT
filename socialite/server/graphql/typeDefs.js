@@ -115,6 +115,7 @@ module.exports = gql`
         frenaccept(user_id: String!, fren_id: String!): ID
         frenreject(user_id: String!, fren_id: String!): ID
         frenrequest(user_id: String!, fren_id: String!): ID
+	subsave(id: String!, sub: String!): ID
     } 
 `;
 
