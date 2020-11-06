@@ -18,7 +18,6 @@ function Recommend(props){
     }
 
     const userId = user.id;
-    console.log(userId);
 
     const { data } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
         variables: {

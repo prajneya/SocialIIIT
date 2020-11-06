@@ -1,6 +1,7 @@
 const { model, Schema } = require('mongoose');
 
 const postSchema = new Schema({
+  title: String,
   body: String,
   email: String,
   createdAt: String,
@@ -9,6 +10,12 @@ const postSchema = new Schema({
       body: String,
       email: String,
       upvotes: [
+        {
+          email: String,
+          createdAt: String
+        }
+      ],
+      downvotes: [
         {
           email: String,
           createdAt: String
@@ -25,6 +32,12 @@ const postSchema = new Schema({
     }
   ],
   upvotes: [
+    {
+      email: String,
+      createdAt: String
+    }
+  ],
+  downvotes: [
     {
       email: String,
       createdAt: String

@@ -15,7 +15,8 @@ async function frenaccept(user_id, fren_id)
 
 	var arr1 = await ratio.updateratio(cur1, cur2, friendlist1);
 	var arr2 = await ratio.updateratio(cur2, cur1, friendlist2);
-	await collab.clusallot();
+	console.log(arr1, arr2);
+	rand = await collab.clusallot();
 	
 	await data.updateDets(user_id, arr1);
 	await data.updateDets(fren_id, arr2);
@@ -33,6 +34,4 @@ async function frenrequest(user_id, fren_id)
 }
 
 
-module.exports = { "frenrequest": frenrequest };
-module.exports = { "frenaccept": frenaccept };
-module.exports = { "frenreject": frenreject };
+module.exports = { "frenrequest": frenrequest, "frenaccept": frenaccept, "frenreject": frenreject };

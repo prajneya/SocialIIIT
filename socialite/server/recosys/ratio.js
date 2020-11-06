@@ -40,7 +40,7 @@ async function updateratio(user, profile, arr)
 		var arr = [hosnum, hosname, house, sporarr , cluarr];
 		await data.updateDets(user.id, arr);
 	}
-	const cur = await data.getUserDetsById(user.id);
+	const cur = await data.getUserDetsById(user._id);
 	var hosnum = ((cur.hosnum*(total-1)) + checkhos(profile.hosnum, user.hosnum))/total;
 	var hosname = ((cur.hosname*(total-1)) + check(profile.hosname, user.hosname))/total;
 	var house = ((cur.house*(total-1)) + check(profile.house, user.house))/total;
