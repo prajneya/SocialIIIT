@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import { register } from '../../serviceWorker'
 
 import "./Home.css"
 
@@ -37,6 +38,9 @@ function Home(props) {
 
 	return (
 		<div className="signup-container">
+			<div className="permission">Permission
+			<button onclick={register}>Ask Permission</button>
+			</div>
 			<div className="signin">Sign in</div>
 			<form onSubmit={onSubmit}>
 			<div className="email">
