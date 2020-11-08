@@ -9,11 +9,7 @@ module.exports = {
         {
             try
             {
-            	console.log(id);
-				const curdets =  await data.getUserDetsById(id);
-				console.log(curdets.request);
-				console.log(curdets.request.length);
-				console.log(curdets.requestmeet);
+		const curdets =  await data.getUserDetsById(id);
                 ret = Array(curdets.request.length+curdets.requestmeet.length).fill({});
                 j=0;
                 for(let i = 0; i < curdets.request.length; ++i)
