@@ -3,8 +3,10 @@ import random
 import math
 import dns
 from scipy.stats import norm
+from mongotriggers import MongoTrigger
 
 client = pymongo.MongoClient("mongodb+srv://SRDewan:abcd1234@database.vvxaz.mongodb.net/Data?retryWrites=true&w=majority")
+triggers = MongoTrigger(client)
 db = client["Data"]
 profiles = db["Profile"]
 posts = db["posts"]
@@ -84,47 +86,64 @@ def updateUserRating(user_rating, volatility, times_played, ARank):
 
     return new_rating, new_volatility, new_times_played
 
-for x in posts.find():
-    user_rating = []
-    volatility = []
-    times_answered = []
-    answers = []
+def notify(op_document):
+    print("Yay! We triggered this!");
 
-    print("This post has {} answers".format(len(x['answers'])))
-    for y in x['answers']:
-        print("This answer was written by {} and has {} upvotes".format(y['email'], len(y['upvotes'])))
-        answers.append(len(y['upvotes']))
-        myquery = { "email": y['email'] }
-        mydoc = users.find(myquery)
-        for z in mydoc:
-            print("This user has {}, {}, {}".format(z['rating'], z['volatility'], z['times_answered']))
-            user_rating.append(z['rating'])
-            volatility.append(z['volatility'])
-            times_answered.append(z['times_answered'])
+    for x in posts.find():
+        user_rating = []
+        volatility = []
+        times_answered = []
+        answers = []
 
-    print("Before Algo")
+        print("This post has {} answers".format(len(x['answers'])))
+        for y in x['answers']:
+            print("This answer was written by {} and has {} upvotes".format(y['email'], len(y['upvotes'])))
+            answers.append(len(y['upvotes']))
+            myquery = { "email": y['email'] }
+            mydoc = users.find(myquery)
+            for z in mydoc:
+                print("This user has {}, {}, {}".format(z['rating'], z['volatility'], z['times_answered']))
+                user_rating.append(z['rating'])
+                volatility.append(z['volatility'])
+                times_answered.append(z['times_answered'])
 
-    for i in list(zip(user_rating, volatility, times_answered, answers)):
-        print(i)
+        print("Before Algo")
 
-    if(len(answers) != 1):
-        rank_answers(answers)
-        user_rating, volatility, times_answered = updateUserRating(user_rating, volatility, times_answered, answers)
+        for i in list(zip(user_rating, volatility, times_answered, answers)):
+            print(i)
 
-    print("After Algo")
+        if(len(answers) != 1):
+            rank_answers(answers)
+            user_rating, volatility, times_answered = updateUserRating(user_rating, volatility, times_answered, answers)
 
-    for i in list(zip(user_rating, volatility, times_answered, answers)):
-        print(i)
+        print("After Algo")
 
-    index = 0
-    for y in x['answers']:
-        myquery = { "email": y['email'] }
-        newrating = { "$set": { "rating": user_rating[index] } }
-        newvolatility = { "$set": { "volatility": volatility[index] } }
-        newtimes_answered = { "$set": { "times_answered": times_answered[index] } }
-        users.update_one(myquery, newrating)
-        users.update_one(myquery, newvolatility)
-        users.update_one(myquery, newtimes_answered)
-        index += 1
+        for i in list(zip(user_rating, volatility, times_answered, answers)):
+            print(i)
 
-    print()
+        index = 0
+        for y in x['answers']:
+            myquery = { "email": y['email'] }
+            newrating = { "$set": { "rating": user_rating[index] } }
+            newvolatility = { "$set": { "volatility": volatility[index] } }
+            newtimes_answered = { "$set": { "times_answered": times_answered[index] } }
+            users.update_one(myquery, newrating)
+            users.update_one(myquery, newvolatility)
+            users.update_one(myquery, newtimes_answered)
+            index += 1
+
+        print()
+
+# triggers.register_update_trigger(notify, 'Data', 'posts')
+
+# triggers.tail_oplog()
+# posts.insert_one({"balance": 1000})
+# triggers.stop_tail()
+
+# try:
+#     for insert_change in db.posts.watch([{'$match': {'operationType': 'update'}}]):
+#         print(insert_change)
+
+# except pymongo.errors.PyMongoError:
+#     # We know it's unrecoverable:
+#     print("Error occured")

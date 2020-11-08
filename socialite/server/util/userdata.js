@@ -1,4 +1,4 @@
-const {User, Profile, UserDets} = require("../models/User");
+const {User, Profile, UserDets, UserSub} = require("../models/User");
 const e = require("express");
 
 
@@ -24,6 +24,13 @@ module.exports = {
 		});
 		return ret;
 	},
+	getUserSub: async function getUserSub(id){
+		ret = {};
+		await UserSub.findById(id).then((UserSub) => {
+			ret = UserSub.sub;
+		});
+		return ret;
+	},
 	getUserDetsById: async function getUserDetsById(id){
 		ret = {};
 		await UserDets.findById(id).then((UserDets) => {
@@ -42,11 +49,19 @@ module.exports = {
 		await UserDets.update({_id: id}, {$set: { hosnum : arr[0], hosname : arr[1], house: arr[2], sports : arr[3], clubs : arr[4]}})
 	},
 	updateAccRej: async function (ida, idb){
-		await UserDets.update( { _id: ida }, { $pull: { send: idb } } ); // this is to remove the send request from user of the friend id
-		await UserDets.update( { _id: idb }, { $pull: { request: ida } } ); // this is to remove the request from friend of the user
+		await UserDets.update( { _id: ida }, { $pull: { request: idb } } );// this is to remove the send request from user of the friend id
+		await UserDets.update( { _id: idb }, { $pull: { send: ida } } );  // this is to remove the request from friend of the user
 	},
 	updateRequest: async function (ida, idb){
 		await UserDets.update( { _id: ida }, { $push: { send: idb } } ); 
 		await UserDets.update( { _id: idb }, { $push: { request: ida } } ); 
+	},
+	updateAccRejMeet: async function (ida, idb){
+		await UserDets.update( { _id: ida }, { $pull: { requestmeet: idb } } ); // this is to remove the send request from user of the friend id
+		await UserDets.update( { _id: idb }, { $pull: { sendmeet: ida } } ); // this is to remove the request from friend of the user
+	},
+	updateRequestMeet: async function (ida, idb){
+		await UserDets.update( { _id: ida }, { $push: { sendmeet: idb } } ); 
+		await UserDets.update( { _id: idb }, { $push: { requestmeet: ida } } ); 
 	}
 }

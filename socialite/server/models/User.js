@@ -29,7 +29,14 @@ const UserDets = new mongoose.Schema({
 	sports: [Number],
 	clubs: [Number],
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	sendmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	requestmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
 });
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets')};
+const UserSub = new mongoose.Schema({
+	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	sub: Object
+});
+
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub')};

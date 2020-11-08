@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 
 import { AuthContext } from '../../context/auth'
 
@@ -8,6 +10,19 @@ import "./Dashboard.css"
 function Dashboard(props){
 
 	const { user, logout } = useContext(AuthContext)
+
+	const id = user.id;
+	const sub = JSON.stringify(localStorage.getItem('subscription'));
+	const [subsave, { opsub }] = useMutation(ADD_SUB, {
+		update(_, { data: { login: userData } }){
+			window.location.reload(false);
+		},
+		variables: {
+			id,
+			sub
+		}
+	})
+
 	function logUserOut(){
 		logout();
 		props.history.push('/')
@@ -74,5 +89,13 @@ function Dashboard(props){
       )
   	
 }
+
+const ADD_SUB = gql`
+  mutation subsave($id: String!, $sub: String!) {
+    subsave(id: $id, sub: $sub) {
+      id
+    }
+  }
+`;
 
 export default Dashboard;
