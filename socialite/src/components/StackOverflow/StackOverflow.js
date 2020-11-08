@@ -11,11 +11,16 @@ function StackOverflow(props){
 
 	const { user, logout } = useContext(AuthContext)
 
-	function logUserOut(){
-    console.log("logginh ou")
+  function logUserOut()
+  {  
 		logout();
 		props.history.push('/')
-	}
+  }
+  
+  function dashboard()
+  {
+      props.history.push('/dashboard')
+  }
 
   function showIssue(postId){
     props.history.push('/issue/'+postId);
@@ -33,8 +38,9 @@ function StackOverflow(props){
             <>
           		<div className="container">
           			<div className="authenticate-nav">
-                    <div className="a-nav-right">
+                    <div className="a-nav-right"> 
                         <button className="rounded my-1 bg-primary" onClick={createPost}>CREATE POST</button>
+                        <button className="rounded my-1 ml-2" onClick={dashboard}>DASHBOARD</button>
                         <button className="rounded my-1 ml-2" onClick={logUserOut}>LOGOUT</button>
                     </div>
                 </div>
