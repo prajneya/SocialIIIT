@@ -27,7 +27,7 @@ function StackOverflow(props){
 
   const { data } = useQuery(FETCH_POSTS_QUERY);
 
-  var post_list = data? data.getPosts : "";
+  var post_list = data ? data.getPosts : "";
 
 	return (
             <>
@@ -82,7 +82,6 @@ function StackOverflow(props){
           		</div>
             </>
       )
-  	
 }
 
 const FETCH_POSTS_QUERY = gql`
@@ -92,5 +91,4 @@ const FETCH_POSTS_QUERY = gql`
         }
     }
 `
-
 export default StackOverflow;
