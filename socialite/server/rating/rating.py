@@ -3,6 +3,8 @@ import random
 import math
 import dns
 from scipy.stats import norm
+from datetime import datetime, date
+from bson.objectid import ObjectId
 from mongotriggers import MongoTrigger
 
 client = pymongo.MongoClient("mongodb+srv://SRDewan:abcd1234@database.vvxaz.mongodb.net/Data?retryWrites=true&w=majority")
@@ -11,6 +13,7 @@ db = client["Data"]
 profiles = db["Profile"]
 posts = db["posts"]
 users = db["users"]
+queue = db["Queue"]
 
 def rank_answers(upvotes):
     newArray = upvotes.copy()   
@@ -86,53 +89,56 @@ def updateUserRating(user_rating, volatility, times_played, ARank):
 
     return new_rating, new_volatility, new_times_played
 
-def notify(op_document):
-    print("Yay! We triggered this!");
+for q in queue.find():
+    if (datetime.strptime(datetime.strftime(date.today(), "%Y-%m-%d"), "%Y-%m-%d") - datetime.strptime((q['createdAt'])[:10], "%Y-%m-%d")).days >= 0:
+        for x in posts.find({"_id": q['_id']}):
+            user_rating = []
+            volatility = []
+            times_answered = []
+            answers = []
 
-    for x in posts.find():
-        user_rating = []
-        volatility = []
-        times_answered = []
-        answers = []
+            print("This post has {} answers".format(len(x['answers'])))
+            for y in x['answers']:
+                print("This answer was written by {}, has {} upvotes and {} downvotes".format(y['email'], len(y['upvotes']), len(y['downvotes'])))
+                answers.append(len(y['upvotes']) - len(y['downvotes']))
+                myquery = { "email": y['email'] }
+                mydoc = users.find(myquery)
+                for z in mydoc:
+                    print("This user has {}, {}, {}".format(z['rating'], z['volatility'], z['times_answered']))
+                    user_rating.append(z['rating'])
+                    volatility.append(z['volatility'])
+                    times_answered.append(z['times_answered'])
 
-        print("This post has {} answers".format(len(x['answers'])))
-        for y in x['answers']:
-            print("This answer was written by {} and has {} upvotes".format(y['email'], len(y['upvotes'])))
-            answers.append(len(y['upvotes']))
-            myquery = { "email": y['email'] }
-            mydoc = users.find(myquery)
-            for z in mydoc:
-                print("This user has {}, {}, {}".format(z['rating'], z['volatility'], z['times_answered']))
-                user_rating.append(z['rating'])
-                volatility.append(z['volatility'])
-                times_answered.append(z['times_answered'])
+            print("Before Algo")
 
-        print("Before Algo")
+            for i in list(zip(user_rating, volatility, times_answered, answers)):
+                print(i)
 
-        for i in list(zip(user_rating, volatility, times_answered, answers)):
-            print(i)
+            if(len(answers) != 1):
+                rank_answers(answers)
+                user_rating, volatility, times_answered = updateUserRating(user_rating, volatility, times_answered, answers)
 
-        if(len(answers) != 1):
-            rank_answers(answers)
-            user_rating, volatility, times_answered = updateUserRating(user_rating, volatility, times_answered, answers)
+            print("After Algo")
 
-        print("After Algo")
+            for i in list(zip(user_rating, volatility, times_answered, answers)):
+                print(i)
 
-        for i in list(zip(user_rating, volatility, times_answered, answers)):
-            print(i)
+            index = 0
+            for y in x['answers']:
+                myquery = { "email": y['email'] }
+                newrating = { "$set": { "rating": user_rating[index] } }
+                newvolatility = { "$set": { "volatility": volatility[index] } }
+                newtimes_answered = { "$set": { "times_answered": times_answered[index] } }
+                users.update_one(myquery, newrating)
+                users.update_one(myquery, newvolatility)
+                users.update_one(myquery, newtimes_answered)
+                index += 1
 
-        index = 0
-        for y in x['answers']:
-            myquery = { "email": y['email'] }
-            newrating = { "$set": { "rating": user_rating[index] } }
-            newvolatility = { "$set": { "volatility": volatility[index] } }
-            newtimes_answered = { "$set": { "times_answered": times_answered[index] } }
-            users.update_one(myquery, newrating)
-            users.update_one(myquery, newvolatility)
-            users.update_one(myquery, newtimes_answered)
-            index += 1
+            print()
 
-        print()
+        queue.delete_one({"_id": q['_id']})
+
+print("No more documents")
 
 # triggers.register_update_trigger(notify, 'Data', 'posts')
 
