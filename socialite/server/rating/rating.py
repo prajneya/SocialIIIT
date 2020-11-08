@@ -3,7 +3,7 @@ import random
 import math
 import dns
 from scipy.stats import norm
-from datetime import datetime
+from datetime import datetime, date
 from bson.objectid import ObjectId
 from mongotriggers import MongoTrigger
 
@@ -89,9 +89,9 @@ def updateUserRating(user_rating, volatility, times_played, ARank):
 
     return new_rating, new_volatility, new_times_played
 
-for i in queue.find():
-    if datetime.now() - i['createdAt'] >= 7:
-        for x in posts.find({"_id": i["_id"]}):
+for q in queue.find():
+    if (datetime.strptime(datetime.strftime(date.today(), "%Y-%m-%d"), "%Y-%m-%d") - datetime.strptime((q['createdAt'])[:10], "%Y-%m-%d")).days >= 0:
+        for x in posts.find({"_id": q['_id']}):
             user_rating = []
             volatility = []
             times_answered = []
@@ -135,6 +135,10 @@ for i in queue.find():
                 index += 1
 
             print()
+
+        queue.delete_one({"_id": q['_id']})
+
+print("No more documents")
 
 # triggers.register_update_trigger(notify, 'Data', 'posts')
 
