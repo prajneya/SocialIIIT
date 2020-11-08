@@ -50,4 +50,9 @@ const postSchema = new Schema({
   ]
 });
 
-module.exports = model('Post', postSchema);
+const Queue = new Schema({
+  _id: { type: Schema.Types.ObjectId, ref: 'Post' },
+  createdAt: String
+});
+
+module.exports = {Post: model('Post', postSchema), Queue: model('Queue', Queue, 'Queue')};

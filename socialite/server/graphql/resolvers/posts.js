@@ -1,4 +1,4 @@
-const Post = require('../../models/Post');
+const { Post, Queue } = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
 
 const { UserInputError } = require('apollo-server')
@@ -130,8 +130,27 @@ module.exports = {
                 email: user.email,
                 createdAt: new Date().toISOString()
             });
+            
+            var id = "";
+            post = {}
 
-            const post = await newPost.save();
+            await newPost.save().then( (saved) =>
+            {
+                post = saved
+                console.log(saved)
+                id = saved.id;
+            });
+            
+            console.log(id);
+
+            const newQueue = new Queue({
+                _id: id,
+                createdAt: new Date().toISOString()
+            });
+
+            const queue = await newQueue.save();
+
+            console.log(queue);
 
             return post;
         },
