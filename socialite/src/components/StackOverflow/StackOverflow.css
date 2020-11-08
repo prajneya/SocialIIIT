@@ -1,0 +1,22 @@
+.explore-posts .explore-header{
+	font-size: 5rem;
+}
+
+.post{
+	height: 10rem;
+	overflow: hidden;
+}
+
+.single-post{
+	border-radius: 10px;
+}
+
+.single-post:hover{
+	cursor: pointer;
+	background: #18242b;
+}
+
+.post-header{
+	font-weight: bold;
+	font-size: 20px;
+}
