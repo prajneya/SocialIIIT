@@ -71,9 +71,8 @@ function Recommend(props){
             <div className="container">
                 <div className="authenticate-nav">
                     <div className="a-nav-right">
-                        <button className="rounded" onClick={dashboard}>DASHBOARD</button>
-                        &nbsp;&nbsp;
-                        <button className="rounded" onClick={logUserOut}>LOGOUT</button>
+                        <button className="rounded ml-2" onClick={dashboard}>DASHBOARD</button>
+                        <button className="rounded ml-2 my-2" onClick={logUserOut}>LOGOUT</button>
                     </div>
                 </div>
 
@@ -88,9 +87,8 @@ function Recommend(props){
                                     <br />
                                     Friend Match Probability: {Math.round((recommendation['match'] + Number.EPSILON) * 100)/100}%
                                     <br />
-                                    <button className="rounded" onClick={() => send_frenrequest(recommendation['id'])}>SEND A FRIEND REQUEST</button>
-                                    &nbsp;&nbsp;
-                                    <button className="rounded" onClick={() => send_meetrequest(recommendation['id'])}>SEND A MEET REQUEST</button>
+                                    <button className="rounded ml-2 my-2" onClick={() => send_frenrequest(recommendation['id'])}>SEND A FRIEND REQUEST</button>
+                                    <button className="rounded ml-2 my-2" onClick={() => send_meetrequest(recommendation['id'])}>SEND A MEET REQUEST</button>
                                 </div>
                             </div>
                         </div>

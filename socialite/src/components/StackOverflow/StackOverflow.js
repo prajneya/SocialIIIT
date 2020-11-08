@@ -35,10 +35,8 @@ function StackOverflow(props){
       		<div className="container">
       			  <div className="authenticate-nav">
                   <div className="a-nav-right">
-<<<<<<< HEAD
-                      <button className="rounded" onClick={dashboard}>DASHBOARD</button>
-                      &nbsp;&nbsp;
-                      <button className="rounded" onClick={logUserOut}>LOGOUT</button>
+                      <button className="rounded ml-2 my-2" onClick={dashboard}>DASHBOARD</button>
+                      <button className="rounded ml-2 my-2" onClick={logUserOut}>LOGOUT</button>
                   </div>
             </div>
 
@@ -58,28 +56,6 @@ function StackOverflow(props){
                       ))} 
                     </div>
                 </div>
-=======
-                      <button className="rounded" onClick={logUserOut}>LOGOUT</button>
-                  </div>
-              </div>
-
-              <div className="feature-display">
-                  <div className="subsection-header"> Top Posts </div>
-                      <div className="row">
-                        {post_list && post_list.map(post => ( 
-                          <div className="col-lg-12">
-                            <div className="friend" onClick={() => showIssue(post['id'])}>
-                              <div className="friend-content">
-                                  <strong>Created By: </strong>  {post['email']}
-                                  <br />
-                                  Title: {post['title']}
-                              </div>
-                            </div>
-                      </div>
-                    ))} 
-                  </div>
-              </div>
->>>>>>> master
       		</div>
           </>
       )

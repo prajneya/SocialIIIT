@@ -50,11 +50,9 @@ function Dashboard(props){
       		<div className="container">
       			<div className="authenticate-nav">
       				<div className="a-nav-right">
-					  	<button className="rounded" onClick={notification}>NOTIFICATIONS</button>
-      					&nbsp;&nbsp;
-					  	<button className="rounded" onClick={myprofile}>MY PROFILE</button>
-      					&nbsp;&nbsp;
-						<button className="rounded" onClick={logUserOut}>LOGOUT</button>
+					  	<button className="rounded ml-2 my-2" onClick={notification}>NOTIFICATIONS</button>
+					  	<button className="rounded ml-2 my-2" onClick={myprofile}>MY PROFILE</button>
+						<button className="rounded ml-2 my-2" onClick={logUserOut}>LOGOUT</button>
       				</div>
       			</div>
 
