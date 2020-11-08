@@ -42,7 +42,7 @@ function Timeline(props){
                 <div className="times-answered">Number of Answers: {user.times_answered}</div>
               </div>
 
-              {/* <div className="graph">
+               <div className="graph">
                 <ul className="months">
                   <li>Jan</li>
                   <li>Feb</li>
@@ -71,7 +71,7 @@ function Timeline(props){
                   <li data-level={value}></li>
                 ))}
                 </ul>
-              </div> */}
+              </div> 
             </div>
             </>
       )

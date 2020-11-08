@@ -34,8 +34,8 @@ function StackOverflow(props){
           		<div className="container">
           			<div className="authenticate-nav">
                     <div className="a-nav-right">
-                        <button className="rounded mx-2 bg-primary" onClick={createPost}>CREATE POST</button>
-                        <button className="rounded" onClick={logUserOut}>LOGOUT</button>
+                        <button className="rounded my-1 bg-primary" onClick={createPost}>CREATE POST</button>
+                        <button className="rounded my-1 ml-2" onClick={logUserOut}>LOGOUT</button>
                     </div>
                 </div>
 
