@@ -71,6 +71,22 @@
 	color: black !important;
 }
 
+.bounty-timer-active{
+	background: #7579e7;
+	border-radius: 5px;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: white;
+}
+
+.bounty-timer-inactive{
+	background: #edc988;
+	border-radius: 5px;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: black;
+}
+
 @media only screen and (max-width: 762px) {
 	.info-details{
 		float: none;

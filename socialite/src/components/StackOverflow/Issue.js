@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Parser from 'html-react-parser';
+import moment from 'moment';
 
 import { AuthContext } from '../../context/auth'
 
@@ -198,6 +199,19 @@ function Issue(props){
               </div>
 
               {/* QUESTION CONTAINER STARTS */}
+
+              {moment(post_data['createdAt']).add(7, 'days').diff(moment()) > 0 ?
+                <div className="bounty-timer-container my-3">
+                  <div className="bounty-timer-active text-right p-2">
+                  Bounty ends {moment(post_data['createdAt']).add(7, 'days').fromNow()}
+                  </div>
+                </div> : 
+                <div className="bounty-timer-container my-3">
+                  <div className="bounty-timer-inactive text-right p-2">
+                  Bounty ended {moment(post_data['createdAt']).add(7, 'days').fromNow()}
+                  </div>
+                </div> 
+              }
 
               <div className="issue-container">
                 <div className="issue-content">
