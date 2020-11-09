@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import { AuthContext } from '../../context/auth'
 
 import "./Recommend.css"
+import Dashboard from '../Dashboard/Dashboard';
 
 function Recommend(props){
 
@@ -16,6 +17,11 @@ function Recommend(props){
     {
         logout();
         props.history.push('/')
+    }
+
+    function dashboard()
+    {
+        props.history.push('/dashboard')
     }
 
     const user_id = user.id;
@@ -65,7 +71,8 @@ function Recommend(props){
             <div className="container">
                 <div className="authenticate-nav">
                     <div className="a-nav-right">
-                        <button className="rounded" onClick={logUserOut}>LOGOUT</button>
+                        <button className="rounded ml-2" onClick={dashboard}>DASHBOARD</button>
+                        <button className="rounded ml-2 my-2" onClick={logUserOut}>LOGOUT</button>
                     </div>
                 </div>
 
@@ -80,9 +87,8 @@ function Recommend(props){
                                     <br />
                                     Friend Match Probability: {Math.round((recommendation['match'] + Number.EPSILON) * 100)/100}%
                                     <br />
-                                    <button className="rounded" onClick={() => send_frenrequest(recommendation['id'])}>SEND A FRIEND REQUEST</button>
-                                    &nbsp;&nbsp;
-                                    <button className="rounded" onClick={() => send_meetrequest(recommendation['id'])}>SEND A MEET REQUEST</button>
+                                    <button className="rounded ml-2 my-2" onClick={() => send_frenrequest(recommendation['id'])}>SEND A FRIEND REQUEST</button>
+                                    <button className="rounded ml-2 my-2" onClick={() => send_meetrequest(recommendation['id'])}>SEND A MEET REQUEST</button>
                                 </div>
                             </div>
                         </div>

@@ -13,6 +13,7 @@ function Dashboard(props){
 
 	const id = user.id;
 	const sub = JSON.stringify(localStorage.getItem('subscription'));
+	
 	const [subsave, { opsub }] = useMutation(ADD_SUB, {
 		update(_, { data: { login: userData } }){
 			window.location.reload(false);
@@ -27,22 +28,31 @@ function Dashboard(props){
 		logout();
 		props.history.push('/')
 	}
+
+	function notification(){
+		props.history.push('/notifications')
+	}
+
+	function myprofile(){
+		props.history.push('/profile')
+	}
 	  
 	function recommendFriend(){
-            props.history.push('/recommend')
-      }
+        props.history.push('/recommend')
+    }
 
       function stackOverflow(){
-            props.history.push('/stack-overflow')
-      }
+        props.history.push('/stack-overflow')
+    }
 
 	return (
             <>
       		<div className="container">
       			<div className="authenticate-nav">
       				<div className="a-nav-right">
-                                    <a href="/timeline">MY TIMELINE</a>
-      					<button className="rounded" onClick={logUserOut}>LOGOUT</button>
+                <a href="/timeline">MY TIMELINE</a>
+                <button className="rounded my-2" onClick={notification}>NOTIFICATIONS</button>
+      					<button className="rounded my-2 ml-2" onClick={logUserOut}>LOGOUT</button>
       				</div>
       			</div>
 
