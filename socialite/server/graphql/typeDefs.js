@@ -84,6 +84,9 @@ module.exports = gql`
     	password: String!
     	confirmPassword: String!
     }
+    type Notif{
+        id: String!
+    }
     type Query{
         getPosts: [Post]
         getPost(postId: ID!): Post
@@ -93,6 +96,7 @@ module.exports = gql`
         didIUpvoteAnswer(postId: ID!, email: String!): JSONObject
         didIDownvoteAnswer(postId: ID!, email: String!): JSONObject
         profile(curid: String!, id: String!): Profile!
+        getNotif(id: String!): [Notif]!
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!
