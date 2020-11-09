@@ -14,7 +14,7 @@ module.exports = gql`
         answers: [Answer]
         upvotes: [Upvote]
         downvotes: [Downvote]
-        tags: [Tag]!
+        tags: JSONObject
     }
     type Upvote{
         id: ID
@@ -41,10 +41,6 @@ module.exports = gql`
         body: String!
         email: String!
         createdAt: String!
-    }
-    type Tag{
-        id: ID!
-        tag: String!
     }
     type User{
     	id: ID!
@@ -101,7 +97,7 @@ module.exports = gql`
     type Mutation{
     	register(registerInput: RegisterInput): User!
     	login(email: String!, password: String!): User!
-        createPost(title: String!, body: String!): Post!
+        createPost(title: String!, body: String!, tags: JSONObject): Post!
         deletePost(postId: ID!): String!
         addAnswer(postId: ID!, body: String!): Post!
         upvoteQuestion(postId: ID!, email: String!): Post!

@@ -1,6 +1,11 @@
-import React, { Component } from 'react';
+import React, { Component, useState  } from 'react';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { useMutation } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
+
 import "../Home/Home.css";
 import "../Profile/Profile.css";
 import "./CreatePost.css"
@@ -14,31 +19,73 @@ const options = [{label: 'Data Structures', value: 1, area: 'Coding/Programming'
 
 const animatedComponents = makeAnimated();
 
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    borderBottom: '1px dotted pink',
+    color: state.isSelected ? 'red' : 'blue',
+    padding: 20,
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = 'opacity 300ms';
+
+    return { ...provided, opacity, transition };
+  }
+}
+
 function CreatePost(props){
 
-    function handleChange(selectedOptions){
-        console.log(selectedOptions);
+    const [body, setBody] = useState('');
+    const [title, setTitle] = useState('');
+    const [tags, setTags] = useState({});
+
+    async function handleChange(selectedOptions){
+        var temp_tags = {}
+        if(selectedOptions){
+            for(var i = 0; i < selectedOptions.length; i++){
+                temp_tags[selectedOptions[i].label] = true
+            }
+        }
+        await setTags(temp_tags)
+    }
+
+    const [ createPost ] = useMutation(CREATE_POST, {
+        update(_, {}){
+            props.history.push('/stack-overflow')
+        },
+        variables: {title, body, tags}
+    })
+
+    async function createPostCallback(){
+        await setTitle(document.getElementById("question_title").value);
+        createPost();
     }
 
     return (
         <div className="profile-container">
             <div className="signin">Create Post</div>
-            <form action="#">
+            <form>
                 <div className="title">
                     <label for="title">Post title</label>
                     <br/>
-                    <input type="text" name="title" placeholder="Enter your post title, it will be visible to other users" />
+                    <input type="text" id="question_title" name="title" placeholder="Enter your post title, it will be visible to other users" />
                 </div>
-                <div className="ques">
-                    <label for="ques">Question</label>
-                    <br/>
-                    <input type="text" name="ques" placeholder="Enter your detailed question!" />
+                <div className="issue-container my-3 p-3">
+                    <CKEditor
+                        editor={ ClassicEditor }
+                        data=""
+                        onChange={ ( event, editor ) => {
+                            setBody(editor.getData())
+                        } }
+                    />
                 </div>
                 <div className="tags">
                     <label for="tags">Tags</label>
                     <br/>
                     <div className="tag-drop">
                         <Select
+                          styles={customStyles}
                           closeMenuOnSelect={false}
                           components={animatedComponents}
                           isMulti
@@ -56,11 +103,26 @@ function CreatePost(props){
                         />
                     </div>
                 </div>
-                <button className="btn-submit">Submit Post</button>
+                <button className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
             </form>
         </div>
     )
 }
 
+const CREATE_POST = gql`
+  mutation createPost(
+    $title: String!
+    $body: String!
+    $tags: JSONObject
+  ) {
+    createPost(
+        title: $title
+        body: $body
+        tags: $tags
+    ){
+      id
+    }
+  }
+`;
 
 export default CreatePost; 

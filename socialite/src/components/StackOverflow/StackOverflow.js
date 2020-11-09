@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import Parser from 'html-react-parser';
 
 import { AuthContext } from '../../context/auth'
 
@@ -28,6 +29,7 @@ function StackOverflow(props){
   const { data } = useQuery(FETCH_POSTS_QUERY);
 
   var post_list = data ? data.getPosts : "";
+  console.log(post_list)
 
 	return (
             <>
@@ -60,14 +62,14 @@ function StackOverflow(props){
                         <div className="post">
                           <div className="post-body">
                             <div className="post-header">{post['title']}</div>
-                            <div className="post-content">{post['body']}</div>
+                            <div className="post-content mt-4">{post ? Parser(post['body']) : ""}</div>
                           </div>
                         </div>
                         <div className="question-info mt-4">
                           <div className="tags d-inline-block">
-                            <div className="tag px-3 py-2 mr-1 my-1">#community</div>
-                            <div className="tag px-3 py-2 mr-1 my-1">#socialiiit</div>
-                            <div className="tag px-3 py-2 mr-1 my-1">#students</div>
+                            {post.tags && Object.keys(post.tags).map(tag => ( 
+                            <div className="tag px-3 py-2 mr-1 my-1">#{tag}</div>
+                            ))}
                           </div>
                           <div className="info-details">
                             <div className="small-upvote-count d-inline-block mr-2 px-2 py-1">{post['answers'].length} answers</div>
@@ -87,7 +89,7 @@ function StackOverflow(props){
 const FETCH_POSTS_QUERY = gql`
     query{
         getPosts{
-            id title body email answers{ id } upvotes{ id } createdAt
+            id title body email answers{ id } upvotes{ id } createdAt tags
         }
     }
 `
