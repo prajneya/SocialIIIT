@@ -152,6 +152,7 @@ function Issue(props){
         }
   });
   var post_data = postData ? postData.getPost : "";
+  console.log(post_data)
 
   const { data: upvoteQuestionData } = useQuery(UPVOTE_QUESTION_CHECK_QUERY, {
         variables: {
@@ -239,7 +240,7 @@ function Issue(props){
                           {post_data['title']}
                         </div>
                         <div className="issue-description mt-4">
-                          {post_data['body']}
+                          {post_data ? Parser(post_data['body']) : ""}
                         </div>
                         {/* SMALL DEVICE UPVOTE-2 STARTS */}
                         <div className="d-block d-lg-none">
@@ -254,9 +255,9 @@ function Issue(props){
                   </div>
                   <div className="question-info mt-4">
                     <div className="tags d-inline-block">
-                      <div className="tag px-3 py-2 mr-1 my-1">#community</div>
-                      <div className="tag px-3 py-2 mr-1 my-1">#socialiiit</div>
-                      <div className="tag px-3 py-2 mr-1 my-1">#students</div>
+                      {post_data.tags && Object.keys(post_data.tags).map(tag => ( 
+                      <div className="tag px-3 py-2 mr-1 my-1">#{tag}</div>
+                      ))}
                     </div>
                     <div className="info-details">
                       <div className="small-upvote-count d-inline-block mr-2 px-2 py-1">{post_data['answers'] ? post_data['answers'].length: "0"} answers</div>
@@ -329,7 +330,7 @@ function Issue(props){
 const FETCH_POST_QUERY = gql`
     query($postId: ID!){
         getPost(postId: $postId){
-            id title body email answers{ id email body upvotes{ email } } createdAt upvotes{ email }
+            id title body email answers{ id email body upvotes{ email } } createdAt upvotes{ email } tags
         }
     }
 `;

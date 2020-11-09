@@ -121,14 +121,17 @@ module.exports = {
         }
     },
     Mutation:{
-        async createPost(_, { title, body }, context){
+        async createPost(_, { title, body, tags }, context){
             const user = checkAuth(context);
+
+            console.log(tags);
 
             const newPost = new Post({
                 title,
                 body, 
                 email: user.email,
-                createdAt: new Date().toISOString()
+                createdAt: new Date().toISOString(),
+                tags
             });
             
             var id = "";

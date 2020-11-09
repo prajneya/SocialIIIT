@@ -43,11 +43,7 @@ const postSchema = new Schema({
       createdAt: String
     }
   ],
-  tags: [
-    {
-      tag: String
-    }
-  ]
+  tags: {}
 });
 
 const Queue = new Schema({
