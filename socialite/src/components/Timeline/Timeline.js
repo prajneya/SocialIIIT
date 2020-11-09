@@ -35,11 +35,10 @@ function Timeline(props){
                 </div>
               </div>
 
-              <div className="display">
-                <div className="username">{user.username}</div>
-                <div className="email">{user.email}</div>
-                <div className="rating mt-5">RATING: {user.rating}</div>
-                <div className="times-answered">Number of Answers: {user.times_answered}</div>
+              <div className="display my-2">
+                <div className="mx-2 username">{user.username}</div><div className="rating mt-1 mx-2 p-2">RATING: <strong>{user.rating}</strong></div>
+                <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>
+                <div className="email mx-2">{user.email}</div>
               </div>
 
                <div className="graph">
@@ -72,6 +71,128 @@ function Timeline(props){
                 ))}
                 </ul>
               </div> 
+
+              <div className="issue-container my-2">
+                <div className="issue-content">
+                  <div className="showcase-header">
+                    USER SHOWCASE
+                    <div className="showcase-add float-right"><button className="btn btn-primary">ADD NEW SHOWCASE BADGE + </button></div>
+                  </div>
+                  <br/>
+                  <hr/>
+                  <div className="showcase-top-skills">
+                    <div className="row">
+                      <div className="col-lg-3 mt-2">
+                        <div className="top-skill">
+                          <div className="top-skill-icon">
+                            <img src='/img/badge1.png' alt=""></img>
+                          </div>
+                          <div className="top-skill-name">
+                            CHALLENGER
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-3 mt-2">
+                        <div className="top-skill">
+                          <div className="top-skill-icon">
+                            <img src='/img/badge2.png' alt=""></img>
+                          </div>
+                          <div className="top-skill-name">
+                            CHALLENGER
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-3 mt-2">
+                        <div className="top-skill">
+                          <div className="top-skill-icon">
+                            <img src='/img/badge3.png' alt=""></img>
+                          </div>
+                          <div className="top-skill-name">
+                            CHALLENGER
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col-lg-3 mt-2">
+                        <div className="top-skill">
+                          <div className="top-skill-icon">
+                            <img src='/img/badge4.png' alt=""></img>
+                          </div>
+                          <div className="top-skill-name">
+                            CHALLENGER
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="issue-container my-2">
+                <div className="issue-content">
+                  <div className="showcase-header">
+                    MAJOR SKILLS
+                    <div className="showcase-add float-right"><button className="btn btn-primary">ADD NEW SKILL + </button></div>
+                  </div>
+                  <br/>
+                  <hr/>
+                  <div className="showcase-body mt-4 pt-2">
+                    <div className="mt-4">
+                      <h5>Americano <span className="float-right text-info">3.00</span>  </h5>
+                      <hr/>
+                    </div>
+                    <div className="mt-4">
+                      <h5>Americano <span className="float-right text-info">3.00</span>  </h5>
+                      <hr/>
+                    </div>
+                  </div>
+                  <br/>
+                </div>
+              </div>
+
+              <div className="issue-container my-2">
+                <div className="issue-content">
+                  <div className="showcase-header">
+                    BOND SKILLS
+                    <div className="showcase-add float-right"><button className="btn btn-primary">ADD NEW SKILL + </button></div>
+                  </div>
+                  <br/>
+                  <hr/>
+                  <div className="showcase-body mt-4 pt-2">
+                    <div className="mt-4">
+                      <h5>Americano <span className="float-right text-info">3.00</span>  </h5>
+                      <hr/>
+                    </div>
+                    <div className="mt-4">
+                      <h5>Americano <span className="float-right text-info">3.00</span>  </h5>
+                      <hr/>
+                    </div>
+                  </div>
+                  <br/>
+                </div>
+              </div>
+
+              <div className="issue-container my-2">
+                <div className="issue-content">
+                  <div className="showcase-header">
+                    VETERAN SKILLS
+                    <div className="showcase-add float-right"><button className="btn btn-primary">ADD NEW SKILL + </button></div>
+                  </div>
+                  <br/>
+                  <hr/>
+                  <div className="showcase-body mt-4 pt-2">
+                    <div className="mt-4">
+                      <h5>Americano <span className="float-right text-info">3.00</span>  </h5>
+                      <hr/>
+                    </div>
+                    <div className="mt-4">
+                      <h5>Americano <span className="float-right text-info">3.00</span>  </h5>
+                      <hr/>
+                    </div>
+                  </div>
+                  <br/>
+                </div>
+              </div>
+
             </div>
             </>
       )
