@@ -86,6 +86,9 @@ module.exports = gql`
     }
     type Notif{
         id: String!
+        match: Float!
+        email: String!
+        reqtype: String!
     }
     type Query{
         getPosts: [Post]
