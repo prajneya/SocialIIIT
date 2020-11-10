@@ -329,14 +329,14 @@ module.exports = {
                             if(author){
                                 for(tag in post.tags){
                                     if(author.skills[tag]){
-                                        author.skills[tag] = author.skills[tag]+(user.rating/1000)
+                                        author.skills[tag] = parseInt(author.skills[tag])+(user.rating/1000)
                                     }
                                     else{
                                         author.skills[tag] = (user.rating/1000)
                                     }
                                 }
                             }
-                            await author.save();
+                            await author.updateOne({ skills: author.skills });
                             console.log(author)
 
                             return post;    
