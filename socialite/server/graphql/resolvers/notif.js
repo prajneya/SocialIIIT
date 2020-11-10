@@ -10,8 +10,8 @@ module.exports = {
         {
             try
             {
-				const curdets =  await data.getUserDetsById(id);
-				var ret = [];
+				        const curdets =  await data.getUserDetsById(id);
+				        var ret = [];
                 var j=0;
                 for(let i = 0; i < curdets.request.length; ++i)
                 {
@@ -34,7 +34,8 @@ module.exports = {
                     throw new Error('No new notification');
                 }
                 return	ret;
-            } 
+            }
+            
             catch (err)
             {
                 throw new Error(err);
