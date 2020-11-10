@@ -88,7 +88,7 @@ module.exports = gql`
         id: String!
         match: Float!
         email: String!
-        reqtype: String!
+        type: String!
     }
     type Query{
         getPosts: [Post]
