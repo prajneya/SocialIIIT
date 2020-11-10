@@ -33,11 +33,16 @@ async function friendlist(id, flag)
 	}
 
 	l = -1;
-	score = Array(users.length - 1 - cur.friends.length).fill({});
+	if(flag != 0)
+		score = Array(1).fill({});
+	else
+		score = Array(users.length - 1 - cur.friends.length).fill({});
 	for(i = 0; i < users.length; ++i)
 	{
 		var sval = 0;
-		if(mapping[id] == i || marked[i] == 1)
+		if(flag == 0 && (mapping[id] == i || marked[i] == 1))
+			continue;
+		else if(flag != 0 && !users[i]._id.equals(flag))
 			continue;
 
 		email =  await data.getUserEmail(users[i]._id);
@@ -57,7 +62,9 @@ async function friendlist(id, flag)
 	return score;
 }
 
-module.exports = async function recomain(id) {
+module.exports = {recomain: async function recomain(id) {
 	ret = await friendlist(id, 0);
 	return ret;
+},
+	getscore: friendlist
 }
