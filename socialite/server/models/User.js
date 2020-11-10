@@ -39,4 +39,9 @@ const UserSub = new mongoose.Schema({
 	sub: Object
 });
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub')};
+const skillSchema = new mongoose.Schema({
+	email: String,
+	skills: {}
+})
+
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails')};

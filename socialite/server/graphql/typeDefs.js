@@ -97,6 +97,8 @@ module.exports = gql`
         didIDownvoteAnswer(postId: ID!, email: String!): JSONObject
         profile(curid: String!, id: String!): Profile!
         getNotif(id: String!): [Notif]!
+        getSkills(email: String!): JSONObject
+        getTimelineInfo(username: String!): JSONObject
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!

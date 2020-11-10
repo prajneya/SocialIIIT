@@ -17,33 +17,38 @@ function Timeline(props){
 		props.history.push('/')
 	}
 
+  const username = props.match.params.username;
+
   const squares = []
   for (var i = 1; i < 365; i++) {
     const level = Math.floor(Math.random() * 3);  
     squares.push(level);
   }
 
-  const { data: skillData } = useQuery(FETCH_SKILLS, {
+  const { data: timelineData } = useQuery(FETCH_TIMELINE, {
         variables: {
-            email: user.email
+            username: username
         }
   });
-  var skill_data = skillData ? skillData.getSkills : "";
+  var timeline_data = timelineData ? timelineData.getTimelineInfo : "";
+
+  if(!timeline_data){
+    return (<>USER NOT FOUND</>)
+  }
 
 	return (
             <>
             <div className="container">
               <div className="authenticate-nav">
                 <div className="a-nav-right">
-                                      <a href="/profile">MY PROFILE</a>
                   <button className="rounded" onClick={logUserOut}>LOGOUT</button>
                 </div>
               </div>
 
               <div className="display my-2">
-                <div className="mx-2 username">{user.username}</div><div className="rating mt-1 mx-2 p-2">RATING: <strong>{user.rating}</strong></div>
-                <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>
-                <div className="email mx-2">{user.email}</div>
+                <div className="mx-2 username">{username}</div><div className="rating mt-1 mx-2 p-2">RATING: <strong>{timeline_data ? timeline_data.rating : ""}</strong></div>
+                <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{timeline_data ? timeline_data.contributions : ""}</strong></div>
+                <div className="email mx-2">{timeline_data ? timeline_data.email : ""}</div>
               </div>
 
                <div className="graph">
@@ -81,7 +86,6 @@ function Timeline(props){
                 <div className="issue-content">
                   <div className="showcase-header">
                     USER SHOWCASE
-                    <div className="showcase-add float-right"><button className="btn btn-primary">ADD NEW SHOWCASE BADGE + </button></div>
                   </div>
                   <br/>
                   <hr/>
@@ -140,9 +144,9 @@ function Timeline(props){
                   <br/>
                   <hr/>
                   <div className="showcase-body mt-4 pt-2">
-                    {skill_data && Object.keys(skill_data).map(skill => (
+                    {timeline_data.skills && Object.keys(timeline_data.skills).map(skill => (
                       <div className="mt-4">
-                        <h5>{skill} <span className="float-right text-info">{skill_data[skill]}</span>  </h5>
+                        <h5>{skill} <span className="float-right text-info">{timeline_data.skills[skill]}</span>  </h5>
                         <hr/>
                       </div>
                     ))}
@@ -157,9 +161,9 @@ function Timeline(props){
   	
 }
 
-const FETCH_SKILLS = gql`
-    query($email: String!){
-        getSkills(email: $email)
+const FETCH_TIMELINE = gql`
+    query($username: String!){
+        getTimelineInfo(username: $username)
     }
 `;
 

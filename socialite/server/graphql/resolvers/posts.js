@@ -2,6 +2,7 @@ const { Post, Queue } = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
 
 const { UserInputError } = require('apollo-server')
+const { User, Skills } = require('../../models/User');
 
 
 module.exports = {
@@ -12,6 +13,36 @@ module.exports = {
                 return posts;
             } catch(err){
                 throw new Error(err);
+            }
+        },
+        async getSkills(_, { email }, context){
+            const skills = await Skills.findOne({ email });
+            if(!skills){
+                return {};
+            }
+            return skills.skills;
+        },
+        async getTimelineInfo(_, { username }, context){
+            const user = await User.findOne({ username })
+            var timeline = {}
+            if(user){
+                timeline['rating'] = user.rating;
+                timeline['contributions'] = user.times_answered;
+                timeline['email'] = user.email;
+                var email = user.email;
+                const skills = await Skills.findOne({ email });
+
+                if(!skills){
+                    timeline['skills'] = {};
+                }
+                else{
+                    timeline['skills'] = skills.skills;
+                }
+
+                return timeline;
+            }
+            else{
+                throw new Error('User not Found');
             }
         },
         async getPost(_, { postId }){
@@ -124,8 +155,6 @@ module.exports = {
         async createPost(_, { title, body, tags }, context){
             const user = checkAuth(context);
 
-            console.log(tags);
-
             const newPost = new Post({
                 title,
                 body, 
@@ -203,8 +232,7 @@ module.exports = {
                             email: user.email,
                             createdAt: new Date().toISOString()
                         });
-                        await post.save();
-                        return post;    
+                        await post.save();   
                     }
                 }
             }
@@ -296,6 +324,21 @@ module.exports = {
                                 createdAt: new Date().toISOString()
                             });
                             await post.save();
+
+                            const author = await Skills.findOne({ email: answer.email })
+                            if(author){
+                                for(tag in post.tags){
+                                    if(author.skills[tag]){
+                                        author.skills[tag] = author.skills[tag]+(user.rating/1000)
+                                    }
+                                    else{
+                                        author.skills[tag] = (user.rating/1000)
+                                    }
+                                }
+                            }
+                            await author.save();
+                            console.log(author)
+
                             return post;    
                         }  
                     }     
