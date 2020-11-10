@@ -108,28 +108,35 @@ function Notifications(props){
                 </div>
 
                 <div className="feature-display">
-                    <div className="subsection-header"> Respond to your notifications here! </div>
+                <div className="subsection-header"> Respond to your requests here!</div>
                     <div className="row">
                         {notifications && notifications.map(notification => (
                             <div className="col-lg-12">
-                            <div className="friend">
-                                <div className="friend-content">
-                                    <strong>Id: {notification['id']}</strong>
-                                    <br />
-                                    Friend Match Probability: {Math.round((notification['match'] + Number.EPSILON) * 100)/100}%
-                                    <br />
-                                    <button className="rounded ml-2 my-2" onClick={() => do_frenaccept(notification['id'])}>ACCEPT FRIEND REQUEST</button>
-                                    <button className="rounded ml-2 my-2" onClick={() => do_meetaccept(notification['id'])}>ACCEPT MEET REQUEST</button>
-                                    <button className="rounded ml-2 my-2" onClick={() => do_frenreject(notification['id'])}>REJECT FRIEND REQUEST</button>
-                                    <button className="rounded ml-2 my-2" onClick={() => do_meetreject(notification['id'])}>REJECT MEET REQUEST</button>
+                                <div className="friend">
+                                    <div className="friend-content">
+                                        <strong>Email: {notification['email']}</strong>
+                                        <br />
+                                        Friend Match Probability: {Math.round((notification['match'] + Number.EPSILON) * 100)/100}%
+                                        <br />
+                                        {notification['type'] === "friend" ? 
+                                        <div>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_frenaccept(notification['id'])}>ACCEPT FRIEND REQUEST</button>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_frenreject(notification['id'])}>REJECT FRIEND REQUEST</button>
+                                        </div>
+                                        :
+                                        <div>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_meetaccept(notification['id'])}>ACCEPT MEET REQUEST</button>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_meetreject(notification['id'])}>REJECT MEET REQUEST</button>
+                                        </div>
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         ))}
                     </div>
                 </div>
             </div>
-            </>
+        </>
     )
 }
 
@@ -160,7 +167,7 @@ const MEET_REJECT = gql`
 const FETCH_NOTIFICATIONS_QUERY = gql`
     query($user_id: String!){
         getNotif(id: $user_id){
-            id
+            id email match type
         }
     }
 `

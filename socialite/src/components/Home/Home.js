@@ -38,11 +38,11 @@ function Home(props) {
 
 	return (
 		<div className="signup-container">
-			<div class="container">
+			{/* <div class="container">
 				<div class="a-nav-right">
 					<button type="submit" className="rounded" onClick={register}>Allow notifications</button>
 				</div>
-			</div>
+			</div> */}
 			<div className="signin">Sign in</div>
 			<form onSubmit={onSubmit}>
 			<div className="email">
