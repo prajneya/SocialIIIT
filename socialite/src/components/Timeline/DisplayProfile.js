@@ -145,10 +145,11 @@ function Timeline(props){
                   <hr/>
                   <div className="showcase-body mt-4 pt-2">
                     {timeline_data.skills && Object.keys(timeline_data.skills).map(skill => (
+                      timeline_data.skills[skill] > 0 ?
                       <div className="mt-4">
                         <h5>{skill} <span className="float-right text-info">{timeline_data.skills[skill]}</span>  </h5>
                         <hr/>
-                      </div>
+                      </div> : ""
                     ))}
                   </div>
                   <br/>
