@@ -32,6 +32,9 @@ async function friendlist(id, flag)
 		marked[mapping[cur.friends[i]]] = 1;
 	}
 
+	for(i = 0; i < curdets.send.length; ++i)
+		marked[mapping[curdets.send[i]]] = 1;
+
 	l = -1;
 	if(flag != 0)
 		score = Array(1).fill({});
