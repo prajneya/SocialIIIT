@@ -6,13 +6,15 @@ const requestResolvers = require('./friendreq')
 const subResolvers = require('./sub')
 const meetrequestResolvers = require('./meetreq')
 const notifResolvers = require('./notif')
+const searchResolvers = require('./search')
 
 module.exports = {
 	Query: {
 		...postResolvers.Query,
 		...recoResolvers.recommend,
 		...profileResolvers.profile,
-		...notifResolvers.Query
+		...notifResolvers.Query,
+		...searchResolvers.search
 	},
 	Mutation: {
 		...userResolvers.Mutation,

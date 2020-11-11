@@ -16,6 +16,17 @@ module.exports = gql`
         downvotes: [Downvote]
         tags: JSONObject
     }
+    type searchPost{
+        _id: ID!
+        title: String!
+        body: String!
+        email: String!
+        createdAt: String!
+        answers: [Answer]
+        upvotes: [Upvote]
+        downvotes: [Downvote]
+        tags: JSONObject
+    }
     type Upvote{
         id: ID
         email: String
@@ -102,6 +113,7 @@ module.exports = gql`
         getNotif(id: String!): [Notif]!
         getSkills(email: String!): JSONObject
         getTimelineInfo(username: String!): JSONObject
+        searchByTextPost(query: String!): [searchPost]
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!

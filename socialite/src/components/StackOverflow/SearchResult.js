@@ -6,9 +6,7 @@ import Parser from 'html-react-parser';
 
 import { AuthContext } from '../../context/auth'
 
-import "./StackOverflow.css"
-
-function StackOverflow(props){
+function SearchResult(props){
 
 	const { user, logout } = useContext(AuthContext)
 
@@ -39,10 +37,14 @@ function StackOverflow(props){
     });
   }
 
-  const { data } = useQuery(FETCH_POSTS_QUERY);
+  const query = props.location.state.query;
 
-  var post_list = data ? data.getPosts : "";
-  console.log(post_list)
+  const { data: postData } = useQuery(FETCH_POSTS_QUERY, {
+        variables: {
+            searchString: query
+        }
+  });
+  var post_list = postData ? postData.searchByTextPost : "";
 
 	return (
             <>
@@ -57,7 +59,7 @@ function StackOverflow(props){
 
                 <div className="explore-posts p-3">
                   <div className="explore-header my-2">Explore Topics</div>
-                  <input type="text" id="search_query" placeholder="Search Questions" />
+                  <input type="text" id="search_query" placeholder={query} />
                   <button className="rounded m-2 bg-success float-right" onClick={searchCallback}>SEARCH</button>
                   <div className="explore-subheader my-4">Trending:</div>
                   <div className="tag px-3 py-2 mr-1 my-1">#community</div>
@@ -68,10 +70,10 @@ function StackOverflow(props){
                 <hr/>
 
                 <div className="explore-posts p-3">
-                  <div className="explore-header my-2">Latest Posts</div>
+                  <div className="explore-header my-2">Search Results</div>
                   <div className="posts-list">
                     {post_list && post_list.map(post => ( 
-                      <div className="single-post p-3" onClick={() => showIssue(post['id'])}>
+                      <div className="single-post p-3" onClick={() => showIssue(post['_id'])}>
                         <hr/>
                         <div className="post">
                           <div className="post-body">
@@ -101,11 +103,11 @@ function StackOverflow(props){
 }
 
 const FETCH_POSTS_QUERY = gql`
-    query{
-        getPosts{
-            id title body email answers{ id } upvotes{ id } createdAt tags
+    query($searchString: String!){
+        searchByTextPost(query: $searchString){
+            _id title body email answers{ id } upvotes{ id } createdAt tags
         }
     }
 `
 
-export default StackOverflow;
+export default SearchResult;
