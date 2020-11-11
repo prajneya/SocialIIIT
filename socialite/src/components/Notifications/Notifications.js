@@ -120,13 +120,13 @@ function Notifications(props){
                                         <br />
                                         {notification['type'] === "friend" ? 
                                         <div>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_frenaccept(notification['id'])}>ACCEPT FRIEND REQUEST</button>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_frenreject(notification['id'])}>REJECT FRIEND REQUEST</button>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_frenaccept(notification['userId'])}>ACCEPT FRIEND REQUEST</button>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_frenreject(notification['userId'])}>REJECT FRIEND REQUEST</button>
                                         </div>
                                         :
                                         <div>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_meetaccept(notification['id'])}>ACCEPT MEET REQUEST</button>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_meetreject(notification['id'])}>REJECT MEET REQUEST</button>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_meetaccept(notification['userId'])}>ACCEPT MEET REQUEST</button>
+                                            <button className="rounded ml-1 my-2" onClick={() => do_meetreject(notification['userId'])}>REJECT MEET REQUEST</button>
                                         </div>
                                         }
                                     </div>
@@ -167,7 +167,7 @@ const MEET_REJECT = gql`
 const FETCH_NOTIFICATIONS_QUERY = gql`
     query($user_id: String!){
         getNotif(id: $user_id){
-            id email match type
+            userId email match type
         }
     }
 `

@@ -16,13 +16,13 @@ module.exports = {
 				for(let i = 0; i < curdets.request.length; ++i)
 				{
 					mat = await getscore(id, curdets.request[i]);
-					ret.push({id: curdets.request[i], match: mat[0].match, email: mat[0].email, type: "friend"});
+					ret.push({userId: curdets.request[i], match: mat[0].match, email: mat[0].email, type: "friend"});
 					j++;
 				}	
 				for(let i = 0; i < curdets.requestmeet.length; ++i)
 				{
 					mat = await getscore(id, curdets.requestmeet[i]);
-					ret.push({id: curdets.requestmeet[i], match: mat[0].match, email: mat[0].email, type: "meet"});
+					ret.push({userId: curdets.requestmeet[i], match: mat[0].match, email: mat[0].email, type: "meet"});
 					j++;
 				}	
 				if(!curdets.request.length && !curdets.requestmeet.length)
