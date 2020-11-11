@@ -90,7 +90,7 @@ def updateUserRating(user_rating, volatility, times_played, ARank):
     return new_rating, new_volatility, new_times_played
 
 for q in queue.find():
-    if (datetime.strptime(datetime.strftime(date.today(), "%Y-%m-%d"), "%Y-%m-%d") - datetime.strptime((q['createdAt'])[:10], "%Y-%m-%d")).days >= 0:
+    if (datetime.strptime(datetime.strftime(date.today(), "%Y-%m-%d"), "%Y-%m-%d") - datetime.strptime((q['createdAt'])[:10], "%Y-%m-%d")).days >= 7:
         for x in posts.find({"_id": q['_id']}):
             user_rating = []
             volatility = []

@@ -21,7 +21,7 @@ async function frenaccept(user_id, fren_id)
 	
 	await data.updateDets(user_id, arr1);
 	await data.updateDets(fren_id, arr2);
-	await notif.sendNotif(user_id);
+	// await notif.sendNotif(user_id);
 
 }
 
@@ -32,7 +32,7 @@ async function frenreject(user_id, fren_id)
 
 async function frenrequest(user_id, fren_id)
 {
-	await notif.sendNotif(fren_id);
+	// await notif.sendNotif(fren_id);
 	await data.updateRequest(user_id, fren_id);
 }
 

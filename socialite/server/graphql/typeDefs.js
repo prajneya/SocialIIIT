@@ -85,7 +85,7 @@ module.exports = gql`
     	confirmPassword: String!
     }
     type Notif{
-        id: String!
+        userId: String!
         match: Float!
         email: String!
         type: String!
