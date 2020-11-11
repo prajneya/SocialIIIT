@@ -24,6 +24,8 @@ import CreatePost from './components/StackOverflow/CreatePost';
 import Issue from './components/StackOverflow/Issue';
 
 import Timeline from './components/Timeline/Timeline';
+import DisplayProfile from './components/Timeline/DisplayProfile';
+
 import Notifications from './components/Notifications/Notifications';
 
 import './App.css';
@@ -66,6 +68,7 @@ export default (
             <AuthRoute exact path ="/createpost" component={CreatePost} exact/>
             <AuthRoute exact path="/issue/:postId" component={Issue} exact/>
             <AuthRoute exact path="/timeline" component={Timeline} exact/>
+            <AuthRoute exact path="/profile/:username" component={DisplayProfile} exact/>
             <AuthRoute exact path="/notifications" component={Notifications} exact/>
           </Switch>
         </div>
