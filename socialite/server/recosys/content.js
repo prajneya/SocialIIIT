@@ -27,7 +27,7 @@ function checkhos (a,b)
 	}
 }
 
-function host_hous(profile,arr)
+async function resetratio(profile,arr)
 {
 	var hosnum = profile.hosnum;
 	var hosname = profile.hosname;
@@ -35,31 +35,26 @@ function host_hous(profile,arr)
 	var count_hostel = 0;
 	var count_hosname = 0;
 	var count_house = 0;
+
+	var sports = profile.sports;
+	const sporlen = profile.sports.length;
+	var sporarr = Array(sporlen).fill(0);
+	
+	var clubs = profile.clubs;
+	const clulen = profile.clubs.length;
+	var cluarr = Array(clulen).fill(0);
+
 	const total = arr.length;
 	for(i = 0; i < total; ++i)
-
 	{
-		var fren = arr[i];
+		var fren = await data.getProfileById(arr[i]);
 		count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
 		count_hosname = count_hosname+check(hosname,fren.hosname);
 		count_house = count_house+check(house,fren.house);
-	}
-	count_hostel = count_hostel/total;
-	count_hosname = count_hosname/total;
-	count_house = count_house/total;
-	return [count_hostel, count_hosname, count_house];
-}
 
-function sporty(profile,arr)
-{
-	var sports = profile.sports;
-	const sporlen = profile.sports.length;
-	const total = arr.length;
-	var sporarr = Array(sporlen).fill(0);
-	for(let i = 0; i < total; ++i)
-	{
-		var fren = arr[i];
 		var spofre = fren.sports;
+		console.log(arr[i]);
+		console.log(spofre);
 		var spofrelen = fren.sports.length;
 		for(j = 0; j < sporlen; ++j)
 		{
@@ -67,21 +62,8 @@ function sporty(profile,arr)
 			{
 				sporarr[j]=sporarr[j]+check(sports[j],spofre[k]);	
 			}
-			sporarr[j]=sporarr[j]/total;
 		}
-	}
-	return sporarr;
-}
 
-function club(profile,arr)
-{
-	var clubs = profile.clubs;
-	const clulen = profile.clubs.length;
-	const total = arr.length;
-	var cluarr = Array(clulen).fill(0);
-	for(let i = 0; i < total; ++i)
-	{
-		var fren = arr[i];
 		var clufre = fren.clubs;
 		var clufrelen = fren.clubs.length;
 		for(j = 0; j < clulen; ++j)
@@ -90,19 +72,22 @@ function club(profile,arr)
 			{
 				cluarr[j]=cluarr[j]+check(clubs[j],clufre[k]);	
 			}
-			cluarr[j]=cluarr[j]/total;
 		}
 	}
-	return cluarr;
-}
-
-async function resetratio(a,arr)
-{
-	var host_hou = host_hous(a,arr);
-	var sporarr = sporty(a,arr);
-	var cluarr = club(a,arr);
-	var arra = [host_hou[0], host_hou[1], host_hou[2], sporarr, cluarr ];
-	await data.updateDets(a.id, arra);
+	count_hostel = count_hostel/total;
+	count_hosname = count_hosname/total;
+	count_house = count_house/total;
+	console.log(sporarr);
+	for(j = 0; j < sporlen; ++j)
+	{
+			sporarr[j]=sporarr[j]/total;
+	}
+	for(j = 0; j < clulen; ++j)
+	{
+			cluarr[j]=cluarr[j]/total;
+	}
+	var arra = [count_hostel, count_hosname, count_house, sporarr, cluarr ];
+	return arra;
 }
 
 function scoring(a,b,cur,arr)
@@ -110,9 +95,6 @@ function scoring(a,b,cur,arr)
 	profile = a;
 	const nonfren = b;
 	var total = 0;
-	var perhos;
-	var persport;
-	var perclub;
 	var score = 0;
 	var totsport = 0;
 	var totclub = 0;

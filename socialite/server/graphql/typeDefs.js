@@ -136,6 +136,7 @@ module.exports = gql`
         meetaccept(user_id: String!, fren_id: String!): ID
         meetreject(user_id: String!, fren_id: String!): ID
         meetrequest(user_id: String!, fren_id: String!): ID
+        edit(user_id: String!, hou: String!, hsnum: Int!, hsname: String!, sprts: [String!], clbs: [String!]): ID
     } 
 `;
 
