@@ -10,7 +10,7 @@ module.exports = {
 			const cur1 = await data.getProfileById(user_id);
 			// console.log(cur1);
 			arr = cur1.friends;
-			console.log(cur1.sports.length);
+			// console.log(cur1.sports.length);
 			ret = await resetratio(cur1, arr);
 			return await data.updateDets(user_id, ret);
 		}
