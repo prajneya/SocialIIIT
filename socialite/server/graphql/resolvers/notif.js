@@ -29,7 +29,6 @@ module.exports = {
 				{
 					throw new Error('No new notification');
 				}
-				console.log(ret)
 				return	ret;
 			} 
 			catch (err)
