@@ -82,7 +82,8 @@ module.exports = gql`
     	sports: field3
     	clubs: field3
     	match: Float
-    	email: String
+        email: String!
+        friend: Int!
     }
     type Recommend{
         id: ID!
