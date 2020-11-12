@@ -53,8 +53,8 @@ async function resetratio(profile,arr)
 		count_house = count_house+check(house,fren.house);
 
 		var spofre = fren.sports;
-		console.log(arr[i]);
-		console.log(spofre);
+		//console.log(arr[i]);
+		//console.log(spofre);
 		var spofrelen = fren.sports.length;
 		for(j = 0; j < sporlen; ++j)
 		{
@@ -77,7 +77,7 @@ async function resetratio(profile,arr)
 	count_hostel = count_hostel/total;
 	count_hosname = count_hosname/total;
 	count_house = count_house/total;
-	console.log(sporarr);
+	//console.log(sporarr);
 	for(j = 0; j < sporlen; ++j)
 	{
 			sporarr[j]=sporarr[j]/total;
