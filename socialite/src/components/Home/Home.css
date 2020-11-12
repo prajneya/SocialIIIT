@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
 :root{
   --main-bg: #303841;
   --bg-clr: #3a4750;
-  --cyan: #00adb5;
+  --cyan: white;
   --bg-light: #18242b;
 }
 
@@ -14,14 +15,14 @@
 }
 
 body{
-  color: white !important;
-  font-family: 'Lato', sans-serif;
+  color: black !important;
+  font-family: 'Poppins', sans-serif !important;
   font-weight: 400;
-  background: var(--main-bg) !important;
+  background-color: rgb(15, 15, 15) !important;
 }
 
 .a-nav-right{
-  margin: 2 rem;
+  margin: 2rem;
 	text-align: left;
 }
 
@@ -32,19 +33,99 @@ body{
 	border-style: none;
 }
 
+.signin-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  box-shadow: 0 15px 35px 0 rgba(255, 255, 255, 0.2),
+    0 5px 15px rgba(0, 0, 0, 0.06);
+  transition: all .15s ease;
+  border-radius: .5rem;
+  color: black;
+  padding: 3rem 1rem;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: #c9d6ff;
+  position: relative;
+  width: 30rem;
+  height: 50rem;
+  left: 50%;
+  margin-left: -15rem;
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+}
+
 .signup-container{
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: var(--bg-clr);
+  background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+  box-shadow: 0 15px 35px 0 rgba(255, 255, 255, 0.2),
+    0 5px 15px rgba(0, 0, 0, 0.06);
+  transition: all .15s ease;
+  border-radius: .5rem;
+  color: black;
+  padding: 3rem 1rem;
+  border-radius: 20px;
+  border-style: solid;
+  border-color: #c9d6ff;
+  position: relative;
+  width: 40rem;
+  height: 55rem;
+  left: 50%;
+  margin-left: -20rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+}
+
+.landing-title{
+  display: block;
+  justify-content: center;
+  flex-direction: column;
+  transition: all .15s ease;
+  border-radius: .5rem;
   color: white;
-  margin: 2rem;
-  padding: 5rem 1rem;
+  padding: 5rem 2rem 0 0;
   border-radius: 20px;
   position: relative;
-  width: 50%;
-  transform: translateX(50%);
+  margin-top: 15rem;
+  width: 44rem;
+  left: 10%;
+  margin-top: -15rem;
+  margin-bottom: 4rem;
+  line-height: 100px;
+  top: 50%;
+}
+
+.subheader{
+  text-align: right;
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.subtitle{
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.app-name{
+  font-size: 10rem;
+  font-weight: 600;
+}
+
+.signup-container:hover{
+  box-shadow: 0 18px 35px 0 rgba(255, 255, 255, 0.12),
+    0 8px 15px rgba(0, 0, 0, 0.06);
+  transform: translateY(-5px);
+}
+
+.signin-container:hover{
+  box-shadow: 0 18px 35px 0 rgba(255, 255, 255, 0.12),
+    0 8px 15px rgba(0, 0, 0, 0.06);
+  transform: translateY(-5px);
 }
 
 .signin{
@@ -53,7 +134,8 @@ body{
 
 form{
   width: 84%;
-  margin: 5em auto;
+  margin: 1rem;
+  margin-bottom: 5rem
 }
 
 label{
@@ -66,17 +148,17 @@ input{
   padding: 0.6em;
   margin: 0.8em 0 2em 0;
   outline: none;
-  background: var(--main-bg);
+  background: #E2E2E2 !important;
   border: 2px solid var(--main-bg);
   box-sizing: border-box;
   border-radius: 5px;
-  color: white;
+  color: navy !important;
   font-size: 1.125rem;
 }
 
 .forgot{
   float: right;
-  color: var(--cyan);
+  color: navy;
   font-size: 0.90rem;
   font-weight: 600;
   cursor: pointer;
@@ -91,7 +173,7 @@ input{
   padding: 0.8em;
   font-size: 1.125rem;
   background: var(--cyan);
-  color: white;
+  color: black;
   margin-top: 1rem;
 }
 
@@ -101,7 +183,9 @@ input{
   left: 0;
   right: 0;
   text-align: center;
-  background: var(--bg-light);
+  background: #C9D6FF;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   padding: 1.5em;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -114,7 +198,7 @@ input{
   padding: 0.8em 1em;
   font-size: 1rem;
   margin-left: 1em;
-  color: white;
+  color: black;
 }
 
 .email{
@@ -129,6 +213,10 @@ input{
   margin-top: 1rem;
 }
 
+.username{
+  margin-top: 1rem;
+}
+
 .subsection-header{
   text-align: center;
   margin-bottom: 2rem;
@@ -136,9 +224,42 @@ input{
   font-family: 'Lato', sans-serif;
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 1444px) {
+  .app-name {
+    font-size: 8vw;
+  }
+  .landing-title{
+    width: 45vw;
+    line-height: 80px;
+    left: 2%;
+  }
+  .subtitle{
+    font-size: 1.2rem;
+  }
+  .subheader{
+    text-align: left;
+  }
+}
+
+@media only screen and (max-width: 991px) {
   .signup-container {
+    width: 80%;
+    left: 0;
+    margin-left: 10%;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .signin-container {
     width: 90%;
-    margin-left: -40%;
+    left: 0;
+    margin-left: 5%;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+  .landing-title{
+    display: none;
+  }
+  form{
+    margin-bottom: 7.5rem;
   }
 }
