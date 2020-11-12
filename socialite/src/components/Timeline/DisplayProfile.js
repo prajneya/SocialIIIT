@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useState } from 'react';
 import gql from 'graphql-tag';
 import Parser from 'html-react-parser';
 
@@ -8,14 +9,48 @@ import { AuthContext } from '../../context/auth'
 
 import "./Timeline.css"
 
-function Timeline(props){
+function Timeline(props)
+{
 
 	const { user, logout } = useContext(AuthContext)
 
 	function logUserOut(){
 		logout();
 		props.history.push('/')
-	}
+  }
+
+  const curid = user.id;
+  const [fren_id, setfren_id] = useState('');
+  
+  const [frenrequest, { frequest }] = useMutation(FREN_REQUEST, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+        curid,
+        fren_id
+    }
+})
+
+const [meetrequest, { mrequest }] = useMutation(MEET_REQUEST, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+        curid,
+        fren_id
+    }
+})
+
+async function send_frenrequest(fren_id){
+  await setfren_id(fren_id);
+  frenrequest();
+}
+
+async function send_meetrequest(fren_id){
+  await setfren_id(fren_id);
+  meetrequest();
+}
 
   const username = props.match.params.username;
 
@@ -30,7 +65,19 @@ function Timeline(props){
             username: username
         }
   });
+
   var timeline_data = timelineData ? timelineData.getTimelineInfo : "";
+  var id = timelineData ? timeline_data.id : "";
+
+  const { data: profileData } = useQuery(FETCH_PROFILE, {
+    variables: {
+        curid: curid,
+        id: id
+    }
+  });
+
+  var profile_data = profileData ? profileData.profile : "";
+  console.log("Yaya" + profile_data)
 
   if(!timeline_data){
     return (<>USER NOT FOUND</>)
@@ -49,7 +96,11 @@ function Timeline(props){
                 <div className="mx-2 username">{username}</div><div className="rating mt-1 mx-2 p-2">RATING: <strong>{timeline_data ? timeline_data.rating : ""}</strong></div>
                 <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{timeline_data ? timeline_data.contributions : ""}</strong></div>
                 <div className="email mx-2">{timeline_data ? timeline_data.email : ""}</div>
-              </div>
+                {profile_data.friend === 0 ? 
+                <button className="rounded ml-2 my-2" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
+                : ""}
+                <button className="rounded ml-2 my-2" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
+                </div>
 
                <div className="graph">
                 <ul className="months">
@@ -158,9 +209,20 @@ function Timeline(props){
 
             </div>
             </>
-      )
-  	
+      )	
 }
+
+const FREN_REQUEST = gql`
+    mutation frenrequest($user_id: String!, $fren_id: String!) {
+        frenrequest(user_id: $user_id, fren_id: $fren_id)
+    }
+`;
+
+const MEET_REQUEST = gql`
+    mutation meetrequest($user_id: String!, $fren_id: String!) {
+        meetrequest(user_id: $user_id, fren_id: $fren_id)
+    }
+`;
 
 const FETCH_TIMELINE = gql`
     query($username: String!){
@@ -168,5 +230,12 @@ const FETCH_TIMELINE = gql`
     }
 `;
 
+const FETCH_PROFILE = gql`
+    query($curid: String!, $id: String!){
+        profile(curid: $curid, id: $id){
+          email match friend clubs{val} sports{val} house{val}
+        }
+    }
+`;
 
 export default Timeline;
