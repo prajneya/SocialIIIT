@@ -24,6 +24,9 @@ function Home(props) {
 		password: ''
 	})
 
+	var overlayElement = document.getElementById("overlay");
+	var signinDisplay = document.getElementById("signin-animation");
+
 	const [loginUser, { loading }] = useMutation(LOGIN_USER, {
 		update(_, { data: { login: userData } }){
 			console.log(userData)
@@ -32,17 +35,25 @@ function Home(props) {
 		},
 		onError(err){
 			if(err.graphQLErrors.length > 0)
+				overlayElement.style.zIndex = 0;
+				overlayElement.style.opacity = 0;
+				signinDisplay.style.display = "none";
 				setErrors(err.graphQLErrors[0].extensions.exception.errors);
 		},
 		variables: values
 	})
 
 	function loginUserCallback(){
-		loginUser();
+		overlayElement.style.zIndex = 2;
+		overlayElement.style.opacity = 1;
+		signinDisplay.style.display = "block";
+		setTimeout(function(){ loginUser();; }, 3000);
 	}
 
 	return (
-		<>
+		<>	
+			<div id="overlay"></div>
+			<div id="signin-animation"><div className="loader">Loading...</div><br/>SIGNING YOU IN ...</div>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-lg-6">
