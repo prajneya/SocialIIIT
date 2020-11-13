@@ -82,7 +82,8 @@ module.exports = gql`
     	sports: field3
     	clubs: field3
     	match: Float
-    	email: String
+        email: String!
+        friend: Int!
     }
     type Recommend{
         id: ID!
@@ -100,6 +101,14 @@ module.exports = gql`
         match: Float!
         email: String!
         type: String!
+    }
+    input ProfileEdits{
+    	user_id: String!
+    	house: String
+    	hosnum: Int
+    	hosname: String
+    	sports: [String]
+    	clubs: [String]
     }
     type Query{
         getPosts: [Post]
@@ -136,6 +145,7 @@ module.exports = gql`
         meetaccept(user_id: String!, fren_id: String!): ID
         meetreject(user_id: String!, fren_id: String!): ID
         meetrequest(user_id: String!, fren_id: String!): ID
+        edit(input: ProfileEdits): ID
     } 
 `;
 

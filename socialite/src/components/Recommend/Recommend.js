@@ -26,7 +26,6 @@ function Recommend(props){
 
     const user_id = user.id;
     const [fren_id, setfren_id] = useState('');
-    console.log(user)
 
     const [frenrequest, { frequest }] = useMutation(FREN_REQUEST, {
         update(_, { data: { login: userData } }){
