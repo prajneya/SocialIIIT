@@ -7,6 +7,7 @@ const subResolvers = require('./sub')
 const meetrequestResolvers = require('./meetreq')
 const notifResolvers = require('./notif')
 const searchResolvers = require('./search')
+const editResolvers = require('./edit')
 
 module.exports = {
 	Query: {
@@ -25,6 +26,7 @@ module.exports = {
 		...subResolvers.subsave,
 		...meetrequestResolvers.meetrequest,
 		...meetrequestResolvers.meetaccept,
-		...meetrequestResolvers.meetreject
+		...meetrequestResolvers.meetreject,
+		...editResolvers.edit
 	}
 }
