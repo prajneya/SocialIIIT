@@ -101,6 +101,14 @@ module.exports = gql`
         email: String!
         type: String!
     }
+    input ProfileEdits{
+    	user_id: String!
+    	house: String
+    	hosnum: Int
+    	hosname: String
+    	sports: [String]
+    	clubs: [String]
+    }
     type Query{
         getPosts: [Post]
         getPost(postId: ID!): Post
@@ -136,7 +144,7 @@ module.exports = gql`
         meetaccept(user_id: String!, fren_id: String!): ID
         meetreject(user_id: String!, fren_id: String!): ID
         meetrequest(user_id: String!, fren_id: String!): ID
-        edit(user_id: String!, hou: String!, hsnum: Int!, hsname: String!, sprts: [String!], clbs: [String!]): ID
+        edit(input: ProfileEdits): ID
     } 
 `;
 
