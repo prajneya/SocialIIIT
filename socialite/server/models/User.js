@@ -31,7 +31,8 @@ const UserDets = new mongoose.Schema({
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	sendmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-	requestmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+	requestmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	notif: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, ntype: String, createdAt: {type: Date, default: Date.now} }]
 });
 
 const UserSub = new mongoose.Schema({
