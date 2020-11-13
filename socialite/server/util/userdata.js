@@ -42,6 +42,9 @@ module.exports = {
 		await Profile.update( { _id: ida }, { $push: { friends: idb } } ); 
 		await Profile.update( { _id: idb }, { $push: { friends: ida } } ); 
 	},
+	updateProfileDets: async function (id, house, hosnum, hosname, sports, clubs){
+		await Profile.update({_id: id}, {$set: { hosnum : hosnum, hosname : hosname, house : house, sports : sports, clubs : clubs }});
+	},
 	updateProfile: async function (id, cluster){
 		await Profile.update({_id: id}, {$set: { cluster_no: cluster }}, {}, {});
 	},
