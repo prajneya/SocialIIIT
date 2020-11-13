@@ -5,14 +5,13 @@ const {scoring, common, resetratio} = require('../../recosys/content')
 
 module.exports = {
 	edit: {
-		async edit(_, { user_id, hou, hsnum, hsname, sprts, clbs }) {
-			await data.updateProfileDets(user_id, hou, hsnum, hsname, sprts, clbs);
-			const cur1 = await data.getProfileById(user_id);
-			// console.log(cur1);
+		async edit(_, { input }) {
+			await data.updateProfileDets(input.user_id, input.house, input.hosnum, input.hosname, input.sports, input.clubs);
+			const cur1 = await data.getProfileById(input.user_id);
 			arr = cur1.friends;
-			// console.log(cur1.sports.length);
+			console.log(cur1.sports.length);
 			ret = await resetratio(cur1, arr);
-			return await data.updateDets(user_id, ret);
+			return await data.updateDets(input.user_id, ret);
 		}
 	}
 }
