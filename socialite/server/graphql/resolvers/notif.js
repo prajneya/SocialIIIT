@@ -13,22 +13,19 @@ module.exports = {
 				const curdets =  await data.getUserDetsById(id);
 				var ret = [];
 				var j=0;
-				for(let i = 0; i < curdets.request.length; ++i)
+
+				for(let i = 0; i < curdets.notif.length; ++i)
 				{
-					mat = await getscore(id, curdets.request[i]);
-					ret.push({userId: curdets.request[i], match: mat[0].match, email: mat[0].email, type: "friend"});
+					mat = await getscore(id, curdets.notif[i].user);
+					ret.push({userId: curdets.notif[i].user, match: mat[0].match, email: mat[0].email, type: curdets.notif[i].ntype, time: curdets.notif[i].createdAt});
 					j++;
 				}	
-				for(let i = 0; i < curdets.requestmeet.length; ++i)
-				{
-					mat = await getscore(id, curdets.requestmeet[i]);
-					ret.push({userId: curdets.requestmeet[i], match: mat[0].match, email: mat[0].email, type: "meet"});
-					j++;
-				}	
-				if(!curdets.request.length && !curdets.requestmeet.length)
+
+				if(!curdets.notif.length)
 				{
 					throw new Error('No new notification');
 				}
+				ret.sort((a, b) => (a.time > b.time) ? 1 : -1);
 				return	ret;
 			} 
 			catch (err)

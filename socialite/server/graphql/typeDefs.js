@@ -101,6 +101,7 @@ module.exports = gql`
         match: Float!
         email: String!
         type: String!
+	time: String!
     }
     input ProfileEdits{
     	user_id: String!

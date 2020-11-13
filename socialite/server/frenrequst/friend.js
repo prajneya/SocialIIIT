@@ -7,6 +7,7 @@ async function frenaccept(user_id, fren_id)
 {
 	await data.updateFriendlist(user_id, fren_id);
 	await data.updateAccRej(user_id, fren_id);
+	await data.updateNotif(fren_id, user_id, "facc");
 	
 	const cur1 = await data.getProfileById(user_id);
 	const cur2 = await data.getProfileById(fren_id);
@@ -16,7 +17,6 @@ async function frenaccept(user_id, fren_id)
 
 	var arr1 = await ratio.updateratio(cur1, cur2, friendlist1);
 	var arr2 = await ratio.updateratio(cur2, cur1, friendlist2);
-	console.log(arr1, arr2);
 	rand = await collab.clusallot();
 	
 	await data.updateDets(user_id, arr1);
@@ -34,6 +34,7 @@ async function frenrequest(user_id, fren_id)
 {
 	// await notif.sendNotif(fren_id);
 	await data.updateRequest(user_id, fren_id);
+	await data.updateNotif(fren_id, user_id, "freq");
 }
 
 

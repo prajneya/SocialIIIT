@@ -39,7 +39,7 @@ async function friendlist(id, flag)
 	if(flag != 0)
 		score = Array(1).fill({});
 	else
-		score = Array(users.length - 1 - cur.friends.length).fill({});
+		score = Array(users.length - 1 - cur.friends.length - curdets.send.length).fill({});
 	for(i = 0; i < users.length; ++i)
 	{
 		var sval = 0;
