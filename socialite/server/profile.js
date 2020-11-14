@@ -19,5 +19,8 @@ module.exports = async function profiledisp(curid, id) {
 	curdets = await data.getUserDetsById(cur);
 	ret = await content.common(cur, user, send, email, curdets);
 	ret.friend = flag;
+	ret.meet = 0
+	if(curdets.sendmeet.includes(user._id))
+		ret.meet = 1
 	return ret;
 }
