@@ -57,7 +57,11 @@ async function friendlist(id, flag)
 		if(sval == 0)
 			continue;
 
-		score[++l] = {"id": users[i]._id, "match": sval, "email": email};
+		var meet = 0;
+		if(curdets.sendmeet.includes(users[i]._id))
+			meet = 1;
+
+		score[++l] = {"id": users[i]._id, "match": sval, "email": email, meet: meet};
 		score[l].match *= 100;
 	}
 
