@@ -84,11 +84,13 @@ module.exports = gql`
     	match: Float
         email: String!
         friend: Int!
+	meet: Int!
     }
     type Recommend{
         id: ID!
         match: Float!
         email: String!
+	meet: Int!
     }
     input RegisterInput{
         username: String!
@@ -101,6 +103,7 @@ module.exports = gql`
         match: Float!
         email: String!
         type: String!
+	time: String!
     }
     input ProfileEdits{
     	user_id: String!
