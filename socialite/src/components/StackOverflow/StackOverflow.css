@@ -2,6 +2,33 @@
 	font-size: 5rem;
 }
 
+.explore-subheader{
+	display: inline-block;
+	color: #d9437d;
+	margin-right: 2rem;
+}
+
+#search_query{
+	background: rgb(21, 21, 21) !important;
+	color: white !important;
+	float: left;
+	width: calc(100% - 5rem);
+}
+
+.search-button{
+	float: right;
+}
+
+.searchbox{
+	width: 100%;
+	margin: 1rem 0;
+}
+
+.searchbox::after{
+	content: "";
+  	clear: both;
+}
+
 .post{
 	height: 10rem;
 	overflow: hidden;
@@ -9,6 +36,7 @@
 
 .single-post{
 	border-radius: 10px;
+	background: rgb(0, 0, 0);
 }
 
 .single-post:hover{
@@ -16,8 +44,53 @@
 	background: #18242b;
 }
 
+.single-post hr{
+	background-color: grey;
+}
+
 .post-header{
 	font-weight: bold;
 	font-size: 20px;
-	color: #00adb5;
+	color: white;
+}
+
+.small-upvote-count{
+	color: grey;
+}
+
+.post-content{
+	color: #ececec;
+}
+
+.create-post{
+	padding: 0.4rem 1.5rem;
+	border-radius: 5px !important;
+	background-color: #c2a40e;
+	border-style: none;
+}
+
+.top-users-post{
+	height: auto;
+	width: 100%;
+	background-color: black;
+	border-radius: 5px;
+	color: white;
+}
+
+.top-users ul{
+	list-style-type: none;
+}
+
+.card-header{
+	color: #d9437d;
+}
+
+.no-post{
+	color: #c2a40e;
+}
+
+@media (max-width: 42em) {
+	.searchbox{
+		margin-top: 5rem;
+	}
 }

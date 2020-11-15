@@ -48,8 +48,9 @@
 
 .tag{
 	border-radius: 5px;
-	background-color: rgba(0, 0, 0, .2);
+	background-color: rgba(21, 21, 21, .9);
 	display: inline-block;
+	color: #c2a40e;
 }
 
 .tag:hover{
@@ -61,10 +62,6 @@
 	border-style: solid;
 	border-radius: 5px;
 	text-transform: uppercase;
-}
-
-.info-details{
-	float: right;
 }
 
 .ck{
