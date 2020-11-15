@@ -1,6 +1,6 @@
 .display .username{
   display: inline-block;
-	font-size: 3rem;
+	font-size: 3.5rem;
   color: white;
 }
 
@@ -105,12 +105,6 @@
     margin-top: 0;
     margin-left: 1rem;
     margin-right: 1rem;
-  }
-}
-
-@media only screen and (max-width: 768px) {
-  .display .username{
-    font-size: 2.5rem;
   }
 }
 
