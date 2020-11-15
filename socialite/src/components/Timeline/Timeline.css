@@ -1,6 +1,15 @@
 .display .username{
   display: inline-block;
-	font-size: 72px;
+	font-size: 3rem;
+  color: white;
+}
+
+.display .email{
+  color: grey;
+}
+
+.display .about-me{
+  color: white;
 }
 
 .display .rating{
@@ -14,6 +23,16 @@
   background-color: #bbbfca;
   border-radius: 7px;
   color: black;
+}
+
+.showcase{
+  color: grey;
+}
+
+.about-me img{
+  width: 100%;
+  object-fit: cover;
+  border-radius: 25px;
 }
 
 .top-skill{
@@ -42,91 +61,64 @@
   transform: translateX(-50%);
 }
 
-:root {
-  --square-size: 13px;
-  --square-gap: 5px;
-  --week-width: calc(var(--square-size) + var(--square-gap));
+.social-links i{
+  margin-right: 1rem;
 }
 
-.months { grid-area: months; }
-.days { grid-area: days; }
-.squares { grid-area: squares; }
-
-.graph {
-  display: inline-grid;
-  grid-template-areas: "empty months"
-                       "days squares";
-  grid-template-columns: auto 1fr;
-  grid-gap: 10px;
-  width: 100%;
-  border-radius: 15px;
+.project-container{
+  height: auto;
+  background-color: black; 
+  transition: all .25s ease;
 }
 
-.months {
-  margin-left: 2rem;
-  display: grid;
-  grid-template-columns: calc(var(--week-width) * 4) /* Jan */
-                         calc(var(--week-width) * 4) /* Feb */
-                         calc(var(--week-width) * 4) /* Mar */
-                         calc(var(--week-width) * 5) /* Apr */
-                         calc(var(--week-width) * 4) /* May */
-                         calc(var(--week-width) * 4) /* Jun */
-                         calc(var(--week-width) * 5) /* Jul */
-                         calc(var(--week-width) * 4) /* Aug */
-                         calc(var(--week-width) * 4) /* Sep */
-                         calc(var(--week-width) * 5) /* Oct */
-                         calc(var(--week-width) * 4) /* Nov */
-                         calc(var(--week-width) * 5) /* Dec */;
+.project-container:hover{
+  transform: translateY(-8px);
 }
 
-.days,
-.squares {
-  margin: 0 1rem;
-  display: grid;
-  grid-gap: var(--square-gap);
-  grid-template-rows: repeat(7, var(--square-size));
+.project-header{
+  height: 7rem;
 }
 
-.squares {
-  grid-auto-flow: column;
-  grid-auto-columns: var(--square-size);
+.project-container i{
+  margin-right: 1rem;
+  color: #f07ab0
 }
 
-.graph {
-  padding: 20px;
-  border: 1px #e1e4e8 solid;
-  margin: 20px 0;
+.project-title{
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.days li:nth-child(odd) {
-  visibility: hidden;
-}
-
-.squares li {
-  background-color: #eeeeee;
-  list-style-type: none;
-}
-
-.squares li[data-level="1"] {
-  background-color: #00adb5;
-}
-
-.squares li[data-level="2"] {
-  background-color: #00888e;
-}
-
-.squares li[data-level="3"] {
-  background-color: #004f53;
+.gratitude-point-list{
+  margin-top: 7rem;
 }
 
 @media only screen and (max-width: 1199px) {
-  .graph {
-    display: none
+  .about-me img{
+    width: 25rem;
+  }
+  .about-me-text{
+    margin-top: 3rem;
+  }
+  .gratitude-point-list{
+    margin-top: 0;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .display .username{
+    font-size: 2.5rem;
   }
 }
 
 @media only screen and (max-width: 460px) {
   .showcase-add {
     float: none !important;
+  }
+  .about-me img{
+    width: 95%;
   }
 }

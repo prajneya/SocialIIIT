@@ -17,7 +17,7 @@ function Recommend(props){
 
     const { user, logout } = useContext(AuthContext);
 
-    const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, delay: 1500, config: { duration: 1000 }})
+    const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, delay: 1000, config: { duration: 1000 }})
 
     function logUserOut()
     {
