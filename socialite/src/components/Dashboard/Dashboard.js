@@ -64,7 +64,7 @@ function Dashboard(props){
                 <div className="row">
                   <div className="col-xl-9">
               			<div className="wall">
-                			<div className="feature-display mx-5">
+                			<div className="feature-display mx-2">
                 				<div className="subsection-header"> WHAT DO YOU WANT TO DO TODAY? </div>
                             <animated.div style={fadeInFast}>
                             <div className="feature" onClick={recommendFriend}>

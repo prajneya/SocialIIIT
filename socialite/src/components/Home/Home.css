@@ -241,12 +241,25 @@ input{
   -webkit-transition: opacity .5s ease-in-out;
 }
 
+#vibe-animation{
+  position: absolute;
+  color: white;
+  top: 50%;
+  left: 50%;
+  margin-top: -2rem;
+  margin-left: -11rem;
+  display: none;
+  z-index: 3;
+  font-weight: 600;
+  font-size: 2rem;
+}
+
 #signin-animation{
   position: absolute;
   color: white;
   top: 50%;
   left: 50%;
-  margin-top: -1rem;
+  margin-top: -2rem;
   margin-left: -7.5rem;
   display: none;
   z-index: 3;
