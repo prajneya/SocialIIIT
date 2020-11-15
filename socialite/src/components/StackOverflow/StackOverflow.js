@@ -90,7 +90,6 @@ function StackOverflow(props){
                                 </div>
                                 <div className="info-details text-right">
                                   <div className="small-upvote-count d-inline-block mr-2 px-2 py-1">{post['answers'].length} answers</div>
-                                  <div className="user-poll bg-danger text-white px-2 py-1 my-2 d-inline-block">Report</div>
                                 </div>
                               </div>
                             </div>

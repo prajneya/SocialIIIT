@@ -1,15 +1,26 @@
 .issue-container{
-	border-style: solid;
-	border-radius: 1rem;
-	border-width: 1px;
+
 }
 
 .issue-content{
-	background-color: rgba(0, 0, 0, .2);
+	color: white;
 	border-style: none;
-	border-radius: 1rem;
+	border-radius: 10px;
+	margin: 1rem;
+	padding: 2rem 0.5rem;
+}
+
+.answer-content{
+	color: white;
+	border-style: none;
+	border-radius: 10px;
 	margin: 1rem;
 	padding: 2rem;
+	background: rgb(0, 0, 0);
+}
+
+.issue-author{
+	color: grey;
 }
 
 .issue-body{
@@ -19,6 +30,43 @@
 .issue-question{
 	font-size: 2.07692308rem;
 	font-weight: bold; 
+}
+
+.issue-description{
+	color: #f2f2f2;
+}
+
+.info-details i{
+	border-radius: 200px;
+}
+
+.upvoted-i{
+	color: #d9437d;
+}
+
+.upvote-i{
+	color: white;
+}
+
+.info-details i:hover{
+	cursor: pointer;
+	-webkit-box-shadow:0 0 40px rgba(255,255,255,0.8);
+    box-shadow:0 0 40px rgba(255,255,255,0.8);
+}
+
+.answer-info i{
+	border-radius: 200px;
+}
+
+.answer-info i:hover{
+	cursor: pointer;
+	-webkit-box-shadow:0 0 40px rgba(255,255,255,0.8);
+    box-shadow:0 0 40px rgba(255,255,255,0.8);
+}
+
+.answer-count{
+	color: antiquewhite;
+	font-size: 20px;
 }
 
 .upvote-container{

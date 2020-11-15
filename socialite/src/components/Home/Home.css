@@ -21,6 +21,10 @@ body{
   background-color: rgb(15, 15, 15) !important;
 }
 
+hr{
+  background-color: grey;
+}
+
 .a-nav-right{
   margin: 2rem;
 	text-align: left;
