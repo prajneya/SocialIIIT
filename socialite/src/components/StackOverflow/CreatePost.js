@@ -10,6 +10,8 @@ import "../Home/Home.css";
 import "../Profile/Profile.css";
 import "./CreatePost.css"
 
+import Sidebar from "../Sidebar"
+
 const options = [{label: 'Data Structures', value: 1, area: 'Coding/Programming'},{label: 'C-programming',value:2, area: 'Coding/Programming'},
             {label: 'Probability and Statistics',value:3, area: 'Mathematics'},{label: 'Database Security',value:4, area: 'DBMS'},
             {label: 'Science',value:5, area: 'Science'},{label: 'Discrete Structures',value:6, area: 'Mathematics'},{label: 'Speech Processing',value:7, area: 'Computational Linguistics'},
@@ -63,49 +65,60 @@ function CreatePost(props){
     }
 
     return (
-        <div className="profile-container">
-            <div className="signin">Create Post</div>
-            <form>
-                <div className="title">
-                    <label for="title">Post title</label>
-                    <br/>
-                    <input type="text" id="question_title" name="title" placeholder="Enter your post title, it will be visible to other users" />
-                </div>
-                <div className="issue-container my-3 p-3">
-                    <CKEditor
-                        editor={ ClassicEditor }
-                        data=""
-                        onChange={ ( event, editor ) => {
-                            setBody(editor.getData())
-                        } }
-                    />
-                </div>
-                <div className="tags">
-                    <label for="tags">Tags</label>
-                    <br/>
-                    <div className="tag-drop">
-                        <Select
-                          styles={customStyles}
-                          closeMenuOnSelect={false}
-                          components={animatedComponents}
-                          isMulti
-                          options={options}
-                          onChange={handleChange}
-                          theme={theme => ({
-                                  ...theme,
-                                  borderRadius: 0,
-                                  colors: {
-                                    ...theme.colors,
-                                    primary25: '#00adb5',
-                                    primary: 'black',
-                                  },
-                                })}
-                        />
+        <>
+            <Sidebar/>
+            <main class="s-layout__content">
+                <div className="container-fluid">
+                    <div className="create-post-container">
+                        <div className="create-post-header">Create Post</div>
+                        <form>
+                            <div className="title">
+                                <label for="title">Post title</label>
+                                <br/>
+                            </div>
+                            <input type="text" id="question_title" name="title" placeholder="Enter your post title, it will be visible to other users" />
+                            <div className="post-details-container my-3 py-3">
+                                <div className="title">
+                                    <label for="title">Post Details</label>
+                                    <br/>
+                                </div>
+                                <CKEditor
+                                    editor={ ClassicEditor }
+                                    data=""
+                                    onChange={ ( event, editor ) => {
+                                        setBody(editor.getData())
+                                    } }
+                                />
+                            </div>
+                            <div className="tags">
+                                <label for="tags">Tags</label>
+                                <br/>
+                                <div className="tag-drop">
+                                    <Select
+                                      styles={customStyles}
+                                      closeMenuOnSelect={false}
+                                      components={animatedComponents}
+                                      isMulti
+                                      options={options}
+                                      onChange={handleChange}
+                                      theme={theme => ({
+                                              ...theme,
+                                              borderRadius: 0,
+                                              colors: {
+                                                ...theme.colors,
+                                                primary25: '#00adb5',
+                                                primary: 'black',
+                                              },
+                                            })}
+                                    />
+                                </div>
+                            </div>
+                            <button className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
+                        </form>
                     </div>
                 </div>
-                <button className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
-            </form>
-        </div>
+            </main>
+        </>
     )
 }
 
