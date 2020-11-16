@@ -7,10 +7,14 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Parser from 'html-react-parser';
 import moment from 'moment';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp, faArrowDown, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+
 
 import { AuthContext } from '../../context/auth'
 
 import "./Issue.css"
+import Sidebar from "../Sidebar"
 
 function Issue(props){
 
@@ -191,150 +195,111 @@ function Issue(props){
 
 	return (
           <>
-        		<div className="container">
-        			<div className="authenticate-nav">
-                <div className="a-nav-right">
-                      <button className="rounded" onClick={logUserOut}>LOGOUT</button>
-                </div>
-              </div>
+            <Sidebar/>
+            <main class="s-layout__content">
+          		<div className="container-fluid">
 
-              {/* QUESTION CONTAINER STARTS */}
+                {/* QUESTION CONTAINER STARTS */}
 
-              {moment(post_data['createdAt']).add(7, 'days').diff(moment()) > 0 ?
-                <div className="bounty-timer-container my-3">
-                  <div className="bounty-timer-active text-right p-2">
-                  Bounty ends {moment(post_data['createdAt']).add(7, 'days').fromNow()}
-                  </div>
-                </div> : 
-                <div className="bounty-timer-container my-3">
-                  <div className="bounty-timer-inactive text-right p-2">
-                  Bounty ended {moment(post_data['createdAt']).add(7, 'days').fromNow()}
-                  </div>
-                </div> 
-              }
-
-              <div className="issue-container">
-                <div className="issue-content">
-                  <div className="row">
-                    <div className="col-lg-2 d-none d-lg-block">
-                      {/* LARGE DEVICE UPVOTE STARTS */}
-                      <div className="upvote-container">
-                        <div className="upvote-content">
-                          <div className="upvote-count">
-                          {post_data['upvotes'] ? post_data['upvotes'].length: "0"}
+                <div className="issue-container">
+                  <div className="issue-content">
+                      <div className="">
+                        <div className="issue-body mb-4">
+                          <div className="issue-author mt-5">
+                            {moment(post_data['createdAt']).add(7, 'days').diff(moment()) > 0 ?
+                              <div className="bounty-timer-container my-3">
+                                <div className="bounty-timer-active p-2">
+                                Bounty ends {moment(post_data['createdAt']).add(7, 'days').fromNow()}
+                                </div>
+                              </div> : 
+                              <div className="bounty-timer-container my-3">
+                                <div className="bounty-timer-inactive p-2">
+                                Bounty ended {moment(post_data['createdAt']).add(7, 'days').fromNow()}
+                                </div>
+                              </div> 
+                            }
                           </div>
-                          <div className="upvote-text">
-                          Upvotes
+                          <div className="issue-question mt-3">
+                            {post_data['title']}
                           </div>
-                          <div className="user-polls">
-                            {isQuestionUpvoted ? <div className="user-poll my-2 py-1 px-3 bg-success" onClick={removeUpvoteQuestion}>UPVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-success" onClick={upvoteQuestion}>UPVOTE</div> }
-                            {isQuestionDownvoted ? <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={removeDownvoteQuestion}>DOWNVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={downvoteQuestion}>DOWNVOTE</div> }
+                          <div className="issue-author mt-1">
+                            {post_data['email']}
                           </div>
-                        </div>
-                      </div>
-                    {/* LARGE DEVICE UPVOTE ENDS */}
-                    </div>
-                    <div className="col-lg-10 col-md-12">
-                      {/* SMALL DEVICE UPVOTE-1 STARTS */}
-                      <div className="d-block d-lg-none">
-                        <div className="small-upvote-container float-right">
-                          <div className="small-upvote-content">
-                            <div className="small-upvote-count d-inline-block mr-2 px-2 py-1">
-                            {post_data['upvotes'] ? post_data['upvotes'].length: "0"} Upvotes
-                            </div>
+                          <div className="issue-description mt-4">
+                            {post_data ? Parser(post_data['body']) : ""}
+                          </div>
+                          <div className="tags d-inline-block">
+                            {post_data.tags && Object.keys(post_data.tags).map(tag => ( 
+                            <div className="tag px-3 py-2 mr-1 my-1">#{tag}</div>
+                            ))}
                           </div>
                         </div>
                       </div>
-                      {/* SMALL DEVICE UPVOTE-1 ENDS */}
-                      <div className="issue-body">
-                        <div className="issue-author mt-1">
-                          {post_data['email']}
-                        </div>
-                        <div className="issue-question mt-3">
-                          {post_data['title']}
-                        </div>
-                        <div className="issue-description mt-4">
-                          {post_data ? Parser(post_data['body']) : ""}
-                        </div>
-                        {/* SMALL DEVICE UPVOTE-2 STARTS */}
-                        <div className="d-block d-lg-none">
-                          <div className="small-user-polls d-inline-block">
-                            {isQuestionUpvoted ? <div className="user-poll my-2 py-1 px-3 bg-success" onClick={removeUpvoteQuestion}>UPVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-success" onClick={upvoteQuestion}>UPVOTE</div> }
-                            {isQuestionDownvoted ? <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={removeDownvoteQuestion}>DOWNVOTED</div> : <div className="user-poll my-2 py-1 px-3 bg-danger" onClick={downvoteQuestion}>DOWNVOTE</div> }
-                          </div>
-                        </div>
-                        {/* SMALL DEVICE UPVOTE-2 ENDS */}
+                    <div className="question-info mt-5">
+                      <div className="info-details float-left">
+                        <i className={isQuestionUpvoted ? "upvoted-i" : "upvote-i"} onClick={isQuestionUpvoted ? removeUpvoteQuestion : upvoteQuestion}><FontAwesomeIcon icon={faArrowUp} /></i> <span className="mx-2">{post_data['upvotes'] ? post_data['upvotes'].length: "0"} </span> 
+                      </div>
+                      <div className="info-details float-right desktop-only">
+                        {isQuestionDownvoted ? <><i onClick={removeDownvoteQuestion}><FontAwesomeIcon icon={faExclamationCircle} /></i><span className="mx-2">You have downvoted this Question. Click to Remove. </span></> : <><i onClick={downvoteQuestion}><FontAwesomeIcon icon={faExclamationCircle} /></i><span className="mx-2"> Downvote this Question</span></> }
                       </div>
                     </div>
                   </div>
-                  <div className="question-info mt-4">
-                    <div className="tags d-inline-block">
-                      {post_data.tags && Object.keys(post_data.tags).map(tag => ( 
-                      <div className="tag px-3 py-2 mr-1 my-1">#{tag}</div>
-                      ))}
-                    </div>
-                    <div className="info-details">
-                      <div className="small-upvote-count d-inline-block mr-2 px-2 py-1">{post_data['answers'] ? post_data['answers'].length: "0"} answers</div>
-                      <div className="user-poll bg-danger text-white px-2 py-1 my-2 d-inline-block">Report</div>
+                  
+                </div>
+                <div className="answer-count mt-5 mx-5">
+                  {post_data['answers'] ? post_data['answers'].length: "0"} Answers
+                </div>
+                <hr/>
+                {/* QUESTION CONTAINER ENDS */}
+
+                {/* CREATE ANSWER CONTAINER STARTS 
+
+                <div className="issue-container my-3">
+                  <div className="issue-content">
+                    <h4 className="mb-4">Your Answer</h4>
+                    <CKEditor
+                      editor={ ClassicEditor }
+                      data=""
+                      onChange={ ( event, editor ) => {
+                          setBody(editor.getData())
+                      } }
+                  />
+                    <div className="answer-question text-right my-4">
+                      <button className="btn btn-primary" onClick={addAnswerCallback}>Add Answer</button>
                     </div>
                   </div>
                 </div>
-                
-              </div>
 
-              {/* QUESTION CONTAINER ENDS */}
+                 CREATE ANSWER CONTAINER ENDS */}
+                {/* ANSWER CONTAINER STARTS */}
 
-              {/* CREATE ANSWER CONTAINER STARTS */}
-
-              <div className="issue-container my-3">
-                <div className="issue-content">
-                  <h4 className="mb-4">Your Answer</h4>
-                  <CKEditor
-                    editor={ ClassicEditor }
-                    data=""
-                    onChange={ ( event, editor ) => {
-                        setBody(editor.getData())
-                    } }
-                />
-                  <div className="answer-question text-right my-4">
-                    <button className="btn btn-primary" onClick={addAnswerCallback}>Add Answer</button>
+                <div className="issue-container my-3">
+                  {post_data['answers'] && post_data['answers'].map(answer => (
+                  <div className="answer-content">
+                    <div className="issue-body">
+                      <div className="issue-author mt-1">
+                        {answer['email']}
+                      </div>
+                      <div className="issue-description mt-4">
+                        {Parser(answer['body'])}
+                      </div>
+                    </div>
+                    <div className="answer-info mt-5">
+                      <div className="answer-polls float-left">  
+                        <i className={areAnswersUpvoted[answer['id']] ? "upvoted-i" : "upvote-i"} onClick={areAnswersUpvoted[answer['id']] ? () => removeUpvoteAnswerCallback(answer['id']) : () => upvoteAnswerCallback(answer['id'])}><FontAwesomeIcon icon={faArrowUp} /></i> <span className="mx-2">{answer['upvotes'] ? answer['upvotes'].length: "0"} </span>
+                      </div>
+                      <div className="info-details float-right desktop-only">
+                        { areAnswersDownvoted[answer['id']] ? <><i onClick={() => removeDownvoteAnswerCallback(answer['id'])}><FontAwesomeIcon icon={faExclamationCircle} /></i><span className="mx-2">You have downvoted this Answer. Click to Remove. </span></> : <><i onClick={() => downvoteAnswerCallback(answer['id'])}><FontAwesomeIcon icon={faExclamationCircle} /></i><span className="mx-2"> Downvote this Answer</span></> }
+                        </div>
+                    </div>
                   </div>
+                  ))}
                 </div>
-              </div>
 
-              {/* CREATE ANSWER CONTAINER ENDS */}
+              {/* ANSWER CONTAINER ENDS */}
 
-              {/* ANSWER CONTAINER STARTS */}
-
-              <div className="issue-container my-3">
-                {post_data['answers'] && post_data['answers'].map(answer => (
-                <div className="issue-content">
-                  <div className="issue-body">
-                    <div className="issue-author mt-1">
-                      {answer['email']}
-                    </div>
-                    <div className="issue-description mt-4">
-                      {Parser(answer['body'])}
-                    </div>
-                  </div>
-                  <div className="answer-info mt-2">
-                    <div className="small-upvote-count d-inline-block mr-2 px-2 py-1">{answer['upvotes'] ? answer['upvotes'].length: "0"} upvotes</div>
-                    <div className="answer-polls d-inline-block">  
-                      { areAnswersUpvoted[answer['id']] ? <div className="user-poll mt-2 mb-2 mr-1 py-1 px-3 bg-success d-inline-block" onClick={() => removeUpvoteAnswerCallback(answer['id'])}> UPVOTED </div> : <div className="user-poll mt-2 mb-2 mr-1 py-1 px-3 bg-success d-inline-block" onClick={() => upvoteAnswerCallback(answer['id'])}> UPVOTE </div> }
-                      { areAnswersDownvoted[answer['id']] ? <div className="user-poll mb-3 mr-1 py-1 px-3 bg-danger d-inline-block" onClick={() => removeDownvoteAnswerCallback(answer['id'])}> DOWNVOTED </div> : <div className="user-poll mb-3 mr-1 py-1 px-3 bg-danger d-inline-block" onClick={() => downvoteAnswerCallback(answer['id'])}>DOWNVOTE </div> }
-                    </div>
-                    <div className="info-details">
-                      <div className="user-poll bg-danger text-white px-2 py-1 d-inline-block">Report</div>
-                    </div>
-                  </div>
-                </div>
-                ))}
-              </div>
-
-            {/* ANSWER CONTAINER ENDS */}
-
-        		</div>
-
+          		</div>
+            </main>
 
           </>
       )
