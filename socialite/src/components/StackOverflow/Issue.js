@@ -8,6 +8,7 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Parser from 'html-react-parser';
 import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from 'sweetalert2';
 import { faArrowUp, faArrowDown, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
 
@@ -193,10 +194,20 @@ function Issue(props){
   });
   var areAnswersDownvoted = downvoteAnswerData ? downvoteAnswerData.didIDownvoteAnswer : [];
 
+
+  function addAnswerContent(){
+    var answerBox = document.getElementById("answer_container");
+    answerBox.style.display = "block";
+    answerBox.scrollIntoView();
+  }
+
 	return (
           <>
             <Sidebar/>
             <main class="s-layout__content">
+
+              <div className="add-answer-button" onClick={addAnswerContent}><span className="add-answer">+</span></div>
+
           		<div className="container-fluid">
 
                 {/* QUESTION CONTAINER STARTS */}
@@ -252,9 +263,9 @@ function Issue(props){
                 <hr/>
                 {/* QUESTION CONTAINER ENDS */}
 
-                {/* CREATE ANSWER CONTAINER STARTS 
+                {/* CREATE ANSWER CONTAINER STARTS */}
 
-                <div className="issue-container my-3">
+                <div className="issue-container my-3" id="answer_container">
                   <div className="issue-content">
                     <h4 className="mb-4">Your Answer</h4>
                     <CKEditor
@@ -270,7 +281,7 @@ function Issue(props){
                   </div>
                 </div>
 
-                 CREATE ANSWER CONTAINER ENDS */}
+                 {/* CREATE ANSWER CONTAINER ENDS */}
                 {/* ANSWER CONTAINER STARTS */}
 
                 <div className="issue-container my-3">
