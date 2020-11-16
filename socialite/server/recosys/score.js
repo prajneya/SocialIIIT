@@ -35,11 +35,14 @@ async function friendlist(id, flag)
 	for(i = 0; i < curdets.send.length; ++i)
 		marked[mapping[curdets.send[i]]] = 1;
 
+	for(i = 0; i < curdets.request.length; ++i)
+		marked[mapping[curdets.send[i]]] = 1;
+
 	l = -1;
 	if(flag != 0)
 		score = Array(1).fill({});
 	else
-		score = Array(users.length - 1 - cur.friends.length - curdets.send.length).fill({});
+		score = Array(users.length - 1 - cur.friends.length - curdets.send.length - curdets.request.length).fill({});
 	for(i = 0; i < users.length; ++i)
 	{
 		var sval = 0;
@@ -60,6 +63,8 @@ async function friendlist(id, flag)
 		var meet = 0;
 		if(curdets.sendmeet.includes(users[i]._id))
 			meet = 1;
+		if(curdets.requestmeet.includes(users[i]._id))
+			meet = 2;
 
 		score[++l] = {"id": users[i]._id, "match": sval, "email": email, meet: meet};
 		score[l].match *= 100;
