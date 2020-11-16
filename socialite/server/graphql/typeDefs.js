@@ -61,7 +61,7 @@ module.exports = gql`
     	createdAt: String!
         rating: Int!
         volatility: Float!
-        time_answered: Int!
+        times_answered: Int!
     }
     type field1{
         val: Int!
@@ -115,7 +115,11 @@ module.exports = gql`
     }
     type Query{
         getPosts: [Post]
+        getTopPosts: [Post]
         getPost(postId: ID!): Post
+        getTopRated: [User]
+        getTopAnswered: [User]
+        getTopTags: JSONObject
         recommend(id: String!): [Recommend]!
         didIUpvoteQuestion(postId: ID!, email: String!): Boolean!
         didIDownvoteQuestion(postId: ID!, email: String!): Boolean!
