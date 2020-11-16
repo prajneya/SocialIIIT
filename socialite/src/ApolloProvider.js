@@ -32,7 +32,7 @@ import Notifications from './components/Notifications/Notifications';
 import './App.css';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:5000'
+  uri: 'http://192.168.0.114:5000/'
 })
 
 const errorLink = onError(({ graphQLErrors }) => {
@@ -47,7 +47,6 @@ const authLink = setContext(() => {
     }
   }
 })
-
 
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
