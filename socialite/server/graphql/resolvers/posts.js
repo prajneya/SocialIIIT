@@ -15,6 +15,74 @@ module.exports = {
                 throw new Error(err);
             }
         },
+        async getTopPosts(){
+            try{
+                const posts = await Post.find().sort({ upvotes: -1 });
+                posts.sort((a, b) => (a.upvotes.length < b.upvotes.length) ? 1 : -1);
+                return posts.slice(0, 5);
+            } catch(err){
+                throw new Error(err);
+            }
+        },
+        async getTopRated(){
+            try{
+                const users = await User.find().sort({ rating: -1 });
+                users.sort((a, b) => (a.rating < b.rating) ? 1 : -1);
+                return users.slice(0, 10);
+            } catch(err){
+                throw new Error(err);
+            }
+        },
+        async getTopAnswered(){
+            try{
+                const users = await User.find().sort({ times_answered: -1 });
+                users.sort((a, b) => (a.times_answered < b.times_answered) ? 1 : -1);
+                return users.slice(0, 10);
+            } catch(err){
+                throw new Error(err);
+            }
+        },
+        async getTopTags(){
+            try{
+                var pretags = [
+                    {'name' : 'Data Structures', 'value' : 0},
+                    {'name' : 'C-programming', 'value' : 0},
+                    {'name' : 'Probability and Statistics', 'value' : 0},
+                    {'name' : 'Database Security', 'value' : 0},
+                    {'name' : 'Science', 'value' : 0},
+                    {'name' : 'Discrete Structures', 'value' : 0},
+                    {'name' : 'Speech Processing', 'value' : 0},
+                    {'name' : 'Computer Vision', 'value' : 0},
+                    {'name' : 'Internships', 'value' : 0},
+                    {'name' : 'Resume', 'value' : 0},
+                    {'name' : 'Computational Linguistics', 'value' : 0},
+                    {'name' : 'Algorithm Analysis & Design', 'value': 0},
+                    {'name' : 'NLP', 'value' : 0}
+                ]
+
+                const posts = await Post.find();
+
+                for(var i = 0; i < posts.length; i++)
+                {
+                    var tagkeys = Object.keys(posts[i].tags);
+                    for(var j = 0; j < tagkeys.length; j++)
+                    {
+                        for(var k = 0; k < pretags.length; k++)
+                        {
+                            if(pretags[k]['name'] === tagkeys[j])
+                            {
+                                pretags[k]['value'] += 1;
+                            }
+                        }   
+                    }
+                }
+
+                pretags.sort((a, b) => (a['value'] < b['value']) ? 1 : -1);
+                return pretags.slice(0, 3);
+            } catch(err){
+                throw new Error(err);
+            }
+        },
         async getSkills(_, { email }, context){
             const skills = await Skills.findOne({ email });
             if(!skills){

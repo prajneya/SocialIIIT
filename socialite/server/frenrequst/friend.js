@@ -7,7 +7,8 @@ async function frenaccept(user_id, fren_id)
 {
 	await data.updateFriendlist(user_id, fren_id);
 	await data.updateAccRej(user_id, fren_id);
-	await data.updateNotif(fren_id, user_id, "facc");
+	await data.newNotif(fren_id, user_id, "facc");
+	await data.removeNotif(user_id, fren_id, "freq");
 	
 	const cur1 = await data.getProfileById(user_id);
 	const cur2 = await data.getProfileById(fren_id);
@@ -27,14 +28,15 @@ async function frenaccept(user_id, fren_id)
 
 async function frenreject(user_id, fren_id)
 {
-	await data.updateAccRej(user_id, fren_id);
+	await data.updateAccRej(user_id, fren_id, 0);
+	await data.removeNotif(user_id, fren_id, "freq");
 }
 
 async function frenrequest(user_id, fren_id)
 {
 	// await notif.sendNotif(fren_id);
 	await data.updateRequest(user_id, fren_id);
-	await data.updateNotif(fren_id, user_id, "freq");
+	await data.newNotif(fren_id, user_id, "freq");
 }
 
 
