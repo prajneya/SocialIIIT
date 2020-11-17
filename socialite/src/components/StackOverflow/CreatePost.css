@@ -2,10 +2,62 @@
     height: 5rem;
 }
 
-.title input{
-    height: 3rem;
+.create-post-container input{
+    background: rgb(21, 21, 21) !important;
+	color: white !important;
+	width: 100%;
+}
+
+.create-post-container form{
+	margin: 1rem 0;
+	width: 100%;
+}
+
+.title{
+	color: white;
+}
+
+.tags{
+	color: white;
 }
 
 .tag-drop{
 	color: black !important;
+}
+
+.create-post-container{
+	margin: 7rem 0;
+}
+
+.create-post-header{
+	color: white;
+	font-size: 3.5rem;
+}
+
+.ck{
+	color: white !important;
+	background: black !important;
+}
+
+.css-e56m7-control {
+    background: black !important;
+    border-radius: 10px !important;
+    outline: none !important;
+    padding: 0.2rem !important;
+}
+
+.css-13jmfyo-multiValue {
+	background-color: rgba(255, 255, 255, 0.9) !important; 
+    padding: 0.2rem !important;
+    border-radius: 10px !important;
+    color: black !important;
+}
+
+.ck.ck-editor__main>.ck-editor__editable {
+    background: black;
+    border-radius: 10px !important;
+    min-height: 15rem;
+    color: white !important;
+    border-top-right-radius: 0 !important;
+    border-top-left-radius: 0 !important;
 }

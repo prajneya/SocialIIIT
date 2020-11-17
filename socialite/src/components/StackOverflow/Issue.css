@@ -112,10 +112,6 @@
 	text-transform: uppercase;
 }
 
-.ck{
-	color: black !important;
-}
-
 .bounty-timer-active{
 	background: #7579e7;
 	border-radius: 5px;
@@ -130,6 +126,35 @@
 	text-transform: uppercase;
 	font-weight: bold;
 	color: black;
+}
+
+.add-answer-button{
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	background: yellow;
+	width: 4rem;
+	height: 4rem;
+	border-radius: 4rem;
+	z-index: 100;
+	transition: all .5s ease;
+}
+
+.add-answer{
+	position: absolute;
+    top: 50%;
+    font-size: 2rem;
+    left: 50%;
+    transform: translate(-11.5px, -23px);
+}
+
+.add-answer-button:hover{
+	cursor: pointer;
+	background: #7579e7;
+}
+
+#answer_container{
+	display: none;
 }
 
 @media only screen and (max-width: 762px) {
