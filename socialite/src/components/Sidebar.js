@@ -34,7 +34,7 @@ function Sidebar(props) {
 			           </a>
 			        </li>
 			        <li>
-			           <a class="s-sidebar__nav-link" href="/notification">
+			           <a class="s-sidebar__nav-link" href="/notifications">
 			              <i><FontAwesomeIcon icon={faComments} /></i><em>Notifications</em>
 			           </a>
 			        </li>

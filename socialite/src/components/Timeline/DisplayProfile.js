@@ -75,7 +75,7 @@ const username = props.match.params.username;
   });
 
   var profile_data = profileData ? profileData.profile : "";
-  console.log("Yaya" + profile_data)
+  console.log("YAYA" + profile_data);
 
   if(!timeline_data){
     return (<>USER NOT FOUND</>)
@@ -107,10 +107,27 @@ const username = props.match.params.username;
                                 <i><FontAwesomeIcon icon={faFacebook} size="2x"/></i>
                                 <i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
                                 {profile_data.friend === 0 ? 
-                          <button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
-                          : ""}
-                          <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
-                        
+                                <button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
+                                : ""}
+                                {profile_data.friend === 1 ? 
+                                <div>You're Friends!</div>
+                                : ""}
+                                {profile_data.friend === 2 ? 
+                                <div>Pending Friend Request!</div>
+                                : ""}
+                                {profile_data.friend === 3 ? 
+                                <div>Pending Friend Request!</div>
+                                : ""}
+
+                                {profile_data.meet === 0 ? 
+                                <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
+                                : ""}
+                                {profile_data.friend === 2 ? 
+                                <div>Pending Meet Request!</div>
+                                : ""}
+                                {profile_data.friend === 3 ? 
+                                <div>Pending Meet Request!</div>
+                                : ""}
                               </div>
                             </div>
                           </div>
@@ -272,7 +289,7 @@ const FETCH_TIMELINE = gql`
 const FETCH_PROFILE = gql`
     query($curid: String!, $id: String!){
         profile(curid: $curid, id: $id){
-          email match friend clubs{val} sports{val} house{val}
+            friend meet
         }
     }
 `;

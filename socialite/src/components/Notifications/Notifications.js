@@ -118,17 +118,18 @@ function Notifications(props){
                                         <br />
                                         Friend Match Probability: {Math.round((notification['match'] + Number.EPSILON) * 100)/100}%
                                         <br />
-                                        {notification['type'] === "friend" ? 
+                                        {notification['type'] === "freq" ? 
                                         <div>
                                             <button className="rounded ml-1 my-2" onClick={() => do_frenaccept(notification['userId'])}>ACCEPT FRIEND REQUEST</button>
                                             <button className="rounded ml-1 my-2" onClick={() => do_frenreject(notification['userId'])}>REJECT FRIEND REQUEST</button>
                                         </div>
-                                        :
+                                        : ""}
+                                        {notification['type'] === "mreq" ?
                                         <div>
                                             <button className="rounded ml-1 my-2" onClick={() => do_meetaccept(notification['userId'])}>ACCEPT MEET REQUEST</button>
                                             <button className="rounded ml-1 my-2" onClick={() => do_meetreject(notification['userId'])}>REJECT MEET REQUEST</button>
                                         </div>
-                                        }
+                                        : ""}
                                     </div>
                                 </div>
                             </div>
