@@ -15,15 +15,18 @@ module.exports = async function profiledisp(curid, id) {
 		send[i] = await data.getProfileById(cur.friends[i]);
 	}
 
-	email = await data.getUserEmail(id);
+	info =  await data.getUserInfo(id);
+	email = info.email
+	username = info.username
 	curdets = await data.getUserDetsById(cur);
 	ret = await content.common(cur, user, send, email, curdets);
 	ret.friend = flag;
 	ret.meet = 0
+	ret.username = username
 	if(curdets.sendmeet.includes(user._id))
-		ret.meet = 1
-	else if(curdets.requestmeet.includes(user._id))
 		ret.meet = 2
+	else if(curdets.requestmeet.includes(user._id))
+		ret.meet = 3
 
 	if(curdets.send.includes(user._id))
 		ret.friend = 2

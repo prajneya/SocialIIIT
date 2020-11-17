@@ -18,7 +18,9 @@ const Profile = new mongoose.Schema({
 	hosname: String,
 	sports: [String],
 	clubs: [String],
-	cluster_no: Number
+	cluster_no: Number,
+	batch: String,
+	stream: String
 });
 
 const UserDets = new mongoose.Schema({
