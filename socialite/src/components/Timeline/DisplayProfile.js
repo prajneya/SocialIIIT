@@ -46,6 +46,46 @@ const [meetrequest, { mrequest }] = useMutation(MEET_REQUEST, {
     }
 })
 
+const [frenaccept, { faccept }] = useMutation(FREN_ACCEPT, {
+  update(_, { data: { login: userData } }){
+    window.location.reload(false);
+  },
+  variables: {
+      curid,
+      fren_id
+  }
+})
+
+const [frenreject, { freject }] = useMutation(FREN_REJECT, {
+  update(_, { data: { login: userData } }){
+    window.location.reload(false);
+  },
+  variables: {
+      curid,
+      fren_id
+  }
+})
+
+const [meetaccept, { maccept }] = useMutation(MEET_ACCEPT, {
+  update(_, { data: { login: userData } }){
+    window.location.reload(false);
+  },
+  variables: {
+      curid,
+      fren_id
+  }
+})
+
+const [meetreject, { mreject }] = useMutation(MEET_REJECT, {
+  update(_, { data: { login: userData } }){
+    window.location.reload(false);
+  },
+  variables: {
+      curid,
+      fren_id
+  }
+})
+
 async function send_frenrequest(fren_id){
   await setfren_id(fren_id);
   frenrequest();
@@ -54,6 +94,26 @@ async function send_frenrequest(fren_id){
 async function send_meetrequest(fren_id){
   await setfren_id(fren_id);
   meetrequest();
+}
+
+async function do_frenaccept(fren_id){
+  await setfren_id(fren_id);
+  frenaccept();
+}
+
+async function do_frenreject(fren_id){
+  await setfren_id(fren_id);
+  frenreject();
+}
+
+async function do_meetaccept(fren_id){
+  await setfren_id(fren_id);
+  meetaccept();
+}
+
+async function do_meetreject(fren_id){
+  await setfren_id(fren_id);
+  meetreject();
 }
 
 const username = props.match.params.username;
@@ -75,7 +135,6 @@ const username = props.match.params.username;
   });
 
   var profile_data = profileData ? profileData.profile : "";
-  console.log("YAYA" + profile_data);
 
   if(!timeline_data){
     return (<>USER NOT FOUND</>)
@@ -115,18 +174,24 @@ const username = props.match.params.username;
                                 {profile_data.friend === 2 ? 
                                 <div>Pending Friend Request!</div>
                                 : ""}
-                                {profile_data.friend === 3 ? 
-                                <div>Pending Friend Request!</div>
+                                {profile_data.friend === 3 ?
+                                <div>
+                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_frenaccept(timeline_data.id)}>ACCEPT FRIEND REQUEST</button>
+                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_frenreject(timeline_data.id)}>REJECT FRIEND REQUEST</button>
+                                </div>
                                 : ""}
 
                                 {profile_data.meet === 0 ? 
                                 <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
                                 : ""}
-                                {profile_data.friend === 2 ? 
+                                {profile_data.meet === 1 ? 
                                 <div>Pending Meet Request!</div>
                                 : ""}
-                                {profile_data.friend === 3 ? 
-                                <div>Pending Meet Request!</div>
+                                {profile_data.meet === 2 ? 
+                                <div>
+                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET REQUEST</button>
+                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_meetreject(timeline_data.id)}>REJECT MEET REQUEST</button>
+                                </div>
                                 : ""}
                               </div>
                             </div>
@@ -269,14 +334,38 @@ const username = props.match.params.username;
 }
 
 const FREN_REQUEST = gql`
-    mutation frenrequest($user_id: String!, $fren_id: String!) {
-        frenrequest(user_id: $user_id, fren_id: $fren_id)
+    mutation frenrequest($curid: String!, $fren_id: String!) {
+        frenrequest(user_id: $curid, fren_id: $fren_id)
     }
 `;
 
 const MEET_REQUEST = gql`
-    mutation meetrequest($user_id: String!, $fren_id: String!) {
-        meetrequest(user_id: $user_id, fren_id: $fren_id)
+    mutation meetrequest($curid: String!, $fren_id: String!) {
+        meetrequest(user_id: $curid, fren_id: $fren_id)
+    }
+`;
+
+const FREN_ACCEPT = gql`
+    mutation frenaccept($curid: String!, $fren_id: String!) {
+        frenaccept(user_id: $curid, fren_id: $fren_id)
+    }
+`;
+
+const FREN_REJECT = gql`
+    mutation frenreject($curid: String!, $fren_id: String!) {
+        frenreject(user_id: $curid, fren_id: $fren_id)
+    }
+`;
+
+const MEET_ACCEPT = gql`
+    mutation meetaccept($curid: String!, $fren_id: String!) {
+        meetaccept(user_id: $curid, fren_id: $fren_id)
+    }
+`;
+
+const MEET_REJECT = gql`
+    mutation meetreject($user_id: String!, $fren_id: String!) {
+        meetreject(user_id: $curid, fren_id: $fren_id)
     }
 `;
 
