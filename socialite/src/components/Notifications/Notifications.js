@@ -139,7 +139,7 @@ function Notifications(props){
                                         : ""}
                                         {notification['type'] === "macc" ?
                                         <div>
-                                            {notification['username']} accepted you meet requested!
+                                            Meet request accepted! Schedule your meet now!
                                         </div>
                                         : ""}
                                     </div>
