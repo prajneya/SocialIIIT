@@ -89,8 +89,40 @@
 	color: #c2a40e;
 }
 
+.create-post-button{
+	display: none;
+	position: fixed;
+	bottom: 2rem;
+	right: 2rem;
+	background: yellow;
+	width: 4rem;
+	height: 4rem;
+	border-radius: 4rem;
+	z-index: 100;
+	transition: all .5s ease;
+}
+
+.create-post-button:hover{
+	cursor: pointer;
+	background: #7579e7;
+}
+
+.create-post-icon{
+	position: absolute;
+    top: 50%;
+    font-size: 2rem;
+    left: 50%;
+    transform: translate(-11px, -27.5px);
+}
+
 @media (max-width: 42em) {
 	.searchbox{
 		margin-top: 5rem;
+	}
+}
+
+@media (max-width: 68em) {
+	.create-post-button{
+		display: block;
 	}
 }

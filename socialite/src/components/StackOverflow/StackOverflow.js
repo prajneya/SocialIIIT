@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Parser from 'html-react-parser';
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from '../../context/auth'
@@ -48,12 +48,22 @@ function StackOverflow(props){
   const { data } = useQuery(FETCH_POSTS_QUERY);
 
   var post_list = data ? data.getPosts : "";
-  console.log(post_list)
+
+  const { data: people } = useQuery(FETCH_PEOPLE_QUERY);
+
+  var people_list = people ? people.getTopAnswered : "";
+
+  const { data: trending_tags } = useQuery(FETCH_TAGS);
+
+  var trending_tags_list = trending_tags ? trending_tags.getTopTags : "";
 
 	return (
             <>
               <Sidebar/>
               <main class="s-layout__content">
+
+                <div className="create-post-button" onClick={createPost}><span className="create-post-icon"><i><FontAwesomeIcon icon={faEdit} size="xs"/></i></span></div>
+
             		<div className="container-fluid">
 
                   <div className="explore-posts pr-3">
@@ -64,9 +74,9 @@ function StackOverflow(props){
                     <br/> <br/> <br/> 
                     <div class="trending-tags desktop-only">
                       <div className="explore-subheader my-4">Trending:</div>
-                      <div className="tag px-3 py-2 mr-1 my-1">#community</div>
-                      <div className="tag px-3 py-2 mr-1 my-1">#community</div>
-                      <div className="tag px-3 py-2 mr-1 my-1">#community</div>
+                      {trending_tags_list && trending_tags_list.map(trending_tag => ( 
+                      <div className="tag px-3 py-2 mr-1 my-1">#{trending_tag['name']}</div>
+                      ))}
                     </div>
                   </div>
                   <div className="row">
@@ -107,21 +117,11 @@ function StackOverflow(props){
                         </div>
                         <div className="top-users m-4">
                           <ul>
-                            <li className="mt-4">Prajneya
-                              <div className="no-post float-right">231 posts</div>
+                          {people_list && people_list.map(person => ( 
+                            <li className="mt-4">{person['username']}
+                              <div className="no-post float-right">{person['times_answered']} posts</div>
                             </li>
-                            <li className="mt-4">Prajneya
-                              <div className="no-post float-right">231 posts</div>
-                            </li>
-                            <li className="mt-4">Prajneya
-                              <div className="no-post float-right">231 posts</div>
-                            </li>
-                            <li className="mt-4">Prajneya
-                              <div className="no-post float-right">231 posts</div>
-                            </li>
-                            <li className="mt-4">Prajneya
-                              <div className="no-post float-right">231 posts</div>
-                            </li>
+                            ))}
                           </ul>
                         </div>
                       </div>
@@ -138,6 +138,19 @@ const FETCH_POSTS_QUERY = gql`
         getPosts{
             id title body email answers{ id } upvotes{ id } createdAt tags
         }
+    }
+`
+const FETCH_PEOPLE_QUERY = gql`
+    query{
+        getTopAnswered{
+            username times_answered
+        }
+    }
+`
+
+const FETCH_TAGS = gql`
+    query{
+        getTopTags
     }
 `
 

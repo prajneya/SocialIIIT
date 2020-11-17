@@ -61,23 +61,25 @@ module.exports = {
                 ]
 
                 const posts = await Post.find();
-
-                for(var i = 0; i < posts.length; i++)
-                {
-                    var tagkeys = Object.keys(posts[i].tags);
-                    for(var j = 0; j < tagkeys.length; j++)
-                    {
-                        for(var k = 0; k < pretags.length; k++)
-                        {
-                            if(pretags[k]['name'] === tagkeys[j])
+                if(posts){
+                    for(var i = 0; i < posts.length; i++)
+                    {   
+                        if(posts[i].tags){
+                            var tagkeys = Object.keys(posts[i].tags);
+                            for(var j = 0; j < tagkeys.length; j++)
                             {
-                                pretags[k]['value'] += 1;
+                                for(var k = 0; k < pretags.length; k++)
+                                {
+                                    if(pretags[k]['name'] === tagkeys[j])
+                                    {
+                                        pretags[k]['value'] += 1;
+                                    }
+                                }   
                             }
-                        }   
+                        }
                     }
+                    pretags.sort((a, b) => (a['value'] < b['value']) ? 1 : -1);
                 }
-
-                pretags.sort((a, b) => (a['value'] < b['value']) ? 1 : -1);
                 return pretags.slice(0, 3);
             } catch(err){
                 throw new Error(err);
@@ -285,9 +287,6 @@ module.exports = {
             const user = checkAuth(context);
 
             const post = await Post.findById(postId);
-            console.log("UPVOTES", post.upvotes)
-            console.log("DOWNVOTES", post.downvotes)
-            console.log("TAGS", post.tags)
             if(post){
                 if(post.downvotes.find((downvote) => downvote.email === user.email)){
                     throw new Error('Question Already downvoted');
@@ -302,6 +301,7 @@ module.exports = {
                             createdAt: new Date().toISOString()
                         });
                         await post.save();   
+                        return post;
                     }
                 }
             }
@@ -315,7 +315,8 @@ module.exports = {
             const post = await Post.findById(postId);
             if(post){
                 if(post.upvotes.find((upvote) => upvote.email === user.email)){
-                    const upvoteIndex = post.upvotes.find((upvote) => upvote.email === user.email);
+                    const upvoteIndex = post.upvotes.findIndex((upvote) => upvote.email === user.email);
+                    console.log(upvoteIndex)
                     post.upvotes.splice(upvoteIndex, 1);
                     await post.save();
                     return post;
@@ -360,7 +361,7 @@ module.exports = {
             const post = await Post.findById(postId);
             if(post){
                 if(post.downvotes.find((downvote) => downvote.email === user.email)){
-                    const downvoteIndex = post.downvotes.find((downvote) => downvote.email === user.email);
+                    const downvoteIndex = post.downvotes.findIndex((downvote) => downvote.email === user.email);
                     post.downvotes.splice(downvoteIndex, 1);
                     await post.save();
                     return post;
@@ -442,7 +443,7 @@ module.exports = {
                 const answer = post.answers.find((r_answer) => r_answer.id === answerId);
                 if(answer){
                     if(answer.upvotes.find((upvote) => upvote.email === user.email)){
-                        const upvoteIndex = answer.upvotes.find((upvote) => upvote.email === user.email);
+                        const upvoteIndex = answer.upvotes.findIndex((upvote) => upvote.email === user.email);
                         answer.upvotes.splice(upvoteIndex, 1);
                         await post.save();
                         const author = await Skills.findOne({ email: answer.email })
@@ -511,7 +512,7 @@ module.exports = {
                 const answer = post.answers.find((r_answer) => r_answer.id === answerId);
                 if(answer){
                     if(answer.downvotes.find((downvote) => downvote.email === user.email)){
-                        const downvoteIndex = answer.downvotes.find((downvote) => downvote.email === user.email);
+                        const downvoteIndex = answer.downvotes.findIndex((downvote) => downvote.email === user.email);
                         answer.downvotes.splice(downvoteIndex, 1);
                         await post.save();
                         return post;

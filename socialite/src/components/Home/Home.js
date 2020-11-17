@@ -35,10 +35,10 @@ function Home(props) {
 		},
 		onError(err){
 			if(err.graphQLErrors.length > 0)
+				setErrors(err.graphQLErrors[0].extensions.exception.errors);
 				overlayElement.style.zIndex = 0;
 				overlayElement.style.opacity = 0;
 				signinDisplay.style.display = "none";
-				setErrors(err.graphQLErrors[0].extensions.exception.errors);
 		},
 		variables: values
 	})
