@@ -114,6 +114,8 @@ function Notifications(props){
                             <div className="col-lg-12">
                                 <div className="friend">
                                     <div className="friend-content">
+                                        <strong>Username: {notification['username']}</strong>
+                                        <br />
                                         <strong>Email: {notification['email']}</strong>
                                         <br />
                                         Friend Match Probability: {Math.round((notification['match'] + Number.EPSILON) * 100)/100}%
@@ -128,6 +130,16 @@ function Notifications(props){
                                         <div>
                                             <button className="rounded ml-1 my-2" onClick={() => do_meetaccept(notification['userId'])}>ACCEPT MEET REQUEST</button>
                                             <button className="rounded ml-1 my-2" onClick={() => do_meetreject(notification['userId'])}>REJECT MEET REQUEST</button>
+                                        </div>
+                                        : ""}
+                                        {notification['type'] === "facc" ?
+                                        <div>
+                                            {notification['username']} accepted your friend requested!     
+                                        </div>
+                                        : ""}
+                                        {notification['type'] === "macc" ?
+                                        <div>
+                                            {notification['username']} accepted you meet requested!
                                         </div>
                                         : ""}
                                     </div>
@@ -168,7 +180,7 @@ const MEET_REJECT = gql`
 const FETCH_NOTIFICATIONS_QUERY = gql`
     query($user_id: String!){
         getNotif(id: $user_id){
-            userId email match type
+            userId email match type username
         }
     }
 `

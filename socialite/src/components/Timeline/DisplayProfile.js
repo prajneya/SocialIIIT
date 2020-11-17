@@ -184,10 +184,10 @@ const username = props.match.params.username;
                                 {profile_data.meet === 0 ? 
                                 <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
                                 : ""}
-                                {profile_data.meet === 1 ? 
+                                {profile_data.meet === 2 ? 
                                 <div>Pending Meet Request!</div>
                                 : ""}
-                                {profile_data.meet === 2 ? 
+                                {profile_data.meet === 3 ? 
                                 <div>
                                 <button className="rounded ml-2 my-2 float-right" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET REQUEST</button>
                                 <button className="rounded ml-2 my-2 float-right" onClick={() => do_meetreject(timeline_data.id)}>REJECT MEET REQUEST</button>
