@@ -61,23 +61,25 @@ module.exports = {
                 ]
 
                 const posts = await Post.find();
-
-                for(var i = 0; i < posts.length; i++)
-                {
-                    var tagkeys = Object.keys(posts[i].tags);
-                    for(var j = 0; j < tagkeys.length; j++)
-                    {
-                        for(var k = 0; k < pretags.length; k++)
-                        {
-                            if(pretags[k]['name'] === tagkeys[j])
+                if(posts){
+                    for(var i = 0; i < posts.length; i++)
+                    {   
+                        if(posts[i].tags){
+                            var tagkeys = Object.keys(posts[i].tags);
+                            for(var j = 0; j < tagkeys.length; j++)
                             {
-                                pretags[k]['value'] += 1;
+                                for(var k = 0; k < pretags.length; k++)
+                                {
+                                    if(pretags[k]['name'] === tagkeys[j])
+                                    {
+                                        pretags[k]['value'] += 1;
+                                    }
+                                }   
                             }
-                        }   
+                        }
                     }
+                    pretags.sort((a, b) => (a['value'] < b['value']) ? 1 : -1);
                 }
-
-                pretags.sort((a, b) => (a['value'] < b['value']) ? 1 : -1);
                 return pretags.slice(0, 3);
             } catch(err){
                 throw new Error(err);

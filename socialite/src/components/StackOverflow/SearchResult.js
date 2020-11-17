@@ -60,6 +60,15 @@ function SearchResult(props){
 
   var trending_tags_list = trending_tags ? trending_tags.getTopTags : "";
 
+   document.addEventListener('keypress', function (e) {
+            if (e.keyCode === 13 || e.which === 13) {
+                e.preventDefault();
+                searchCallback();
+                return false;
+            }
+            
+        });
+
 	return (
             <>
               <Sidebar/>
