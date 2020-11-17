@@ -1,4 +1,6 @@
 import React, { useContext, useState } from 'react';
+import Select from 'react-select'
+import makeAnimated from 'react-select/animated';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {useSpring, animated} from 'react-spring'
@@ -6,12 +8,32 @@ import {useSpring, animated} from 'react-spring'
 import { AuthContext } from '../../context/auth';
 import { useForm } from '../../util/hooks';
 
+const options = [{label: 'UG2k20', value: 1, area: 'UG2k20'},{label: 'UG2k19',value:2, area: 'UG2k20'},{label: 'UG2k18',value:3, area: 'UG2k20'},{label: 'UG2k17',value:4, area: 'UG2k20'},{label: 'UG2k16',value:5, area: 'UG2k20'},{label: 'PG2k20',value:6, area: 'UG2k20'},{label: 'PG2k19',value:7, area: 'UG2k20'},{label: 'Alumni',value:8, area: 'UG2k20'}]
+const options2 = [{label: 'CSE', value: 1, area: 'UG2k20'},{label: 'CSD',value:2, area: 'UG2k20'},{label: 'ECE',value:3, area: 'UG2k20'},{label: 'ECD',value:4, area: 'UG2k20'},{label: 'CLD',value:5, area: 'UG2k20'},{label: 'CND',value:6, area: 'UG2k20'},{label: 'CHD',value:7, area: 'UG2k20'},{label: 'LCD',value:8, area: 'UG2k20'},{label: 'LED',value:9, area: 'UG2k20'},{label: 'CSIS',value:10, area: 'UG2k20'},{label: 'CASE',value:11, area: 'UG2k20'},{label: 'CE',value:12, area: 'UG2k20'},{label: 'CL',value:13, area: 'UG2k20'}]
+
+const animatedComponents = makeAnimated();
+
+const customStyles = {
+  option: (provided, state) => ({
+    ...provided,
+    borderBottom: '1px dotted pink',
+    color: state.isSelected ? 'red' : 'blue',
+    padding: 20,
+  }),
+  singleValue: (provided, state) => {
+    const opacity = state.isDisabled ? 0.5 : 1;
+    const transition = 'opacity 300ms';
+
+    return { ...provided, opacity, transition };
+  }
+}
 
 function Register(props) {
 
 	const context = useContext(AuthContext)
 
 	const [errors, setErrors] = useState({});
+	const [tags, setTags] = useState({});
 
 	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
@@ -30,6 +52,16 @@ function Register(props) {
 		password: '',
 		confirmPassword: ''
 	})
+
+	async function handleChange(selectedOptions){
+		var temp_tags = {}
+		if(selectedOptions){
+			for(var i = 0; i < selectedOptions.length; i++){
+				temp_tags[selectedOptions[i].label] = true
+			}
+		}
+		await setTags(temp_tags)
+	}
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
 		update(_, { data: { register: userData } }){
@@ -98,6 +130,52 @@ function Register(props) {
 								<input type="text" id="rollnumber" name="rollnumber" placeholder="Enter your roll number" />
 							</div>
 
+                            				<div className="batch">
+								<label for="batch">Batch</label>
+                                				<br/>
+                                				<div className="batch-drop">
+                                    					<Select
+                                      					styles={customStyles}
+                                      					closeMenuOnSelect={false}
+                				                      	components={animatedComponents}
+                                      					options={options}
+                                      					onChange={handleChange}
+                                      					theme={theme => ({
+                                              					...theme,
+                                              					borderRadius: 0,
+                                              					colors: {
+                                                					...theme.colors,
+                                                					primary25: '#00adb5',
+                                                					primary: 'black',
+                                              					},
+                                            					})}
+                                    					/>
+                                				</div>
+                                			</div>
+
+                            				<div className="stream">
+								<label for="stream">Stream</label>
+                                				<br/>
+                                				<div className="stream-drop">
+                                    					<Select
+                                      					styles={customStyles}
+                                      					closeMenuOnSelect={false}
+                				                      	components={animatedComponents}
+                                      					options={options2}
+                                      					onChange={handleChange}
+                                      					theme={theme => ({
+                                              					...theme,
+                                              					borderRadius: 0,
+                                              					colors: {
+                                                					...theme.colors,
+                                                					primary25: '#00adb5',
+                                                					primary: 'black',
+                                              					},
+                                            					})}
+                                    					/>
+                                				</div>
+                                			</div>
+
 							<div className="password">
 								<label for="password">Password</label>
 								<input type="password" id="password" name="password" placeholder="Enter your password" onChange={onChange} value={values.password} />
@@ -143,6 +221,8 @@ const REGISTER_USER = gql`
     $email: String!
     $password: String!
     $confirmPassword: String!
+    $batch: String!
+    $stream: String!
   ) {
     register(
       registerInput: {
@@ -150,6 +230,8 @@ const REGISTER_USER = gql`
         email: $email
         password: $password
         confirmPassword: $confirmPassword
+	batch: $batch
+	stream: $stream
       }
     ) {
       id
