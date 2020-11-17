@@ -17,10 +17,10 @@ module.exports = {
 		});
 		return ret;
 	},
-	getUserEmail: async function (id){
-		ret = ""
+	getUserInfo: async function (id){
+		ret = {}
 		await User.findById(id).then((user) => {
-			ret = user.email;
+			ret = {email: user.email, username: user.username};
 		});
 		return ret;
 	},

@@ -51,8 +51,10 @@ async function friendlist(id, flag)
 		else if(flag != 0 && !users[i]._id.equals(flag))
 			continue;
 
-		email =  await data.getUserEmail(users[i]._id);
-		if(cur.cluster_no == users[i].cluster_no)
+		info =  await data.getUserInfo(users[i]._id);
+		email = info.email
+		username = info.username
+		if(cur.cluster_no != -1 && cur.cluster_no == users[i].cluster_no)
 			sval = 0.5;
 
 		conscore = await content.scoring(cur, users[i], curdets, send);
@@ -62,11 +64,11 @@ async function friendlist(id, flag)
 
 		var meet = 0;
 		if(curdets.sendmeet.includes(users[i]._id))
-			meet = 1;
-		if(curdets.requestmeet.includes(users[i]._id))
 			meet = 2;
+		if(curdets.requestmeet.includes(users[i]._id))
+			meet = 3;
 
-		score[++l] = {"id": users[i]._id, "match": sval, "email": email, meet: meet};
+		score[++l] = {"id": users[i]._id, "match": sval, "email": email, username: username, meet: meet};
 		score[l].match *= 100;
 	}
 

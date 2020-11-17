@@ -83,6 +83,7 @@ module.exports = gql`
     	clubs: field3
     	match: Float
         email: String!
+	username: String!
         friend: Int!
 	meet: Int!
     }
@@ -90,6 +91,7 @@ module.exports = gql`
         id: ID!
         match: Float!
         email: String!
+	username: String!
 	meet: Int!
     }
     input RegisterInput{
@@ -97,6 +99,8 @@ module.exports = gql`
     	email: String!
     	password: String!
     	confirmPassword: String!
+	batch: String!
+	stream: String!
     }
     type Notif{
         userId: String!
