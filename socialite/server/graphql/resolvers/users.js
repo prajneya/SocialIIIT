@@ -52,7 +52,7 @@ module.exports = {
 	      };
 	    },
 		async register(_, 
-			{ registerInput: { username, email, password, confirmPassword } 
+			{ registerInput: { username, email, password, confirmPassword, batch, stream } 
 			}
 		){
 			const { valid, errors } = validateRegisterInput(email, password, confirmPassword)
@@ -90,7 +90,10 @@ module.exports = {
 			});
 
 			const newProfile = new Profile({
-				_id: res.id
+				_id: res.id,
+				cluster_no: -1,
+				batch: batch,
+				stream: stream
 			});
 
 			const ret = await newProfile.save();
