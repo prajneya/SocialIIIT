@@ -33,7 +33,8 @@ function Register(props) {
 	const context = useContext(AuthContext)
 
 	const [errors, setErrors] = useState({});
-	const [tags, setTags] = useState({});
+	const [batch, setBatch] = useState({});
+	const [stream, setStream] = useState({});
 
 	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
@@ -53,14 +54,14 @@ function Register(props) {
 		confirmPassword: ''
 	})
 
-	async function handleChange(selectedOptions){
-		var temp_tags = {}
-		if(selectedOptions){
-			for(var i = 0; i < selectedOptions.length; i++){
-				temp_tags[selectedOptions[i].label] = true
-			}
-		}
-		await setTags(temp_tags)
+	async function handleChangeBatch(selectedOptions){
+		var temp_batch = {}
+		await setBatch(selectedOptions.label)
+	}
+
+	async function handleChangeStream(selectedOptions){
+		var temp_stream = {}
+		await setStream(selectedOptions.label)
 	}
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
@@ -72,7 +73,7 @@ function Register(props) {
 			if(err.graphQLErrors.length > 0)
 				setErrors(err.graphQLErrors[0].extensions.exception.errors);
 		},
-		variables: values
+		variables: {'username': values['username'], 'email': values['email'], 'password': values['password'], 'confirmPassword': values['confirmPassword'], 'batch': batch, 'stream': stream} 
 	})
 
 	function registerUser(){
@@ -124,12 +125,6 @@ function Register(props) {
 								<input type="text" id="username" name="username" placeholder="Enter your username" onChange={onChange} value={values.username} />
 							</div>
 
-							<div className="rollno">
-								<label for="rollno">Roll Number</label>
-								<br/>
-								<input type="text" id="rollnumber" name="rollnumber" placeholder="Enter your roll number" />
-							</div>
-
                             				<div className="batch">
 								<label for="batch">Batch</label>
                                 				<br/>
@@ -139,7 +134,7 @@ function Register(props) {
                                       					closeMenuOnSelect={false}
                 				                      	components={animatedComponents}
                                       					options={options}
-                                      					onChange={handleChange}
+                                      					onChange={handleChangeBatch}
                                       					theme={theme => ({
                                               					...theme,
                                               					borderRadius: 0,
@@ -162,7 +157,7 @@ function Register(props) {
                                       					closeMenuOnSelect={false}
                 				                      	components={animatedComponents}
                                       					options={options2}
-                                      					onChange={handleChange}
+                                      					onChange={handleChangeStream}
                                       					theme={theme => ({
                                               					...theme,
                                               					borderRadius: 0,
@@ -217,7 +212,7 @@ function Register(props) {
 
 const REGISTER_USER = gql`
   mutation register(
-  	$username: String!
+    $username: String!
     $email: String!
     $password: String!
     $confirmPassword: String!
