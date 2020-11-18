@@ -27,6 +27,26 @@ function checkhos (a,b)
 	}
 }
 
+function isEmpty(val){
+  return !!val;
+}
+
+function isCheck(a,b)
+{
+	if(isEmpty(a) && isEmpty(b))
+		return 1;
+	else
+		return 0;
+}
+
+function isRatio(a,num)
+{
+	if(!isEmpty(a))
+		return 0.5*(1/num);
+	else
+		return a;
+}
+
 async function resetratio(profile,arr)
 {
 	var hosnum = profile.hosnum;
@@ -48,9 +68,18 @@ async function resetratio(profile,arr)
 	for(i = 0; i < total; ++i)
 	{
 		var fren = await data.getProfileById(arr[i]);
-		count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
-		count_hosname = count_hosname+check(hosname,fren.hosname);
-		count_house = count_house+check(house,fren.house);
+		if(isCheck(hosnum,fren.hosnum))
+		{
+			count_hostel = count_hostel+checkhos(hosnum,fren.hosnum);
+		}
+		if(isCheck(hosname,fren.hosname))
+		{
+			count_hosname = count_hosname+check(hosname,fren.hosname);
+		}
+		if(isCheck(house,fren.house))
+		{
+			count_house = count_house+check(house,fren.house);
+		}
 
 		var spofre = fren.sports;
 		//console.log(arr[i]);
@@ -60,7 +89,10 @@ async function resetratio(profile,arr)
 		{
 			for(k = 0; k < spofrelen; ++k)
 			{
-				sporarr[j]=sporarr[j]+check(sports[j],spofre[k]);	
+				if(isCheck(sports[j],spofre[k]))
+				{
+					sporarr[j]=sporarr[j]+check(sports[j],spofre[k]);				
+				}
 			}
 		}
 
@@ -70,7 +102,10 @@ async function resetratio(profile,arr)
 		{
 			for(k = 0; k < clufrelen; ++k)
 			{
-				cluarr[j]=cluarr[j]+check(clubs[j],clufre[k]);	
+				if(isCheck(clubs[j],clufre[k]))
+				{
+					cluarr[j]=cluarr[j]+check(clubs[j],clufre[k]);									
+				}
 			}
 		}
 	}
@@ -103,18 +138,29 @@ function scoring(a,b,cur,arr)
 	{
 		totsport = profile.sports.length;
 		totclub = profile.clubs.length;
-		score = score + checkhos(profile.hosnum,nonfren.hosnum);
-		score = score + check(profile.hosname,nonfren.hosname);
-		score = score + check(profile.house,nonfren.house);
-
+		if(isCheck(profile.hosnum,nonfren.hosnum))
+		{
+			score = score + checkhos(profile.hosnum,nonfren.hosnum);
+		}
+		if(isCheck(profile.hosname,nonfren.hosname))
+		{
+			score = score + check(profile.hosname,nonfren.hosname);
+			
+		}
+		if(isCheck(profile.hosnum,nonfren.hosnum))
+		{
+			score = score + check(profile.house,nonfren.house);
+		}
 		const sporlenuser = profile.sports.length;
 		const sporlennon = nonfren.sports.length;
 		for(j = 0; j < sporlenuser; ++j)
 		{
 			for(k = 0; k < sporlennon; ++k)
 			{
-				
-				score = score + check(profile.sports[j],nonfren.sports[k]);	
+				if(isCheck(profile.sports[j],nonfren.sports[k]))
+				{
+					score = score + check(profile.sports[j],nonfren.sports[k]);					
+				}	
 			}
 		}
 
@@ -124,16 +170,32 @@ function scoring(a,b,cur,arr)
 		{
 			for(k = 0; k < clulennon; ++k)
 			{
-				score = score + check(profile.clubs[j],nonfren.clubs[k]);		
+				if(isCheck(profile.clubs[j],nonfren.clubs[k]))
+				{
+					score = score + check(profile.clubs[j],nonfren.clubs[k]);					
+				}		
 			}
 		}
 		total = 3 + clulenuser + sporlenuser;
 	}
 	else
 	{
-		score = score + cur.hosnum*checkhos(profile.hosnum,nonfren.hosnum);
-		score = score + cur.hosname*check(profile.hosname,nonfren.hosname);
-		score = score + cur.house*check(profile.house,nonfren.house);
+		numFren = arr.length;
+		if(isCheck(profile.hosnum,nonfren.hosnum))
+		{
+			cur.hosnum = isRatio(cur.hosnum, numFren);
+			score = score + cur.hosnum*checkhos(profile.hosnum,nonfren.hosnum);
+		}
+		if(isCheck(profile.hosname,nonfren.hosname))
+		{
+			cur.hosname = isRatio(cur.hosname, numFren);
+			score = score + cur.hosname*check(profile.hosname,nonfren.hosname);		
+		}
+		if(isCheck(profile.hosnum,nonfren.hosnum))
+		{
+			cur.house = isRatio(cur.hosnum, numFren);
+			score = score + cur.house*check(profile.house,nonfren.house);
+		}
 
 		const sporlenuser = profile.sports.length;
 		const sporlennon = nonfren.sports.length;
@@ -142,8 +204,11 @@ function scoring(a,b,cur,arr)
 			totsport = totsport + cur.sports[j];
 			for(k = 0; k < sporlennon; ++k)
 			{
-				
-				score = score + cur.sports[j]*check(profile.sports[j],nonfren.sports[k]);	
+				if(isCheck(profile.sports[j],nonfren.sports[k]))
+				{
+					cur.sports[j]=isRatio(cur.sports[j], numFren);
+					score = score + cur.sports[j]*check(profile.sports[j],nonfren.sports[k]);	
+				}
 			}
 		}
 
@@ -153,8 +218,12 @@ function scoring(a,b,cur,arr)
 		{
 			totclub = totclub + cur.clubs[j];
 			for(k = 0; k < clulennon; ++k)
-			{
-				score = score + cur.clubs[j]*check(profile.clubs[j],nonfren.clubs[k]);		
+			{		
+				if(isCheck(profile.clubs[j],nonfren.clubs[k]))
+				{
+					cur.clubs[j] = isRatio(cur.clubs[j], numFren);
+					score = score + cur.clubs[j]*check(profile.clubs[j],nonfren.clubs[k]);											
+				}
 			}
 		}
 		total = cur.hosnum + cur.hosname + cur.house + totclub + totsport;
@@ -165,10 +234,18 @@ function scoring(a,b,cur,arr)
 // first argument is of profile which we want to see and second argument is of user whose account we are using
 function common(profile, user, friends, email, curdets)  
 {											
-	var hostel = checkhos(profile.hosnum, user.hosnum);
-	var hosname = check(profile.hosname, user.hosname);
-	var house = check(profile.house, user.house);
-
+	if(isCheck(profile.hosnum, user.hosnum))
+	{
+		var hostel = checkhos(profile.hosnum, user.hosnum);	
+	}
+	if(isCheck(profile.hosname, user.hosname))
+	{
+		var hosname = check(profile.hosname, user.hosname);
+	}
+	if(isCheck(profile.house, user.house))
+	{
+		var house = check(profile.house, user.house);	
+	}
 	var sports = profile.sports;
 	const sporlen = profile.sports.length;
 	var sporarr = Array(sporlen).fill(0);
@@ -178,9 +255,12 @@ function common(profile, user, friends, email, curdets)
 	{
 		for(k = 0; k < spouserlen; ++k)
 		{
-			sporarr[j]=check(sports[j],spouser[k]);	
-			if(sporarr[j])
-				break;
+			if(isCheck(sports[j],spouser[k]))
+			{
+				sporarr[j]=check(sports[j],spouser[k]);	
+				if(sporarr[j])
+					break;	
+			}
 		}
 	}
 
@@ -193,9 +273,12 @@ function common(profile, user, friends, email, curdets)
 	{
 		for(k = 0; k < cluuserlen; ++k)
 		{
-			cluarr[j]=check(clubs[j],cluuser[k]);	
-			if(cluarr[j])
-				break;
+			if(isCheck(clubs[j],cluuser[k]))
+			{
+				cluarr[j]=check(clubs[j],cluuser[k]);	
+				if(cluarr[j])
+					break;	
+			}
 		}
 	}
 

@@ -27,6 +27,19 @@ function checkhos (a,b)
 	}
 }
 
+function isEmpty(val){
+  return !!val;
+}
+
+function isCheck(a,b)
+{
+	if(isEmpty(a) && isEmpty(b))
+		return 1;
+	else
+		return 0;
+}
+
+
 async function updateratio(user, profile, arr)
 {
 	var total = arr.length; // this includes the new friend included 
@@ -41,9 +54,18 @@ async function updateratio(user, profile, arr)
 		await data.updateDets(user.id, arr);
 	}
 	const cur = await data.getUserDetsById(user._id);
-	var hosnum = ((cur.hosnum*(total-1)) + checkhos(profile.hosnum, user.hosnum))/total;
-	var hosname = ((cur.hosname*(total-1)) + check(profile.hosname, user.hosname))/total;
-	var house = ((cur.house*(total-1)) + check(profile.house, user.house))/total;
+	if(isCheck(profile.hosnum, user.hosnum))
+	{
+		var hosnum = ((cur.hosnum*(total-1)) + checkhos(profile.hosnum, user.hosnum))/total;
+	}
+	if(isCheck(profile.hosname, user.hosname))
+	{
+		var hosname = ((cur.hosname*(total-1)) + check(profile.hosname, user.hosname))/total;
+	}
+	if(isCheck(profile.house, user.house))
+	{
+		var house = ((cur.house*(total-1)) + check(profile.house, user.house))/total;
+	}
 	
 	var sports = profile.sports;
 	const sporlen = profile.sports.length;
@@ -54,9 +76,12 @@ async function updateratio(user, profile, arr)
 	{
 		for(k = 0; k < sporlen; ++k)
 		{
-			sporarr[j]=check(sports[j],spouser[k]);	
-			if(sporarr[j])
-				break;
+			if(isCheck(sports[j],spouser[k]))
+			{
+				sporarr[j]=check(sports[j],spouser[k]);	
+				if(sporarr[j])
+					break;
+			}
 		}
 		sporarr[j] = ((cur.sports[j]*(total-1)) + sporarr[j])/total; 
 	}
@@ -70,9 +95,13 @@ async function updateratio(user, profile, arr)
 	{
 		for(k = 0; k < clulen; ++k)
 		{
-			cluarr[j]=check(clubs[j],cluuser[k]);	
-			if(cluarr[j])
-				break;
+			if(isCheck(clubs[j],cluuser[k]))
+			{
+				cluarr[j]=check(clubs[j],cluuser[k]);	
+				if(cluarr[j])
+					break;
+			}
+	
 		}
 		cluarr[j] = ((cur.clubs[j]*(total-1)) +cluarr[j])/total; 
 	}
