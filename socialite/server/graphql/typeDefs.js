@@ -157,6 +157,7 @@ module.exports = gql`
         meetreject(user_id: String!, fren_id: String!): ID
         meetrequest(user_id: String!, fren_id: String!): ID
         edit(input: ProfileEdits): ID
+        uploadPhoto(photo: Upload!): String
     } 
 `;
 

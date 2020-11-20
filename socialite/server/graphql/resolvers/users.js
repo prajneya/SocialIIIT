@@ -1,10 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server')
+const cloudinary = require("cloudinary");
 
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators')
-const { SECRET_KEY } = require('../../config');
+const { SECRET_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = require('../../config');
 const {User, Profile, UserDets} = require('../../models/User');
+const checkAuth = require('../../util/check-auth');
+
 
 function generateToken(user) {
   return jwt.sign(
@@ -111,6 +114,45 @@ module.exports = {
 				id: res._id,
 				token
 			}
+		},
+		uploadPhoto: async (_, { photo }, context) => {
+
+			const user = checkAuth(context);
+
+			const { stream } = await photo;
+		//initialize cloudinary
+		      cloudinary.config({
+		        cloud_name: CLOUDINARY_NAME,
+		        api_key: CLOUDINARY_API_KEY,
+		        api_secret: CLOUDINARY_API_SECRET,
+		      });
+		/*
+		try-catch block for handling actual image upload
+		*/
+		      try {
+		      	console.log(stream);
+
+		      	await new Promise((resolve, reject) => {
+                const streamLoad = cloudinary.v2.uploader.upload_stream({ folder: "profile_pics", public_id: user.username }, function (error, result) {
+                    if (result) {
+                        resultUrl = result.secure_url;
+                        resultSecureUrl = result.secure_url;
+                        resolve(resultUrl)
+                    } else {
+                        reject(error);
+                    }
+                });
+
+                stream.pipe(streamLoad);
+            });
+        }catch (e) {
+		//returns an error message on image upload failure.
+		        return `Image could not be uploaded`;
+		      }
+		/*returns uploaded photo url if successful `result.url`.
+		if we were going to store image name in database,this
+		*/
+		      return `Successfully uploaded!`;
 		}
 	}
 }
