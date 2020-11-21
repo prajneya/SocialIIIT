@@ -46,10 +46,10 @@ module.exports = {
 		await Profile.update({_id: id}, {$set: { hosnum : hosnum, hosname : hosname, house : house, sports : sports, clubs : clubs }});
 	},
 	updateProfile: async function (id, cluster){
-		await Profile.update({_id: id}, {$set: { cluster_no: cluster }}, {}, {});
+		await Profile.update({_id: id}, {$set: { cluster_no: cluster }});
 	},
 	updateDets: async function (id, arr){
-		await UserDets.update({_id: id}, {$set: { hosnum : arr[0], hosname : arr[1], house: arr[2], sports : arr[3], clubs : arr[4]}})
+		await UserDets.update({_id: id}, {$set: { hosnum : arr[0], hosname : arr[1], house: arr[2], sports : arr[3], clubs : arr[4], batch : arr[5], stream : arr[6]}})
 	},
 	updateAccRej: async function (ida, idb, flag = 1){
 		await UserDets.update( { _id: ida }, { $pull: { request: idb } } );// this is to remove the send request from user of the friend id

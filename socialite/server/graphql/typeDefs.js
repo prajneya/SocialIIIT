@@ -79,6 +79,8 @@ module.exports = gql`
     	hosnum: field1
     	hosname: field2
     	house: field2
+	batch: field2 
+	stream: field2
     	sports: field3
     	clubs: field3
     	match: Float
@@ -106,6 +108,7 @@ module.exports = gql`
         userId: String!
         match: Float!
         email: String!
+	username: String!
         type: String!
 	    time: String!
     }

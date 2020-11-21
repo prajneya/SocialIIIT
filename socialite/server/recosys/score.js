@@ -59,8 +59,8 @@ async function friendlist(id, flag)
 
 		conscore = await content.scoring(cur, users[i], curdets, send);
 		sval += (0.5 * conscore);
-		if(sval == 0)
-			continue;
+		// if(sval == 0)
+			// continue;
 
 		var meet = 0;
 		if(curdets.sendmeet.includes(users[i]._id))
@@ -70,9 +70,11 @@ async function friendlist(id, flag)
 
 		score[++l] = {"id": users[i]._id, "match": sval, "email": email, username: username, meet: meet};
 		score[l].match *= 100;
+		// console.log(score[l].match);
 	}
 
 	score.sort(custom("match"));
+	// console.log(score);
 	return score;
 }
 

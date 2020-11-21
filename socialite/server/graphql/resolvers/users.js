@@ -96,13 +96,21 @@ module.exports = {
 				_id: res.id,
 				cluster_no: -1,
 				batch: batch,
-				stream: stream
+				stream: stream,
+				hosnum: -1,
+				hosname: "",
+				house: ""
 			});
 
 			const ret = await newProfile.save();
 
 			const newDets = new UserDets({
-				_id: res.id
+				_id: res.id,
+				batch: 0,
+				stream: 0,
+				hosname: 0,
+				hosnum: 0,
+				house: 0
 			});
 
 			const rex = await newDets.save();

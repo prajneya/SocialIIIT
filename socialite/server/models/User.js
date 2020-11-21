@@ -25,6 +25,8 @@ const Profile = new mongoose.Schema({
 
 const UserDets = new mongoose.Schema({
 	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	batch: Number,
+	stream: Number,
 	house: Number,
 	hosnum: Number,
 	hosname: Number,
