@@ -46,7 +46,7 @@ function Timeline(props){
                         <div className="about-me mx-2 my-4">
                           <div className="row">
                             <div className="col-xl-4">
-                              <img src="img/dp.jpeg" alt="display"/>
+                              <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+user.id+".png"} alt="display"/>
                             </div>
                             <div className="col-xl-8 about-me-text">
                               {timeline_data['bio']}

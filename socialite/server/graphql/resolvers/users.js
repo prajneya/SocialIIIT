@@ -141,7 +141,7 @@ module.exports = {
 		      	console.log(stream);
 
 		      	await new Promise((resolve, reject) => {
-                const streamLoad = cloudinary.v2.uploader.upload_stream({ folder: "profile_pics", public_id: user.username }, function (error, result) {
+                const streamLoad = cloudinary.v2.uploader.upload_stream({ folder: "profile_pics", public_id: user.id }, function (error, result) {
                     if (result) {
                         resultUrl = result.secure_url;
                         resultSecureUrl = result.secure_url;

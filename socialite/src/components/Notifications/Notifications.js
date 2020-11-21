@@ -6,8 +6,9 @@ import gql from 'graphql-tag';
 
 import { AuthContext } from '../../context/auth'
 
-import "../Recommend/Recommend.css"
+import "./notifications.css"
 import Dashboard from '../Dashboard/Dashboard';
+import Sidebar from "../Sidebar";
 
 function Notifications(props){
 
@@ -95,60 +96,61 @@ function Notifications(props){
 
     var notifications = data ? data.getNotif : "";
 
-    console.log(notifications)
-
     return (
             <>
-            <div className="container">
-                <div className="authenticate-nav">
-                    <div className="a-nav-right">
-                        <button className="rounded ml-2" onClick={dashboard}>DASHBOARD</button>
-                        <button className="rounded ml-2 my-2" onClick={logUserOut}>LOGOUT</button>
-                    </div>
-                </div>
+            <Sidebar/>
+            <main class="s-layout__content">
+                <div className="container-fluid">
 
-                <div className="feature-display">
-                <div className="subsection-header"> Respond to your requests here!</div>
-                    <div className="row">
-                        {notifications && notifications.map(notification => (
-                            <div className="col-lg-12">
-                                <div className="friend">
-                                    <div className="friend-content">
-                                        <strong>Username: {notification['username']}</strong>
-                                        <br />
-                                        <strong>Email: {notification['email']}</strong>
-                                        <br />
-                                        Friend Match Probability: {Math.round((notification['match'] + Number.EPSILON) * 100)/100}%
-                                        <br />
-                                        {notification['type'] === "freq" ? 
-                                        <div>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_frenaccept(notification['userId'])}>ACCEPT FRIEND REQUEST</button>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_frenreject(notification['userId'])}>REJECT FRIEND REQUEST</button>
+                    <div className="mt-5">
+                    <div className="wall subsection-header"> RESPOND TO YOUR REQUESTS HERE </div>>
+                        <div className="notifications-container">
+                        <div className="row">
+                            {notifications && notifications.map(notification => (
+                                <div className="col-lg-12">
+                                    <div className="notifications">
+                                        <div className="notification-content">
+                                            <div className="text-left d-inline-block">
+                                            <strong>Username: {notification['username']}</strong>
+                                            <br />
+                                            <strong>Email: {notification['email']}</strong>
+                                            <br />
+                                            Friend Match Probability: {Math.round((notification['match'] + Number.EPSILON) * 100)/100}%
+                                            <br />
+                                            </div>
+                                            <div className="w-100 text-right d-inline-block">
+                                            {notification['type'] === "freq" ? 
+                                            <div>
+                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_frenaccept(notification['userId'])}>ACCEPT FRIEND REQUEST</button>
+                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_frenreject(notification['userId'])}>REJECT FRIEND REQUEST</button>
+                                            </div>
+                                            : ""}
+                                            {notification['type'] === "mreq" ?
+                                            <div>
+                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_meetaccept(notification['userId'])}>ACCEPT MEET REQUEST</button>
+                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_meetreject(notification['userId'])}>REJECT MEET REQUEST</button>
+                                            </div>
+                                            : ""}
+                                            {notification['type'] === "facc" ?
+                                            <div>
+                                                {notification['username']} accepted your friend requested!     
+                                            </div>
+                                            : ""}
+                                            {notification['type'] === "macc" ?
+                                            <div>
+                                                Meet request accepted! Schedule your meet now!
+                                            </div>
+                                            : ""}
+                                            </div>
                                         </div>
-                                        : ""}
-                                        {notification['type'] === "mreq" ?
-                                        <div>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_meetaccept(notification['userId'])}>ACCEPT MEET REQUEST</button>
-                                            <button className="rounded ml-1 my-2" onClick={() => do_meetreject(notification['userId'])}>REJECT MEET REQUEST</button>
-                                        </div>
-                                        : ""}
-                                        {notification['type'] === "facc" ?
-                                        <div>
-                                            {notification['username']} accepted your friend requested!     
-                                        </div>
-                                        : ""}
-                                        {notification['type'] === "macc" ?
-                                        <div>
-                                            Meet request accepted! Schedule your meet now!
-                                        </div>
-                                        : ""}
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </main>
         </>
     )
 }

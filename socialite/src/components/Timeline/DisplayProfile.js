@@ -161,7 +161,7 @@ const username = props.match.params.username;
                         <div className="about-me mx-2 my-5">
                           <div className="row">
                             <div className="col-xl-4">
-                              <img src="../img/dp.jpeg" alt="display"/>
+                              <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+timeline_data.id+".png"} alt="display"/>
                             </div>
                             <div className="col-xl-8 about-me-text">
                               {user_timeline_data['bio']}
