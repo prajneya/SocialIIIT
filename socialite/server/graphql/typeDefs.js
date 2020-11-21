@@ -106,6 +106,7 @@ module.exports = gql`
         userId: String!
         match: Float!
         email: String!
+	username: String!
         type: String!
 	    time: String!
     }
