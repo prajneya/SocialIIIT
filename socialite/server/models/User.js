@@ -49,4 +49,24 @@ const skillSchema = new mongoose.Schema({
 	skills: {}
 })
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails')};
+const timelineSchema = new mongoose.Schema({
+	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	name: String,
+	fblink: String,
+	ghlink: String,
+	about: String,
+	pOneTitle: String,
+	pOneGhLink: String,
+	pOneELink: String,
+	pOneDesc: String,
+	pTwoTitle: String,
+	pTwoGhLink: String,
+	pTwoELink: String,
+	pTwoDesc: String,
+	pThreeTitle: String,
+	pThreeGhLink: String,
+	pThreeELink: String,
+	pThreeDesc: String
+})
+
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails'), Timeline: mongoose.model('timelineDetails', timelineSchema, 'timelineDetails')};

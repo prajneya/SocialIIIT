@@ -12,23 +12,11 @@ input[type=number] {
 
  
 .profile-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background: var(--bg-clr);
-    color: white;
-    margin: 2rem;
-    padding: 5rem 1rem;
-    border-radius: 20px;
-    position: relative;
-    width: 50%;
-    transform: translateX(50%);
-  }
+}
 
 .house .hostel .room .sports .clubs{
     margin-top: 1rem;
-   }
+}
 
 #multiselectContainerReact {
     margin-bottom: 10px;
@@ -49,8 +37,31 @@ input[type=number] {
   outline: none;
 }
 
+.fileContainer{
+  background: black !important;
+  color: white !important;
+}
+
+.create-post-container label{
+  color: #f07ab0;
+  margin-top: 1rem;
+}
+
 input {
     color: white;
+}
+
+textarea{
+  width: 100%;
+  padding: 0.6em;
+  margin: 0.8em 0 0 0;
+  outline: none;
+  background-color: rgb(21, 21, 21);
+  border: 2px solid var(--main-bg);
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: white !important;
+  font-size: 1.125rem;
 }
 
 .house .hostel {

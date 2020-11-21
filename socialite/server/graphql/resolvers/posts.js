@@ -2,7 +2,7 @@ const { Post, Queue } = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
 
 const { UserInputError } = require('apollo-server')
-const { User, Skills } = require('../../models/User');
+const { User, Skills, Timeline } = require('../../models/User');
 
 
 module.exports = {
@@ -111,6 +111,71 @@ module.exports = {
                 }
 
                 return timeline;
+            }
+            else{
+                throw new Error('User not Found');
+            }
+        },
+        async getTimelineData(_, {}, context){
+            const user = checkAuth(context);
+
+            const timelineData = await Timeline.findById(user.id);
+
+            const timelineDisplayData = {};
+
+            if(timelineData){
+                timelineDisplayData['bio'] = timelineData['about'];
+                timelineDisplayData['fblink'] = timelineData['fblink'];
+                timelineDisplayData['ghlink'] = timelineData['ghlink'];
+
+                timelineDisplayData['pOneTitle'] = timelineData['pOneTitle'];
+                timelineDisplayData['pOneGhLink'] = timelineData['pOneGhLink'];
+                timelineDisplayData['pOneELink'] = timelineData['pOneELink'];
+                timelineDisplayData['pOneDesc'] = timelineData['pOneDesc'];
+
+                timelineDisplayData['pTwoTitle'] = timelineData['pTwoTitle'];
+                timelineDisplayData['pTwoGhLink'] = timelineData['pTwoGhLink'];
+                timelineDisplayData['pTwoELink'] = timelineData['pTwoELink'];
+                timelineDisplayData['pTwoDesc'] = timelineData['pTwoDesc'];
+
+                timelineDisplayData['pThreeTitle'] = timelineData['pThreeTitle'];
+                timelineDisplayData['pThreeGhLink'] = timelineData['pThreeGhLink'];
+                timelineDisplayData['pThreeELink'] = timelineData['pThreeELink'];
+                timelineDisplayData['pThreeDesc'] = timelineData['pThreeDesc'];
+
+                return timelineDisplayData;
+            }
+            else{
+                throw new Error('User not Found');
+            }
+        },
+        async getUserTimelineData(_, { id }, context){
+ 
+            const timelineData = await Timeline.findById(id);
+
+            const timelineDisplayData = {};
+
+            if(timelineData){
+                timelineDisplayData['bio'] = timelineData['about'];
+                timelineDisplayData['fblink'] = timelineData['fblink'];
+                timelineDisplayData['ghlink'] = timelineData['ghlink'];
+
+                timelineDisplayData['pOneTitle'] = timelineData['pOneTitle'];
+                timelineDisplayData['pOneGhLink'] = timelineData['pOneGhLink'];
+                timelineDisplayData['pOneELink'] = timelineData['pOneELink'];
+                timelineDisplayData['pOneDesc'] = timelineData['pOneDesc'];
+
+                timelineDisplayData['pTwoTitle'] = timelineData['pTwoTitle'];
+                timelineDisplayData['pTwoGhLink'] = timelineData['pTwoGhLink'];
+                timelineDisplayData['pTwoELink'] = timelineData['pTwoELink'];
+                timelineDisplayData['pTwoDesc'] = timelineData['pTwoDesc'];
+
+                timelineDisplayData['pThreeTitle'] = timelineData['pThreeTitle'];
+                timelineDisplayData['pThreeGhLink'] = timelineData['pThreeGhLink'];
+                timelineDisplayData['pThreeELink'] = timelineData['pThreeELink'];
+                timelineDisplayData['pThreeDesc'] = timelineData['pThreeDesc'];
+
+                return timelineDisplayData;
             }
             else{
                 throw new Error('User not Found');

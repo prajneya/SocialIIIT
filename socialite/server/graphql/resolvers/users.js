@@ -1,10 +1,13 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server')
+const cloudinary = require("cloudinary");
 
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators')
-const { SECRET_KEY } = require('../../config');
-const {User, Profile, UserDets} = require('../../models/User');
+const { SECRET_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = require('../../config');
+const {User, Profile, UserDets, Timeline} = require('../../models/User');
+const checkAuth = require('../../util/check-auth');
+
 
 function generateToken(user) {
   return jwt.sign(
@@ -119,6 +122,123 @@ module.exports = {
 				id: res._id,
 				token
 			}
+		},
+		uploadPhoto: async (_, { photo }, context) => {
+
+			const user = checkAuth(context);
+
+			const { stream } = await photo;
+		//initialize cloudinary
+		      cloudinary.config({
+		        cloud_name: CLOUDINARY_NAME,
+		        api_key: CLOUDINARY_API_KEY,
+		        api_secret: CLOUDINARY_API_SECRET,
+		      });
+		/*
+		try-catch block for handling actual image upload
+		*/
+		      try {
+		      	console.log(stream);
+
+		      	await new Promise((resolve, reject) => {
+                const streamLoad = cloudinary.v2.uploader.upload_stream({ folder: "profile_pics", public_id: user.username }, function (error, result) {
+                    if (result) {
+                        resultUrl = result.secure_url;
+                        resultSecureUrl = result.secure_url;
+                        resolve(resultUrl)
+                    } else {
+                        reject(error);
+                    }
+                });
+
+                stream.pipe(streamLoad);
+            });
+        }catch (e) {
+		//returns an error message on image upload failure.
+		        return `Image could not be uploaded`;
+		      }
+		/*returns uploaded photo url if successful `result.url`.
+		if we were going to store image name in database,this
+		*/
+		      return `Successfully uploaded!`;
+		},
+		async updateProfile(_, { name, fblink, ghlink, about, house, clubs, hostel, sports, pOneTitle, pOneGhLink, pOneELink, pOneDesc, pTwoTitle, pTwoGhLink, pTwoELink, pTwoDesc, pThreeTitle, pThreeGhLink, pThreeELink, pThreeDesc, roomNo }, context) {
+			
+			const user = checkAuth(context);
+
+			const userDetdata = await Profile.findById(user.id);
+
+			if(userDetdata){
+				userDetdata['house'] = house;
+				userDetdata['hosname'] = hostel;
+
+				sports_arr = [];
+				for(sport in sports){
+					sports_arr.push(sport);
+				}
+
+				clubs_arr = [];
+				for(club in clubs){
+					clubs_arr.push(club);
+				}
+
+				userDetdata['sports'] = sports_arr;
+				userDetdata['clubs'] = clubs_arr;
+
+				userDetdata['hosnum'] = roomNo;
+			}
+			else{
+				throw new Error('User not Found');
+			}
+
+			const timelineData = await Timeline.findById(user.id);
+
+			if(timelineData){
+				timelineData['name'] = name;
+				timelineData['fblink'] = fblink; 
+                timelineData['ghlink'] = ghlink; 
+                timelineData['about'] = about; 
+                timelineData['pOneTitle'] = pOneTitle; 
+                timelineData['pOneGhLink'] = pOneGhLink; 
+                timelineData['pOneELink'] = pOneELink; 
+                timelineData['pOneDesc'] = pOneDesc; 
+                timelineData['pTwoTitle'] = pTwoTitle; 
+                timelineData['pTwoGhLink'] = pTwoGhLink; 
+                timelineData['pTwoELink'] = pTwoELink; 
+                timelineData['pTwoDesc'] = pTwoDesc; 
+                timelineData['pThreeTitle'] = pThreeTitle; 
+                timelineData['pThreeGhLink'] = pThreeGhLink; 
+                timelineData['pThreeELink'] = pThreeELink; 
+                timelineData['pThreeDesc'] = pThreeDesc; 
+
+                await Timeline.updateOne(timelineData);
+			}
+			else{
+				const newTimelineData = new Timeline({
+	                _id: user.id,
+	                name,
+	                fblink,
+	                ghlink,
+	                about,
+	                pOneTitle,
+	                pOneGhLink,
+	                pOneELink,
+	                pOneDesc,
+	                pTwoTitle,
+	                pTwoGhLink,
+	                pTwoELink,
+	                pTwoDesc,
+	                pThreeTitle,
+	                pThreeGhLink,
+	                pThreeELink,
+	                pThreeDesc
+            	});
+
+            	await newTimelineData.save();
+			}
+
+			await Profile.updateOne(userDetdata);
+
 		}
 	}
 }
