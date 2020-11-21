@@ -40,6 +40,8 @@ function Profile(props) {
     const [ghLink, setGhLink] = useState('');
     const [about, setAbout] = useState('');
 
+    const [roomNo, setRoomNo] = useState('');
+
     const [projectOneTitle, setProjectOneTitle] = useState('');
     const [projectOneGhLink, setProjectOneGhLink] = useState('');
     const [projectOneELink, setProjectOneELink] = useState('');
@@ -61,23 +63,11 @@ function Profile(props) {
     const [sport, setSport] = useState({});
 
     async function handleHouseChange(selectedOptions){
-        var temp_house = {}
-        if(selectedOptions){
-            for(var i = 0; i < selectedOptions.length; i++){
-                temp_house[selectedOptions[i].label] = true
-            }
-        }
-        await setHouse(temp_house)
+        await setHouse(selectedOptions['label'])
     }
 
     async function handleHostelChange(selectedOptions){
-        var temp_hostel = {}
-        if(selectedOptions){
-            for(var i = 0; i < selectedOptions.length; i++){
-                temp_hostel[selectedOptions[i].label] = true
-            }
-        }
-        await setHostel(temp_hostel)
+        await setHostel(selectedOptions['label'])
     }
 
     async function handleClubChange(selectedOptions){
@@ -122,8 +112,86 @@ function Profile(props) {
         uploadProfilePic();
     }
 
-    function profileUpdateCallBack(){
+    const [ updateProfileDetails ] = useMutation(UPDATE_PROFILE, {
+        update(_, {}){
+            console.log("details updated")
+        },
+        variables: { "name": fullName,
+                    "fblink": fbLink,
+                    "ghlink": ghLink,
+                    "about": about,
+                    "house": house,
+                    "clubs": club,
+                    "hostel": hostel,
+                    "sports": sport,
+                    "pOneTitle": projectOneTitle,
+                    "pOneGhLink": projectOneGhLink,
+                    "pOneELink": projectOneELink,
+                    "pOneDesc": projectOneBody,
+                    "pTwoTitle": projectTwoTitle,
+                    "pTwoGhLink": projectTwoGhLink,
+                    "pTwoELink": projectTwoELink,
+                    "pTwoDesc": projectTwoBody,
+                    "pThreeTitle": projectThreeTitle,
+                    "pThreeGhLink": projectThreeGhLink,
+                    "pThreeELink": projectThreeELink,
+                    "pThreeDesc": projectThreeBody,
+                    "roomNo": roomNo }
+    })
 
+    function printAll(){
+        console.log(fullName)
+        console.log(fbLink)
+        console.log(ghLink)
+        console.log(about)
+
+        console.log(roomNo)
+
+        console.log(projectOneTitle)
+        console.log(projectOneGhLink)
+        console.log(projectOneELink)
+        console.log(projectOneBody)
+
+        console.log(projectTwoTitle)
+        console.log(projectTwoGhLink)
+        console.log(projectTwoELink)
+        console.log(projectTwoBody)
+
+        console.log(projectThreeTitle)
+        console.log(projectThreeGhLink)
+        console.log(projectThreeELink)
+        console.log(projectThreeBody)
+
+        console.log(house)
+        console.log(hostel)
+        console.log(club)
+        console.log(sport)
+    }
+
+    async function profileUpdateCallBack(){
+        await setFullName(document.getElementById('fullname').value);
+        await setFbLink(document.getElementById('fblink').value);
+        await setGhLink(document.getElementById('ghlink').value);
+        await setAbout(document.getElementById('about').value);
+
+        await setRoomNo(parseInt(document.getElementById('roomNo').value));
+
+        await setProjectOneTitle(document.getElementById('pOneTitle').value);
+        await setProjectOneGhLink(document.getElementById('pOneGhLink').value);
+        await setProjectOneELink(document.getElementById('pOneELink').value);
+        await setProjectOneBody(document.getElementById('pOneDesc').value);
+
+        await setProjectTwoTitle(document.getElementById('pTwoTitle').value);
+        await setProjectTwoGhLink(document.getElementById('pTwoGhLink').value);
+        await setProjectTwoELink(document.getElementById('pTwoELink').value);
+        await setProjectTwoBody(document.getElementById('pTwoDesc').value);
+
+        await setProjectThreeTitle(document.getElementById('pThreeTitle').value);
+        await setProjectThreeGhLink(document.getElementById('pThreeGhLink').value);
+        await setProjectThreeELink(document.getElementById('pThreeELink').value);
+        await setProjectThreeBody(document.getElementById('pThreeDesc').value);
+
+        updateProfileDetails();
     }
 
     return (
@@ -239,36 +307,38 @@ function Profile(props) {
                                     />                            
                             </div>
                         </div>
+                        <label>ROOM NUMBER</label>
+                        <input type="number" id="roomNo"/>
                         <hr/>
                         <label style={{color: 'yellow'}}>PROJECT 1</label> <br/>
                         <label>PROJECT TITLE</label>
-                        <input/>
+                        <input id="pOneTitle"/>
                         <label>PROJECT GITHUB LINK</label>
-                        <input/>
+                        <input id="pOneGhLink"/>
                         <label>PROJECT LINK (EXTERNAL)</label>
-                        <input/>
+                        <input id="pOneELink"/>
                         <label>PROJECT DESCRIPTION</label> <br/>
-                        <textarea/>
+                        <textarea id="pOneDesc"/>
                         <hr/>
                         <label style={{color: 'yellow'}}>PROJECT 2</label> <br/>
                         <label>PROJECT TITLE</label>
-                        <input/>
+                        <input id="pTwoTitle"/>
                         <label>PROJECT GITHUB LINK</label>
-                        <input/>
+                        <input id="pTwoGhLink"/>
                         <label>PROJECT LINK (EXTERNAL)</label>
-                        <input/>
+                        <input id="pTwoELink"/>
                         <label>PROJECT DESCRIPTION</label> <br/>
-                        <textarea/>
+                        <textarea id="pTwoDesc"/>
                         <hr/>
                         <label style={{color: 'yellow'}}>PROJECT 3</label> <br/>
                         <label>PROJECT TITLE</label>
-                        <input/>
+                        <input id="pThreeTitle"/>
                         <label>PROJECT GITHUB LINK</label>
-                        <input/>
+                        <input id="pThreeGhLink"/>
                         <label>PROJECT LINK (EXTERNAL)</label>
-                        <input/>
+                        <input id="pThreeELink"/>
                         <label>PROJECT DESCRIPTION</label> <br/>
-                        <textarea/>
+                        <textarea id="pThreeDesc"/>
                         <button className="btn-submit" type="button" onClick={profileUpdateCallBack}>Save Details</button>
                     </form>
                 </div>
@@ -284,6 +354,56 @@ const UPLOAD_PROFILE_PICTURE = gql`
   ) {
     uploadPhoto(
         photo: $photo
+    )
+  }
+`;
+
+const UPDATE_PROFILE = gql`
+  mutation updateProfile(
+    $name: String
+    $fblink: String
+    $ghlink: String
+    $about: String
+    $house: String
+    $clubs: JSONObject
+    $hostel: String
+    $sports: JSONObject
+    $pOneTitle: String
+    $pOneGhLink: String
+    $pOneELink: String
+    $pOneDesc: String
+    $pTwoTitle: String
+    $pTwoGhLink: String
+    $pTwoELink: String
+    $pTwoDesc: String
+    $pThreeTitle: String
+    $pThreeGhLink: String
+    $pThreeELink: String
+    $pThreeDesc: String
+    $roomNo: Int
+  ) {
+    updateProfile(
+        name: $name
+        fblink: $fblink
+        ghlink: $ghlink
+        about: $about
+        house: $house
+        clubs: $clubs
+        hostel: $hostel
+        sports: $sports
+        pOneTitle: $pOneTitle
+        pOneGhLink: $pOneGhLink
+        pOneELink: $pOneELink
+        pOneDesc: $pOneDesc
+        pTwoTitle: $pTwoTitle
+        pTwoGhLink: $pTwoGhLink
+        pTwoELink: $pTwoELink
+        pTwoDesc: $pTwoDesc
+        pThreeTitle: $pThreeTitle
+        pThreeGhLink: $pThreeGhLink
+        pThreeELink: $pThreeELink
+        pThreeDesc: $pThreeDesc
+        roomNo: $roomNo
     )
   }
 `;
