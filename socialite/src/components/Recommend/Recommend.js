@@ -186,12 +186,15 @@ function Recommend(props){
                             <>
                                 
                                 <div className="recommend-card">
+                                    <div className="desktop-top-container">
+                                      <div className="desktop-top-content">
+                                              <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
+                                      <br />
+                                    </div>
+                                    <div className="request-buttons"><button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button><button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>SEND MEET REQUEST</button></div>
+                                    </div>
                                     <div class="image-container">
                                       <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"desktop_dp_"+recommendation.id} onError={() => loadDefaultPicDesktop(recommendation.id)} alt="display"/>
-                                    </div>
-                                    <div className="desktop-top-content">
-                                            <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
-                                    <br />
                                     </div>
                                     <div className="card-bottom-desktop" onClick={() => redirectUserCallback(recommendation['username'])}>
                                         <div className="card-bottom-content">

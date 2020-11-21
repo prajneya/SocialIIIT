@@ -89,7 +89,7 @@
 }
 
 .image-container{
-	position: relative;
+	position: absolute;
 	height: 30rem;
 }
 
@@ -126,10 +126,16 @@
 	cursor: pointer;
 }
 
+.desktop-top-container{
+	position: relative;
+	height: 30rem;
+}
+
 .desktop-top-content{
 	position: absolute;
 	z-index: 3;
 	font-weight: bolder;
+	height: 21rem;
 	color: white;
 	top: 1rem;
 	right: 1rem;
@@ -143,6 +149,13 @@
 	background: rgba(21, 21, 71, 0.5);
 	padding: 0.5rem;
 	border-radius: 10px;
+}
+
+.request-buttons{
+	position: absolute;
+	bottom: 120px;
+	z-index: 3;
+	right: 1.5rem;
 }
 
 @media (max-width: 68em) {
