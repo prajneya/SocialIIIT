@@ -17,7 +17,7 @@ function Recommend(props){
 
     const { user, logout } = useContext(AuthContext);
 
-    const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, delay: 1000, config: { duration: 1000 }})
+    const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 1000 }})
 
     function logUserOut()
     {
@@ -52,6 +52,19 @@ function Recommend(props){
             user_id
         }
     });
+
+     const [imgUrl, setImgUrl] = useState('')
+
+    async function loadDefaultPicDesktop(id){
+      document.getElementById("desktop_dp_"+id).src = "/img/dp.jpeg";
+      await setImgUrl("abc")
+    }
+
+    async function loadDefaultPicMobile(id){
+      document.getElementById("mobile_dp_"+id).src = "/img/dp.jpeg";
+      await setImgUrl("abc")
+    }
+
     if(loading){
         return (<><div id="overlay" style={{display: "block"}}></div>
             <div id="vibe-animation" style={{display: "block"}}><div className="loader">Loading...</div><br/>SENDING OUT A VIBE ...</div></>)
@@ -131,6 +144,10 @@ function Recommend(props){
       console.log(myIdentifier + ' left the screen')
     }
 
+    const redirectUserCallback = (username) => {
+      props.history.push('/profile/'+username)
+    }
+
     return (
             <>
             <Sidebar/>
@@ -141,14 +158,19 @@ function Recommend(props){
                             <>
                                 <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['email'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['email'])}>
                                     <div className="friend">
+                                      <div class="image-container">
+                                        <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"mobile_dp_"+recommendation.id} onError={() => loadDefaultPicMobile(recommendation.id)} alt="display"/>
+                                      </div>
+                                      <div className="desktop-top-content">
+                                            <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
+                                        <br />
+                                      </div>
                                         <div className="friend-content">
-                                            <br />
-                                            Friend Match Probability: {Math.round((recommendation['match'] + Number.EPSILON) * 100)/100}%
-                                            <br />
                                             {/*<button className="rounded ml-2 my-2" onClick={() => send_frenrequest(recommendation['id'])}>SEND A FRIEND REQUEST</button>*/}
                                             <div className="card-bottom">
                                                 <div className="card-bottom-content">
-                                                    <div className="card-username">{recommendation['email']}</div>
+                                                    <div className="card-email">{recommendation['email']}</div>
+                                                    <div className="card-username">{recommendation['username']}</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -164,14 +186,17 @@ function Recommend(props){
                             <>
                                 
                                 <div className="recommend-card">
+                                    <div class="image-container">
+                                      <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"desktop_dp_"+recommendation.id} onError={() => loadDefaultPicDesktop(recommendation.id)} alt="display"/>
+                                    </div>
                                     <div className="desktop-top-content">
-                                    <br />
-                                            Friend Match Probability: {Math.round((recommendation['match'] + Number.EPSILON) * 100)/100}%
+                                            <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
                                     <br />
                                     </div>
-                                    <div className="card-bottom-desktop">
+                                    <div className="card-bottom-desktop" onClick={() => redirectUserCallback(recommendation['username'])}>
                                         <div className="card-bottom-content">
-                                            <div className="card-username">{recommendation['email']}</div>
+                                            <div className="card-email">{recommendation['email']}</div>
+                                            <div className="card-username">{recommendation['username']}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -201,7 +226,7 @@ const MEET_REQUEST = gql`
 const FETCH_RECOMMENDATIONS_QUERY = gql`
     query($user_id: String!){
         recommend(id: $user_id){
-            id match email
+            id username match email
         }
     }
 `
