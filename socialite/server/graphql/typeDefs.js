@@ -138,6 +138,7 @@ module.exports = gql`
         getTimelineInfo(username: String!): JSONObject
         searchByTextPost(query: String!): [searchPost]
         getTimelineData: JSONObject
+        getUserTimelineData(id: ID) : JSONObject
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!

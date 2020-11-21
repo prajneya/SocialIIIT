@@ -136,6 +136,13 @@ const username = props.match.params.username;
 
   var profile_data = profileData ? profileData.profile : "";
 
+  const { data: userTimelineData } = useQuery(FETCH_USER_TIMELINE, {
+    variables: {
+      id: timeline_data.id
+    }
+  });
+  var user_timeline_data = userTimelineData ? userTimelineData.getUserTimelineData : "";
+
   if(!timeline_data){
     return (<>USER NOT FOUND</>)
   }
@@ -157,14 +164,10 @@ const username = props.match.params.username;
                               <img src="../img/dp.jpeg" alt="display"/>
                             </div>
                             <div className="col-xl-8 about-me-text">
-                              Hello! <br/><br/>
-                              I am Prajneya, a software engineer based in Hyderabad, India. <br/>
-                              I enjoy building software that is performant and scalable. <br/> I like to automate processes and write code that is pleasant to read. I am also interested in product management and community building. <br/>
-                              I am finishing up on my studies at IIIT Hyderabad, with a Masters by Research in Computational Linguistics and Bachelors in Computer Science. <br/>
-                              In the past I have worked with various startups helping build websites and products.<br/> <br/>
+                              {user_timeline_data['bio']}
                               <div className="social-links">
-                                <i><FontAwesomeIcon icon={faFacebook} size="2x"/></i>
-                                <i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
+                                {user_timeline_data['fblink'] ? <a href={user_timeline_data['fblink']} target="_blank"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
+                                {user_timeline_data['ghlink'] ? <a href={user_timeline_data['ghlink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
                                 {profile_data.friend === 0 ? 
                                 <button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
                                 : ""}
@@ -262,46 +265,78 @@ const username = props.match.params.username;
                           <br/>
                           <hr/>
                           <div className="showcase-projects">
+                                                    {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() != "" && user_timeline_data['pOneDesc'].trim() != "" ?
+                            <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  <i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
-                                  <i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i>
+                                  {user_timeline_data['pOneGhLink'] ? <a href={user_timeline_data['pOneGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pOneELink'] ? <a href={user_timeline_data['pOneELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
-                                Rotational Product Manager Opportunities
+                                {user_timeline_data['pOneTitle']}
                               </div>
                               <div className="project-body mx-5 mt-3">
-                                A github repository to keep track of Rotational Product Manager Roles, their deadlines, resources and related details.
+                                {user_timeline_data['pOneDesc']}
                               </div>
-                              <div className="tags d-inline-block mx-5 mt-5">
+                              {/*<div className="tags d-inline-block mx-5 mt-5">
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
-                              </div>
-                            </div>
+                              </div> */} 
+                            </div> 
+                            </>
+                            : "" }
+                            {user_timeline_data['pTwoTitle'] && user_timeline_data['pTwoTitle'].trim() != "" && user_timeline_data['pTwoDesc'].trim() != "" ?
+                            <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  <i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
-                                  <i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i>
+                                  {user_timeline_data['pTwoGhLink'] ? <a href={user_timeline_data['pTwoGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pTwoELink'] ? <a href={user_timeline_data['pTwoELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
-                                Rotational Product Manager Opportunities
+                                {user_timeline_data['pTwoTitle']}
                               </div>
                               <div className="project-body mx-5 mt-3">
-                                A github repository to keep track of Rotational Product Manager Roles, their deadlines, resources and related details.
+                                {user_timeline_data['pTwoDesc']}
                               </div>
-                              <div className="tags d-inline-block mx-5 mt-5">
+                              {/*<div className="tags d-inline-block mx-5 mt-5">
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                              </div> */} 
+                            </div> 
+                            </>
+                            : "" }
+                            {user_timeline_data['pThreeTitle'] && user_timeline_data['pThreeTitle'].trim() != "" && user_timeline_data['pThreeDesc'].trim() != "" ?
+                            <>
+                            <div className="project-container mt-3 pb-5">
+                              <div className="project-header">
+                                <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
+                                <div className="float-right m-5">
+                                  {user_timeline_data['pThreeGhLink'] ? <a href={user_timeline_data['pThreeGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pThreeELink'] ? <a href={user_timeline_data['pThreeELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                </div>
                               </div>
-                            </div>
+                              <div className="project-title ml-5">
+                                {user_timeline_data['pThreeTitle']}
+                              </div>
+                              <div className="project-body mx-5 mt-3">
+                                {user_timeline_data['pThreeDesc']}
+                              </div>
+                              {/*<div className="tags d-inline-block mx-5 mt-5">
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                              </div> */} 
+                            </div> 
+                            </>
+                            : "" }
                           </div>
                         </div>
                       </div>
@@ -382,6 +417,13 @@ const FETCH_PROFILE = gql`
         }
     }
 `;
+
+const FETCH_USER_TIMELINE = gql`
+    query($id: ID){
+        getUserTimelineData(id: $id)
+    }
+`;
+
 
 
 export default Timeline;

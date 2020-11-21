@@ -138,36 +138,7 @@ function Profile(props) {
                     "pThreeDesc": projectThreeBody,
                     "roomNo": roomNo }
     })
-
-    function printAll(){
-        console.log(fullName)
-        console.log(fbLink)
-        console.log(ghLink)
-        console.log(about)
-
-        console.log(roomNo)
-
-        console.log(projectOneTitle)
-        console.log(projectOneGhLink)
-        console.log(projectOneELink)
-        console.log(projectOneBody)
-
-        console.log(projectTwoTitle)
-        console.log(projectTwoGhLink)
-        console.log(projectTwoELink)
-        console.log(projectTwoBody)
-
-        console.log(projectThreeTitle)
-        console.log(projectThreeGhLink)
-        console.log(projectThreeELink)
-        console.log(projectThreeBody)
-
-        console.log(house)
-        console.log(hostel)
-        console.log(club)
-        console.log(sport)
-    }
-
+    
     async function profileUpdateCallBack(){
         await setFullName(document.getElementById('fullname').value);
         await setFbLink(document.getElementById('fblink').value);
