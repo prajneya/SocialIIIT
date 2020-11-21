@@ -137,6 +137,7 @@ module.exports = gql`
         getSkills(email: String!): JSONObject
         getTimelineInfo(username: String!): JSONObject
         searchByTextPost(query: String!): [searchPost]
+        getTimelineData: JSONObject
     }
     type Mutation{
     	register(registerInput: RegisterInput): User!

@@ -29,6 +29,9 @@ function Timeline(props){
   });
   var skill_data = skillData ? skillData.getSkills : "";
 
+  const { data: timelineData } = useQuery(FETCH_TIMELINE);
+  var timeline_data = timelineData ? timelineData.getTimelineData : "";
+
 	return (
             <>
               <Sidebar/>
@@ -46,14 +49,10 @@ function Timeline(props){
                               <img src="img/dp.jpeg" alt="display"/>
                             </div>
                             <div className="col-xl-8 about-me-text">
-                              Hello! <br/><br/>
-                              I am Prajneya, a software engineer based in Hyderabad, India. <br/>
-                              I enjoy building software that is performant and scalable. <br/> I like to automate processes and write code that is pleasant to read. I am also interested in product management and community building. <br/>
-                              I am finishing up on my studies at IIIT Hyderabad, with a Masters by Research in Computational Linguistics and Bachelors in Computer Science. <br/>
-                              In the past I have worked with various startups helping build websites and products.<br/> <br/>
+                              {timeline_data['bio']}
                               <div className="social-links">
-                                <i><FontAwesomeIcon icon={faFacebook} size="2x"/></i>
-                                <i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
+                                {timeline_data['fblink'] ? <a href={timeline_data['fblink']} target="_blank"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
+                                {timeline_data['ghlink'] ? <a href={timeline_data['ghlink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
                               </div>
                             </div>
                           </div>
@@ -124,46 +123,78 @@ function Timeline(props){
                           <br/>
                           <hr/>
                           <div className="showcase-projects">
+                          {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() != "" && timeline_data['pOneDesc'].trim() != "" ?
+                            <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  <i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
-                                  <i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i>
+                                  {timeline_data['pOneGhLink'] ? <a href={timeline_data['pOneGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {timeline_data['pOneELink'] ? <a href={timeline_data['pOneELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
-                                Rotational Product Manager Opportunities
+                                {timeline_data['pOneTitle']}
                               </div>
                               <div className="project-body mx-5 mt-3">
-                                A github repository to keep track of Rotational Product Manager Roles, their deadlines, resources and related details.
+                                {timeline_data['pOneDesc']}
                               </div>
-                              <div className="tags d-inline-block mx-5 mt-5">
+                              {/*<div className="tags d-inline-block mx-5 mt-5">
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
-                              </div>
-                            </div>
+                              </div> */} 
+                            </div> 
+                            </>
+                            : "" }
+                            {timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() != "" && timeline_data['pTwoDesc'].trim() != "" ?
+                            <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  <i><FontAwesomeIcon icon={faGithub} size="2x"/></i>
-                                  <i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i>
+                                  {timeline_data['pTwoGhLink'] ? <a href={timeline_data['pTwoGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {timeline_data['pTwoELink'] ? <a href={timeline_data['pTwoELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
-                                Rotational Product Manager Opportunities
+                                {timeline_data['pTwoTitle']}
                               </div>
                               <div className="project-body mx-5 mt-3">
-                                A github repository to keep track of Rotational Product Manager Roles, their deadlines, resources and related details.
+                                {timeline_data['pTwoDesc']}
                               </div>
-                              <div className="tags d-inline-block mx-5 mt-5">
+                              {/*<div className="tags d-inline-block mx-5 mt-5">
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
                                 <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                              </div> */} 
+                            </div> 
+                            </>
+                            : "" }
+                            {timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() != "" && timeline_data['pThreeDesc'].trim() != "" ?
+                            <>
+                            <div className="project-container mt-3 pb-5">
+                              <div className="project-header">
+                                <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
+                                <div className="float-right m-5">
+                                  {timeline_data['pThreeGhLink'] ? <a href={timeline_data['pThreeGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {timeline_data['pThreeELink'] ? <a href={timeline_data['pThreeELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                </div>
                               </div>
-                            </div>
+                              <div className="project-title ml-5">
+                                {timeline_data['pThreeTitle']}
+                              </div>
+                              <div className="project-body mx-5 mt-3">
+                                {timeline_data['pThreeDesc']}
+                              </div>
+                              {/*<div className="tags d-inline-block mx-5 mt-5">
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                              </div> */} 
+                            </div> 
+                            </>
+                            : "" }
                           </div>
                         </div>
                       </div>
@@ -198,6 +229,12 @@ function Timeline(props){
 const FETCH_SKILLS = gql`
     query($email: String!){
         getSkills(email: $email)
+    }
+`;
+
+const FETCH_TIMELINE = gql`
+    query{
+        getTimelineData
     }
 `;
 

@@ -53,7 +53,7 @@ const timelineSchema = new mongoose.Schema({
 	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 	name: String,
 	fblink: String,
-	ghLink: String,
+	ghlink: String,
 	about: String,
 	pOneTitle: String,
 	pOneGhLink: String,
