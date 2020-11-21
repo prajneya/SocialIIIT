@@ -79,6 +79,8 @@ module.exports = gql`
     	hosnum: field1
     	hosname: field2
     	house: field2
+	batch: field2 
+	stream: field2
     	sports: field3
     	clubs: field3
     	match: Float
