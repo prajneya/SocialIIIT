@@ -154,6 +154,9 @@ function Recommend(props){
             <main class="s-layout__content">
                 <div className="container-fluid mt-5">
                     <div className="feature-display mt-5 mobile-only">
+	    <div className="noReco">
+	    {recommendations.length === 0 ? "Sorry no recommendations for you :(": ""}
+	    </div>
                         {recommendations && recommendations.slice(0).reverse().map(recommendation => (
                             <>
                                 <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['email'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['email'])}>
@@ -182,6 +185,9 @@ function Recommend(props){
                     </div>
                     <animated.div style={fadeInFast}>
                     <div className="feature-display-desktop mt-5 desktop-only text-center">
+	    <div className="noReco">
+	    {recommendations.length === 0 ? "Sorry no recommendations for you :(": ""}
+	    </div>
                         {recommendations && recommendations.map(recommendation => (
                             <>
                                 
@@ -191,7 +197,7 @@ function Recommend(props){
                                               <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
                                       <br />
                                     </div>
-                                    <div className="request-buttons"><button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button><button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>SEND MEET REQUEST</button></div>
+                                    <div className="request-buttons"><button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>SEND MEET REQUEST</button> : ""}</div>
                                     </div>
                                     <div class="image-container">
                                       <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"desktop_dp_"+recommendation.id} onError={() => loadDefaultPicDesktop(recommendation.id)} alt="display"/>
@@ -229,7 +235,7 @@ const MEET_REQUEST = gql`
 const FETCH_RECOMMENDATIONS_QUERY = gql`
     query($user_id: String!){
         recommend(id: $user_id){
-            id username match email
+            id username match email meet
         }
     }
 `

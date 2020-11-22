@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery, useMutation} from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
+import '../Recommend/Recommend.css';
 
 import { AuthContext } from '../../context/auth'
 
@@ -103,7 +104,10 @@ function Notifications(props){
                 <div className="container-fluid">
 
                     <div className="mt-5">
-                    <div className="wall subsection-header"> RESPOND TO YOUR REQUESTS HERE </div>>
+                    <div className="wall subsection-header"> RESPOND TO YOUR REQUESTS HERE 
+	    <br />
+	    {notifications.length === 0 ? "Sorry no notifications for you :(": ""}
+	    </div>
                         <div className="notifications-container">
                         <div className="row">
                             {notifications && notifications.map(notification => (
@@ -133,7 +137,7 @@ function Notifications(props){
                                             : ""}
                                             {notification['type'] === "facc" ?
                                             <div>
-                                                {notification['username']} accepted your friend requested!     
+                                                {notification['username']} accepted your friend request!     
                                             </div>
                                             : ""}
                                             {notification['type'] === "macc" ?
