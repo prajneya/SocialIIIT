@@ -40,7 +40,7 @@ function Sidebar(props) {
 			        </li>
 			        <li>
 			           <a class="s-sidebar__nav-link" href="/stack-overflow">
-			              <i><FontAwesomeIcon icon={faUserGraduate} /></i><em>Issues</em>
+			              <i><FontAwesomeIcon icon={faUserGraduate} /></i><em>Querify</em>
 			           </a>
 			        </li>
 			        <li>
