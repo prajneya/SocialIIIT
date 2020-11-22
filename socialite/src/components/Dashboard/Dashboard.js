@@ -83,7 +83,7 @@ function Dashboard(props){
                                       Explore IIIT-H
                                     </div>
                                     <div className="feature-content-description mt-4">
-                                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                                     Find other people tired of not having friends. 
                                       <br/>
                                       <button className="my-5 rounded btn"> EXPLORE NOW </button>
                                     </div>
@@ -103,13 +103,13 @@ function Dashboard(props){
                                 <div className="col-md-8">
                                   <div className="feature-body ml-3 mt-5 text-left">
                                     <div className="feature-content">
-                                      STACK OVERFLOW
+                                     QUERIFY 
                                     </div>
                                     <div className="feature-content-title">
                                       Ask a Question
                                     </div>
                                     <div className="feature-content-description mt-4">
-                                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+					Have your doubts cleared by {<del>snakes</del>} bonds.
                                       <br/>
                                       <button className="my-5 rounded btn"> EXPLORE NOW </button>
                                     </div>
@@ -135,7 +135,7 @@ function Dashboard(props){
                                 Marauder's Map
                                     </div>
                                     <div className="feature-content-description mt-4">
-                                      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+					Stalk your friends here.
                                       <br/>
                                       <button className="my-5 rounded btn"> EXPLORE NOW </button>
                                     </div>
