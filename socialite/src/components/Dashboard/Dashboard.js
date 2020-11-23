@@ -165,18 +165,21 @@ function Dashboard(props){
                       <animated.div style={slideInFast}>
                       <div className="popular-post mt-4">
                         <strong>{trending_posts_list ? trending_posts_list[0].title : ""}</strong>
+			<br/>
                         {trending_posts_list ? trending_posts_list[0].email : ""}
                       </div>
                       </animated.div>
                       <animated.div style={slideInMedium}>
                       <div className="popular-post mt-4">
                         <strong>{trending_posts_list ? trending_posts_list[1].title : ""}</strong>
+			<br/>
                         {trending_posts_list ? trending_posts_list[1].email : ""}
                       </div>
                       </animated.div>
                       <animated.div style={slideInSlow}>
                       <div className="popular-post mt-4">
                         <strong>{trending_posts_list ? trending_posts_list[2].title : ""}</strong>
+			<br/>
                         {trending_posts_list ? trending_posts_list[2].email : ""}
                       </div>
                       </animated.div>
