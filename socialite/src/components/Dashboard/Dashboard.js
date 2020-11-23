@@ -43,7 +43,6 @@ function Dashboard(props){
 
   var trending_people_list = trending_people ? trending_people.getTopRated : "";
 
-
 	function logUserOut(){
 		logout();
 		props.history.push('/')

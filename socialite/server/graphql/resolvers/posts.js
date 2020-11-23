@@ -124,6 +124,7 @@ module.exports = {
             const timelineDisplayData = {};
 
             if(timelineData){
+                timelineDisplayData['name'] = timelineData['name'];
                 timelineDisplayData['bio'] = timelineData['about'];
                 timelineDisplayData['fblink'] = timelineData['fblink'];
                 timelineDisplayData['ghlink'] = timelineData['ghlink'];
@@ -156,6 +157,7 @@ module.exports = {
             const timelineDisplayData = {};
 
             if(timelineData){
+                timelineDisplayData['name'] = timelineData['name'];
                 timelineDisplayData['bio'] = timelineData['about'];
                 timelineDisplayData['fblink'] = timelineData['fblink'];
                 timelineDisplayData['ghlink'] = timelineData['ghlink'];
