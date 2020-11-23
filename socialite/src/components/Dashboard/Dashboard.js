@@ -35,6 +35,15 @@ function Dashboard(props){
 		}
 	})
 
+  const { data: trending_posts } = useQuery(FETCH_TOP_POSTS);
+
+  var trending_posts_list = trending_posts ? trending_posts.getTopPosts : "";
+
+  const { data: trending_people } = useQuery(FETCH_TOP_RATED);
+
+  var trending_people_list = trending_people ? trending_people.getTopRated : "";
+
+
 	function logUserOut(){
 		logout();
 		props.history.push('/')
@@ -151,42 +160,51 @@ function Dashboard(props){
                     <div className="popular-posts my-5">
                       <div className="popular-header">
                         POPULAR POSTS
-                        <span class="see-more float-right">MORE</span>
+                        <a href="/stack-overflow"><span class="see-more float-right">MORE</span></a>
                       </div>
                       <animated.div style={slideInFast}>
                       <div className="popular-post mt-4">
-
+                        <strong>{trending_posts_list ? trending_posts_list[0].title : ""}</strong>
+                        {trending_posts_list ? trending_posts_list[0].email : ""}
                       </div>
                       </animated.div>
                       <animated.div style={slideInMedium}>
                       <div className="popular-post mt-4">
-
+                        <strong>{trending_posts_list ? trending_posts_list[1].title : ""}</strong>
+                        {trending_posts_list ? trending_posts_list[1].email : ""}
                       </div>
                       </animated.div>
                       <animated.div style={slideInSlow}>
                       <div className="popular-post mt-4">
-
+                        <strong>{trending_posts_list ? trending_posts_list[2].title : ""}</strong>
+                        {trending_posts_list ? trending_posts_list[2].email : ""}
                       </div>
                       </animated.div>
                     </div>
                     <div className="popular-posts my-5">
                       <div className="popular-header">
                         PEOPLE YOU MAY LIKE
-                        <span class="see-more float-right">MORE</span>
+                        <a href="/recommend"><span class="see-more float-right">MORE</span></a>
                       </div>
                       <animated.div style={slideInFast}>
                       <div className="top-recommend mt-4">
-
+                        <strong>{trending_people_list ? trending_people_list[0].username : ""}</strong><br/>
+                        {trending_people_list ? trending_people_list[0].email : ""} <br/>
+                        Rated: {trending_people_list ? trending_people_list[0].rating : ""}
                       </div>
                       </animated.div>
                       <animated.div style={slideInMedium}>
                       <div className="top-recommend mt-4">
-
+                        <strong>{trending_people_list ? trending_people_list[1].username : ""}</strong><br/>
+                        {trending_people_list ? trending_people_list[1].email : ""} <br/>
+                        Rated: {trending_people_list ? trending_people_list[1].rating : ""}
                       </div>
                       </animated.div>
                       <animated.div style={slideInSlow}>
                       <div className="top-recommend mt-4">
-
+                        <strong>{trending_people_list ? trending_people_list[2].username : ""}</strong><br/>
+                        {trending_people_list ? trending_people_list[2].email : ""} <br/>
+                        Rated: {trending_people_list ? trending_people_list[2].rating : ""}
                       </div>
                       </animated.div>
                     </div>
@@ -206,5 +224,21 @@ const ADD_SUB = gql`
     }
   }
 `;
+
+const FETCH_TOP_POSTS = gql`
+    query{
+        getTopPosts{
+          id title email
+        }
+    }
+`
+
+const FETCH_TOP_RATED = gql`
+    query{
+        getTopRated{
+          username rating email
+        }
+    }
+`
 
 export default Dashboard;

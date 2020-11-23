@@ -56,9 +56,9 @@ input{
 
 .feature img{
 	opacity: 0.7;
-	width: 100%;
+	width: 250px;
 	object-fit: cover;
-	max-height: 350px;
+	max-height: 250px;
 }
 
 .feature img:hover{
@@ -96,6 +96,8 @@ input{
 	height: 10rem;
 	border-radius: 25px;
 	transition: all .15s ease;
+	padding: 2rem 1rem;
+	color: black;
 }
 
 .popular-post:hover{
@@ -111,6 +113,8 @@ input{
 	height: 10rem;
 	border-radius: 25px;
 	transition: all .15s ease;
+	padding: 2rem 1rem;
+	color: black;
 }
 
 .top-recommend:hover{
