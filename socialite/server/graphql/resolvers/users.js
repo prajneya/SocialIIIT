@@ -197,24 +197,12 @@ module.exports = {
 			const timelineData = await Timeline.findById(user.id);
 
 			if(timelineData){
-				timelineData['name'] = name;
-				timelineData['fblink'] = fblink; 
-                timelineData['ghlink'] = ghlink; 
-                timelineData['about'] = about; 
-                timelineData['pOneTitle'] = pOneTitle; 
-                timelineData['pOneGhLink'] = pOneGhLink; 
-                timelineData['pOneELink'] = pOneELink; 
-                timelineData['pOneDesc'] = pOneDesc; 
-                timelineData['pTwoTitle'] = pTwoTitle; 
-                timelineData['pTwoGhLink'] = pTwoGhLink; 
-                timelineData['pTwoELink'] = pTwoELink; 
-                timelineData['pTwoDesc'] = pTwoDesc; 
-                timelineData['pThreeTitle'] = pThreeTitle; 
-                timelineData['pThreeGhLink'] = pThreeGhLink; 
-                timelineData['pThreeELink'] = pThreeELink; 
-                timelineData['pThreeDesc'] = pThreeDesc; 
-
-                await Timeline.updateOne(timelineData);
+				await Timeline.updateOne({_id: user.id}, {$set: { 
+					name: name, fblink: fblink, ghlink: ghlink, about: about, 
+					pOneTitle: pOneTitle, pOneGhLink: pOneGhLink, pOneELink: pOneELink, pOneDesc: pOneDesc,
+					pTwoTitle: pTwoTitle, pTwoGhLink: pTwoGhLink, pTwoELink: pTwoELink, pTwoDesc: pTwoDesc,
+					pThreeTitle: pThreeTitle, pThreeGhLink: pThreeGhLink, pThreeELink: pThreeELink, pThreeDesc: pThreeDesc
+				}});
 			}
 			else{
 				const newTimelineData = new Timeline({
