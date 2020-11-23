@@ -54,6 +54,7 @@ function CreatePost(props){
 
     const [ createPost ] = useMutation(CREATE_POST, {
         update(_, {}){
+            window.location.reload(false)
             props.history.push('/stack-overflow')
         },
         variables: {title, body, tags}

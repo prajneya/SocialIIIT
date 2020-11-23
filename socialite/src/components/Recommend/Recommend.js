@@ -34,6 +34,9 @@ function Recommend(props){
     const [fren_id, setfren_id] = useState('');
 
     const [frenrequest, { frequest }] = useMutation(FREN_REQUEST, {
+        update(_, {}){
+            window.location.reload(false)
+        },
         variables: {
             user_id,
             fren_id
@@ -41,6 +44,9 @@ function Recommend(props){
     })
 
     const [meetrequest, { mrequest }] = useMutation(MEET_REQUEST, {
+        update(_, {}){
+            window.location.reload(false)
+        },
         variables: {
             user_id,
             fren_id
