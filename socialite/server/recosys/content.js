@@ -214,20 +214,23 @@ function scoring(a,b,cur,arr)
 		// console.log("adaytivafsa");
 		if(isCheckhostel(profile.hosnum,nonfren.hosnum))
 		{
-			console.log("adebafsa");
+			//console.log("adebafsa");
 			cur.hosnum = isRatio(cur.hosnum, numFren);
 			score = score + cur.hosnum*checkhos(profile.hosnum,nonfren.hosnum);
 		}
+		//console.log(score)
 		if(isCheck(profile.hosname,nonfren.hosname))
 		{
 			cur.hosname = isRatio(cur.hosname, numFren);
 			score = score + cur.hosname*check(profile.hosname,nonfren.hosname);		
 		}
+		//console.log(score)
 		if(isCheck(profile.house,nonfren.house))
 		{
 			cur.house = isRatio(cur.house, numFren);
 			score = score + cur.house*check(profile.house,nonfren.house);
 		}
+		//console.log(score)
 		if(isCheck(profile.batch,nonfren.batch))
 		{
 			// console.log("ayanfsa");
@@ -235,6 +238,7 @@ function scoring(a,b,cur,arr)
 			cur.batch = isRatio(cur.batch, numFren);
 			score = score + cur.batch*check(profile.batch,nonfren.batch);
 		}
+		//console.log(score)
 		if(isCheck(profile.stream,nonfren.stream))
 		{
 			cur.stream = isRatio(cur.stream, numFren);
@@ -243,11 +247,11 @@ function scoring(a,b,cur,arr)
 			// console.log(check(profile.stream,nonfren.stream));
 
 		}
+		//console.log(score)
 		const sporlenuser = profile.sports.length;
 		const sporlennon = nonfren.sports.length;
 		for(j = 0; j < sporlenuser; ++j)
 		{
-			totsport = totsport + cur.sports[j];
 			for(k = 0; k < sporlennon; ++k)
 			{
 				if(isCheck(profile.sports[j],nonfren.sports[k]))
@@ -255,27 +259,32 @@ function scoring(a,b,cur,arr)
 					// console.log("adfdsfdfsa");
 					cur.sports[j]=isRatio(cur.sports[j], numFren);
 					score = score + cur.sports[j]*check(profile.sports[j],nonfren.sports[k]);	
+					totsport = totsport + cur.sports[j]
 				}
 			}
 		}
+		//console.log(score)
 
 		const clulenuser = profile.clubs.length;
 		const clulennon = nonfren.clubs.length;
 		for(j = 0; j < clulenuser; ++j)
 		{
-			totclub = totclub + cur.clubs[j];
 			for(k = 0; k < clulennon; ++k)
 			{		
 				if(isCheck(profile.clubs[j],nonfren.clubs[k]))
 				{
 					cur.clubs[j] = isRatio(cur.clubs[j], numFren);
 					score = score + cur.clubs[j]*check(profile.clubs[j],nonfren.clubs[k]);											
+					totclub = totclub + cur.clubs[j];
 				}
 			}
 		}
+		//console.log(score)
 		total = cur.hosnum + cur.hosname + cur.house + totclub + totsport + cur.batch + cur.stream;
+		//console.log(total)
 	}
 	score = score/total;
+	//console.log(score)
 	// console.log(score);
 	return score;
 }

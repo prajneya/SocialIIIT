@@ -140,7 +140,6 @@ module.exports = {
 		try-catch block for handling actual image upload
 		*/
 		      try {
-		      	console.log(stream);
 
 		      	await new Promise((resolve, reject) => {
                 const streamLoad = cloudinary.v2.uploader.upload_stream({ folder: "profile_pics", public_id: user.id }, function (error, result) {
