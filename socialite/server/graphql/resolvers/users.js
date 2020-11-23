@@ -8,6 +8,9 @@ const { SECRET_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET }
 const {User, Profile, UserDets, Timeline} = require('../../models/User');
 const checkAuth = require('../../util/check-auth');
 
+const util = require('../../util/userdata')
+const {scoring, common, resetratio} = require('../../recosys/content')
+
 
 function generateToken(user) {
   return jwt.sign(
@@ -166,29 +169,30 @@ module.exports = {
 			
 			const user = checkAuth(context);
 
-			const userDetdata = await Profile.findById(user.id);
-
-			if(userDetdata){
-				userDetdata['house'] = house;
-				userDetdata['hosname'] = hostel;
-
-				sports_arr = [];
-				for(sport in sports){
-					sports_arr.push(sport);
-				}
-
-				clubs_arr = [];
-				for(club in clubs){
-					clubs_arr.push(club);
-				}
-
-				userDetdata['sports'] = sports_arr;
-				userDetdata['clubs'] = clubs_arr;
-
-				userDetdata['hosnum'] = roomNo;
+			sports_arr = [];
+			for(sport in sports){
+				sports_arr.push(sport);
 			}
-			else{
-				throw new Error('User not Found');
+
+			clubs_arr = [];
+			for(club in clubs){
+				clubs_arr.push(club);
+			}
+
+			await util.updateProfileDets(user.id, house, roomNo, hostel, sports_arr, clubs_arr)
+			cur1 = await util.getProfileById(user.id);
+			arr = cur1.friends;
+			if(arr.length)
+			{
+				ret = await resetratio(cur1, arr);
+				await util.updateDets(user.id, ret);
+			}
+
+			for(var i = 0; i < arr.length; ++i)
+			{
+				cur = await util.getProfileById(arr[i]);
+				ret = await resetratio(cur, cur.friends);
+				await util.updateDets(cur._id, ret);
 			}
 
 			const timelineData = await Timeline.findById(user.id);
@@ -224,8 +228,6 @@ module.exports = {
 
             	await newTimelineData.save();
 			}
-
-			await Profile.updateOne(userDetdata);
 
 		}
 	}
