@@ -7,6 +7,7 @@ const { validateRegisterInput, validateLoginInput } = require('../../util/valida
 const { SECRET_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = require('../../config');
 const {User, Profile, UserDets, Timeline} = require('../../models/User');
 const checkAuth = require('../../util/check-auth');
+
 const util = require('../../util/userdata')
 const {scoring, common, resetratio} = require('../../recosys/content')
 

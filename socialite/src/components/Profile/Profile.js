@@ -114,6 +114,7 @@ function Profile(props) {
 
     const [ updateProfileDetails ] = useMutation(UPDATE_PROFILE, {
         update(_, {}){
+            window.location.reload(false)
             console.log("details updated")
         },
         variables: { "name": fullName,

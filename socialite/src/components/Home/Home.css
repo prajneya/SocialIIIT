@@ -315,6 +315,14 @@ input{
   }
 }
 
+.batch-drop .css-e56m7-control{
+  background: white !important;
+}
+
+.stream-drop .css-e56m7-control{
+  background: white !important;
+}
+
 .loader,
 .loader:before,
 .loader:after {
