@@ -1,4 +1,4 @@
-# AAD Project - Team K
+# SOCIALIIIT
 
 Repository for Algorithms and Analysis Design Course Project
 
