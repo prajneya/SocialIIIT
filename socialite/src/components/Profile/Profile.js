@@ -11,10 +11,62 @@ import Sidebar from "../Sidebar"
 
 import { AuthContext } from '../../context/auth';
 
-const houses = [{label: 'Aakash', value:1},{label: 'Agni', value:2},{label: 'Prithvi', value:3},{label: 'Vayu', value:4}]
-const hostels = [{label: 'Bakul Nivas', value:1},{label: 'Parijaat Nivas', value:2},{label: 'New Boys Hostel', value:3},{label: 'Old Boys Hostel/Palash Nivas', value:4}]
-const clubs = [{label: 'Arts Club', value: 1},{label: 'Lit Club', value:2},{label: 'Ping', value:3},{label: 'E-Cell', value:4},{label: 'DebSoc', value:5},{label: 'Toastmasters', value:6},{label: 'Frivolous Humorous Club', value:7}]
-const sports = [{label: 'Table Tennis', value: 1},{label: 'Cricket',value:2},{label: 'Football',value:3},{label: 'Badminton',value:4},{label: 'Chess',value:5},{label: 'Carrom',value:6},{label: 'Billiards',value:7},{label: 'Tennis',value:8},{label: 'Gym',value:9},{label: 'Volleyball',value:10},{label: 'Basketball',value:11},{label: 'Hockey',value:12},{label: 'Yoga',value:13},{label: 'Martial-Arts',value:14}]
+const houses = [
+                {label: 'Aakash', value:1},
+                {label: 'Agni', value:2},
+                {label: 'Prithvi', value:3},
+                {label: 'Vayu', value:4}
+               ]
+
+const hostels = [ 
+                  {label: 'Bakul Nivas', value:1},
+                  {label: 'Parijaat Nivas', value:2},
+                  {label: 'New Boys Hostel', value:3},
+                  {label: 'Old Boys Hostel/Palash Nivas', value:4}
+                ]
+
+const clubs = [ 
+                {label: 'Art Society', value: 1},
+                {label: 'Amateur Sports Enthusiasts Club', value: 2},
+                {label: 'Astronomy Club', value: 3},
+                {label: 'Chess Club', value: 4},
+                {label: 'Decore – The Design Club', value: 5},
+                {label: 'Developer Student Club', value: 6},
+                {label: 'Electronics and Robotics Club', value: 7},
+                {label: 'Foreign Language Club', value: 8},
+                {label: 'Frivolous Humour Club', value: 9},
+                {label: 'Hacking Club', value: 10},
+                {label: 'Literary Club', value: 11},
+                {label: 'National Service Scheme', value: 12},
+                {label: 'Open-SourceDevelopers Group (OSDG)', value: 13},
+                {label: 'Pentaprism - The Photography Club', value: 14},
+                {label: 'Ping!', value: 15},
+                {label: 'Programming Club', value: 16},
+                {label: 'The Dance Crew', value: 17},
+                {label: 'The Debate Society', value: 18},
+                {label: 'The Gaming Club', value: 19},
+                {label: 'The Music Club', value: 20},
+                {label: 'The TV Room Quiz Club', value: 21},
+                {label: 'Theory Group', value: 22},
+                {label: 'E-Cell', value: 23}
+              ]
+
+const sports = [
+                {label: 'Table Tennis', value: 1},
+                {label: 'Cricket',value:2},
+                {label: 'Football',value:3},
+                {label: 'Badminton',value:4},
+                {label: 'Chess',value:5},
+                {label: 'Carrom',value:6},
+                {label: 'Pool',value:7},
+                {label: 'Tennis',value:8},
+                {label: 'Gym',value:9},
+                {label: 'Volleyball',value:10},
+                {label: 'Basketball',value:11},
+                {label: 'Hockey',value:12},
+                {label: 'Yoga',value:13},
+                {label: 'Martial-Arts',value:14}
+               ]
 
 const animatedComponents = makeAnimated();
 
