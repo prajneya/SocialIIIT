@@ -304,16 +304,30 @@ module.exports = {
                 id = saved.id;
             });
             
-            console.log(id);
+            var found;
 
-            const newQueue = new Queue({
-                _id: id,
-                createdAt: new Date().toISOString()
-            });
+            for (var key in post.tags) 
+            {
+                if (post.tags.hasOwnProperty(key)) 
+                {
+                    var val = key;
+                    console.log(val);
+                    if(key === "No Bounty")
+                    {
+                        found = 1
+                    }
+                }
+            }
 
-            const queue = await newQueue.save();
-
-            console.log(queue);
+            if(!found)
+            {
+                const newQueue = new Queue({
+                    _id: id,
+                    createdAt: new Date().toISOString()
+                });
+    
+                const queue = await newQueue.save();
+            }
 
             return post;
         },
