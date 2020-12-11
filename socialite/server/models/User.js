@@ -7,7 +7,8 @@ const userSchema = new mongoose.Schema({
 	createdAt: String,
 	rating: { type: Number, default: 1000 },
 	volatility: { type: Number, default: 400.00 },
-	times_answered: { type: Number, default: 0 }
+	times_answered: { type: Number, default: 0 },
+	imgUrl: { type: String, default: "" }
 });
 
 const Profile = new mongoose.Schema({

@@ -16,7 +16,7 @@ import Sidebar from "../Sidebar";
 function Timeline(props){
 
 	const { user, logout } = useContext(AuthContext)
-
+  console.log(user)
 	function logUserOut(){
 		logout();
 		props.history.push('/')
@@ -46,7 +46,7 @@ function Timeline(props){
                         <div className="about-me mx-2 my-4">
                           <div className="row">
                             <div className="col-xl-4">
-                              <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+user.id+".png"} alt="display"/>
+                              <img src={user.imgUrl} alt="display"/>
                             </div>
                             <div className="col-xl-8 about-me-text">
                               {timeline_data['bio']}

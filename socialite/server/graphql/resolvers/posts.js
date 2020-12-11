@@ -93,6 +93,7 @@ module.exports = {
                 timeline['contributions'] = user.times_answered;
                 timeline['email'] = user.email;
                 timeline['id'] = user.id;
+                timeline['imgUrl'] = user.imgUrl;
                 var email = user.email;
                 const skills = await Skills.findOne({ email });
 
