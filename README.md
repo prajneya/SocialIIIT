@@ -1,79 +1,19 @@
-# SOCIALIIIT
+# SocailIIIT: A Social Network Exclusive for IIIT-H
 
-Repository for Algorithms and Analysis Design Course Project
+## Project Overview
 
-# Rules for Contributing
+A social network is a dedicated application which enables users in a certain social group to communicate with each other and make new connections. In IIIT-H, almost all clubs and students depend on Facebook posts, Instagram Stories and various other platforms to announce their events and interact with acquaintances in the college for various activities such as cab sharing, looking for seniors, etc. This forces them to manage multiple media accounts even though what people actually need is a *what happens in IIIT, stays in IIIT* base.
 
-### Pull Requests
+We have built such a social app, accessible to everyone inside IIIT-H, putting almost all IIIT-H related online social interactions under one umbrella. Here is an overview of the most prominent features that we have implemented in this webapp so far:
 
-* No pushes to master should be made directly, only merges shall be made.
-* Always pull before you push.
-* Try to make as small pull requests as you can so that it is easy to review your code (which is why it is advised to create branches for every little feature/fix/chore).
-* Although each one of you has been given rights to merge to master, it is recommended that no one merges their own PRs. Please make sure to add reviewers to PR, and only after the approval from a minimium of three reviewers,  the PR will be merged to master.
+* ### Friend Recommender System
 
-### Branching
+This is the social part of SocialIIIT where we recommend friends to users and enable them to expand their network from the comfort of their homes. Freshers can make connections quickly and easily with minimal effort and its need will be even more pronounced in an online semester. It also enables introverts to make friends by removing the anxiety involved in offline world. Meets with friends and others can be set up to catch up or get to know each other. Notifications are sent as well for both friend and meet requests.
 
-As mentioned earlier, it is advised to create as many branches as we can so as to keep the project modularized. Follow the following naming convention while creating your branch:
+* ### Querify
 
-[You name initials (CAPS)] - [Feature/fix/chore you are working on]
+This is a common platform for everyone to ask queries to anyone at IIIT. Everyone can answer according to their own capability and best answers will be rewarded accordingly in terms of rating and points. It helps to promote knowledge and gain from experience of your seniors. Reporting/rating reduction have been implemented to limit spam and unwanted content.
 
-For example, Prajneya Kumar's branches can be of the following names:
+* ### Ratings and Gratitude Points
 
-* PK-routing
-* PK-cabsharing
-* PK-login
-* PK-registrationFix
-
-Follow camel-case if the feature/fix/chore contains multiple words. 
-
-Also, make branches only when you start working on them. No point in making branches you will not be working on.
-
-### Commit Messages
-
-Commit messages should follow the following nomenclature. 
-
-* [Type] - [Subject]
-
-Types can be the following:
-
-* feat - a new feature
-* fix - a bug fix
-* docs - changes in documentation
-* style - everything related to styling
-* refactor - code changes that neither fixes a bug nor adds a feature
-* test - everything related to testing
-* chore - updating build tasks, package manager configs, etc
-
-The Subject should not exceed 50 characters and should be written in imperative. Keep it short, simple and make sure to describe exactly what the commit does in minimal words.
-
-If needed, add a description to the commit while sending PR, if the commit needs detailed explanation.
-
-### Installation
-
-The project requires
-
-* Node.js
-
-to run. Make sure you have installed all of the above.
-
-To run the project, clone the repo to your local machine and go the the socialite/ directory. 
-
-```sh
-$ npm start
-```
-to start the frontend server.
-
-Go to server/ directory and run
-
-```sh
-$ node server.js
-```
-to start the backend server.
-
-Note that you might need to run 
-
-```sh
-$ npm install
-```
-
-the first time you run this project or when someone adds a new package to the client/server side.
+Every user will have an associated rating which starts at 1000 and increases/decreases according their usage of the platform and the quality of their answers. Gratitude points are also awarded to an user if his/her answer is upvoted. They act as a scale to measure their proficiency in a particular skill.
