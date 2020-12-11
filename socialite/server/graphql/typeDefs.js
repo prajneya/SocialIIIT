@@ -16,6 +16,12 @@ module.exports = gql`
         downvotes: [Downvote]
         tags: JSONObject
     }
+    type Tag{
+        id: ID!
+        name: String!
+        weekly: Int!
+        lifetime: Int!
+    }
     type searchPost{
         _id: ID!
         title: String!
@@ -126,6 +132,7 @@ module.exports = gql`
         getPost(postId: ID!): Post
         getTopRated: [User]
         getTopAnswered: [User]
+        getTags: [Tag]
         getTopTags: JSONObject
         recommend(id: String!): [Recommend]!
         didIUpvoteQuestion(postId: ID!, email: String!): Boolean!
@@ -141,6 +148,8 @@ module.exports = gql`
         getUserTimelineData(id: ID) : JSONObject
     }
     type Mutation{
+        insertTag(name: String!): Tag!
+        updateTag(tagname: String!): Tag!
     	register(registerInput: RegisterInput): User!
     	login(email: String!, password: String!): User!
         createPost(title: String!, body: String!, tags: JSONObject): Post!

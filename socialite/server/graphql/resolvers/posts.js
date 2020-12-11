@@ -1,9 +1,8 @@
-const { Post, Queue } = require('../../models/Post');
+const { Post, Queue, Tags} = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
 
 const { UserInputError } = require('apollo-server')
 const { User, Skills, Timeline } = require('../../models/User');
-
 
 module.exports = {
 	Query: {
@@ -42,45 +41,39 @@ module.exports = {
                 throw new Error(err);
             }
         },
+        async getTags(){
+            try{
+                const tags = await Tags.find().sort({ lifetime: -1 });
+                return tags;
+            } catch(err){
+                throw new Error(err);
+            }
+        },
         async getTopTags(){
             try{
-                var pretags = [
-                    {'name' : 'Data Structures', 'value' : 0},
-                    {'name' : 'C-programming', 'value' : 0},
-                    {'name' : 'Probability and Statistics', 'value' : 0},
-                    {'name' : 'Database Security', 'value' : 0},
-                    {'name' : 'Science', 'value' : 0},
-                    {'name' : 'Discrete Structures', 'value' : 0},
-                    {'name' : 'Speech Processing', 'value' : 0},
-                    {'name' : 'Computer Vision', 'value' : 0},
-                    {'name' : 'Internships', 'value' : 0},
-                    {'name' : 'Resume', 'value' : 0},
-                    {'name' : 'Computational Linguistics', 'value' : 0},
-                    {'name' : 'Algorithm Analysis & Design', 'value': 0},
-                    {'name' : 'NLP', 'value' : 0}
-                ]
+                const tags = await Tags.find().sort({weekly: -1});
 
-                const posts = await Post.find();
-                if(posts){
-                    for(var i = 0; i < posts.length; i++)
-                    {   
-                        if(posts[i].tags){
-                            var tagkeys = Object.keys(posts[i].tags);
-                            for(var j = 0; j < tagkeys.length; j++)
-                            {
-                                for(var k = 0; k < pretags.length; k++)
-                                {
-                                    if(pretags[k]['name'] === tagkeys[j])
-                                    {
-                                        pretags[k]['value'] += 1;
-                                    }
-                                }   
-                            }
-                        }
-                    }
-                    pretags.sort((a, b) => (a['value'] < b['value']) ? 1 : -1);
-                }
-                return pretags.slice(0, 3);
+                // if(posts){
+                //     for(var i = 0; i < posts.length; i++)
+                //     {   
+                //         if(posts[i].tags){
+                //             var tagkeys = Object.keys(posts[i].tags);
+                //             for(var j = 0; j < tagkeys.length; j++)
+                //             {
+                //                 for(var k = 0; k < pretags.length; k++)
+                //                 {
+                //                     if(pretags[k]['name'] === tagkeys[j])
+                //                     {
+                //                         pretags[k]['value'] += 1;
+                //                     }
+                //                 }   
+                //             }
+                //         }
+                //     }
+                //     pretags.sort((a, b) => (a['value'] < b['value']) ? 1 : -1);
+                // }
+
+                return tags.slice(0, 3);
             } catch(err){
                 throw new Error(err);
             }
@@ -324,6 +317,46 @@ module.exports = {
 
             return post;
         },
+
+        async insertTag(_, { name }, context){
+
+            const newTag = new Tags({
+                name,
+                weekly: 0,
+                lifetime: 0
+            });
+            
+            tag = {}
+
+            await newTag.save().then( (saved) =>
+            {
+                tag = saved;
+                console.log(saved);
+            });
+
+            return tag
+        },
+
+        async updateTag(_, { tagname }, context){
+            const tagged = await Tags.find({"name": tagname})
+            const tag = await Tags.findById(tagged[0]['id']);
+            if(tag)
+            {
+                tag.weekly = tag.weekly + 1;
+                tag.lifetime = tag.lifetime + 1;
+
+                console.log(tag);
+
+                tag.save();
+                return tag;
+            }
+
+            else
+            {
+                throw new Error('Tag not Found');
+            }
+        },
+
         async addAnswer(_, { postId, body }, context){
             const user = checkAuth(context);
 

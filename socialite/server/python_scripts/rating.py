@@ -139,17 +139,3 @@ for q in queue.find():
         queue.delete_one({"_id": q['_id']})
 
 print("No more documents")
-
-# triggers.register_update_trigger(notify, 'Data', 'posts')
-
-# triggers.tail_oplog()
-# posts.insert_one({"balance": 1000})
-# triggers.stop_tail()
-
-# try:
-#     for insert_change in db.posts.watch([{'$match': {'operationType': 'update'}}]):
-#         print(insert_change)
-
-# except pymongo.errors.PyMongoError:
-#     # We know it's unrecoverable:
-#     print("Error occured")

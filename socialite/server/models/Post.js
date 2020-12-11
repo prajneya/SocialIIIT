@@ -51,4 +51,10 @@ const Queue = new Schema({
   createdAt: String
 });
 
-module.exports = {Post: model('Post', postSchema), Queue: model('Queue', Queue, 'Queue')};
+const Tags = new Schema({
+  name: String,
+  weekly: Number,
+  lifetime: Number
+});
+
+module.exports = {Post: model('Post', postSchema), Queue: model('Queue', Queue, 'Queue'), Tags: model('Tags', Tags, 'Tags')};
