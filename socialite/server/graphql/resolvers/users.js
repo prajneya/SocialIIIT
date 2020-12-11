@@ -19,7 +19,8 @@ function generateToken(user) {
       email: user.email,
       username: user.username,
       rating: user.rating,
-      times_answered: user.times_answered
+      times_answered: user.times_answered,
+      imgUrl: user.imgUrl
     },
     SECRET_KEY,
     { expiresIn: '1h' }
@@ -143,10 +144,13 @@ module.exports = {
 		      try {
 
 		      	await new Promise((resolve, reject) => {
-                const streamLoad = cloudinary.v2.uploader.upload_stream({ folder: "profile_pics", public_id: user.id }, function (error, result) {
+                const streamLoad = cloudinary.v2.uploader.upload_stream({ folder: "profile_pics", public_id: user.id }, async function (error, result) {
                     if (result) {
                         resultUrl = result.secure_url;
                         resultSecureUrl = result.secure_url;
+
+                        await User.updateOne({_id: user.id}, { $set: { imgUrl: resultUrl } });
+
                         resolve(resultUrl)
                     } else {
                         reject(error);
