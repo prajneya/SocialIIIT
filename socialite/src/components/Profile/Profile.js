@@ -109,8 +109,8 @@ function Profile(props) {
     const [projectThreeELink, setProjectThreeELink] = useState('');
     const [projectThreeBody, setProjectThreeBody] = useState('');
 
-    const [house, setHouse] = useState({});
-    const [hostel, setHostel] = useState({});
+    const [house, setHouse] = useState("");
+    const [hostel, setHostel] = useState("");
     const [club, setClub] = useState({});
     const [sport, setSport] = useState({});
 

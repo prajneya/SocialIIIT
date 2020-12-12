@@ -67,7 +67,7 @@ function Register(props) {
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
 		update(_, { data: { register: userData } }){
 			context.login(userData);
-			props.history.push('/dashboard')
+			props.history.push('/checkMail')
 		},
 		onError(err){
 			if(err.graphQLErrors.length > 0)
