@@ -4,12 +4,13 @@ const { UserInputError } = require('apollo-server')
 const cloudinary = require("cloudinary");
 
 const { validateRegisterInput, validateLoginInput } = require('../../util/validators')
-const { SECRET_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = require('../../config');
+const { SECRET_KEY, VERIFY_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = require('../../config');
 const {User, Profile, UserDets, Timeline} = require('../../models/User');
 const checkAuth = require('../../util/check-auth');
 
 const util = require('../../util/userdata')
 const {scoring, common, resetratio} = require('../../recosys/content')
+const mail = require('../../email')
 
 
 function generateToken(user) {
@@ -22,8 +23,26 @@ function generateToken(user) {
       times_answered: user.times_answered
     },
     SECRET_KEY,
-    { expiresIn: '1h' }
+    { expiresIn: '2h' }
   );
+}
+
+async function verify(user) 
+{
+	tok = jwt.sign(
+		{
+			id: user.id,
+			email: user.email,
+			username: user.username,
+			time: user.createdAt
+		},
+		VERIFY_KEY,
+		{ expiresIn: '1h' }
+	);
+
+	link = "https://localhost:3000/verify/" + tok;
+	msg = `Kindly click on the attached link to verify your account: ${link}`;
+	return err = await mail(user.email, "Account Verification", msg);
 }
 
 module.exports = {
@@ -118,7 +137,9 @@ module.exports = {
 
 			const rex = await newDets.save();
 
-			const token = generateToken(res);
+			console.log(await verify(res));
+			//const token = generateToken(res);
+			const token = ""
 
 			return {
 				...res._doc,
