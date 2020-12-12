@@ -156,46 +156,51 @@ const username = props.match.params.username;
                     <div className="col-xl-9">
                       <div className="display my-5">
                         <div className="mx-2 username">{username}</div><div className="rating mt-1 mx-2 p-2">RATING: {timeline_data ? timeline_data.rating : ""}</div>
-                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{timeline_data ? timeline_data.contributions : ""}</strong></div>
-                        <div className="email mx-2">{timeline_data ? timeline_data.email : ""}</div>
+                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{timeline_data ? timeline_data.contributions : ""}</strong></div>                        
                         <div className="about-me mx-2 my-5">
                           <div className="row">
-                            <div className="col-xl-4">
-                              <img src={timeline_data.imgUrl} alt="display"/>
+                            <div className="col-xl-12">
+                              <div className="profile-picture">
+                                <img src={timeline_data.imgUrl} alt="display"/>
+                              </div>
+                                <hr className="picture-seprator"/>
                             </div>
-                            <div className="col-xl-8 about-me-text">
+                            <div className="col-xl-12 about-me-text">
                               {user_timeline_data['bio']}
+                              <div className="email mx-2">{timeline_data ? timeline_data.email : ""}</div>
                               <div className="social-links">
                                 {user_timeline_data['fblink'] ? <a href={user_timeline_data['fblink']} target="_blank"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
-                                {user_timeline_data['ghlink'] ? <a href={user_timeline_data['ghlink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
+                                {user_timeline_data['ghlink'] ? <a href={user_timeline_data['ghlink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}                                
+                              </div>
+                              <div className="text-center">
                                 {profile_data.friend === 0 ? 
-                                <button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
-                                : ""}
-                                {profile_data.friend === 1 ? 
-                                <div>You're Friends!</div>
-                                : ""}
-                                {profile_data.friend === 2 ? 
-                                <div>Pending Friend Request!</div>
-                                : ""}
-                                {profile_data.friend === 3 ?
-                                <div>
-                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_frenaccept(timeline_data.id)}>ACCEPT FRIEND REQUEST</button>
-                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_frenreject(timeline_data.id)}>REJECT FRIEND REQUEST</button>
-                                </div>
-                                : ""}
+                                  <button className="rounded ml-2 my-2" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
+                                  : ""}
+                                  {profile_data.friend === 1 ? 
+                                  <div>You're Friends!</div>
+                                  : ""}
+                                  {profile_data.friend === 2 ? 
+                                  <div>Pending Friend Request!</div>
+                                  : ""}
+                                  {profile_data.friend === 3 ?
+                                  <div>
+                                  <button className="rounded ml-2 my-2" onClick={() => do_frenaccept(timeline_data.id)}>ACCEPT FRIEND REQUEST</button>
+                                  <button className="rounded ml-2 my-2" onClick={() => do_frenreject(timeline_data.id)}>REJECT FRIEND REQUEST</button>
+                                  </div>
+                                  : ""}
 
-                                {profile_data.meet === 0 ? 
-                                <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
-                                : ""}
-                                {profile_data.meet === 2 ? 
-                                <div>Pending Meet Request!</div>
-                                : ""}
-                                {profile_data.meet === 3 ? 
-                                <div>
-                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET REQUEST</button>
-                                <button className="rounded ml-2 my-2 float-right" onClick={() => do_meetreject(timeline_data.id)}>REJECT MEET REQUEST</button>
-                                </div>
-                                : ""}
+                                  {profile_data.meet === 0 ? 
+                                  <button className="rounded ml-2 my-2" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
+                                  : ""}
+                                  {profile_data.meet === 2 ? 
+                                  <div>Pending Meet Request!</div>
+                                  : ""}
+                                  {profile_data.meet === 3 ? 
+                                  <div>
+                                  <button className="rounded ml-2 my-2" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET REQUEST</button>
+                                  <button className="rounded ml-2 my-2" onClick={() => do_meetreject(timeline_data.id)}>REJECT MEET REQUEST</button>
+                                  </div>
+                                  : ""}
                               </div>
                             </div>
                           </div>
