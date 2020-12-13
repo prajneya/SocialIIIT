@@ -57,4 +57,50 @@ const Tags = new Schema({
   lifetime: Number
 });
 
-module.exports = {Post: model('Post', postSchema), Queue: model('Queue', Queue, 'Queue'), Tags: model('Tags', Tags, 'Tags')};
+const blogSchema = new Schema({
+  title: String,
+  body: String,
+  email: String,
+  createdAt: String,
+  comments: [
+    {
+      body: String,
+      email: String,
+      upvotes: [
+        {
+          email: String,
+          createdAt: String
+        }
+      ],
+      downvotes: [
+        {
+          email: String,
+          createdAt: String
+        }
+      ],
+      createdAt: String
+    }
+  ],
+  reports: [
+    {
+      body: String,
+      email: String,
+      createdAt: String
+    }
+  ],
+  likes: [
+    {
+      email: String,
+      createdAt: String
+    }
+  ],
+  downvotes: [
+    {
+      email: String,
+      createdAt: String
+    }
+  ],
+  tags: {}
+});
+
+module.exports = {Post: model('Post', postSchema), Queue: model('Queue', Queue, 'Queue'), Tags: model('Tags', Tags, 'Tags'), Blog: model('Blog', blogSchema, 'Blog')};

@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import Parser from 'html-react-parser';
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt, faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from '../../context/auth'
@@ -31,6 +31,10 @@ function Timeline(props){
 
   const { data: timelineData } = useQuery(FETCH_TIMELINE);
   var timeline_data = timelineData ? timelineData.getTimelineData : "";
+
+  function addNewBlog(){
+    props.history.push('/createblog')
+  }
 
 	return (
             <>
@@ -60,7 +64,7 @@ function Timeline(props){
                       </div>
 
                   
-                      <div className="container-fluid my-2">
+                      {/* <div className="container-fluid my-2">
                         <div className="showcase desktop-only">
                           <div className="showcase-header">
                             USER SHOWCASE
@@ -113,7 +117,7 @@ function Timeline(props){
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="container-fluid my-5">
                         <div className="showcase">
@@ -198,6 +202,36 @@ function Timeline(props){
                           </div>
                         </div>
                       </div>
+
+                      <div className="container-fluid my-2">
+                        <div className="showcase desktop-only">
+                          <div className="showcase-header">
+                            BLOGS
+                            <div className="showcase-add float-right"><button className="btn btn-primary" onClick={addNewBlog}>ADD NEW BLOG + </button></div>
+                          </div>
+                          <br/>
+                          <hr/>
+
+                          <div className="project-container mt-3 pb-5">
+                              <div className="project-header">
+                                <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faNewspaper} size="2x"/></i></div>
+                              </div>
+                              <div className="project-title ml-5">
+                                Sample Blog Title
+                              </div>
+                              <div className="project-body mx-5 mt-3">
+                                Sample Blog Description
+                              </div>
+                              <div className="tags d-inline-block mx-5 mt-5">
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                                <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                              </div>
+                            </div> 
+
+                        </div>
+                      </div>
+
                     </div>
                     <div className="col-xl-3 right-sidebar">
                       <div className="gratitude-point-list">

@@ -6,7 +6,7 @@ import gql from 'graphql-tag';
 import Parser from 'html-react-parser';
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt, faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from '../../context/auth'
@@ -203,7 +203,7 @@ const username = props.match.params.username;
                       </div>
 
                   
-                      <div className="container-fluid my-2">
+                      {/* <div className="container-fluid my-2">
                         <div className="showcase desktop-only">
                           <div className="showcase-header">
                             USER SHOWCASE
@@ -255,7 +255,7 @@ const username = props.match.params.username;
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="container-fluid my-5">
                         <div className="showcase">
@@ -265,7 +265,7 @@ const username = props.match.params.username;
                           <br/>
                           <hr/>
                           <div className="showcase-projects">
-                                                    {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() != "" && user_timeline_data['pOneDesc'].trim() != "" ?
+                            {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() != "" && user_timeline_data['pOneDesc'].trim() != "" ?
                             <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
@@ -340,7 +340,37 @@ const username = props.match.params.username;
                           </div>
                         </div>
                       </div>
+
+                      <div className="container-fluid my-2">
+                      <div className="showcase desktop-only">
+                        <div className="showcase-header">
+                          BLOGS
+                        </div>
+                        <br/>
+                        <hr/>
+
+                        <div className="project-container mt-3 pb-5">
+                            <div className="project-header">
+                              <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faNewspaper} size="2x"/></i></div>
+                            </div>
+                            <div className="project-title ml-5">
+                              Sample Blog Title
+                            </div>
+                            <div className="project-body mx-5 mt-3">
+                              Sample Blog Description
+                            </div>
+                            <div className="tags d-inline-block mx-5 mt-5">
+                              <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                              <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                              <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
+                            </div>
+                          </div> 
+
+                      </div>
                     </div>
+
+                    </div>
+
                     <div className="col-xl-3 right-sidebar">
                       <div className="gratitude-point-list">
                         <div className="my-3 p-2 top-users-post">

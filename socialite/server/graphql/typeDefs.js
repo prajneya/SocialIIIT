@@ -16,6 +16,16 @@ module.exports = gql`
         downvotes: [Downvote]
         tags: JSONObject
     }
+    type Blog{
+        id: ID!
+        title: String!
+        body: String!
+        email: String!
+        createdAt: String!
+        comments: [Answer]
+        likes: [Upvote]
+        tags: JSONObject
+    }
     type Tag{
         id: ID!
         name: String!
@@ -153,6 +163,7 @@ module.exports = gql`
     	register(registerInput: RegisterInput): User!
     	login(email: String!, password: String!): User!
         createPost(title: String!, body: String!, tags: JSONObject): Post!
+        createBlog(title: String!, body: String!, tags: JSONObject): Blog!
         deletePost(postId: ID!): String!
         addAnswer(postId: ID!, body: String!): Post!
         upvoteQuestion(postId: ID!, email: String!): Post!

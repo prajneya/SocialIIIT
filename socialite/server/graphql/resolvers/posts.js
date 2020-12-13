@@ -1,4 +1,4 @@
-const { Post, Queue, Tags} = require('../../models/Post');
+const { Post, Queue, Tags, Blog } = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
 
 const { UserInputError } = require('apollo-server')
@@ -332,7 +332,39 @@ module.exports = {
 
             return post;
         },
+        async createBlog(_, { title, body, tags }, context){
+            const user = checkAuth(context);
 
+            const newBlog = new Blog({
+                title,
+                body, 
+                email: user.email,
+                createdAt: new Date().toISOString(),
+                tags
+            });
+            
+            var id = "";
+            blog = {}
+
+            await newBlog.save().then( (saved) =>
+            {
+                blog = saved
+                id = saved.id;
+            });
+
+
+            const userTimeline = await Timeline.findById(user.id);
+
+            if(userTimeline){
+                userTimeline.blogs.unshift(id);
+                await userTimeline.save();
+            }
+            else{
+                throw new Error('Timeline Data not Found');
+            }
+
+            return blog;
+        },
         async insertTag(_, { name }, context){
 
             const newTag = new Tags({

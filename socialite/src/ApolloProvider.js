@@ -24,6 +24,8 @@ import CreatePost from './components/StackOverflow/CreatePost';
 import Issue from './components/StackOverflow/Issue';
 import SearchResult from './components/StackOverflow/SearchResult';
 
+import CreateBlog from './components/Blog/CreateBlog';
+
 import Timeline from './components/Timeline/Timeline';
 import DisplayProfile from './components/Timeline/DisplayProfile';
 
@@ -66,6 +68,7 @@ export default (
             <AuthRoute exact path="/profile" component={Profile} exact/>
             <AuthRoute exact path="/stack-overflow" component={StackOverflow} exact/>
             <AuthRoute exact path ="/createpost" component={CreatePost} exact/>
+            <AuthRoute exact path="/createblog" component={CreateBlog} exact/>
             <AuthRoute exact path="/issue/:postId" component={Issue} exact/>
             <AuthRoute exact path="/search" component={SearchResult} exact/>
             <AuthRoute exact path="/timeline" component={Timeline} exact/>
