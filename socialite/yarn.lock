@@ -9794,6 +9794,11 @@
   "resolved" "https://registry.npmjs.org/node-releases/-/node-releases-1.1.65.tgz"
   "version" "1.1.65"
 
+"nodemailer@^6.4.17":
+  "integrity" "sha512-89ps+SBGpo0D4Bi5ZrxcrCiRFaMmkCt+gItMXQGzEtZVR3uAD3QAQIDoxTWnx3ky0Dwwy/dhFrQ+6NNGXpw/qQ=="
+  "resolved" "https://registry.npmjs.org/nodemailer/-/nodemailer-6.4.17.tgz"
+  "version" "6.4.17"
+
 "nodemon@^2.0.6":
   "integrity" "sha512-4I3YDSKXg6ltYpcnZeHompqac4E6JeAMpGm8tJnB9Y3T0ehasLa4139dJOcCrB93HHrUMsCrKtoAlXTqT5n4AQ=="
   "resolved" "https://registry.npmjs.org/nodemon/-/nodemon-2.0.6.tgz"

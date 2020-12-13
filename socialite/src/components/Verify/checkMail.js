@@ -65,9 +65,9 @@ function Resend(props) {
 					<div className="col-lg-6">
 						<animated.div style={fadeInMedium}>
 						<div className="resend-container">
-							<div className="Head">Verification link has been sent to your email</div>
-							<div className="msg">Kindly click on the link or paste it in a browser to confirm your email</div>
-							<button className="button" onClick={resendLink}>Resend Link</button>
+							<div className="Head">Verification link has been sent to your email.
+							<br /> Kindly click on the link or paste it your browser to confirm your email.</div>
+							<button className="btn-submit" onClick={resendLink}>Resend Link</button>
 						</div>
 						</animated.div>
 					</div>
