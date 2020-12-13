@@ -20,7 +20,6 @@ module.exports = {
 		...profileResolvers.profile,
 		...notifResolvers.Query,
 		...searchResolvers.search,
-		...resendResolvers.resend,
 		...forgotPassResolvers.forgotPass
 	},
 	Mutation: {
@@ -35,6 +34,7 @@ module.exports = {
 		...meetrequestResolvers.meetaccept,
 		...meetrequestResolvers.meetreject,
 		...editResolvers.edit,
+		...resendResolvers.resend,
 		...passChangeResolvers.passChange
 	}
 }
