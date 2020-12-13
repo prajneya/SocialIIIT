@@ -9,6 +9,7 @@ const notifResolvers = require('./notif')
 const searchResolvers = require('./search')
 const editResolvers = require('./edit')
 const verifyResolvers = require('./verify')
+const resendResolvers = require('./resend')
 
 module.exports = {
 	Query: {
@@ -16,7 +17,8 @@ module.exports = {
 		...recoResolvers.recommend,
 		...profileResolvers.profile,
 		...notifResolvers.Query,
-		...searchResolvers.search
+		...searchResolvers.search,
+		...resendResolvers.resend
 	},
 	Mutation: {
 		...userResolvers.Mutation,

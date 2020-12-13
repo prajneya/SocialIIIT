@@ -110,6 +110,12 @@ module.exports = gql`
 	batch: String!
 	stream: String!
     }
+    input ResendInput{
+	    id: String!
+	    email: String!
+	    username: String!
+	    time: String!
+    }
     type Notif{
         userId: String!
         match: Float!
@@ -146,6 +152,7 @@ module.exports = gql`
         searchByTextPost(query: String!): [searchPost]
         getTimelineData: JSONObject
         getUserTimelineData(id: ID) : JSONObject
+	resend(data: ResendInput!): Int!
     }
     type Mutation{
         insertTag(name: String!): Tag!

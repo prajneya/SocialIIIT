@@ -10,7 +10,7 @@ const checkAuth = require('../../util/check-auth');
 
 const util = require('../../util/userdata')
 const {scoring, common, resetratio} = require('../../recosys/content')
-const mail = require('../../email')
+const verify = require('../../verification')
 
 
 function generateToken(user) {
@@ -28,24 +28,6 @@ function generateToken(user) {
   );
 }
 
-async function verify(user) 
-{
-	tok = jwt.sign(
-		{
-			id: user.id,
-			email: user.email,
-			username: user.username,
-			time: user.createdAt
-		},
-		VERIFY_KEY,
-		{ expiresIn: '1h' }
-	);
-
-	link = "https://localhost:3000/verify/" + tok;
-	msg = `Kindly click on the attached link to verify your account: ${link}`;
-	return err = await mail(user.email, "Account Verification", msg);
-}
-
 module.exports = {
 	Mutation: {
 
@@ -61,6 +43,11 @@ module.exports = {
 	      if (!user) {
 	        errors.general = 'User not found';
 	        throw new UserInputError('User not found', { errors });
+	      }
+
+	      if (!user.verified) {
+	        errors.general = 'User not verified';
+	        throw new UserInputError('User not verified', { errors });
 	      }
 
 	      const match = await bcrypt.compare(password, user.password);
