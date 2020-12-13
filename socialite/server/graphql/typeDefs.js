@@ -153,6 +153,7 @@ module.exports = gql`
         getTimelineData: JSONObject
         getUserTimelineData(id: ID) : JSONObject
 	resend(data: ResendInput!): Int!
+	forgotPass(email: String!): String
     }
     type Mutation{
         insertTag(name: String!): Tag!
@@ -181,6 +182,7 @@ module.exports = gql`
         edit(input: ProfileEdits): ID
         uploadPhoto(photo: Upload!): String
         updateProfile(name: String, fblink: String, ghlink: String, about: String, house: String, clubs: JSONObject, hostel: String, sports: JSONObject, pOneTitle: String, pOneGhLink: String, pOneELink: String, pOneDesc: String, pTwoTitle: String, pTwoGhLink: String, pTwoELink: String, pTwoDesc: String, pThreeTitle: String, pThreeGhLink: String, pThreeELink: String, pThreeDesc: String, roomNo: Int): String
+	passChange(token: String!, password: String!, confirmPassword: String!): Int
     } 
 `;
 
