@@ -45,18 +45,22 @@ function Timeline(props){
                     <div className="col-xl-9">
                       <div className="display my-5">
                         <div className="mx-2 username">{user.username}</div><div className="rating mt-1 mx-2 p-2">RATING: <strong>{user.rating}</strong></div>
-                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>
-                        <div className="email mx-2">{user.email}</div>
+                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>                        
                         <div className="about-me mx-2 my-4">
                           <div className="row">
-                            <div className="col-xl-4">
-                              <img src={user.imgUrl} alt="display"/>
-                            </div>
-                            <div className="col-xl-8 about-me-text">
+                            <div className="col-xl-12">
+                              <div className="profile-picture">
+                                <img src='/img/dp.jpeg' alt="display"/>
+                              </div>
+                                <hr className="picture-seprator"/>
+                            </div>                            
+                            <div className="col-xl-12 about-me-text">
                               {timeline_data['bio']}
+                              <div className="email mx-2">{user.email}</div>
                               <div className="social-links">
                                 {timeline_data['fblink'] ? <a href={timeline_data['fblink']} target="_blank"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
                                 {timeline_data['ghlink'] ? <a href={timeline_data['ghlink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
+
                               </div>
                             </div>
                           </div>

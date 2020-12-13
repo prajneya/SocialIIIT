@@ -94,13 +94,48 @@
   margin-top: 7rem;
 }
 
+.profile-picture img{
+  border-radius: 50%;
+  height: 256px;
+  width: 256px;
+  border-style: solid;
+  border-width: 4px;
+  border-color: grey;
+}
+
+.profile-picture {
+  text-align: center;
+}
+
+.picture-seprator {
+  width: 80%;
+  height: 2px;
+  margin: auto;
+}
+
+.about-me hr{
+  margin-top: -7rem;
+}
+
+.about-me-text {
+  text-align: center;
+  margin-top: 8rem;
+}
+
+.social-links {
+  margin-top: .5rem;
+}
+
+.social-links .fa-2x {
+  color: grey;  
+}
+
+.social-links .fa-2x:hover {
+  opacity: .5;  
+}
+
 @media only screen and (max-width: 1199px) {
-  .about-me img{
-    width: 25rem;
-  }
-  .about-me-text{
-    margin-top: 3rem;
-  }
+  
   .gratitude-point-list{
     margin-top: 0;
     margin-left: 1rem;
@@ -111,8 +146,5 @@
 @media only screen and (max-width: 460px) {
   .showcase-add {
     float: none !important;
-  }
-  .about-me img{
-    width: 95%;
   }
 }

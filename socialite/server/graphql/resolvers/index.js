@@ -8,6 +8,7 @@ const meetrequestResolvers = require('./meetreq')
 const notifResolvers = require('./notif')
 const searchResolvers = require('./search')
 const editResolvers = require('./edit')
+const verifyResolvers = require('./verify')
 
 module.exports = {
 	Query: {
@@ -19,6 +20,7 @@ module.exports = {
 	},
 	Mutation: {
 		...userResolvers.Mutation,
+		...verifyResolvers.verify,
 		...postResolvers.Mutation,
 		...requestResolvers.frenrequest,
 		...requestResolvers.frenaccept,
