@@ -19,12 +19,14 @@ module.exports = {
 
 			if(flag)
 				return -1
+
 			exist = await User.exists({ _id: payload.id, email: payload.email, username: payload.username, createdAt: payload.time })
 			if(exist)
 			{
 				await User.updateOne({ _id: payload.id, email: payload.email, username: payload.username, createdAt: payload.time }, {$set: {verified: true}});
-			return 0
+				return 0
 			}
+
 			else
 				return -1
 		}
