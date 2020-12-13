@@ -14,9 +14,12 @@ module.exports.validateRegisterInput = (
     	}
 	}
 
+	var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
 	if (password === '') {
-    	errors.password = 'Password must not empty';
+    	errors.password = 'Password must not be empty';
   	} 
+	else if(!password.match(strongRegex))
+		errors.password = 'Weak password, must contain atleast 8 characters and 1 capital letter';
   	else if (password !== confirmPassword) {
     	errors.confirmPassword = 'Passwords must match';
   	}
