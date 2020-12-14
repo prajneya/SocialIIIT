@@ -20,7 +20,7 @@ function Home(props) {
 	const fadeInSlow = useSpring({opacity: 1, from: {opacity: 0}, delay: 500, config: { duration: 2000 }})
 
 	const { onChange, onSubmit, values } = useForm(loginUserCallback, {
-		email: '',
+		credential: '',
 		password: ''
 	})
 
@@ -86,9 +86,9 @@ function Home(props) {
 							<div className="signin">Sign in</div>
 							<form onSubmit={onSubmit} autocomplete="off">
 							<div className="email">
-							  <label for="email">Email Address</label>
+							  <label for="email">Email Address/Username</label>
 							  <br/>
-							  <input type="text" name="email" placeholder="Enter your email" onChange={onChange} value={values.email} />
+							  <input type="text" name="credential" placeholder="Enter your email or username" onChange={onChange} value={values.credential} />
 							</div>
 							<div className="password">
 							  <label for="password">Password</label>
@@ -121,8 +121,8 @@ function Home(props) {
 }
 
 const LOGIN_USER = gql`
-  mutation login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation login($credential: String!, $password: String!) {
+    login(credential: $credential, password: $password) {
       id
       email
       createdAt

@@ -31,14 +31,12 @@ function generateToken(user) {
 module.exports = {
 	Mutation: {
 
-		async login(_, { email, password }) {
-	      const { errors, valid } = validateLoginInput(email, password);
-
-	      if (!valid) {
-	        throw new UserInputError('Errors', { errors });
-	      }
-
-	      const user = await User.findOne({ email });
+		async login(_, { credential, password }) {
+		errors = {}
+		var user = await User.findOne({ email: credential});
+		if (!user) {
+		user = await User.findOne({ username: credential});
+		}
 
 	      if (!user) {
 	        errors.general = 'User not found';

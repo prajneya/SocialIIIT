@@ -159,7 +159,7 @@ module.exports = gql`
         updateTag(tagname: String!): Tag!
     	register(registerInput: RegisterInput): User!
 	verify(token: String!): Int!
-    	login(email: String!, password: String!): User!
+    	login(credential: String!, password: String!): User!
         createPost(title: String!, body: String!, tags: JSONObject): Post!
         deletePost(postId: ID!): String!
         addAnswer(postId: ID!, body: String!): Post!
