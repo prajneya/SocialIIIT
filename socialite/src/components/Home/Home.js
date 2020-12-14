@@ -32,6 +32,14 @@ function Home(props) {
 			props.history.push('/dashboard')
 		},
 		onError(err){
+			if(err.graphQLErrors[0].message == "User not verified")
+			{
+				console.log(values.credential)
+				localStorage.setItem("username", values.credential)
+				localStorage.setItem("email", values.credential)
+				props.history.push('/checkMail')
+				return
+			}
 			if(err.graphQLErrors.length > 0)
 				overlayElement.style.zIndex = 0;
 				overlayElement.style.opacity = 0;
