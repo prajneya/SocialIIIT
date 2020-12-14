@@ -143,6 +143,17 @@ const username = props.match.params.username;
   });
   var user_timeline_data = userTimelineData ? userTimelineData.getUserTimelineData : "";
 
+  const { data: blogData } = useQuery(FETCH_BLOGS, {
+        variables: {
+            email: timeline_data.id.email
+        }
+  });
+  var blog_data = blogData ? blogData.getUserBlogs : "";
+
+  function showBlog(blogId){
+    props.history.push('/blog/'+blogId);
+  }
+
   if(!timeline_data){
     return (<>USER NOT FOUND</>)
   }
@@ -154,9 +165,10 @@ const username = props.match.params.username;
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-xl-9">
-                      <div className="display my-5">
-                        <div className="mx-2 username">{username}</div><div className="rating mt-1 mx-2 p-2">RATING: {timeline_data ? timeline_data.rating : ""}</div>
+                      <div className="display text-center my-5">
+                        <div className="mx-2 username">{username}</div><br/><br/><div className="rating mt-1 mx-2 p-2">RATING: {timeline_data ? timeline_data.rating : ""}</div>
                         <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{timeline_data ? timeline_data.contributions : ""}</strong></div>                        
+                        <br/><br/>
                         <div className="about-me mx-2 my-5">
                           <div className="row">
                             <div className="col-xl-12">
@@ -347,32 +359,32 @@ const username = props.match.params.username;
                       </div>
 
                       <div className="container-fluid my-2">
-                      <div className="showcase desktop-only">
-                        <div className="showcase-header">
-                          BLOGS
-                        </div>
-                        <br/>
-                        <hr/>
+                        <div className="showcase">
+                          <div className="showcase-header">
+                            BLOGS
+                          </div>
+                          <br/>
+                          <hr/>
 
-                        <div className="project-container mt-3 pb-5">
-                            <div className="project-header">
-                              <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faNewspaper} size="2x"/></i></div>
-                            </div>
-                            <div className="project-title ml-5">
-                              Sample Blog Title
-                            </div>
-                            <div className="project-body mx-5 mt-3">
-                              Sample Blog Description
-                            </div>
-                            <div className="tags d-inline-block mx-5 mt-5">
-                              <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
-                              <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
-                              <div className="tag px-3 py-2 mr-1 my-1">#tag</div>
-                            </div>
+                          {blog_data.length == 0 ? <div className="text-center">{username} has not yest posted any blogs.</div> : ""}
+
+                          {blog_data && blog_data.map(blog => ( 
+                          <div className="project-container mt-3 pb-5 hover-pointer" onClick={() => showBlog(blog['id'])}>
+                              <div className="project-header">
+                                <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faNewspaper} size="2x"/></i></div>
+                              </div>
+                              <div className="project-title ml-5">
+                                {blog['title']}
+                              </div>
+                              <div className="tags d-inline-block mx-5 mt-5">
+                                  {blog.tags && Object.keys(blog.tags).map(tag => ( 
+                                    <div className="tag px-3 py-2 mr-1 my-1">#{tag}</div>
+                                  ))}
+                              </div>
                           </div> 
-
+                          ))}
+                        </div>
                       </div>
-                    </div>
 
                     </div>
 
@@ -459,6 +471,14 @@ const FETCH_USER_TIMELINE = gql`
     }
 `;
 
-
+const FETCH_BLOGS = gql`
+    query($email: String){
+        getUserBlogs(email: $email){
+          id
+          title
+          tags
+        }
+    }
+`;
 
 export default Timeline;

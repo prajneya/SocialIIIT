@@ -25,6 +25,7 @@ import Issue from './components/StackOverflow/Issue';
 import SearchResult from './components/StackOverflow/SearchResult';
 
 import CreateBlog from './components/Blog/CreateBlog';
+import Blog from './components/Blog/Blog';
 
 import Timeline from './components/Timeline/Timeline';
 import DisplayProfile from './components/Timeline/DisplayProfile';
@@ -74,6 +75,7 @@ export default (
             <AuthRoute exact path="/timeline" component={Timeline} exact/>
             <AuthRoute exact path="/profile/:username" component={DisplayProfile} exact/>
             <AuthRoute exact path="/notifications" component={Notifications} exact/>
+            <Route exact path="/blog/:blogId" component={Blog} exact/>
           </Switch>
         </div>
     </BrowserRouter>

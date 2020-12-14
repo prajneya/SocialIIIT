@@ -14,6 +14,14 @@ module.exports = {
                 throw new Error(err);
             }
         },
+        async getUserBlogs(_, { email }){
+            try{
+                const blogs = await Blog.find({email}).sort({ createdAt: -1 });
+                return blogs;
+            } catch(err){
+                throw new Error(err);
+            }
+        },
         async getTopPosts(){
             try{
                 const posts = await Post.find().sort({ upvotes: -1 });
@@ -185,6 +193,19 @@ module.exports = {
                 }
                 else{
                     throw new Error('Post not Found');
+                }
+            } catch (err){
+                throw new Error(err);
+            }
+        },
+        async getBlog(_, { blogId }){
+            try{
+                const blog = await Blog.findById(blogId);
+                if(blog){
+                    return blog;
+                }
+                else{
+                    throw new Error('Blog not Found');
                 }
             } catch (err){
                 throw new Error(err);

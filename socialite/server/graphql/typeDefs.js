@@ -156,6 +156,8 @@ module.exports = gql`
         searchByTextPost(query: String!): [searchPost]
         getTimelineData: JSONObject
         getUserTimelineData(id: ID) : JSONObject
+        getUserBlogs(email: String): [Blog]
+        getBlog(blogId: ID!): Blog
     }
     type Mutation{
         insertTag(name: String!): Tag!
