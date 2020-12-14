@@ -4,6 +4,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import Swal from 'sweetalert2';
 
 import "../Home/Home.css";
 import "./Profile.css";
@@ -153,6 +154,21 @@ function Profile(props) {
         update(_, {}){
             console.log("update", photo)
         },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "Our database is jealous of your beauty.",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while updating your profile picture.",
+                  imageUrl: '/img/study.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
+        },
         variables: { photo }
     })
 
@@ -168,6 +184,21 @@ function Profile(props) {
         update(_, {}){
             window.location.reload(false)
             console.log("details updated")
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "You must be the mysterious one!",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while updating your personal details.",
+                  imageUrl: '/img/study.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
         },
         variables: { "name": fullName,
                     "fblink": fbLink,

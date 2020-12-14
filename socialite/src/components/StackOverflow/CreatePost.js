@@ -5,6 +5,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
+import Swal from 'sweetalert2';
 
 import "../Home/Home.css";
 import "../Profile/Profile.css";
@@ -40,6 +41,21 @@ function CreatePost(props){
         update(_, {}){
             window.location.reload(false)
             props.history.push('/stack-overflow')
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "This does not obey the laws of the universe!",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while creating your question.",
+                  imageUrl: '/img/study.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
         },
         variables: {title, body, tags}
     })

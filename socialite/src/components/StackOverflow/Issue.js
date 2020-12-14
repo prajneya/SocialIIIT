@@ -38,6 +38,21 @@ function Issue(props){
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Noble work is good, but sometimes gets tough.",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while adding your answer.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
+    },
     variables: {
       postId,
       body
@@ -47,6 +62,21 @@ function Issue(props){
   const [upvoteQuestion, { upvoteQ }] = useMutation(UPVOTE_QUESTION, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
+    },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "We all run into problems at times.",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while upvoting the question.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
     },
     variables: {
       postId,
@@ -58,6 +88,21 @@ function Issue(props){
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Ctrl+Z !!!",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while removing the upvote.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
+    },
     variables: {
       postId,
       email
@@ -67,6 +112,21 @@ function Issue(props){
   const [downvoteQuestion, { downvoteQ }] = useMutation(DOWNVOTE_QUESTION, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
+    },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Damn, they got away!",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while downvoting the question.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
     },
     variables: {
       postId,
@@ -78,6 +138,21 @@ function Issue(props){
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Ctrl + Z !!!",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while removing the downvote.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
+    },
     variables: {
       postId,
       email
@@ -87,6 +162,21 @@ function Issue(props){
   const [upvoteAnswer, { upvoteA }] = useMutation(UPVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
+    },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "We all run into problems at times.",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while upvoting the answer.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
     },
     variables: {
       postId,
@@ -99,6 +189,21 @@ function Issue(props){
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Ctrl + Z !!!",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while removing the upvote.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
+    },
     variables: {
       postId,
       answerId,
@@ -110,6 +215,21 @@ function Issue(props){
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Damn, they got away!",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while downvoting the answer.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
+    },
     variables: {
       postId,
       answerId,
@@ -120,6 +240,21 @@ function Issue(props){
   const [removeDownvoteAnswer, { rDownvoteA }] = useMutation(REMOVE_DOWNVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
+    },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Ctrl + Z !!!",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while removing the downvote.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
     },
     variables: {
       postId,

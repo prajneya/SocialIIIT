@@ -3,6 +3,7 @@ import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import { register } from '../../serviceWorker'
 import {useSpring, animated} from 'react-spring'
+import Swal from 'sweetalert2';
 
 import "./Home.css"
 
@@ -12,8 +13,6 @@ import { useForm } from '../../util/hooks';
 function Home(props) {
 
 	const context = useContext(AuthContext)
-
-	const [errors, setErrors] = useState({});
 
 	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
@@ -35,10 +34,21 @@ function Home(props) {
 		},
 		onError(err){
 			if(err.graphQLErrors.length > 0)
-				setErrors(err.graphQLErrors[0].extensions.exception.errors);
 				overlayElement.style.zIndex = 0;
 				overlayElement.style.opacity = 0;
 				signinDisplay.style.display = "none";
+				Swal.fire({title: "Oh, oh oh. Who are you?",
+							html: Object.values(err.graphQLErrors[0].extensions.exception.errors)[0],
+							footer: "The above error popped up while logging you in.",
+							imageUrl: '/img/study.png',
+							customClass: {
+								title: 'text-danger error-message',
+								content: 'error-message text-white',
+								confirmButton: 'game-button bg-danger',
+								image: 'error-image-swal',
+							},
+							background: `rgba(0,0,0,0.9)`
+						});
 		},
 		variables: values
 	})
@@ -47,7 +57,7 @@ function Home(props) {
 		overlayElement.style.zIndex = 2;
 		overlayElement.style.opacity = 1;
 		signinDisplay.style.display = "block";
-		setTimeout(function(){ loginUser();; }, 3000);
+		setTimeout(function(){ loginUser();; }, 1000);
 	}
 
 	return (
@@ -100,14 +110,6 @@ function Home(props) {
 								<span>Don't have an account yet?</span>
 								<a href="/register"><button className="signup">Sign Up</button></a>
 							</div>
-
-							{Object.keys(errors).length > 0 && (<div className="error-message">
-								<ul>
-									{Object.values(errors).map(value => (
-										<li key={value}>{value}</li>
-									))}
-								</ul>
-							</div>)}
 
 						</div> 
 						</animated.div>
