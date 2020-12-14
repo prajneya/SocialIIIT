@@ -134,6 +134,10 @@
   opacity: .5;  
 }
 
+.hover-pointer:hover{
+  cursor: pointer;
+}
+
 @media only screen and (max-width: 1199px) {
   
   .gratitude-point-list{

@@ -1,4 +1,4 @@
-const { Post, Queue, Tags} = require('../../models/Post');
+const { Post, Queue, Tags, Blog } = require('../../models/Post');
 const checkAuth = require('../../util/check-auth');
 
 const { UserInputError } = require('apollo-server')
@@ -10,6 +10,14 @@ module.exports = {
             try{
                 const posts = await Post.find().sort({ createdAt: -1 });
                 return posts;
+            } catch(err){
+                throw new Error(err);
+            }
+        },
+        async getUserBlogs(_, { email }){
+            try{
+                const blogs = await Blog.find({email}).sort({ createdAt: -1 });
+                return blogs;
             } catch(err){
                 throw new Error(err);
             }
@@ -190,6 +198,19 @@ module.exports = {
                 throw new Error(err);
             }
         },
+        async getBlog(_, { blogId }){
+            try{
+                const blog = await Blog.findById(blogId);
+                if(blog){
+                    return blog;
+                }
+                else{
+                    throw new Error('Blog not Found');
+                }
+            } catch (err){
+                throw new Error(err);
+            }
+        },
         async didIUpvoteQuestion(_, { postId, email }, context){
             try{
                 const user = checkAuth(context);
@@ -332,7 +353,39 @@ module.exports = {
 
             return post;
         },
+        async createBlog(_, { title, body, tags }, context){
+            const user = checkAuth(context);
 
+            const newBlog = new Blog({
+                title,
+                body, 
+                email: user.email,
+                createdAt: new Date().toISOString(),
+                tags
+            });
+            
+            var id = "";
+            blog = {}
+
+            await newBlog.save().then( (saved) =>
+            {
+                blog = saved
+                id = saved.id;
+            });
+
+
+            const userTimeline = await Timeline.findById(user.id);
+
+            if(userTimeline){
+                userTimeline.blogs.unshift(id);
+                await userTimeline.save();
+            }
+            else{
+                throw new Error('Timeline Data not Found');
+            }
+
+            return blog;
+        },
         async insertTag(_, { name }, context){
 
             const newTag = new Tags({

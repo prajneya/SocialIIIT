@@ -1,0 +1,18 @@
+.rc-md-editor{
+	border: 1px solid black !important;
+}
+
+.rc-md-editor .editor-container{
+	background: rgb(15, 15, 15) !important;
+}
+
+.rc-md-editor .editor-container .sec-md .input{
+	background: rgb(15, 15, 15) !important;
+	overflow-y: auto !important;
+	height: 95%;
+	border: 1px solid white !important;
+}
+
+.custom-html-style{
+	color: white !important;
+}
