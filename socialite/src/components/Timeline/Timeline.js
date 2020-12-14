@@ -5,7 +5,7 @@ import gql from 'graphql-tag';
 import Parser from 'html-react-parser';
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
-import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
+import { faExternalLinkAlt, faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from '../../context/auth'
@@ -32,6 +32,21 @@ function Timeline(props){
   const { data: timelineData } = useQuery(FETCH_TIMELINE);
   var timeline_data = timelineData ? timelineData.getTimelineData : "";
 
+  const { data: blogData } = useQuery(FETCH_BLOGS, {
+        variables: {
+            email: user.email
+        }
+  });
+  var blog_data = blogData ? blogData.getUserBlogs : "";
+
+  function addNewBlog(){
+    props.history.push('/createblog')
+  }
+
+  function showBlog(blogId){
+    props.history.push('/blog/'+blogId);
+  }
+
 	return (
             <>
               <Sidebar/>
@@ -39,14 +54,15 @@ function Timeline(props){
                 <div className="container-fluid">
                   <div className="row">
                     <div className="col-xl-9">
-                      <div className="display my-5">
-                        <div className="mx-2 username">{user.username}</div><div className="rating mt-1 mx-2 p-2">RATING: <strong>{user.rating}</strong></div>
-                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>                        
+                      <div className="display text-center my-5">
+                        <div className="mx-2 username">{user.username}</div><br/><br/><div className="rating mt-1 mx-2 p-2">RATING: <strong>{user.rating}</strong></div>
+                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>    
+                        <br/><br/>                    
                         <div className="about-me mx-2 my-4">
                           <div className="row">
                             <div className="col-xl-12">
                               <div className="profile-picture">
-                                <img src='/img/dp.jpeg' alt="display"/>
+                                <img src={user.imgUrl} alt="display"/>
                               </div>
                                 <hr className="picture-seprator"/>
                             </div>                            
@@ -64,7 +80,7 @@ function Timeline(props){
                       </div>
 
                   
-                      <div className="container-fluid my-2">
+                      {/* <div className="container-fluid my-2">
                         <div className="showcase desktop-only">
                           <div className="showcase-header">
                             USER SHOWCASE
@@ -117,7 +133,7 @@ function Timeline(props){
                             </div>
                           </div>
                         </div>
-                      </div>
+                      </div> */}
 
                       <div className="container-fluid my-5">
                         <div className="showcase">
@@ -202,6 +218,36 @@ function Timeline(props){
                           </div>
                         </div>
                       </div>
+
+                      <div className="container-fluid my-2">
+                        <div className="showcase">
+                          <div className="showcase-header">
+                            BLOGS
+                            <div className="showcase-add float-right desktop-only"><button className="btn btn-primary" onClick={addNewBlog}>ADD NEW BLOG + </button></div>
+                          </div>
+                          <br/>
+                          <hr/>
+
+                          {blog_data.length == 0 ? <div className="text-center">{user.username} has not yest posted any blogs.</div> : ""}
+
+                          {blog_data && blog_data.map(blog => ( 
+                          <div className="project-container mt-3 pb-5 hover-pointer" onClick={() => showBlog(blog['id'])}>
+                              <div className="project-header">
+                                <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faNewspaper} size="2x"/></i></div>
+                              </div>
+                              <div className="project-title ml-5">
+                                {blog['title']}
+                              </div>
+                              <div className="tags d-inline-block mx-5 mt-5">
+                                  {blog.tags && Object.keys(blog.tags).map(tag => ( 
+                                    <div className="tag px-3 py-2 mr-1 my-1">#{tag}</div>
+                                  ))}
+                              </div>
+                          </div> 
+                          ))}
+                        </div>
+                      </div>
+
                     </div>
                     <div className="col-xl-3 right-sidebar">
                       <div className="gratitude-point-list">
@@ -241,6 +287,17 @@ const FETCH_TIMELINE = gql`
         getTimelineData
     }
 `;
+
+const FETCH_BLOGS = gql`
+    query($email: String){
+        getUserBlogs(email: $email){
+          id
+          title
+          tags
+        }
+    }
+`;
+
 
 
 export default Timeline;

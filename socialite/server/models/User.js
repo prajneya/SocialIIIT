@@ -68,7 +68,8 @@ const timelineSchema = new mongoose.Schema({
 	pThreeTitle: String,
 	pThreeGhLink: String,
 	pThreeELink: String,
-	pThreeDesc: String
+	pThreeDesc: String,
+	blogs: [String]
 })
 
 module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails'), Timeline: mongoose.model('timelineDetails', timelineSchema, 'timelineDetails')};
