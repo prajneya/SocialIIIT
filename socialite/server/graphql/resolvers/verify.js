@@ -2,33 +2,48 @@ const jwt = require('jsonwebtoken');
 const {User, Profile} = require('../../models/User');
 const { VERIFY_KEY } = require('../../config')
 
+function generateToken(user) {
+  return jwt.sign(
+    {
+      id: user.id,
+      email: user.email,
+      username: user.username,
+      rating: user.rating,
+      times_answered: user.times_answered,
+      imgUrl: user.imgUrl
+    },
+    SECRET_KEY,
+    { expiresIn: '2h' }
+  );
+}
+
 module.exports = {
 	verify: {
 		async verify(_, { token }) {
-			//if (req.protocol + "://" + req.get("host") == "https://" + host) {
+			errors = {}
 			flag = 0
 				await jwt.verify(token, VERIFY_KEY, (err, ret) => {
 					if (err) 
 					{
-						console.log(err)
-						flag = 1
+						errors.general = 'Link expired';
+						throw new UserInputError('Link expired', { errors });
 					}
 
 					payload = ret;
 				});
 
-			if(flag)
-				return -1
-
-			exist = await User.exists({ _id: payload.id, email: payload.email, username: payload.username, createdAt: payload.time })
-			if(exist)
+			user = await User.findOne({ _id: payload.id, email: payload.email, username: payload.username, createdAt: payload.time })
+			if(user)
 			{
 				await User.updateOne({ _id: payload.id, email: payload.email, username: payload.username, createdAt: payload.time }, {$set: {verified: true}});
-				return 0
+				return generateToken(user)
 			}
 
 			else
-				return -1
+			{
+				errors.general = 'User not found';
+				throw new UserInputError('User not found', { errors });
+			}
 		}
 	}
 }

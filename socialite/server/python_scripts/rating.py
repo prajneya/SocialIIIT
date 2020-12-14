@@ -14,6 +14,7 @@ profiles = db["Profile"]
 posts = db["posts"]
 users = db["users"]
 queue = db["Queue"]
+userDets = db["UserDets"]
 
 def rank_answers(upvotes):
     newArray = upvotes.copy()   
@@ -139,3 +140,19 @@ for q in queue.find():
         queue.delete_one({"_id": q['_id']})
 
 print("No more documents")
+
+def notify():
+    print("Updated")
+    
+triggers.register_op_trigger(notify, 'Data', 'users')
+
+triggers.tail_oplog()
+for i in users.find():
+    if not i['verified'] and (datetime.strptime(datetime.strftime(date.today(), "%Y-%m-%d"), "%Y-%m-%d") - datetime.strptime((i['createdAt'])[:10], "%Y-%m-%d")).days >= 1:
+        uid = i['_id']
+        users.delete_one({"_id": uid})
+        profiles.delete_one({"_id": uid})
+        userDets.delete_one({"_id": uid})
+        print("Deleted user {}".format(uid))
+        
+triggers.stop_tail()
