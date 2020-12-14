@@ -32,5 +32,11 @@ module.exports = async function profiledisp(curid, id) {
 		ret.friend = 2
 	else if(curdets.request.includes(user._id))
 		ret.friend = 3
+
+	if(curid == id)
+	{
+		ret.friend = 4
+		ret.meet = 4
+	}
 	return ret;
 }
