@@ -1,16 +1,19 @@
-.notifications{
-	background-color: rgb(21, 21, 21);
-	border-radius: 10px;
-	padding: 1rem;
-	margin: 1rem 0;
-}
-
 .resend-container{
-	padding: 1rem;
+	padding: 20rem;
 	margin: 1rem 0;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+	width: 1260px;
+	height: 650px;
+	border: 1px solid #c3c3c3;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .Head{
-	background-color: rgb(21, 21, 21);
-	border-radius: 10px;
+	color: white;
+	text-align: center;
+	align-items: center;
+  	justify-content: center;
 }
