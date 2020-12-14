@@ -3,7 +3,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-
+import Swal from 'sweetalert2';
 import MarkdownIt from 'markdown-it'
 import MdEditor from 'react-markdown-editor-lite'
 // import style manually
@@ -39,6 +39,21 @@ function CreateBlog(props){
     const [ createPost ] = useMutation(CREATE_BLOG, {
         update(_, {}){
             window.location.reload(false)
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "Oh, the rants!",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while adding your blog.",
+                  imageUrl: '/img/study.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
         },
         variables: {title, body, tags}
     })

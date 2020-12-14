@@ -7,6 +7,7 @@ import {useSpring, animated} from 'react-spring'
 
 import { AuthContext } from '../../context/auth';
 import { useForm } from '../../util/hooks';
+import Swal from 'sweetalert2';
 
 const options = [{label: 'UG2k20', value: 1, area: 'UG2k20'},{label: 'UG2k19',value:2, area: 'UG2k20'},{label: 'UG2k18',value:3, area: 'UG2k20'},{label: 'UG2k17',value:4, area: 'UG2k20'},{label: 'UG2k16',value:5, area: 'UG2k20'},{label: 'PG2k20',value:6, area: 'UG2k20'},{label: 'PG2k19',value:7, area: 'UG2k20'},{label: 'Alumni',value:8, area: 'UG2k20'}]
 const options2 = [{label: 'CSE', value: 1, area: 'UG2k20'},{label: 'CSD',value:2, area: 'UG2k20'},{label: 'ECE',value:3, area: 'UG2k20'},{label: 'ECD',value:4, area: 'UG2k20'},{label: 'CLD',value:5, area: 'UG2k20'},{label: 'CND',value:6, area: 'UG2k20'},{label: 'CHD',value:7, area: 'UG2k20'},{label: 'LCD',value:8, area: 'UG2k20'},{label: 'LED',value:9, area: 'UG2k20'},{label: 'CSIS',value:10, area: 'UG2k20'},{label: 'CASE',value:11, area: 'UG2k20'},{label: 'CE',value:12, area: 'UG2k20'},{label: 'CL',value:13, area: 'UG2k20'}]
@@ -32,7 +33,6 @@ function Register(props) {
 
 	const context = useContext(AuthContext)
 
-	const [errors, setErrors] = useState({});
 	const [batch, setBatch] = useState({});
 	const [stream, setStream] = useState({});
 
@@ -70,7 +70,18 @@ function Register(props) {
 		},
 		onError(err){
 			if(err.graphQLErrors.length > 0)
-				setErrors(err.graphQLErrors[0].extensions.exception.errors);
+				Swal.fire({title: "We did not anticipate this.",
+							html: Object.values(err.graphQLErrors[0].extensions.exception.errors)[0],
+							footer: "The above error popped up while adding you as a user.",
+							imageUrl: '/img/study.png',
+							customClass: {
+								title: 'text-danger error-message',
+								content: 'error-message text-white',
+								confirmButton: 'game-button bg-danger',
+								image: 'error-image-swal',
+							},
+							background: `rgba(0,0,0,0.9)`
+						});
 		},
 		variables: {'username': values['username'], 'email': values['email'], 'password': values['password'], 'confirmPassword': values['confirmPassword'], 'batch': batch, 'stream': stream} 
 	})
@@ -190,14 +201,6 @@ function Register(props) {
 							    <span>Already have an account?</span>
 							    <a href="/"><button className="signup" onClick={LoginComponentCallback}>Sign In</button></a>
 							</div>
-
-							{Object.keys(errors).length > 0 && (<div className="error-message">
-								<ul>
-									{Object.values(errors).map(value => (
-										<li key={value}>{value}</li>
-									))}
-								</ul>
-							</div>)}
 
 						</div>
 						</animated.div>
