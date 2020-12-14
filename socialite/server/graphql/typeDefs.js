@@ -120,6 +120,12 @@ module.exports = gql`
 	batch: String!
 	stream: String!
     }
+    input ResendInput{
+	    id: String!
+	    email: String!
+	    username: String!
+	    time: String!
+    }
     type Notif{
         userId: String!
         match: Float!
@@ -158,13 +164,14 @@ module.exports = gql`
         getUserTimelineData(id: ID) : JSONObject
         getUserBlogs(email: String): [Blog]
         getBlog(blogId: ID!): Blog
+        forgotPass(email: String!): String
     }
     type Mutation{
         insertTag(name: String!): Tag!
         updateTag(tagname: String!): Tag!
     	register(registerInput: RegisterInput): User!
-	verify(token: String!): Int!
-    	login(email: String!, password: String!): User!
+        verify(token: String!): Int!
+    	login(credential: String!, password: String!): User!
         createPost(title: String!, body: String!, tags: JSONObject): Post!
         createBlog(title: String!, body: String!, tags: JSONObject): Blog!
         deletePost(postId: ID!): String!
@@ -187,6 +194,8 @@ module.exports = gql`
         edit(input: ProfileEdits): ID
         uploadPhoto(photo: Upload!): String
         updateProfile(name: String, fblink: String, ghlink: String, about: String, house: String, clubs: JSONObject, hostel: String, sports: JSONObject, pOneTitle: String, pOneGhLink: String, pOneELink: String, pOneDesc: String, pTwoTitle: String, pTwoGhLink: String, pTwoELink: String, pTwoDesc: String, pThreeTitle: String, pThreeGhLink: String, pThreeELink: String, pThreeDesc: String, roomNo: Int): String
+        resend(data: ResendInput!): Int!
+        passChange(token: String!, password: String!, confirmPassword: String!): Int
     } 
 `;
 

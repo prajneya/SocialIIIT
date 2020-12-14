@@ -145,7 +145,7 @@ const username = props.match.params.username;
 
   const { data: blogData } = useQuery(FETCH_BLOGS, {
         variables: {
-            email: timeline_data.id.email
+            email: timeline_data.email
         }
   });
   var blog_data = blogData ? blogData.getUserBlogs : "";

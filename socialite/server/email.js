@@ -11,7 +11,6 @@ const transport = mail.createTransport({
 
 module.exports = async function sendMail(to, sub, msg) 
 {
-	console.log(orgmail, orgpass, to, sub, msg)
 	const email = {
 		from: orgmail,
 		to: to,

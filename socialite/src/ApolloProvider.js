@@ -31,6 +31,7 @@ import Timeline from './components/Timeline/Timeline';
 import DisplayProfile from './components/Timeline/DisplayProfile';
 
 import Notifications from './components/Notifications/Notifications';
+import CheckMail from './components/Verify/checkMail';
 
 import './App.css';
 
@@ -76,6 +77,7 @@ export default (
             <AuthRoute exact path="/profile/:username" component={DisplayProfile} exact/>
             <AuthRoute exact path="/notifications" component={Notifications} exact/>
             <Route exact path="/blog/:blogId" component={Blog} exact/>
+            <LoginRoute exact path="/checkMail" component={CheckMail} exact/>
           </Switch>
         </div>
     </BrowserRouter>

@@ -66,7 +66,6 @@ function Register(props) {
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
 		update(_, { data: { register: userData } }){
-			context.login(userData);
 			props.history.push('/checkMail')
 		},
 		onError(err){
@@ -78,6 +77,8 @@ function Register(props) {
 
 	function registerUser(){
 		addUser();
+		localStorage.setItem("username", values.username)
+		localStorage.setItem("email", values.email)
 	}
 
 	function LoginComponentCallback(){
