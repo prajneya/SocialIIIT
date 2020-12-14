@@ -62,7 +62,7 @@ function Timeline(props){
                           <div className="row">
                             <div className="col-xl-12">
                               <div className="profile-picture">
-                                <img src={user.imgUrl} alt="display"/>
+                                {user.imgUrl == "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={user.imgUrl} alt="display"/> }
                               </div>
                                 <hr className="picture-seprator"/>
                             </div>                            
@@ -215,6 +215,9 @@ function Timeline(props){
                             </div> 
                             </>
                             : "" }
+                            {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() == "" && timeline_data['pOneDesc'].trim() == "" && timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() == "" && timeline_data['pTwoDesc'].trim() == "" && timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() == "" && timeline_data['pThreeDesc'].trim() == "" ? <div className="text-center">{user.username} has not yet added their projects or experiences.</div> : "" }
+                            {!timeline_data['pOneTitle'] && !timeline_data['pTwoTitle'] && !timeline_data['pThreeTitle'] ? <div className="text-center">{user.username} has not yet added their projects or experiences.</div> : "" }
+
                           </div>
                         </div>
                       </div>
@@ -228,7 +231,7 @@ function Timeline(props){
                           <br/>
                           <hr/>
 
-                          {blog_data.length == 0 ? <div className="text-center">{user.username} has not yest posted any blogs.</div> : ""}
+                          {blog_data.length == 0 ? <div className="text-center">{user.username} has not yet posted any blogs.</div> : ""}
 
                           {blog_data && blog_data.map(blog => ( 
                           <div className="project-container mt-3 pb-5 hover-pointer" onClick={() => showBlog(blog['id'])}>
@@ -261,9 +264,11 @@ function Timeline(props){
                                   skill_data[skill] > 0 ?
                               <li className="mt-4">{skill}
                                 <div className="no-post float-right">{skill_data[skill]}</div>
-                              </li>: ""
+                              </li> : ""
                                 ))}
+                              {Object.keys(skill_data).length > 0 ? "" : <div className="text-center">{user.username} has not accumulated any gratitude points.</div> }
                             </ul>
+
                           </div>
                         </div>
                       </div>

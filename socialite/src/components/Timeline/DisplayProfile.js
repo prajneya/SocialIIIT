@@ -173,7 +173,7 @@ const username = props.match.params.username;
                           <div className="row">
                             <div className="col-xl-12">
                               <div className="profile-picture">
-                                <img src={timeline_data.imgUrl} alt="display"/>
+                                {timeline_data.imgUrl == "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={timeline_data.imgUrl} alt="display"/> }
                               </div>
                                 <hr className="picture-seprator"/>
                             </div>
@@ -354,6 +354,8 @@ const username = props.match.params.username;
                             </div> 
                             </>
                             : "" }
+                            {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() == "" && timeline_data['pOneDesc'].trim() == "" && timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() == "" && timeline_data['pTwoDesc'].trim() == "" && timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() == "" && timeline_data['pThreeDesc'].trim() == "" ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
+                            {!timeline_data['pOneTitle'] && !timeline_data['pTwoTitle'] && !timeline_data['pThreeTitle'] ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
                           </div>
                         </div>
                       </div>
@@ -366,7 +368,7 @@ const username = props.match.params.username;
                           <br/>
                           <hr/>
 
-                          {blog_data.length == 0 ? <div className="text-center">{username} has not yest posted any blogs.</div> : ""}
+                          {blog_data.length == 0 ? <div className="text-center">{username} has not yet posted any blogs.</div> : ""}
 
                           {blog_data && blog_data.map(blog => ( 
                           <div className="project-container mt-3 pb-5 hover-pointer" onClick={() => showBlog(blog['id'])}>
@@ -403,6 +405,7 @@ const username = props.match.params.username;
                               </li>: ""
                                 ))}
                             </ul>
+                            {Object.keys(timeline_data.skills).length > 0 ? "" : <div className="text-center">{username} has not accumulated any gratitude points.</div> }
                           </div>
                         </div>
                       </div>
