@@ -8,51 +8,54 @@ import {useSpring, animated} from 'react-spring'
 import { AuthContext } from '../../context/auth';
 import { useForm } from '../../util/hooks';
 import './checkMail.css'
+import '../Home/Home.css'
 
 const animatedComponents = makeAnimated();
 
-function Resend(props) {
+function Verify(props) {
 
-	const nusername = localStorage.getItem('username');
-	const nemail = localStorage.getItem('email');
-
+	console.log("hi")
+	const token = props.match.params.token;
+	console.log(token)
 	const [errors, setErrors] = useState({});
-	const [id, setId] = useState("");
-	const [username, setUsername] = useState(nusername);
-	const [email, setEmail] = useState(nemail);
-	const [time, setTime] = useState("");
 
 	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
 	const fadeInSlow = useSpring({opacity: 1, from: {opacity: 0}, delay: 500, config: { duration: 2000 }})
 
-	const [resend, { ret }] = useMutation(RESEND_LINK, {
+	var overlayElement = document.getElementById("overlay");
+
+	const [verify, { ret }] = useMutation(VERIFY_LINK, {
 		update(_, {}){
-			window.location.reload(false)
+			props.history.push('/dashboard')
+		},
+		onError(err){
+			if(err.graphQLErrors.length > 0)
+			{
+				overlayElement.style.zIndex = 0;
+				overlayElement.style.opacity = 0;
+			}
 		},
 		variables: {
-			id,
-			username,
-			email,
-			time
+			token
 		}
 	})
 
-	function resendLink()
-	{
-		resend()
-	}
+	overlayElement.style.zIndex = 2;
+	overlayElement.style.opacity = 1;
+	verify()
 
 	return (
 		<>
+			<div id="overlay"></div>
+			<div id="signin-animation"><div className="loader">Loading...</div><br/>VERIFYING LINK...</div>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-lg-6">
 						<animated.div style={fadeInMedium}>
 						<div className="resend-container">
-							<div className="Head">Verification link has been sent to your email.
-							<br /> Kindly click on the link or paste it your browser to confirm your email.</div>
-							<button className="btn-submit" onClick={resendLink}>Resend Link</button>
+							<div className="Head">Failed to verify. Link may have expired. 
+							<br /> Kindly have the link resent and try again.</div>
 						</div>
 						</animated.div>
 					</div>
@@ -63,22 +66,14 @@ function Resend(props) {
 }
   	
 
-const RESEND_LINK = gql`
-  mutation resend(
-    $id: String!
-    $username: String!
-    $email: String!
-    $time: String!
+const VERIFY_LINK = gql`
+  mutation verify(
+    $token: String!
   ) {
-    resend(
-      data: {
-	id: $id
-      	username: $username
-        email: $email
-	time: $time
-      }
-    )
+    verify(token: $token){
+	    tok
+    }
   }
 `;
 
-export default Resend;
+export default Verify;

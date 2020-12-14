@@ -124,7 +124,6 @@ module.exports = {
 			const rex = await newDets.save();
 
 			console.log(await verify(res));
-			//const token = generateToken(res);
 			const token = ""
 
 			return {
