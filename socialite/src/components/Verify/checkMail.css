@@ -18,7 +18,7 @@
   	justify-content: center;
 }
 
-#overlay {
+#overlays {
   backdrop-filter: blur(10px);
   position: fixed; /* Sit on top of the page content */
   opacity: 1;
@@ -35,7 +35,7 @@
   -webkit-transition: opacity .5s ease-in-out;
 }
 
-#signin-animation{
+#signin-animations{
   position: absolute;
   color: white;
   top: 50%;

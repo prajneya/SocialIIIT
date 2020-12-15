@@ -8,7 +8,6 @@ import {useSpring, animated} from 'react-spring'
 import { AuthContext } from '../../context/auth';
 import { useForm } from '../../util/hooks';
 import './checkMail.css'
-import '../Home/Home.css'
 
 const animatedComponents = makeAnimated();
 
@@ -22,8 +21,8 @@ function Verify(props) {
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
 	const fadeInSlow = useSpring({opacity: 1, from: {opacity: 0}, delay: 500, config: { duration: 2000 }})
 
-	var overlayElement = document.getElementById("overlay");
-	var signinDisplay = document.getElementById("signin-animation");
+	var overlayElement = document.getElementById("overlays");
+	var signinDisplay = document.getElementById("signin-animations");
 
 	const [verify, { loading }] = useMutation(VERIFY_LINK, {
 		update(_, { data: userData }){
