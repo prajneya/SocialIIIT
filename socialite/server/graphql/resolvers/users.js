@@ -66,7 +66,7 @@ module.exports = {
 			{ registerInput: { username, email, password, confirmPassword, batch, stream } 
 			}
 		){
-			const { valid, errors } = validateRegisterInput(email, password, confirmPassword)
+			const { valid, errors } = validateRegisterInput(email, username, password, confirmPassword)
 			if(!valid){
 				throw new UserInputError('Errors', { errors });
 			}
