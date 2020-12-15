@@ -15,7 +15,7 @@ module.exports = {
 				payload = ret;
 			});
 
-			const { valid, errors } = validateRegisterInput(payload.email, password, confirmPassword)
+			const { valid, errors } = validateRegisterInput(payload.email, payload.username, password, confirmPassword)
 			if(!valid){
 				throw new UserInputError('Errors', { errors });
 			}

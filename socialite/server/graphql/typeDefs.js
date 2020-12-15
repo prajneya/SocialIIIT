@@ -170,7 +170,7 @@ module.exports = gql`
         insertTag(name: String!): Tag!
         updateTag(tagname: String!): Tag!
     	register(registerInput: RegisterInput): User!
-        verify(token: String!): String!
+        verify(tok: String!): User!
     	login(credential: String!, password: String!): User!
         createPost(title: String!, body: String!, tags: JSONObject): Post!
         createBlog(title: String!, body: String!, tags: JSONObject): Blog!

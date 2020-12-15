@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import ImageUploader from "react-images-upload";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation, useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Swal from 'sweetalert2';
 
@@ -88,6 +88,23 @@ const customStyles = {
 
 function Profile(props) {
 
+	const { user, logout } = useContext(AuthContext)
+	const { data: profileData } = useQuery(FETCH_PROFILE, {
+		variables: {
+			curid: user.id,
+			id: user.id
+		}
+	});
+	var profiles = profileData ? profileData.profile : "";
+
+	const { data: userTimelineData } = useQuery(FETCH_USER_TIMELINE, {
+		variables: {
+			id: user.id
+		}
+	});
+	var users = userTimelineData ? userTimelineData.getUserTimelineData : "";
+	console.log("bo", profiles, "booo", users)
+
     const [fullName, setFullName] = useState('');
     const [fbLink, setFbLink] = useState('');
     const [ghLink, setGhLink] = useState('');
@@ -144,7 +161,6 @@ function Profile(props) {
     }
 
     const [photo, setPhoto] = useState("");
-    const { user, logout } = useContext(AuthContext)
 
     async function onDrop(pictureFiles, pictureDataURLs) {
         await setPhoto(pictureFiles[0])
@@ -249,6 +265,34 @@ function Profile(props) {
         updateProfileDetails();
     }
 
+	function setvalues()
+	{
+		document.getElementById('fullname').value = users.name
+		document.getElementById('fblink').value = users.fblink;
+		document.getElementById('ghlink').value = users.ghlink;
+		document.getElementById('about').value = users.bio;
+
+		document.getElementById('roomNo').value = profiles.hosnum.val;
+
+		document.getElementById('pOneTitle').value = users.pOneTitle;
+		document.getElementById('pOneGhLink').value = users.pOneGhLink;
+		document.getElementById('pOneELink').value = users.pOneELink;
+		document.getElementById('pOneDesc').value = users.pOneDesc;
+
+		document.getElementById('pTwoTitle').value = users.pTwoTitle;
+		document.getElementById('pTwoGhLink').value = users.pTwoGhLink;
+		document.getElementById('pTwoELink').value = users.pTwoELink;
+		document.getElementById('pTwoDesc').value = users.pTwoDesc;
+
+		document.getElementById('pThreeTitle').value = users.pThreeTitle;
+		document.getElementById('pThreeGhLink').value = users.pThreeGhLink;
+		document.getElementById('pThreeELink').value = users.pThreeELink;
+		document.getElementById('pThreeDesc').value = users.pThreeDesc;
+
+
+	}
+
+	
     return (
         <>
         <Sidebar/>
@@ -269,7 +313,7 @@ function Profile(props) {
                           />
                           <button type="button" onClick={uploadImage}>Submit</button>
                     </form>
-                    <form>
+                    <form> 
                         <div className="row">
                             <div className="col-md-6">
                                 <label>FULL NAME</label>
@@ -399,6 +443,7 @@ function Profile(props) {
                 </div>
             </div>
         </main>
+	    <body onload="setvalues()"></body>
         </>
     )
 }
@@ -461,6 +506,239 @@ const UPDATE_PROFILE = gql`
         roomNo: $roomNo
     )
   }
+`;
+
+const FETCH_PROFILE = gql`
+    query($curid: String!, $id: String!){
+        profile(curid: $curid, id: $id){
+		hosnum {
+			val 
+			flag
+		}
+		hosname {
+			val 
+			flag
+		}
+		house {
+			val 
+			flag
+		}
+		sports {
+			val 
+			flag
+		}
+		clubs {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+		hosnum {
+			val 
+			flag
+		}
+        }
+    }
+`;
+
+const FETCH_USER_TIMELINE = gql`
+    query($id: ID){
+        getUserTimelineData(id: $id)
+    }
 `;
 
 export default Profile;
