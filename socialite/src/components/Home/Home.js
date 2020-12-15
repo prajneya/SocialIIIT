@@ -47,7 +47,7 @@ function Home(props) {
 				Swal.fire({title: "Oh, oh oh. Who are you?",
 							html: Object.values(err.graphQLErrors[0].extensions.exception.errors)[0],
 							footer: "The above error popped up while logging you in.",
-							imageUrl: '/img/study.png',
+							imageUrl: '/img/nodata.png',
 							customClass: {
 								title: 'text-danger error-message',
 								content: 'error-message text-white',

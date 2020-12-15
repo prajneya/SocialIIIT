@@ -159,7 +159,7 @@ function Profile(props) {
             Swal.fire({title: "Our database is jealous of your beauty.",
                   html: Object.values(err.graphQLErrors[0])[0],
                   footer: "The above error popped up while updating your profile picture.",
-                  imageUrl: '/img/study.png',
+                  imageUrl: '/img/cat.png',
                   customClass: {
                     title: 'text-danger error-message',
                     content: 'error-message text-white',
@@ -190,7 +190,7 @@ function Profile(props) {
             Swal.fire({title: "You must be the mysterious one!",
                   html: Object.values(err.graphQLErrors[0])[0],
                   footer: "The above error popped up while updating your personal details.",
-                  imageUrl: '/img/study.png',
+                  imageUrl: '/img/sorry.png',
                   customClass: {
                     title: 'text-danger error-message',
                     content: 'error-message text-white',
