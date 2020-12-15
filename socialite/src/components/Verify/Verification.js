@@ -49,8 +49,8 @@ function Verify(props) {
 
 	return (
 		<>
-			<div id="overlay"></div>
-			<div id="signin-animation"><div className="loader">Loading...</div><br/>VERIFYING LINK...</div>
+			<div id="overlays"></div>
+			<div id="signin-animations"><div className="loader">Loading...</div><br/>VERIFYING LINK...</div>
 			<div className="container-fluid">
 				<div className="row">
 					<div className="col-lg-6">
