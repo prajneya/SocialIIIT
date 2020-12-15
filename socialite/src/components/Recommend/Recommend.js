@@ -174,6 +174,26 @@ function Recommend(props){
               }
             })
         }
+        else if(direction=='down'){
+            Swal.fire({
+              title: 'Redirect to User Page?',
+              text: 'You will be redirected to the profile of ' + recommend_name,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, go ahead!',
+              cancelButtonText: 'No, go back'
+            }).then((result) => {
+              if (result.value) {
+                props.history.push('/profile/'+recommend_name);
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                  'Cancelled',
+                  'No worries, we will always obey your commands. :)',
+                  'error'
+                )
+              }
+            })
+        }
     }
      
     const onCardLeftScreen = (myIdentifier) => {
@@ -191,11 +211,12 @@ function Recommend(props){
                 <div className="container-fluid mt-5">
                     <div className="feature-display mt-5 mobile-only">
 	    <div className="noReco">
-	    {recommendations.length === 0 ? "Sorry no recommendations for you :(": ""}
+	    {recommendations.length === 0 ? "No recommendations for you at the moment. Please come back later. :(": ""}
 	    </div>
+                        <div className="no-recommendations">No recommendations for you at the moment. Please come back later. :(</div>
                         {recommendations && recommendations.slice(0).reverse().map(recommendation => (
                             <>
-                                <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['email'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['email'])}>
+                                <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['username'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['username'])}>
                                     <div className="friend">
                                       <div class="image-container">
                                         <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"mobile_dp_"+recommendation.id} onError={() => loadDefaultPicMobile(recommendation.id)} alt="display"/>
@@ -222,8 +243,9 @@ function Recommend(props){
                     <animated.div style={fadeInFast}>
                     <div className="feature-display-desktop mt-5 desktop-only text-center">
 	    <div className="noReco">
-	    {recommendations.length === 0 ? "Sorry no recommendations for you :(": ""}
+	    {recommendations.length === 0 ? "No recommendations for you at the moment. Please come back later. :(": ""}
 	    </div>
+
                         {recommendations && recommendations.map(recommendation => (
                             <>
                                 

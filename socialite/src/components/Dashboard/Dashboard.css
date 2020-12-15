@@ -56,7 +56,8 @@ input{
 
 .feature img{
 	opacity: 0.7;
-	width: 250px;
+	width: 95%;
+	max-width: 250px;
 	object-fit: cover;
 	max-height: 250px;
 }
@@ -82,6 +83,11 @@ input{
 
 .popular-posts{
 	color: white;
+	overflow: hidden;
+}
+
+.popular-post-content{
+	overflow: auto;
 }
 
 .see-more{
