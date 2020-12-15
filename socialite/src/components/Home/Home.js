@@ -34,7 +34,6 @@ function Home(props) {
 		onError(err){
 			if(err.graphQLErrors[0].message == "User not verified")
 			{
-				console.log(values.credential)
 				localStorage.setItem("username", values.credential)
 				localStorage.setItem("email", values.credential)
 				props.history.push('/checkMail')

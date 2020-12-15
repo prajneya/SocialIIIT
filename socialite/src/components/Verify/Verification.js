@@ -14,10 +14,9 @@ const animatedComponents = makeAnimated();
 
 function Verify(props) {
 
-	console.log("hi")
-	const token = props.match.params.token;
-	console.log(token)
+	const context = useContext(AuthContext)
 	const [errors, setErrors] = useState({});
+	const [tok, setToken] = useState(props.match.params.token);
 
 	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
@@ -25,8 +24,10 @@ function Verify(props) {
 
 	var overlayElement = document.getElementById("overlay");
 
-	const [verify, { ret }] = useMutation(VERIFY_LINK, {
-		update(_, {}){
+	const [verify, { loading }] = useMutation(VERIFY_LINK, {
+		update(_, { data: { login: userData } }){
+			console.log(userData)
+			context.login(userData)
 			props.history.push('/dashboard')
 		},
 		onError(err){
@@ -37,17 +38,18 @@ function Verify(props) {
 			}
 		},
 		variables: {
-			token
+			tok
 		}
 	})
 
-	overlayElement.style.zIndex = 2;
-	overlayElement.style.opacity = 1;
-	verify()
+
+	window.onload= async function loaded(){
+		await verify()
+	}
 
 	return (
 		<>
-			<div id="overlay"></div>
+			<div id="overlay">Loading...</div>
 			<div id="signin-animation"><div className="loader">Loading...</div><br/>VERIFYING LINK...</div>
 			<div className="container-fluid">
 				<div className="row">
@@ -68,10 +70,14 @@ function Verify(props) {
 
 const VERIFY_LINK = gql`
   mutation verify(
-    $token: String!
+    $tok: String!
   ) {
-    verify(token: $token){
-	    tok
+    verify(tok: $tok){
+      id
+      email
+      createdAt
+      token
+      username
     }
   }
 `;
