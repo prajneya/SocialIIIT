@@ -23,10 +23,10 @@ function Verify(props) {
 	const fadeInSlow = useSpring({opacity: 1, from: {opacity: 0}, delay: 500, config: { duration: 2000 }})
 
 	var overlayElement = document.getElementById("overlay");
+	var signinDisplay = document.getElementById("signin-animation");
 
 	const [verify, { loading }] = useMutation(VERIFY_LINK, {
-		update(_, { data: { login: userData } }){
-			console.log(userData)
+		update(_, { data: userData }){
 			context.login(userData)
 			props.history.push('/dashboard')
 		},
@@ -35,6 +35,7 @@ function Verify(props) {
 			{
 				overlayElement.style.zIndex = 0;
 				overlayElement.style.opacity = 0;
+				signinDisplay.style.display = "none";
 			}
 		},
 		variables: {
@@ -49,7 +50,7 @@ function Verify(props) {
 
 	return (
 		<>
-			<div id="overlay">Loading...</div>
+			<div id="overlay"></div>
 			<div id="signin-animation"><div className="loader">Loading...</div><br/>VERIFYING LINK...</div>
 			<div className="container-fluid">
 				<div className="row">
