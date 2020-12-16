@@ -354,8 +354,8 @@ const username = props.match.params.username;
                             </div> 
                             </>
                             : "" }
-                            {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() == "" && timeline_data['pOneDesc'].trim() == "" && timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() == "" && timeline_data['pTwoDesc'].trim() == "" && timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() == "" && timeline_data['pThreeDesc'].trim() == "" ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
-                            {!timeline_data['pOneTitle'] && !timeline_data['pTwoTitle'] && !timeline_data['pThreeTitle'] ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
+                            {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() == "" && user_timeline_data['pOneDesc'].trim() == "" && user_timeline_data['pTwoTitle'] && user_timeline_data['pTwoTitle'].trim() == "" && user_timeline_data['pTwoDesc'].trim() == "" && user_timeline_data['pThreeTitle'] && user_timeline_data['pThreeTitle'].trim() == "" && user_timeline_data['pThreeDesc'].trim() == "" ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
+                            {!user_timeline_data['pOneTitle'] && !user_timeline_data['pTwoTitle'] && !user_timeline_data['pThreeTitle'] ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
                           </div>
                         </div>
                       </div>

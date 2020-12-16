@@ -33,13 +33,24 @@
    position: fixed;
    top: 0;
    left: -20em;
-   overflow: hidden;
+   overflow-y: scroll;
+   overflow-x: hidden;
    transition: all .3s ease-in;
    width: 20em;
    height: 100%;
    background: rgb(15, 15, 15);
    color: rgba(255, 255, 255, 0.7);
    z-index: 4;
+}
+
+.s-sidebar__nav::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.s-sidebar__nav {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .s-sidebar__nav:hover,

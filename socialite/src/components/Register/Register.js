@@ -109,7 +109,7 @@ function Register(props) {
 							</animated.div>
 							<animated.div style={fadeInMedium}>
 							<div className="app-name">
-							socialiiit
+							peersity
 							</div>
 							</animated.div>
 							<animated.div style={fadeInSlow}>

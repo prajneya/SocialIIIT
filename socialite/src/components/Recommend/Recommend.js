@@ -6,6 +6,8 @@ import gql from 'graphql-tag';
 import TinderCard from 'react-tinder-card';
 import Swal from 'sweetalert2';
 import {useSpring, animated} from 'react-spring'
+import { faHandPointLeft, faHandPointRight, faHandPointUp, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from '../../context/auth';
 
@@ -174,6 +176,30 @@ function Recommend(props){
               }
             })
         }
+        else if(direction=='down'){
+            Swal.fire({
+              title: 'Redirect to User Page?',
+              text: 'You will be redirected to the profile of ' + recommend_name,
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, go ahead!',
+              cancelButtonText: 'No, go back'
+            }).then((result) => {
+              if (result.value) {
+                props.history.push('/profile/'+recommend_name);
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                  'Cancelled',
+                  'No worries, we will always obey your commands. :)',
+                  'error'
+                )
+              }
+            })
+        }
+    }
+
+    function removeCoachOverlay(){
+      document.getElementById("coachOverlay").style.display = "none";
     }
      
     const onCardLeftScreen = (myIdentifier) => {
@@ -187,15 +213,23 @@ function Recommend(props){
     return (
             <>
             <Sidebar/>
+
+            <div className="coach-mark-overlay" onClick={removeCoachOverlay} id="coachOverlay">
+              <div className="left-arrow"><i><FontAwesomeIcon icon={faHandPointLeft} /></i> <div className="coach-text">Swipe Left to send Meet Request</div> </div>
+              <div className="right-arrow"><i><FontAwesomeIcon icon={faHandPointRight} /></i> <div className="coach-text">Swipe Right to send Friend Request</div> </div>
+              <div className="up-arrow"><i><FontAwesomeIcon icon={faHandPointUp} /></i> <div className="coach-text">Swipe Up to see other people</div> </div>
+              <div className="down-arrow"><i><FontAwesomeIcon icon={faHandPointDown} /></i> <div className="coach-text">Swipe Down to check out user profile</div> </div>
+            </div>
             <main class="s-layout__content">
                 <div className="container-fluid mt-5">
                     <div className="feature-display mt-5 mobile-only">
-	    <div className="noReco">
-	    {recommendations.length === 0 ? "Sorry no recommendations for you :(": ""}
-	    </div>
+                  	    <div className="noReco">
+                  	    {recommendations.length === 0 ? "No recommendations for you at the moment. Please come back later. :(": ""}
+                  	    </div>
+                        <div className="no-recommendations">No recommendations for you at the moment. Please come back later. :(</div>
                         {recommendations && recommendations.slice(0).reverse().map(recommendation => (
                             <>
-                                <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['email'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['email'])}>
+                                <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['username'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['username'])}>
                                     <div className="friend">
                                       <div class="image-container">
                                         <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"mobile_dp_"+recommendation.id} onError={() => loadDefaultPicMobile(recommendation.id)} alt="display"/>
@@ -222,8 +256,9 @@ function Recommend(props){
                     <animated.div style={fadeInFast}>
                     <div className="feature-display-desktop mt-5 desktop-only text-center">
 	    <div className="noReco">
-	    {recommendations.length === 0 ? "Sorry no recommendations for you :(": ""}
+	    {recommendations.length === 0 ? "No recommendations for you at the moment. Please come back later. :(": ""}
 	    </div>
+
                         {recommendations && recommendations.map(recommendation => (
                             <>
                                 

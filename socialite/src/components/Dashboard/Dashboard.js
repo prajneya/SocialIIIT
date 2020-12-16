@@ -38,10 +38,19 @@ function Dashboard(props){
   const { data: trending_posts } = useQuery(FETCH_TOP_POSTS);
 
   var trending_posts_list = trending_posts ? trending_posts.getTopPosts : "";
+  console.log(trending_posts_list)
 
   const { data: trending_people } = useQuery(FETCH_TOP_RATED);
 
   var trending_people_list = trending_people ? trending_people.getTopRated : "";
+
+  function showIssue(postId){
+    props.history.push('/issue/'+postId);
+  }
+
+  function showUser(username){
+    props.history.push('/profile/'+username);
+  }
 
 	function logUserOut(){
 		logout();
@@ -162,21 +171,30 @@ function Dashboard(props){
                         <a href="/stack-overflow"><span class="see-more float-right">MORE</span></a>
                       </div>
                       <animated.div style={slideInFast}>
-                      <div className="popular-post mt-4">
-                        <strong>{trending_posts_list ? trending_posts_list[0].title : ""}</strong><br/>
-                        {trending_posts_list ? trending_posts_list[0].email : ""}
+                      <div className="popular-post mt-4 hover-pointer" onClick={() => showIssue(trending_posts_list[0].id)}>
+                        <div className="popular-post-content">
+                          <strong>{trending_posts_list && trending_posts_list[0].title.length <= 46 ? trending_posts_list[0].title : ""}</strong>
+                          <strong>{trending_posts_list && trending_posts_list[0].title.length > 46 ? trending_posts_list[0].title.substring(0, 46)+" ....." : ""}</strong><br/>
+                          {trending_posts_list ? trending_posts_list[0].email : ""}
+                        </div>
                       </div>
                       </animated.div>
                       <animated.div style={slideInMedium}>
-                      <div className="popular-post mt-4">
-                        <strong>{trending_posts_list ? trending_posts_list[1].title : ""}</strong><br/>
-                        {trending_posts_list ? trending_posts_list[1].email : ""}
+                      <div className="popular-post mt-4 hover-pointer" onClick={() => showIssue(trending_posts_list[1].id)}>
+                        <div className="popular-post-content">
+                          <strong>{trending_posts_list && trending_posts_list[1].title.length <= 46 ? trending_posts_list[1].title : ""}</strong>
+                          <strong>{trending_posts_list && trending_posts_list[1].title.length > 46 ? trending_posts_list[1].title.substring(0, 46)+" ....." : ""}</strong><br/>
+                          {trending_posts_list ? trending_posts_list[1].email : ""}
+                        </div>
                       </div>
                       </animated.div>
                       <animated.div style={slideInSlow}>
-                      <div className="popular-post mt-4">
-                        <strong>{trending_posts_list ? trending_posts_list[2].title : ""}</strong><br/>
-                        {trending_posts_list ? trending_posts_list[2].email : ""}
+                      <div className="popular-post mt-4 hover-pointer" onClick={() => showIssue(trending_posts_list[2].id)}>
+                        <div className="popular-post-content">
+                          <strong>{trending_posts_list && trending_posts_list[2].title.length <= 46 ? trending_posts_list[2].title : ""}</strong>
+                          <strong>{trending_posts_list && trending_posts_list[2].title.length > 46 ? trending_posts_list[2].title.substring(0, 46)+" ....." : ""}</strong><br/>
+                          {trending_posts_list ? trending_posts_list[2].email : ""}
+                        </div>
                       </div>
                       </animated.div>
                     </div>
@@ -186,24 +204,30 @@ function Dashboard(props){
                         <a href="/recommend"><span class="see-more float-right">MORE</span></a>
                       </div>
                       <animated.div style={slideInFast}>
-                      <div className="top-recommend mt-4">
-                        <strong>{trending_people_list ? trending_people_list[0].username : ""}</strong><br/>
-                        {trending_people_list ? trending_people_list[0].email : ""} <br/>
-                        Rated: {trending_people_list ? trending_people_list[0].rating : ""}
+                      <div className="top-recommend mt-4 hover-pointer" onClick={() => showUser(trending_people_list[0].username)}>
+                        <div className="popular-post-content">
+                          <strong>{trending_people_list ? trending_people_list[0].username : ""}</strong><br/>
+                          {trending_people_list ? trending_people_list[0].email : ""} <br/>
+                          Rated: {trending_people_list ? trending_people_list[0].rating : ""}
+                        </div>
                       </div>
                       </animated.div>
                       <animated.div style={slideInMedium}>
-                      <div className="top-recommend mt-4">
-                        <strong>{trending_people_list ? trending_people_list[1].username : ""}</strong><br/>
-                        {trending_people_list ? trending_people_list[1].email : ""} <br/>
-                        Rated: {trending_people_list ? trending_people_list[1].rating : ""}
+                      <div className="top-recommend mt-4 hover-pointer" onClick={() => showUser(trending_people_list[1].username)}>
+                        <div className="popular-post-content">
+                          <strong>{trending_people_list ? trending_people_list[1].username : ""}</strong><br/>
+                          {trending_people_list ? trending_people_list[1].email : ""} <br/>
+                          Rated: {trending_people_list ? trending_people_list[1].rating : ""}
+                        </div>
                       </div>
                       </animated.div>
                       <animated.div style={slideInSlow}>
-                      <div className="top-recommend mt-4">
-                        <strong>{trending_people_list ? trending_people_list[2].username : ""}</strong><br/>
-                        {trending_people_list ? trending_people_list[2].email : ""} <br/>
-                        Rated: {trending_people_list ? trending_people_list[2].rating : ""}
+                      <div className="top-recommend mt-4 hover-pointer" onClick={() => showUser(trending_people_list[2].username)}>
+                        <div className="popular-post-content">
+                          <strong>{trending_people_list ? trending_people_list[2].username : ""}</strong><br/>
+                          {trending_people_list ? trending_people_list[2].email : ""} <br/>
+                          Rated: {trending_people_list ? trending_people_list[2].rating : ""}
+                        </div>
                       </div>
                       </animated.div>
                     </div>
