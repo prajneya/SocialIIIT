@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const {User, Profile} = require('../../models/User');
-const { VERIFY_KEY } = require('../../config')
+const { SECRET_KEY, VERIFY_KEY } = require('../../config')
 
 function generateToken(user) {
   return jwt.sign(
@@ -19,10 +19,10 @@ function generateToken(user) {
 
 module.exports = {
 	verify: {
-		async verify(_, { token }) {
+		async verify(_, { tok }) {
 			errors = {}
 			flag = 0
-				await jwt.verify(token, VERIFY_KEY, (err, ret) => {
+				await jwt.verify(tok, VERIFY_KEY, (err, ret) => {
 					if (err) 
 					{
 						errors.general = 'Link expired';
@@ -36,7 +36,13 @@ module.exports = {
 			if(user)
 			{
 				await User.updateOne({ _id: payload.id, email: payload.email, username: payload.username, createdAt: payload.time }, {$set: {verified: true}});
-				return generateToken(user)
+				return {
+					id: user.id,
+					email: user.email,
+					createdAt: user.createdAt,
+					token: generateToken(user),
+					username: user.username
+				}
 			}
 
 			else

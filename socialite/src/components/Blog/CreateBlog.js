@@ -45,7 +45,7 @@ function CreateBlog(props){
             Swal.fire({title: "Oh, the rants!",
                   html: Object.values(err.graphQLErrors[0])[0],
                   footer: "The above error popped up while adding your blog.",
-                  imageUrl: '/img/study.png',
+                  imageUrl: '/img/robot.png',
                   customClass: {
                     title: 'text-danger error-message',
                     content: 'error-message text-white',

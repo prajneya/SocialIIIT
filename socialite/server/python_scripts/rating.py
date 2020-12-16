@@ -148,7 +148,7 @@ triggers.register_op_trigger(notify, 'Data', 'users')
 
 triggers.tail_oplog()
 for i in users.find():
-    if not i['verified'] and (datetime.strptime(datetime.strftime(date.today(), "%Y-%m-%d"), "%Y-%m-%d") - datetime.strptime((i['createdAt'])[:10], "%Y-%m-%d")).days >= 1:
+    if not i['verified'] and (datetime.strptime(datetime.strftime(date.today(), "%Y-%m-%d"), "%Y-%m-%d") - datetime.strptime((i['createdAt'])[:10], "%Y-%m-%d")).days >= 7:
         uid = i['_id']
         users.delete_one({"_id": uid})
         profiles.delete_one({"_id": uid})

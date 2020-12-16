@@ -73,7 +73,7 @@ function Register(props) {
 				Swal.fire({title: "We did not anticipate this.",
 							html: Object.values(err.graphQLErrors[0].extensions.exception.errors)[0],
 							footer: "The above error popped up while adding you as a user.",
-							imageUrl: '/img/study.png',
+							imageUrl: '/img/sorry.png',
 							customClass: {
 								title: 'text-danger error-message',
 								content: 'error-message text-white',

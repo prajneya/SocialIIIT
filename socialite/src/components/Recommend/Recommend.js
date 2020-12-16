@@ -44,7 +44,7 @@ function Recommend(props){
             Swal.fire({title: "Our pigeon got lost somewhere.",
                   html: Object.values(err.graphQLErrors[0].extensions.exception.errors)[0],
                   footer: "The above error popped up while sending the friend request.",
-                  imageUrl: '/img/study.png',
+                  imageUrl: '/img/pigeon.png',
                   customClass: {
                     title: 'text-danger error-message',
                     content: 'error-message text-white',

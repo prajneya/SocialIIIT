@@ -66,7 +66,7 @@ module.exports = {
 			{ registerInput: { username, email, password, confirmPassword, batch, stream } 
 			}
 		){
-			const { valid, errors } = validateRegisterInput(email, password, confirmPassword)
+			const { valid, errors } = validateRegisterInput(email, username, password, confirmPassword)
 			if(!valid){
 				throw new UserInputError('Errors', { errors });
 			}
@@ -174,67 +174,70 @@ module.exports = {
 		      return `Successfully uploaded!`;
 		},
 		async updateProfile(_, { name, fblink, ghlink, about, house, clubs, hostel, sports, pOneTitle, pOneGhLink, pOneELink, pOneDesc, pTwoTitle, pTwoGhLink, pTwoELink, pTwoDesc, pThreeTitle, pThreeGhLink, pThreeELink, pThreeDesc, roomNo }, context) {
-			
-			const user = checkAuth(context);
+			try{
+				const user = checkAuth(context);
 
-			sports_arr = [];
-			for(sport in sports){
-				sports_arr.push(sport);
-			}
+				sports_arr = [];
+				for(sport in sports){
+					sports_arr.push(sport);
+				}
 
-			clubs_arr = [];
-			for(club in clubs){
-				clubs_arr.push(club);
-			}
+				clubs_arr = [];
+				for(club in clubs){
+					clubs_arr.push(club);
+				}
 
-			await util.updateProfileDets(user.id, house, roomNo, hostel, sports_arr, clubs_arr)
-			cur1 = await util.getProfileById(user.id);
-			arr = cur1.friends;
-			if(arr.length)
-			{
-				ret = await resetratio(cur1, arr);
-				await util.updateDets(user.id, ret);
-			}
+				await util.updateProfileDets(user.id, house, roomNo, hostel, sports_arr, clubs_arr)
+				cur1 = await util.getProfileById(user.id);
+				arr = cur1.friends;
+				if(arr.length)
+				{
+					ret = await resetratio(cur1, arr);
+					await util.updateDets(user.id, ret);
+				}
 
-			for(var i = 0; i < arr.length; ++i)
-			{
-				cur = await util.getProfileById(arr[i]);
-				ret = await resetratio(cur, cur.friends);
-				await util.updateDets(cur._id, ret);
-			}
+				for(var i = 0; i < arr.length; ++i)
+				{
+					cur = await util.getProfileById(arr[i]);
+					ret = await resetratio(cur, cur.friends);
+					await util.updateDets(cur._id, ret);
+				}
 
-			const timelineData = await Timeline.findById(user.id);
+				const timelineData = await Timeline.findById(user.id);
 
-			if(timelineData){
-				await Timeline.updateOne({_id: user.id}, {$set: { 
-					name: name, fblink: fblink, ghlink: ghlink, about: about, 
-					pOneTitle: pOneTitle, pOneGhLink: pOneGhLink, pOneELink: pOneELink, pOneDesc: pOneDesc,
-					pTwoTitle: pTwoTitle, pTwoGhLink: pTwoGhLink, pTwoELink: pTwoELink, pTwoDesc: pTwoDesc,
-					pThreeTitle: pThreeTitle, pThreeGhLink: pThreeGhLink, pThreeELink: pThreeELink, pThreeDesc: pThreeDesc
-				}});
-			}
-			else{
-				const newTimelineData = new Timeline({
-	                _id: user.id,
-	                name,
-	                fblink,
-	                ghlink,
-	                about,
-	                pOneTitle,
-	                pOneGhLink,
-	                pOneELink,
-	                pOneDesc,
-	                pTwoTitle,
-	                pTwoGhLink,
-	                pTwoELink,
-	                pTwoDesc,
-	                pThreeTitle,
-	                pThreeGhLink,
-	                pThreeELink,
-	                pThreeDesc
-            	});
+				if(timelineData){
+					await Timeline.updateOne({_id: user.id}, {$set: { 
+						name: name, fblink: fblink, ghlink: ghlink, about: about, 
+						pOneTitle: pOneTitle, pOneGhLink: pOneGhLink, pOneELink: pOneELink, pOneDesc: pOneDesc,
+						pTwoTitle: pTwoTitle, pTwoGhLink: pTwoGhLink, pTwoELink: pTwoELink, pTwoDesc: pTwoDesc,
+						pThreeTitle: pThreeTitle, pThreeGhLink: pThreeGhLink, pThreeELink: pThreeELink, pThreeDesc: pThreeDesc
+					}});
+				}
+				else{
+					const newTimelineData = new Timeline({
+						_id: user.id,
+						name,
+						fblink,
+						ghlink,
+						about,
+						pOneTitle,
+						pOneGhLink,
+						pOneELink,
+						pOneDesc,
+						pTwoTitle,
+						pTwoGhLink,
+						pTwoELink,
+						pTwoDesc,
+						pThreeTitle,
+						pThreeGhLink,
+						pThreeELink,
+						pThreeDesc
+					});
 
-            	await newTimelineData.save();
+					await newTimelineData.save();
+				} 
+			} catch(err){
+				throw new Error(err);
 			}
 
 		}
