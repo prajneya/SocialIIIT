@@ -6,6 +6,8 @@ import gql from 'graphql-tag';
 import TinderCard from 'react-tinder-card';
 import Swal from 'sweetalert2';
 import {useSpring, animated} from 'react-spring'
+import { faHandPointLeft, faHandPointRight, faHandPointUp, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { AuthContext } from '../../context/auth';
 
@@ -195,6 +197,10 @@ function Recommend(props){
             })
         }
     }
+
+    function removeCoachOverlay(){
+      document.getElementById("coachOverlay").style.display = "none";
+    }
      
     const onCardLeftScreen = (myIdentifier) => {
       console.log(myIdentifier + ' left the screen')
@@ -207,12 +213,19 @@ function Recommend(props){
     return (
             <>
             <Sidebar/>
+
+            <div className="coach-mark-overlay" onClick={removeCoachOverlay} id="coachOverlay">
+              <div className="left-arrow"><i><FontAwesomeIcon icon={faHandPointLeft} /></i> <div className="coach-text">Swipe Left to send Meet Request</div> </div>
+              <div className="right-arrow"><i><FontAwesomeIcon icon={faHandPointRight} /></i> <div className="coach-text">Swipe Right to send Friend Request</div> </div>
+              <div className="up-arrow"><i><FontAwesomeIcon icon={faHandPointUp} /></i> <div className="coach-text">Swipe Up to see other people</div> </div>
+              <div className="down-arrow"><i><FontAwesomeIcon icon={faHandPointDown} /></i> <div className="coach-text">Swipe Down to check out user profile</div> </div>
+            </div>
             <main class="s-layout__content">
                 <div className="container-fluid mt-5">
                     <div className="feature-display mt-5 mobile-only">
-	    <div className="noReco">
-	    {recommendations.length === 0 ? "No recommendations for you at the moment. Please come back later. :(": ""}
-	    </div>
+                  	    <div className="noReco">
+                  	    {recommendations.length === 0 ? "No recommendations for you at the moment. Please come back later. :(": ""}
+                  	    </div>
                         <div className="no-recommendations">No recommendations for you at the moment. Please come back later. :(</div>
                         {recommendations && recommendations.slice(0).reverse().map(recommendation => (
                             <>
