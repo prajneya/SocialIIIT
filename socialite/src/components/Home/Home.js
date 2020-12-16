@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { register } from '../../serviceWorker'
 import {useSpring, animated} from 'react-spring'
 import Swal from 'sweetalert2';
 
