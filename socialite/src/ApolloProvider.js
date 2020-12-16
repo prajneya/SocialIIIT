@@ -38,7 +38,7 @@ import Verify from './components/Verify/Verification';
 import './App.css';
 
 const httpLink = createUploadLink({
-	uri: 'http://localhost:5000'
+	uri: '/api'
 })
 
 const errorLink = onError(({ graphQLErrors }) => {
