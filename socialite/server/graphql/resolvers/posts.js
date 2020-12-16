@@ -88,10 +88,13 @@ module.exports = {
         },
         async getSkills(_, { email }, context){
             const skills = await Skills.findOne({ email });
-            if(!skills){
-                return {};
+            try { if(!skills){
+                    return {};
+                }
+                return skills.skills;
+            } catch(err){
+                throw new Error(err);
             }
-            return skills.skills;
         },
         async getTimelineInfo(_, { username }, context){
             const user = await User.findOne({ username })
@@ -306,89 +309,98 @@ module.exports = {
     },
     Mutation:{
         async createPost(_, { title, body, tags }, context){
-            const user = checkAuth(context);
+            try{
+                const user = checkAuth(context);
+                
+                const newPost = new Post({
+                    title,
+                    body, 
+                    email: user.email,
+                    createdAt: new Date().toISOString(),
+                    tags
+                });
+                
+                var id = "";
+                post = {};
 
-            const newPost = new Post({
-                title,
-                body, 
-                email: user.email,
-                createdAt: new Date().toISOString(),
-                tags
-            });
-            
-            var id = "";
-            post = {}
-
-            await newPost.save().then( (saved) =>
-            {
-                post = saved
-                console.log(saved)
-                id = saved.id;
-            });
-            
-            var found;
-
-            for (var key in post.tags) 
-            {
-                if (post.tags.hasOwnProperty(key)) 
+                await newPost.save().then( (saved) =>
                 {
-                    var val = key;
-                    console.log(val);
-                    if(key === "No Bounty")
+                    post = saved
+                    console.log(saved)
+                    id = saved.id;
+                });
+                
+                var found;
+
+                for (var key in post.tags) 
+                {
+                    if (post.tags.hasOwnProperty(key)) 
                     {
-                        found = 1
+                        var val = key;
+                        console.log(val);
+                        if(key === "No Bounty")
+                        {
+                            found = 1
+                        }
                     }
                 }
-            }
 
-            if(!found)
-            {
-                const newQueue = new Queue({
-                    _id: id,
-                    createdAt: new Date().toISOString()
-                });
-    
-                const queue = await newQueue.save();
-            }
+                if(!found)
+                {
+                    const newQueue = new Queue({
+                        _id: id,
+                        createdAt: new Date().toISOString()
+                    });
 
-            return post;
+                    const queue = await newQueue.save();
+                }
+
+                return post;
+            
+            } catch(err){
+                throw new Error(err);
+            }
         },
         async createBlog(_, { title, body, tags }, context){
-            const user = checkAuth(context);
+            try {
+                const user = checkAuth(context);
 
-            const newBlog = new Blog({
-                title,
-                body, 
-                email: user.email,
-                createdAt: new Date().toISOString(),
-                tags
-            });
-            
-            var id = "";
-            blog = {}
+                const newBlog = new Blog({
+                    title,
+                    body, 
+                    email: user.email,
+                    createdAt: new Date().toISOString(),
+                    tags
+                });
+                
+                var id = "";
+                blog = {}
 
-            await newBlog.save().then( (saved) =>
-            {
-                blog = saved
-                id = saved.id;
-            });
+                await newBlog.save().then( (saved) =>
+                {
+                    blog = saved
+                    id = saved.id;
+                });
 
 
-            const userTimeline = await Timeline.findById(user.id);
+                const userTimeline = await Timeline.findById(user.id);
 
-            if(userTimeline){
-                userTimeline.blogs.unshift(id);
-                await userTimeline.save();
-            }
-            else{
-                throw new Error('Timeline Data not Found');
-            }
+                if(userTimeline){
+                    userTimeline.blogs.unshift(id);
+                    await userTimeline.save();
+                }
+                else{
+                    throw new Error('Timeline Data not Found');
+                }
 
-            return blog;
+                return blog;
+            } catch(err){
+                    throw new Error(err);
+                }
         },
         async insertTag(_, { name }, context){
 
-            const newTag = new Tags({
+        try{    const newTag = new Tags({
                 name,
                 weekly: 0,
                 lifetime: 0
@@ -402,7 +414,9 @@ module.exports = {
                 console.log(saved);
             });
 
-            return tag
+            return tag} catch(err){
+                throw new Error(err);
+            }
         },
 
         async updateTag(_, { tagname }, context){
