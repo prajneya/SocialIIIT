@@ -42,7 +42,7 @@ import NotFound from './components/ErrorPages/NotFound';
 import './App.css';
 
 const httpLink = createUploadLink({
-	uri: 'http://localhost:5000'
+	uri: '/api'
 })
 
 const authLink = setContext(() => {
