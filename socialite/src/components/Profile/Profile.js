@@ -103,7 +103,6 @@ function Profile(props) {
 		}
 	});
 	var users = userTimelineData ? userTimelineData.getUserTimelineData : "";
-	console.log("bo", profiles, "booo", users)
 
     const [fullName, setFullName] = useState('');
     const [fbLink, setFbLink] = useState('');
@@ -265,33 +264,6 @@ function Profile(props) {
         updateProfileDetails();
     }
 
-	function setvalues()
-	{
-		document.getElementById('fullname').value = users.name
-		document.getElementById('fblink').value = users.fblink;
-		document.getElementById('ghlink').value = users.ghlink;
-		document.getElementById('about').value = users.bio;
-
-		document.getElementById('roomNo').value = profiles.hosnum.val;
-
-		document.getElementById('pOneTitle').value = users.pOneTitle;
-		document.getElementById('pOneGhLink').value = users.pOneGhLink;
-		document.getElementById('pOneELink').value = users.pOneELink;
-		document.getElementById('pOneDesc').value = users.pOneDesc;
-
-		document.getElementById('pTwoTitle').value = users.pTwoTitle;
-		document.getElementById('pTwoGhLink').value = users.pTwoGhLink;
-		document.getElementById('pTwoELink').value = users.pTwoELink;
-		document.getElementById('pTwoDesc').value = users.pTwoDesc;
-
-		document.getElementById('pThreeTitle').value = users.pThreeTitle;
-		document.getElementById('pThreeGhLink').value = users.pThreeGhLink;
-		document.getElementById('pThreeELink').value = users.pThreeELink;
-		document.getElementById('pThreeDesc').value = users.pThreeDesc;
-
-
-	}
-
 	
     return (
         <>
@@ -317,19 +289,19 @@ function Profile(props) {
                         <div className="row">
                             <div className="col-md-6">
                                 <label>FULL NAME</label>
-                                <input id="fullname"/>
+                                <input defaultValue={users.name} id="fullname"/>
                                 <label>FACEBOOK LINK</label>
-                                <input id="fblink"/>
+                                <input defaultValue={users.fblink} id="fblink"/>
                             </div>
                             <div className="col-md-6">
                                 <label>USERNAME</label>
-                                <input />
+                                <input defaultValue={users.username}/>
                                 <label>GITHUB LINK</label>
-                                <input id="ghlink"/>
+                                <input defaultValue={users.ghlink} id="ghlink"/>
                             </div>
                         </div>
                         <label>ABOUT YOU</label> <br/>
-                        <textarea id="about"/>
+                        <textarea defaultValue={users.bio} id="about"/>
                         <div className="row">
                             <div className="col-md-6">
                                 <label>HOUSE</label>
@@ -407,43 +379,42 @@ function Profile(props) {
                             </div>
                         </div>
                         <label>ROOM NUMBER</label>
-                        <input type="number" id="roomNo"/>
+                        <input type="number" id="roomNo" defaultValue={profiles.hosnum}/>
                         <hr/>
                         <label style={{color: 'yellow'}}>PROJECT 1</label> <br/>
                         <label>PROJECT TITLE</label>
-                        <input id="pOneTitle"/>
+                        <input defaultValue={users.pOneTitle} id="pOneTitle"/>
                         <label>PROJECT GITHUB LINK</label>
-                        <input id="pOneGhLink"/>
+                        <input defaultValue={users.pOneGhLink} id="pOneGhLink"/>
                         <label>PROJECT LINK (EXTERNAL)</label>
-                        <input id="pOneELink"/>
+                        <input defaultValue={users.pOneELink} id="pOneELink"/>
                         <label>PROJECT DESCRIPTION</label> <br/>
-                        <textarea id="pOneDesc"/>
+                        <textarea defaultValue={users.pOneDesc} id="pOneDesc"/>
                         <hr/>
                         <label style={{color: 'yellow'}}>PROJECT 2</label> <br/>
                         <label>PROJECT TITLE</label>
-                        <input id="pTwoTitle"/>
+                        <input defaultValue={users.pTwoTitle} id="pTwoTitle"/>
                         <label>PROJECT GITHUB LINK</label>
-                        <input id="pTwoGhLink"/>
+                        <input defaultValue={users.pTwoGhLink} id="pTwoGhLink"/>
                         <label>PROJECT LINK (EXTERNAL)</label>
-                        <input id="pTwoELink"/>
+                        <input defaultValue={users.pTwoELink} id="pTwoELink"/>
                         <label>PROJECT DESCRIPTION</label> <br/>
-                        <textarea id="pTwoDesc"/>
+                        <textarea defaultValue={users.pTwoDesc} id="pTwoDesc"/>
                         <hr/>
                         <label style={{color: 'yellow'}}>PROJECT 3</label> <br/>
                         <label>PROJECT TITLE</label>
-                        <input id="pThreeTitle"/>
+                        <input defaultValue={users.pThreeTitle} id="pThreeTitle"/>
                         <label>PROJECT GITHUB LINK</label>
-                        <input id="pThreeGhLink"/>
+                        <input defaultValue={users.pThreeGhLink} id="pThreeGhLink"/>
                         <label>PROJECT LINK (EXTERNAL)</label>
-                        <input id="pThreeELink"/>
+                        <input defaultValue={users.pThreeELink} id="pThreeELink"/>
                         <label>PROJECT DESCRIPTION</label> <br/>
-                        <textarea id="pThreeDesc"/>
+                        <textarea defaultValue={users.pThreeDesc} id="pThreeDesc"/>
                         <button className="btn-submit" type="button" onClick={profileUpdateCallBack}>Save Details</button>
                     </form>
                 </div>
             </div>
         </main>
-	    <body onload="setvalues()"></body>
         </>
     )
 }
