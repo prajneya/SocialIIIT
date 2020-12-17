@@ -13,6 +13,7 @@ const verifyResolvers = require('./verify')
 const resendResolvers = require('./resend')
 const forgotPassResolvers = require('./forgotPass')
 const passChangeResolvers = require('./passChange')
+const friendListResolvers = require('./friends')
 
 module.exports = {
 	Query: {
@@ -21,8 +22,9 @@ module.exports = {
 		...profileResolvers.profile,
 		...notifResolvers.Query,
 		...searchResolvers.search,
-		...userSearchResolvers.userSearch,
-		...forgotPassResolvers.forgotPass
+		...forgotPassResolvers.forgotPass,
+		...friendListResolvers.friendList,
+		...userSearchResolvers.userSearch
 	},
 	Mutation: {
 		...userResolvers.Mutation,
