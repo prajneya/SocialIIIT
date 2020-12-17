@@ -13,6 +13,8 @@ module.exports.validateRegisterInput = (
 		if (!email.match(regEx)) {
       		errors.email = 'Email must be a valid email address';
 		}
+		else if(!email.endsWith("iiit.ac.in"))
+			errors.email = 'Only IIIT emails allowed.'
 	}
 
 	usernameRegex= /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
