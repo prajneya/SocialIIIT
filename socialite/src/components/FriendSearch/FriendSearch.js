@@ -8,19 +8,6 @@ import Sidebar from "../Sidebar"
 
 function FriendSearch(props){
 
-	const { user, logout } = useContext(AuthContext)
-
-  function logUserOut()
-  {  
-		logout();
-		props.history.push('/')
-  }
-  
-  function dashboard()
-  {
-      props.history.push('/dashboard')
-  }
-
   function recommendFriend(){
         props.history.push('/recommend')
   }
