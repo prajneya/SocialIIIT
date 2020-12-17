@@ -40,7 +40,7 @@ function CreatePost(props){
     const [ createPost ] = useMutation(CREATE_POST, {
         update(_, { data: createPostData }){
             window.location.reload(false)
-            props.history.push('/stack-overflow')
+            props.history.push('/querify')
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -63,7 +63,7 @@ function CreatePost(props){
     const [ updateTag ] = useMutation(UPDATE_TAG, {
         update(_, { data: updateTagData })
         {
-            // props.history.push('/stack-overflow')
+            // props.history.push('/querify')
         },
         variables: {tagname}
     })

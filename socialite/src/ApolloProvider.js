@@ -70,7 +70,7 @@ export default (
             <AuthRoute exact path="/dashboard" component={Dashboard} />
             <AuthRoute exact path="/recommend" component={Recommend} />
             <AuthRoute exact path="/profile" component={Profile} />
-            <AuthRoute exact path="/stack-overflow" component={StackOverflow} />
+            <AuthRoute exact path="/querify" component={StackOverflow} />
             <AuthRoute exact path ="/createpost" component={CreatePost} />
             <AuthRoute exact path="/createblog" component={CreateBlog} />
             <AuthRoute exact path="/issue/:postId" component={Issue} />
