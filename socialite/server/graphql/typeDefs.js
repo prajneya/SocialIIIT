@@ -112,6 +112,11 @@ module.exports = gql`
 	username: String!
 	meet: Int!
     }
+    type Info{
+	    id: ID!
+	    username: String!
+	    email: String!
+    }
     input RegisterInput{
         username: String!
     	email: String!
@@ -165,6 +170,7 @@ module.exports = gql`
         getUserBlogs(email: String): [Blog]
         getBlog(blogId: ID!): Blog
         forgotPass(email: String!): String
+	friendList(id: String!): [Info]!
     }
     type Mutation{
         insertTag(name: String!): Tag!
