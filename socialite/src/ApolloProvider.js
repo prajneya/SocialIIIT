@@ -5,7 +5,6 @@ import { ApolloProvider } from '@apollo/react-hooks';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createUploadLink } from 'apollo-upload-client';
 
-import { onError } from 'apollo-link-error';
 import { setContext } from 'apollo-link-context';
 
 import { AuthProvider } from './context/auth';
@@ -35,14 +34,15 @@ import Notifications from './components/Notifications/Notifications';
 import CheckMail from './components/Verify/checkMail';
 import Verify from './components/Verify/Verification';
 
+import FriendSearch from './components/FriendSearch/FriendSearch';
+import UserSearchResult from './components/FriendSearch/UserSearchResult';
+
+import NotFound from './components/ErrorPages/NotFound';
+
 import './App.css';
 
 const httpLink = createUploadLink({
 	uri: '/api'
-})
-
-const errorLink = onError(({ graphQLErrors }) => {
-  if (graphQLErrors) graphQLErrors.map(({ message }) => console.log(message))
 })
 
 const authLink = setContext(() => {
@@ -65,22 +65,25 @@ export default (
       <BrowserRouter>
         <div>
           <Switch>
-            <LoginRoute exact path="/" component={Home} exact/>
-            <LoginRoute exact path="/register" component={Register} exact/>
-            <AuthRoute exact path="/dashboard" component={Dashboard} exact/>
-            <AuthRoute exact path="/recommend" component={Recommend} exact/>
-            <AuthRoute exact path="/profile" component={Profile} exact/>
-            <AuthRoute exact path="/stack-overflow" component={StackOverflow} exact/>
-            <AuthRoute exact path ="/createpost" component={CreatePost} exact/>
-            <AuthRoute exact path="/createblog" component={CreateBlog} exact/>
-            <AuthRoute exact path="/issue/:postId" component={Issue} exact/>
-            <AuthRoute exact path="/search" component={SearchResult} exact/>
-            <AuthRoute exact path="/timeline" component={Timeline} exact/>
-            <AuthRoute exact path="/profile/:username" component={DisplayProfile} exact/>
-            <AuthRoute exact path="/notifications" component={Notifications} exact/>
-            <Route exact path="/blog/:blogId" component={Blog} exact/>
-            <LoginRoute exact path="/checkMail" component={CheckMail} exact/>
-            <LoginRoute exact path="/verify/:token" component={Verify} exact/>
+            <LoginRoute exact path="/" component={Home} />
+            <LoginRoute exact path="/register" component={Register} />
+            <AuthRoute exact path="/dashboard" component={Dashboard} />
+            <AuthRoute exact path="/recommend" component={Recommend} />
+            <AuthRoute exact path="/profile" component={Profile} />
+            <AuthRoute exact path="/stack-overflow" component={StackOverflow} />
+            <AuthRoute exact path ="/createpost" component={CreatePost} />
+            <AuthRoute exact path="/createblog" component={CreateBlog} />
+            <AuthRoute exact path="/issue/:postId" component={Issue} />
+            <AuthRoute exact path="/search" component={SearchResult} />
+            <AuthRoute exact path="/timeline" component={Timeline} />
+            <AuthRoute exact path="/profile/:username" component={DisplayProfile} />
+            <AuthRoute exact path="/notifications" component={Notifications} />
+            <AuthRoute exact path="/marauder" component={FriendSearch} />
+            <AuthRoute exact path="/marauder/search" component={UserSearchResult} />
+            <Route exact path="/blog/:blogId" component={Blog} />
+            <LoginRoute exact path="/checkMail" component={CheckMail} />
+            <LoginRoute exact path="/verify/:token" component={Verify} />
+            <Route path="" component={NotFound} />
           </Switch>
         </div>
     </BrowserRouter>

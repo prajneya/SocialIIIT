@@ -1,4 +1,4 @@
-import React, { Component, useState  } from 'react';
+import React, { useState  } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -38,7 +38,7 @@ function CreatePost(props){
     const [tagname, setTagname] = useState('');
 
     const [ createPost ] = useMutation(CREATE_POST, {
-        update(_, {}){
+        update(_, { data: createPostData }){
             window.location.reload(false)
             props.history.push('/stack-overflow')
         },
@@ -61,7 +61,7 @@ function CreatePost(props){
     })
 
     const [ updateTag ] = useMutation(UPDATE_TAG, {
-        update(_, {})
+        update(_, { data: updateTagData })
         {
             // props.history.push('/stack-overflow')
         },

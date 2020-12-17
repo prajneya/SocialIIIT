@@ -1,12 +1,7 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery } from '@apollo/react-hooks';
-import gql from 'graphql-tag';
-import Parser from 'html-react-parser';
-import { faSearch, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { AuthContext } from '../../context/auth'
 
 import "./FriendSearch.css"
 import Sidebar from "../Sidebar"
@@ -32,7 +27,7 @@ function FriendSearch(props){
 
   function searchCallback(){
     var query = document.getElementById("search_query").value;
-    if(query==""){
+    if(query===""){
       return;
     }
     props.history.push({
@@ -63,7 +58,7 @@ function FriendSearch(props){
                     <div className="col-xl-9">
                       <div className="explore-posts">
                         <div className="user-search-image">
-                          <img src="./img/find_friend.png"/>
+                          <img src="./img/find_friend.png" alt="friends" />
                           <div className="look-friend-text">Search for friends in the above search bar</div>
                         </div>
                       </div>

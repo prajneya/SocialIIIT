@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import {useSpring, animated} from 'react-spring'
-
-import { AuthContext } from '../../context/auth'
+import {useSpring, animated} from 'react-spring';
 
 import "./Dashboard.css"
 
@@ -12,28 +10,11 @@ import Sidebar from "../Sidebar"
 
 function Dashboard(props){
 
-	const { user, logout } = useContext(AuthContext)
-
-	const id = user.id;
-	const sub = JSON.stringify(localStorage.getItem('subscription'));
-
   const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 1000 }})
-  const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 1000 }})
-  const fadeInSlow = useSpring({opacity: 1, from: {opacity: 0}, delay: 500, config: { duration: 1000 }})
 
-  const slideInFast = useSpring({opacity: 1, from: {opacity: 0}, marginLeft: 0, from: {marginLeft: 450}, config: { duration: 250 }})
-  const slideInMedium = useSpring({opacity: 1, from: {opacity: 0}, marginLeft: 0, from: {marginLeft: 450}, delay: 300, config: { duration: 250 }})
-  const slideInSlow = useSpring({opacity: 1, from: {opacity: 0}, marginLeft: 0, from: {marginLeft: 450}, delay: 500, config: { duration: 250 }})
-	
-	const [subsave, { opsub }] = useMutation(ADD_SUB, {
-		update(_, { data: { login: userData } }){
-			window.location.reload(false);
-		},
-		variables: {
-			id,
-			sub
-		}
-	})
+  const slideInFast = useSpring({opacity: 1, from: {opacity: 0, marginLeft: 450}, marginLeft: 0, config: { duration: 250 }})
+  const slideInMedium = useSpring({opacity: 1, from: {opacity: 0, marginLeft: 450}, marginLeft: 0, delay: 300, config: { duration: 250 }})
+  const slideInSlow = useSpring({opacity: 1, from: {opacity: 0, marginLeft: 450}, marginLeft: 0, delay: 500, config: { duration: 250 }})
 
   const { data: trending_posts } = useQuery(FETCH_TOP_POSTS);
 
@@ -52,25 +33,16 @@ function Dashboard(props){
     props.history.push('/profile/'+username);
   }
 
-	function logUserOut(){
-		logout();
-		props.history.push('/')
-	}
-
-	function notification(){
-		props.history.push('/notifications')
-	}
-
-	function myprofile(){
-		props.history.push('/profile')
-	}
-	  
 	function recommendFriend(){
         props.history.push('/recommend')
     }
 
       function stackOverflow(){
         props.history.push('/stack-overflow')
+    }
+
+    function Marauders(){
+        props.history.push('/marauder')
     }
 
 	return (
@@ -136,7 +108,7 @@ function Dashboard(props){
                             </div>
                             </animated.div>
                             <animated.div style={fadeInFast}>
-                            <div className="feature" onClick={stackOverflow}>
+                            <div className="feature" onClick={Marauders}>
                               <div className="row">
                                 <div className="col-md-4">
                                   <div className="feature-icon mt-4 ml-4">
@@ -239,14 +211,6 @@ function Dashboard(props){
       )
   	
 }
-
-const ADD_SUB = gql`
-  mutation subsave($id: String!, $sub: String!) {
-    subsave(id: $id, sub: $sub) {
-      id
-    }
-  }
-`;
 
 const FETCH_TOP_POSTS = gql`
     query{

@@ -88,7 +88,7 @@ const customStyles = {
 
 function Profile(props) {
 
-	const { user, logout } = useContext(AuthContext)
+	const { user } = useContext(AuthContext)
 	const { data: profileData } = useQuery(FETCH_PROFILE, {
 		variables: {
 			curid: user.id,
@@ -167,8 +167,8 @@ function Profile(props) {
     }
 
     const [ uploadProfilePic ] = useMutation(UPLOAD_PROFILE_PICTURE, {
-        update(_, {}){
-            console.log("update", photo)
+        update(_, { data: profilePicUpdate }){
+            window.location.reload(false);
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -189,7 +189,7 @@ function Profile(props) {
     })
 
     function uploadImage(){
-        if(photo==""){
+        if(photo===""){
             return;
         }
         console.log(photo)
@@ -197,9 +197,8 @@ function Profile(props) {
     }
 
     const [ updateProfileDetails ] = useMutation(UPDATE_PROFILE, {
-        update(_, {}){
-            window.location.reload(false)
-            console.log("details updated")
+        update(_, { data: updateProfileData }){
+            window.location.reload(false);
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -264,34 +263,6 @@ function Profile(props) {
 
         updateProfileDetails();
     }
-
-	function setvalues()
-	{
-		document.getElementById('fullname').value = users.name
-		document.getElementById('fblink').value = users.fblink;
-		document.getElementById('ghlink').value = users.ghlink;
-		document.getElementById('about').value = users.bio;
-
-		document.getElementById('roomNo').value = profiles.hosnum.val;
-
-		document.getElementById('pOneTitle').value = users.pOneTitle;
-		document.getElementById('pOneGhLink').value = users.pOneGhLink;
-		document.getElementById('pOneELink').value = users.pOneELink;
-		document.getElementById('pOneDesc').value = users.pOneDesc;
-
-		document.getElementById('pTwoTitle').value = users.pTwoTitle;
-		document.getElementById('pTwoGhLink').value = users.pTwoGhLink;
-		document.getElementById('pTwoELink').value = users.pTwoELink;
-		document.getElementById('pTwoDesc').value = users.pTwoDesc;
-
-		document.getElementById('pThreeTitle').value = users.pThreeTitle;
-		document.getElementById('pThreeGhLink').value = users.pThreeGhLink;
-		document.getElementById('pThreeELink').value = users.pThreeELink;
-		document.getElementById('pThreeDesc').value = users.pThreeDesc;
-
-
-	}
-
 	
     return (
         <>

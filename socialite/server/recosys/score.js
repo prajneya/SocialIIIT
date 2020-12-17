@@ -68,7 +68,7 @@ async function friendlist(id, flag)
 		if(sval == 0)
 			continue
 		score.push({})
-		score[++l] = {"id": users[i]._id, "match": sval, "email": email, username: username, meet: meet};
+		score[++l] = {"id": users[i]._id, "match": sval, "email": email, username: username, meet: meet, imgUrl: info.imgUrl};
 		score[l].match *= 100;
 		// console.log(score[l].match);
 	}

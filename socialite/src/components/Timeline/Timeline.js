@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import Parser from 'html-react-parser';
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faExternalLinkAlt, faNewspaper } from "@fortawesome/free-solid-svg-icons";
@@ -15,12 +14,7 @@ import Sidebar from "../Sidebar";
 
 function Timeline(props){
 
-	const { user, logout } = useContext(AuthContext)
-  console.log(user)
-	function logUserOut(){
-		logout();
-		props.history.push('/')
-	}
+	const { user } = useContext(AuthContext)
 
   const { data: skillData } = useQuery(FETCH_SKILLS, {
         variables: {
@@ -62,7 +56,7 @@ function Timeline(props){
                           <div className="row">
                             <div className="col-xl-12">
                               <div className="profile-picture">
-                                {user.imgUrl == "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={user.imgUrl} alt="display"/> }
+                                {user.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={user.imgUrl} alt="display"/> }
                               </div>
                                 <hr className="picture-seprator"/>
                             </div>                            
@@ -70,8 +64,8 @@ function Timeline(props){
                               {timeline_data['bio']}
                               <div className="email mx-2">{user.email}</div>
                               <div className="social-links">
-                                {timeline_data['fblink'] ? <a href={timeline_data['fblink']} target="_blank"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
-                                {timeline_data['ghlink'] ? <a href={timeline_data['ghlink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
+                                {timeline_data['fblink'] ? <a href={timeline_data['fblink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
+                                {timeline_data['ghlink'] ? <a href={timeline_data['ghlink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
 
                               </div>
                             </div>
@@ -143,14 +137,14 @@ function Timeline(props){
                           <br/>
                           <hr/>
                           <div className="showcase-projects">
-                          {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() != "" && timeline_data['pOneDesc'].trim() != "" ?
+                          {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() !== "" && timeline_data['pOneDesc'].trim() !== "" ?
                             <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  {timeline_data['pOneGhLink'] ? <a href={timeline_data['pOneGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
-                                  {timeline_data['pOneELink'] ? <a href={timeline_data['pOneELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                  {timeline_data['pOneGhLink'] ? <a href={timeline_data['pOneGhLink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {timeline_data['pOneELink'] ? <a href={timeline_data['pOneELink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
@@ -167,14 +161,14 @@ function Timeline(props){
                             </div> 
                             </>
                             : "" }
-                            {timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() != "" && timeline_data['pTwoDesc'].trim() != "" ?
+                            {timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() !== "" && timeline_data['pTwoDesc'].trim() !== "" ?
                             <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  {timeline_data['pTwoGhLink'] ? <a href={timeline_data['pTwoGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
-                                  {timeline_data['pTwoELink'] ? <a href={timeline_data['pTwoELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                  {timeline_data['pTwoGhLink'] ? <a href={timeline_data['pTwoGhLink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {timeline_data['pTwoELink'] ? <a href={timeline_data['pTwoELink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
@@ -191,14 +185,14 @@ function Timeline(props){
                             </div> 
                             </>
                             : "" }
-                            {timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() != "" && timeline_data['pThreeDesc'].trim() != "" ?
+                            {timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() !== "" && timeline_data['pThreeDesc'].trim() !== "" ?
                             <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  {timeline_data['pThreeGhLink'] ? <a href={timeline_data['pThreeGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
-                                  {timeline_data['pThreeELink'] ? <a href={timeline_data['pThreeELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                  {timeline_data['pThreeGhLink'] ? <a href={timeline_data['pThreeGhLink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {timeline_data['pThreeELink'] ? <a href={timeline_data['pThreeELink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
@@ -215,7 +209,7 @@ function Timeline(props){
                             </div> 
                             </>
                             : "" }
-                            {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() == "" && timeline_data['pOneDesc'].trim() == "" && timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() == "" && timeline_data['pTwoDesc'].trim() == "" && timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() == "" && timeline_data['pThreeDesc'].trim() == "" ? <div className="text-center">{user.username} has not yet added their projects or experiences.</div> : "" }
+                            {timeline_data['pOneTitle'] && timeline_data['pOneTitle'].trim() === "" && timeline_data['pOneDesc'].trim() === "" && timeline_data['pTwoTitle'] && timeline_data['pTwoTitle'].trim() === "" && timeline_data['pTwoDesc'].trim() === "" && timeline_data['pThreeTitle'] && timeline_data['pThreeTitle'].trim() === "" && timeline_data['pThreeDesc'].trim() === "" ? <div className="text-center">{user.username} has not yet added their projects or experiences.</div> : "" }
                             {!timeline_data['pOneTitle'] && !timeline_data['pTwoTitle'] && !timeline_data['pThreeTitle'] ? <div className="text-center">{user.username} has not yet added their projects or experiences.</div> : "" }
 
                           </div>
@@ -231,7 +225,7 @@ function Timeline(props){
                           <br/>
                           <hr/>
 
-                          {blog_data.length == 0 ? <div className="text-center">{user.username} has not yet posted any blogs.</div> : ""}
+                          {blog_data.length === 0 ? <div className="text-center">{user.username} has not yet posted any blogs.</div> : ""}
 
                           {blog_data && blog_data.map(blog => ( 
                           <div className="project-container mt-3 pb-5 hover-pointer" onClick={() => showBlog(blog['id'])}>

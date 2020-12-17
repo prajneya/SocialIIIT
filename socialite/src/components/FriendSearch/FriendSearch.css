@@ -12,6 +12,12 @@
 	color: antiquewhite;
 }
 
+.user-enlist{
+	background: black;
+	color: white;
+	border-radius: 10px;
+}
+
 @media (max-width: 68em) {
 	.user-search-image img{
 		width: 50vw;

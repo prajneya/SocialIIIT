@@ -12,31 +12,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AuthContext } from '../../context/auth';
 
 import "./Recommend.css";
-import Dashboard from '../Dashboard/Dashboard';
 import Sidebar from "../Sidebar";
 
 function Recommend(props){
 
-    const { user, logout } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
     const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 1000 }})
-
-    function logUserOut()
-    {
-        logout();
-        props.history.push('/')
-    }
-
-    function dashboard()
-    {
-        props.history.push('/dashboard')
-    }
 
     const user_id = user.id;
     const [fren_id, setfren_id] = useState('');
 
-    const [frenrequest, { frequest }] = useMutation(FREN_REQUEST, {
-        update(_, {}){
+    const [frenrequest] = useMutation(FREN_REQUEST, {
+        update(_, { data: fRequestData }){
             window.location.reload(false)
         },
         onError(err){
@@ -60,8 +48,8 @@ function Recommend(props){
         }
     })
 
-    const [meetrequest, { mrequest }] = useMutation(MEET_REQUEST, {
-        update(_, {}){
+    const [meetrequest] = useMutation(MEET_REQUEST, {
+        update(_, { data: mRequestData }){
             window.location.reload(false)
         },
         onError(err){
@@ -91,18 +79,6 @@ function Recommend(props){
         }
     });
 
-     const [imgUrl, setImgUrl] = useState('')
-
-    async function loadDefaultPicDesktop(id){
-      document.getElementById("desktop_dp_"+id).src = "/img/dp.jpeg";
-      await setImgUrl("abc")
-    }
-
-    async function loadDefaultPicMobile(id){
-      document.getElementById("mobile_dp_"+id).src = "/img/dp.jpeg";
-      await setImgUrl("abc")
-    }
-
     if(loading){
         return (<><div id="overlay" style={{display: "block"}}></div>
             <div id="vibe-animation" style={{display: "block"}}><div className="loader">Loading...</div><br/>SENDING OUT A VIBE ...</div></>)
@@ -122,7 +98,7 @@ function Recommend(props){
 
     const onSwipe = (direction, recommend_id, recommend_name) => {
         console.log(direction, recommend_id)
-        if(direction=='right'){
+        if(direction==='right'){
             Swal.fire({
               title: 'Send Friend Request?',
               text: 'You are sending a Friend Request to ' + recommend_name,
@@ -149,7 +125,7 @@ function Recommend(props){
               }
             })
         }
-        else if(direction=='left'){
+        else if(direction==='left'){
             Swal.fire({
               title: 'Send Meet Request?',
               text: 'You are sending a Meet Request to ' + recommend_name,
@@ -176,7 +152,7 @@ function Recommend(props){
               }
             })
         }
-        else if(direction=='down'){
+        else if(direction==='down'){
             Swal.fire({
               title: 'Redirect to User Page?',
               text: 'You will be redirected to the profile of ' + recommend_name,
@@ -220,7 +196,7 @@ function Recommend(props){
               <div className="up-arrow"><i><FontAwesomeIcon icon={faHandPointUp} /></i> <div className="coach-text">Swipe Up to see other people</div> </div>
               <div className="down-arrow"><i><FontAwesomeIcon icon={faHandPointDown} /></i> <div className="coach-text">Swipe Down to check out user profile</div> </div>
             </div>
-            <main class="s-layout__content">
+            <main className="s-layout__content">
                 <div className="container-fluid mt-5">
                     <div className="feature-display mt-5 mobile-only">
                   	    <div className="noReco">
@@ -231,8 +207,8 @@ function Recommend(props){
                             <>
                                 <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['username'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['username'])}>
                                     <div className="friend">
-                                      <div class="image-container">
-                                        <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"mobile_dp_"+recommendation.id} onError={() => loadDefaultPicMobile(recommendation.id)} alt="display"/>
+                                      <div className="image-container">
+                                        {recommendation.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={recommendation.imgUrl} alt="display"/> }
                                       </div>
                                       <div className="desktop-top-content">
                                             <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
@@ -270,8 +246,8 @@ function Recommend(props){
                                     </div>
                                     <div className="request-buttons"><button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>SEND MEET REQUEST</button> : ""}</div>
                                     </div>
-                                    <div class="image-container">
-                                      <img src={"https://res.cloudinary.com/dmhai1riu/image/upload/profile_pics/"+recommendation.id+".png"} id={"desktop_dp_"+recommendation.id} onError={() => loadDefaultPicDesktop(recommendation.id)} alt="display"/>
+                                    <div className="image-container">
+                                      {recommendation.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={recommendation.imgUrl} alt="display"/> }
                                     </div>
                                     <div className="card-bottom-desktop" onClick={() => redirectUserCallback(recommendation['username'])}>
                                         <div className="card-bottom-content">
@@ -306,7 +282,7 @@ const MEET_REQUEST = gql`
 const FETCH_RECOMMENDATIONS_QUERY = gql`
     query($user_id: String!){
         recommend(id: $user_id){
-            id username match email meet
+            id username match email meet imgUrl
         }
     }
 `

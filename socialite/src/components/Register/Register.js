@@ -1,11 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select'
 import makeAnimated from 'react-select/animated';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {useSpring, animated} from 'react-spring'
 
-import { AuthContext } from '../../context/auth';
 import { useForm } from '../../util/hooks';
 import Swal from 'sweetalert2';
 
@@ -31,21 +30,12 @@ const customStyles = {
 
 function Register(props) {
 
-	const context = useContext(AuthContext)
-
 	const [batch, setBatch] = useState({});
 	const [stream, setStream] = useState({});
 
 	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
 	const fadeInSlow = useSpring({opacity: 1, from: {opacity: 0}, delay: 500, config: { duration: 2000 }})
-
-	const initialState = {
-		username: '',
-		email: '',
-		password: '',
-		confirmPassword: ''
-	}
 
 	const { onChange, onSubmit, values } = useForm(registerUser, {
 		username: '',
@@ -55,16 +45,14 @@ function Register(props) {
 	})
 
 	async function handleChangeBatch(selectedOptions){
-		var temp_batch = {}
 		await setBatch(selectedOptions.label)
 	}
 
 	async function handleChangeStream(selectedOptions){
-		var temp_stream = {}
 		await setStream(selectedOptions.label)
 	}
 
-	const [addUser, { loading }] = useMutation(REGISTER_USER, {
+	const [addUser] = useMutation(REGISTER_USER, {
 		update(_, { data: { register: userData } }){
 			props.history.push('/checkMail')
 		},

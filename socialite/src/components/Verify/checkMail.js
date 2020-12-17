@@ -1,33 +1,24 @@
-import React, { useContext, useState } from 'react';
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated';
+import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {useSpring, animated} from 'react-spring'
 
-import { AuthContext } from '../../context/auth';
-import { useForm } from '../../util/hooks';
 import './checkMail.css'
-
-const animatedComponents = makeAnimated();
 
 function Resend(props) {
 
 	const nusername = localStorage.getItem('username');
 	const nemail = localStorage.getItem('email');
 
-	const [errors, setErrors] = useState({});
-	const [id, setId] = useState("");
-	const [username, setUsername] = useState(nusername);
-	const [email, setEmail] = useState(nemail);
-	const [time, setTime] = useState("");
+	const id = "";
+	const username = nusername;
+	const email = nemail;
+	const time = "";
 
-	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
-	const fadeInSlow = useSpring({opacity: 1, from: {opacity: 0}, delay: 500, config: { duration: 2000 }})
 
-	const [resend, { ret }] = useMutation(RESEND_LINK, {
-		update(_, {}){
+	const [resend] = useMutation(RESEND_LINK, {
+		update(_, { data: resendData }){
 			window.location.reload(false)
 		},
 		variables: {
