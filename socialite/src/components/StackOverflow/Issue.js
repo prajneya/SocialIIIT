@@ -9,7 +9,7 @@ import Parser from 'html-react-parser';
 import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from 'sweetalert2';
-import { faArrowUp, faArrowDown, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
 
 
 import { AuthContext } from '../../context/auth'
@@ -19,22 +19,15 @@ import Sidebar from "../Sidebar"
 
 function Issue(props){
 
-	const { user, logout } = useContext(AuthContext)
+	const { user } = useContext(AuthContext)
 
   const postId = props.match.params.postId;
   const email = user.email;
 
-  console.log(user)
-
-	function logUserOut(){
-		logout();
-		props.history.push('/')
-	}
-
   const [body, setBody] = useState('');
   const [answerId, setAnswerId] = useState('');
 
-  const [addAnswer, { answer }] = useMutation(ADD_ANSWER, {
+  const [addAnswer] = useMutation(ADD_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -59,7 +52,7 @@ function Issue(props){
     }
   })
 
-  const [upvoteQuestion, { upvoteQ }] = useMutation(UPVOTE_QUESTION, {
+  const [upvoteQuestion] = useMutation(UPVOTE_QUESTION, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -84,7 +77,7 @@ function Issue(props){
     }
   })
 
-  const [removeUpvoteQuestion, { rUpvoteQ }] = useMutation(REMOVE_UPVOTE_QUESTION, {
+  const [removeUpvoteQuestion] = useMutation(REMOVE_UPVOTE_QUESTION, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -109,7 +102,7 @@ function Issue(props){
     }
   })
 
-  const [downvoteQuestion, { downvoteQ }] = useMutation(DOWNVOTE_QUESTION, {
+  const [downvoteQuestion] = useMutation(DOWNVOTE_QUESTION, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -134,7 +127,7 @@ function Issue(props){
     }
   })
 
-  const [removeDownvoteQuestion, { rDownvoteQ }] = useMutation(REMOVE_DOWNVOTE_QUESTION, {
+  const [removeDownvoteQuestion] = useMutation(REMOVE_DOWNVOTE_QUESTION, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -159,7 +152,7 @@ function Issue(props){
     }
   })
 
-  const [upvoteAnswer, { upvoteA }] = useMutation(UPVOTE_ANSWER, {
+  const [upvoteAnswer] = useMutation(UPVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -185,7 +178,7 @@ function Issue(props){
     }
   })
 
-  const [removeUpvoteAnswer, { rUpvoteA }] = useMutation(REMOVE_UPVOTE_ANSWER, {
+  const [removeUpvoteAnswer] = useMutation(REMOVE_UPVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -211,7 +204,7 @@ function Issue(props){
     }
   })
 
-  const [downvoteAnswer, { downvoteA }] = useMutation(DOWNVOTE_ANSWER, {
+  const [downvoteAnswer] = useMutation(DOWNVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -237,7 +230,7 @@ function Issue(props){
     }
   })
 
-  const [removeDownvoteAnswer, { rDownvoteA }] = useMutation(REMOVE_DOWNVOTE_ANSWER, {
+  const [removeDownvoteAnswer] = useMutation(REMOVE_DOWNVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },

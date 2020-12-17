@@ -3,7 +3,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
-import Parser from 'html-react-parser';
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faExternalLinkAlt, faNewspaper } from "@fortawesome/free-solid-svg-icons";
@@ -16,17 +15,12 @@ import Sidebar from "../Sidebar";
 
 function Timeline(props){
 
-  const { user, logout } = useContext(AuthContext)
-
-  function logUserOut(){
-    logout();
-    props.history.push('/')
-  }
+  const { user } = useContext(AuthContext)
 
   const curid = user.id;
   const [fren_id, setfren_id] = useState('');
   
-  const [frenrequest, { frequest }] = useMutation(FREN_REQUEST, {
+  const [frenrequest] = useMutation(FREN_REQUEST, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -36,7 +30,7 @@ function Timeline(props){
     }
 })
 
-const [meetrequest, { mrequest }] = useMutation(MEET_REQUEST, {
+const [meetrequest] = useMutation(MEET_REQUEST, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
@@ -46,7 +40,7 @@ const [meetrequest, { mrequest }] = useMutation(MEET_REQUEST, {
     }
 })
 
-const [frenaccept, { faccept }] = useMutation(FREN_ACCEPT, {
+const [frenaccept] = useMutation(FREN_ACCEPT, {
   update(_, { data: { login: userData } }){
     window.location.reload(false);
   },
@@ -56,7 +50,7 @@ const [frenaccept, { faccept }] = useMutation(FREN_ACCEPT, {
   }
 })
 
-const [frenreject, { freject }] = useMutation(FREN_REJECT, {
+const [frenreject] = useMutation(FREN_REJECT, {
   update(_, { data: { login: userData } }){
     window.location.reload(false);
   },
@@ -66,7 +60,7 @@ const [frenreject, { freject }] = useMutation(FREN_REJECT, {
   }
 })
 
-const [meetaccept, { maccept }] = useMutation(MEET_ACCEPT, {
+const [meetaccept] = useMutation(MEET_ACCEPT, {
   update(_, { data: { login: userData } }){
     window.location.reload(false);
   },
@@ -76,7 +70,7 @@ const [meetaccept, { maccept }] = useMutation(MEET_ACCEPT, {
   }
 })
 
-const [meetreject, { mreject }] = useMutation(MEET_REJECT, {
+const [meetreject] = useMutation(MEET_REJECT, {
   update(_, { data: { login: userData } }){
     window.location.reload(false);
   },
@@ -173,7 +167,7 @@ const username = props.match.params.username;
                           <div className="row">
                             <div className="col-xl-12">
                               <div className="profile-picture">
-                                {timeline_data.imgUrl == "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={timeline_data.imgUrl} alt="display"/> }
+                                {timeline_data.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={timeline_data.imgUrl} alt="display"/> }
                               </div>
                                 <hr className="picture-seprator"/>
                             </div>
@@ -181,8 +175,8 @@ const username = props.match.params.username;
                               {user_timeline_data['bio']}
                               <div className="email mx-2">{timeline_data ? timeline_data.email : ""}</div>
                               <div className="social-links">
-                                {user_timeline_data['fblink'] ? <a href={user_timeline_data['fblink']} target="_blank"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
-                                {user_timeline_data['ghlink'] ? <a href={user_timeline_data['ghlink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}                                
+                                {user_timeline_data['fblink'] ? <a href={user_timeline_data['fblink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faFacebook} size="2x"/></i></a> : ""}
+                                {user_timeline_data['ghlink'] ? <a href={user_timeline_data['ghlink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}                                
                               </div>
                               <div className="text-center">
                                 {profile_data.friend === 0 ? 
@@ -282,14 +276,14 @@ const username = props.match.params.username;
                           <br/>
                           <hr/>
                           <div className="showcase-projects">
-                            {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() != "" && user_timeline_data['pOneDesc'].trim() != "" ?
+                            {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() !== "" && user_timeline_data['pOneDesc'].trim() !== "" ?
                             <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  {user_timeline_data['pOneGhLink'] ? <a href={user_timeline_data['pOneGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
-                                  {user_timeline_data['pOneELink'] ? <a href={user_timeline_data['pOneELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pOneGhLink'] ? <a href={user_timeline_data['pOneGhLink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pOneELink'] ? <a href={user_timeline_data['pOneELink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
@@ -306,14 +300,14 @@ const username = props.match.params.username;
                             </div> 
                             </>
                             : "" }
-                            {user_timeline_data['pTwoTitle'] && user_timeline_data['pTwoTitle'].trim() != "" && user_timeline_data['pTwoDesc'].trim() != "" ?
+                            {user_timeline_data['pTwoTitle'] && user_timeline_data['pTwoTitle'].trim() !== "" && user_timeline_data['pTwoDesc'].trim() !== "" ?
                             <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  {user_timeline_data['pTwoGhLink'] ? <a href={user_timeline_data['pTwoGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
-                                  {user_timeline_data['pTwoELink'] ? <a href={user_timeline_data['pTwoELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pTwoGhLink'] ? <a href={user_timeline_data['pTwoGhLink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pTwoELink'] ? <a href={user_timeline_data['pTwoELink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
@@ -330,14 +324,14 @@ const username = props.match.params.username;
                             </div> 
                             </>
                             : "" }
-                            {user_timeline_data['pThreeTitle'] && user_timeline_data['pThreeTitle'].trim() != "" && user_timeline_data['pThreeDesc'].trim() != "" ?
+                            {user_timeline_data['pThreeTitle'] && user_timeline_data['pThreeTitle'].trim() !== "" && user_timeline_data['pThreeDesc'].trim() !== "" ?
                             <>
                             <div className="project-container mt-3 pb-5">
                               <div className="project-header">
                                 <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faFolderOpen} size="2x"/></i></div>
                                 <div className="float-right m-5">
-                                  {user_timeline_data['pThreeGhLink'] ? <a href={user_timeline_data['pThreeGhLink']} target="_blank"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
-                                  {user_timeline_data['pThreeELink'] ? <a href={user_timeline_data['pThreeELink']} target="_blank"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pThreeGhLink'] ? <a href={user_timeline_data['pThreeGhLink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : "" }
+                                  {user_timeline_data['pThreeELink'] ? <a href={user_timeline_data['pThreeELink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faExternalLinkAlt} size="2x"/></i></a> : "" }
                                 </div>
                               </div>
                               <div className="project-title ml-5">
@@ -354,7 +348,7 @@ const username = props.match.params.username;
                             </div> 
                             </>
                             : "" }
-                            {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() == "" && user_timeline_data['pOneDesc'].trim() == "" && user_timeline_data['pTwoTitle'] && user_timeline_data['pTwoTitle'].trim() == "" && user_timeline_data['pTwoDesc'].trim() == "" && user_timeline_data['pThreeTitle'] && user_timeline_data['pThreeTitle'].trim() == "" && user_timeline_data['pThreeDesc'].trim() == "" ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
+                            {user_timeline_data['pOneTitle'] && user_timeline_data['pOneTitle'].trim() === "" && user_timeline_data['pOneDesc'].trim() === "" && user_timeline_data['pTwoTitle'] && user_timeline_data['pTwoTitle'].trim() === "" && user_timeline_data['pTwoDesc'].trim() === "" && user_timeline_data['pThreeTitle'] && user_timeline_data['pThreeTitle'].trim() === "" && user_timeline_data['pThreeDesc'].trim() === "" ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
                             {!user_timeline_data['pOneTitle'] && !user_timeline_data['pTwoTitle'] && !user_timeline_data['pThreeTitle'] ? <div className="text-center">{username} has not yet added their projects or experiences.</div> : "" }
                           </div>
                         </div>
@@ -368,7 +362,7 @@ const username = props.match.params.username;
                           <br/>
                           <hr/>
 
-                          {blog_data.length == 0 ? <div className="text-center">{username} has not yet posted any blogs.</div> : ""}
+                          {blog_data.length === 0 ? <div className="text-center">{username} has not yet posted any blogs.</div> : ""}
 
                           {blog_data && blog_data.map(blog => ( 
                           <div className="project-container mt-3 pb-5 hover-pointer" onClick={() => showBlog(blog['id'])}>

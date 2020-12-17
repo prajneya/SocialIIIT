@@ -8,28 +8,16 @@ import '../Recommend/Recommend.css';
 import { AuthContext } from '../../context/auth'
 
 import "./notifications.css"
-import Dashboard from '../Dashboard/Dashboard';
 import Sidebar from "../Sidebar";
 
 function Notifications(props){
 
-    const { user, logout } = useContext(AuthContext);
-
-    function logUserOut()
-    {
-        logout();
-        props.history.push('/')
-    }
-
-    function dashboard()
-    {
-        props.history.push('/dashboard')
-    }
+    const { user } = useContext(AuthContext);
 
     const user_id = user.id;
     const [fren_id, setfren_id] = useState('');
 
-    const [frenaccept, { faccept }] = useMutation(FREN_ACCEPT, {
+    const [frenaccept] = useMutation(FREN_ACCEPT, {
         update(_, { data: { login: userData } }){
           window.location.reload(false);
         },
@@ -39,7 +27,7 @@ function Notifications(props){
         }
     })
 
-    const [frenreject, { freject }] = useMutation(FREN_REJECT, {
+    const [frenreject] = useMutation(FREN_REJECT, {
         update(_, { data: { login: userData } }){
           window.location.reload(false);
         },
@@ -49,7 +37,7 @@ function Notifications(props){
         }
     })
 
-    const [meetaccept, { maccept }] = useMutation(MEET_ACCEPT, {
+    const [meetaccept] = useMutation(MEET_ACCEPT, {
         update(_, { data: { login: userData } }){
           window.location.reload(false);
         },
@@ -59,7 +47,7 @@ function Notifications(props){
         }
     })
 
-    const [meetreject, { mreject }] = useMutation(MEET_REJECT, {
+    const [meetreject] = useMutation(MEET_REJECT, {
         update(_, { data: { login: userData } }){
           window.location.reload(false);
         },

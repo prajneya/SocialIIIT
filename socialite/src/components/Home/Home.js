@@ -1,7 +1,6 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { register } from '../../serviceWorker'
 import {useSpring, animated} from 'react-spring'
 import Swal from 'sweetalert2';
 
@@ -26,13 +25,13 @@ function Home(props) {
 	var overlayElement = document.getElementById("overlay");
 	var signinDisplay = document.getElementById("signin-animation");
 
-	const [loginUser, { loading }] = useMutation(LOGIN_USER, {
+	const [loginUser] = useMutation(LOGIN_USER, {
 		update(_, { data: { login: userData } }){
 			context.login(userData)
 			props.history.push('/dashboard')
 		},
 		onError(err){
-			if(err.graphQLErrors[0].message == "User not verified")
+			if(err.graphQLErrors[0].message === "User not verified")
 			{
 				localStorage.setItem("username", values.credential)
 				localStorage.setItem("email", values.credential)

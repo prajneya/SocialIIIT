@@ -1,17 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery, useMutation } from '@apollo/react-hooks';
-import { useState } from 'react';
+import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
-import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import Parser from 'html-react-parser';
-import moment from 'moment';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Swal from 'sweetalert2';
-import { faArrowUp, faArrowDown, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
-
-import { AuthContext } from '../../context/auth';
 
 import "./Blog.css"
 

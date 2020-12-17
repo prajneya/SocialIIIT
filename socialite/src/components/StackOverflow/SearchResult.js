@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -6,23 +6,9 @@ import Parser from 'html-react-parser';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { AuthContext } from '../../context/auth';
 import Sidebar from "../Sidebar";
 
 function SearchResult(props){
-
-	const { user, logout } = useContext(AuthContext)
-
-  function logUserOut()
-  {  
-		logout();
-		props.history.push('/')
-  }
-  
-  function dashboard()
-  {
-      props.history.push('/dashboard')
-  }
 
   function showIssue(postId){
     props.history.push('/issue/'+postId);
@@ -34,7 +20,7 @@ function SearchResult(props){
 
   function searchCallback(){
     var query = document.getElementById("search_query").value;
-    if(query==""){
+    if(query===""){
       return;
     }
     props.history.push({
@@ -44,7 +30,6 @@ function SearchResult(props){
   }
 
   const query = props.location.state ? props.location.state.query : "";
-  console.log(props.location)
   const { data: postData } = useQuery(FETCH_POSTS_QUERY, {
         variables: {
             searchString: query
@@ -113,6 +98,7 @@ function SearchResult(props){
                               </div>
                             </div>
                           ))} 
+                          {post_list.length === 0 ? <div className="card-header text-center mt-5">Uh, oh. We dont have any questions related to your search. You can always create one, though.</div> : ""}
                         </div>
                       </div>
                     </div>
