@@ -15,7 +15,7 @@ module.exports = async function verify(user)
 		{ expiresIn: '1h' }
 	);
 
-	link = "http://localhost:3000/verify/" + tok;
+	link = "http://peersity.in/verify/" + tok;
 	msg = `Kindly click on the attached link to verify your account: ${link}`;
 	return err = await mail(user.email, "Account Verification", msg);
 }
