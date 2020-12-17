@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
@@ -6,25 +6,10 @@ import Parser from 'html-react-parser';
 import { faSearch, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import { AuthContext } from '../../context/auth'
-
 import "./StackOverflow.css"
 import Sidebar from "../Sidebar"
 
 function StackOverflow(props){
-
-	const { user, logout } = useContext(AuthContext)
-
-  function logUserOut()
-  {  
-		logout();
-		props.history.push('/')
-  }
-  
-  function dashboard()
-  {
-      props.history.push('/dashboard')
-  }
 
   function showIssue(postId){
     props.history.push('/issue/'+postId);
@@ -36,7 +21,7 @@ function StackOverflow(props){
 
   function searchCallback(){
     var query = document.getElementById("search_query").value;
-    if(query==""){
+    if(query===""){
       return;
     }
     props.history.push({

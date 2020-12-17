@@ -1,0 +1,28 @@
+.user-search-image{
+	margin-top: 5rem;
+	text-align: center;
+}
+
+.user-search-image img{
+	width: 30vw;
+	object-fit: cover;
+}
+
+.look-friend-text{
+	color: antiquewhite;
+}
+
+.user-enlist{
+	background: black;
+	color: white;
+	border-radius: 10px;
+}
+
+@media (max-width: 68em) {
+	.user-search-image img{
+		width: 50vw;
+	}
+	.look-friend-text{
+		padding: 4rem;
+	}
+}

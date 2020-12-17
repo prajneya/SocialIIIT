@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { faHome, faAddressCard, faComments, faUserGraduate, faStreetView, faBars, faCogs, faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faAddressCard, faComments, faUserGraduate, faStreetView, faBars, faCogs, faSignOutAlt, faMap } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './Sidebar.css'
@@ -8,7 +8,7 @@ import { AuthContext } from '../context/auth'
 
 function Sidebar(props) {
 
-	const { user, logout } = useContext(AuthContext)
+	const { logout } = useContext(AuthContext)
 
 	function logUserOut(){
 		logout();
@@ -16,45 +16,50 @@ function Sidebar(props) {
 
 	return (
 		<>	
-			<div class="s-layout__sidebar">
-			  <a class="s-sidebar__trigger" href="#0">
+			<div className="s-layout__sidebar">
+			  <a className="s-sidebar__trigger" href="#0">
 			     <i><FontAwesomeIcon icon={faBars} /></i>
 			  </a>
 
-			  <nav class="s-sidebar__nav">
+			  <nav className="s-sidebar__nav">
 			     <ul>
 			        <li>
-			           <a class="s-sidebar__nav-link" href="/">
+			           <a className="s-sidebar__nav-link" href="/">
 			              <i><FontAwesomeIcon icon={faHome} /></i><em>Home</em>
 			           </a>
 			        </li>
 			        <li>
-			           <a class="s-sidebar__nav-link" href="/timeline">
+			           <a className="s-sidebar__nav-link" href="/timeline">
 			             <i><FontAwesomeIcon icon={faAddressCard} /></i><em>My Timeline</em>
 			           </a>
 			        </li>
 			        <li>
-			           <a class="s-sidebar__nav-link" href="/notifications">
+			           <a className="s-sidebar__nav-link" href="/notifications">
 			              <i><FontAwesomeIcon icon={faComments} /></i><em>Notifications</em>
 			           </a>
 			        </li>
 			        <li>
-			           <a class="s-sidebar__nav-link" href="/stack-overflow">
+			           <a className="s-sidebar__nav-link" href="/stack-overflow">
 			              <i><FontAwesomeIcon icon={faUserGraduate} /></i><em>Querify</em>
 			           </a>
 			        </li>
 			        <li>
-			           <a class="s-sidebar__nav-link" href="/recommend">
+			           <a className="s-sidebar__nav-link" href="/recommend">
 			              <i><FontAwesomeIcon icon={faStreetView} /></i><em>Recommendations</em>
 			           </a>
 			        </li>
 			        <li>
-			           <a class="s-sidebar__nav-link" href="/profile">
+			           <a className="s-sidebar__nav-link" href="/marauder">
+			              <i><FontAwesomeIcon icon={faMap} /></i><em>Marauders</em>
+			           </a>
+			        </li>
+			        <li>
+			           <a className="s-sidebar__nav-link" href="/profile">
 			              <i><FontAwesomeIcon icon={faCogs} /></i><em>Profile Settings</em>
 			           </a>
 			        </li>
 			        <li>
-			           <a class="s-sidebar__nav-link" onClick={logUserOut}>
+			           <a className="sidebar-button s-sidebar__nav-link" href="/" onClick={logUserOut}>
 			              <i><FontAwesomeIcon icon={faSignOutAlt} /></i><em>Logout</em>
 			           </a>
 			        </li>

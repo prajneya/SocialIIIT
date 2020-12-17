@@ -9,7 +9,11 @@ module.exports = async function postFullTextSearch(query) {
 				'query': query, 
 				'path': [
 				'title', 'body', 'tags'
-				]
+				],
+				'fuzzy': {
+			      'maxEdits': 2,
+			      'prefixLength': 3
+			    }
 			}, 
 			'highlight': {
 				'path': 'body'
@@ -19,7 +23,6 @@ module.exports = async function postFullTextSearch(query) {
 		];
 
 		const aggCursor = Post.aggregate(pipeline);
-
 		return aggCursor;
 	} catch(err){
 		throw new Error(err);
