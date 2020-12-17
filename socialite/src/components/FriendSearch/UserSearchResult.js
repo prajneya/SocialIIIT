@@ -16,6 +16,7 @@ function UserSearchResult(props){
 
   function searchCallback(){
     var query = document.getElementById("search_query").value;
+
     if(query.trim()===""){
       return;
     }
@@ -53,10 +54,10 @@ function UserSearchResult(props){
 
             		<div className="container-fluid">
 
-                  <div className="explore-posts pr-3">
+                  <div className="explore-posts pr-3 my-5">
                     <form class="searchbox">
                       <input type="text" id="search_query" placeholder="Search People in IIIT-H" autocomplete="off"/>
-                      <button type="button" className="rounded m-2 search-button float-right" onClick={searchCallback}><i><FontAwesomeIcon icon={faSearch} /></i></button>
+                      <button type="button" className="rounded m-2 search-button float-right my-4" onClick={searchCallback}><i><FontAwesomeIcon icon={faSearch} /></i></button>
                     </form>
                     <br/> <br/> <br/> 
                     {/*<div class="trending-tags desktop-only">
@@ -82,6 +83,7 @@ function UserSearchResult(props){
                       <div className="text-center">
                         <button className="my-1 create-post w-100 py-3" onClick={recommendFriend}>TAKE A VIBE CHECK > </button>
                       </div>
+
                       {/*<div className="my-3 p-2 top-users-post">
                         <div className="card-header">
                           TOP USERS
@@ -90,6 +92,7 @@ function UserSearchResult(props){
                           <ul>
                           </ul>
                         </div>
+                      </div>
                       </div>*/}
                     </div>
                   </div>
