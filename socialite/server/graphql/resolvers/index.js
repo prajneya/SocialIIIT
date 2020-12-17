@@ -7,6 +7,7 @@ const subResolvers = require('./sub')
 const meetrequestResolvers = require('./meetreq')
 const notifResolvers = require('./notif')
 const searchResolvers = require('./search')
+const userSearchResolvers = require('./userSearch')
 const editResolvers = require('./edit')
 const verifyResolvers = require('./verify')
 const resendResolvers = require('./resend')
@@ -22,7 +23,8 @@ module.exports = {
 		...notifResolvers.Query,
 		...searchResolvers.search,
 		...forgotPassResolvers.forgotPass,
-		...friendListResolvers.friendList
+		...friendListResolvers.friendList,
+		...userSearchResolvers.userSearch
 	},
 	Mutation: {
 		...userResolvers.Mutation,

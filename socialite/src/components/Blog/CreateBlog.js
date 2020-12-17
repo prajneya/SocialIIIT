@@ -1,4 +1,4 @@
-import React, { Component, useState  } from 'react';
+import React, { useState  } from 'react';
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import { useMutation, useQuery } from '@apollo/react-hooks';
@@ -34,11 +34,10 @@ function CreateBlog(props){
     const [body, setBody] = useState('');
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState({});
-    const [tagname, setTagname] = useState('');
 
     const [ createPost ] = useMutation(CREATE_BLOG, {
-        update(_, {}){
-            window.location.reload(false)
+        update(_, { data: blogData }){
+            props.history.push('/timeline');
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -67,19 +66,6 @@ function CreateBlog(props){
 
     async function createPostCallback(){
         await setTitle(document.getElementById("question_title").value);
-
-        console.log(tags)
-        
-        for (var key in tags) 
-        {
-            if (tags.hasOwnProperty(key)) 
-            {
-                var val = key;
-                console.log(val);
-                await setTagname(val);
-            }
-        }
-
         createPost();
     }
 

@@ -88,7 +88,7 @@ const customStyles = {
 
 function Profile(props) {
 
-	const { user, logout } = useContext(AuthContext)
+	const { user } = useContext(AuthContext)
 	const { data: profileData } = useQuery(FETCH_PROFILE, {
 		variables: {
 			curid: user.id,
@@ -166,8 +166,8 @@ function Profile(props) {
     }
 
     const [ uploadProfilePic ] = useMutation(UPLOAD_PROFILE_PICTURE, {
-        update(_, {}){
-            console.log("update", photo)
+        update(_, { data: profilePicUpdate }){
+            window.location.reload(false);
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -188,7 +188,7 @@ function Profile(props) {
     })
 
     function uploadImage(){
-        if(photo==""){
+        if(photo===""){
             return;
         }
         console.log(photo)
@@ -196,9 +196,8 @@ function Profile(props) {
     }
 
     const [ updateProfileDetails ] = useMutation(UPDATE_PROFILE, {
-        update(_, {}){
-            window.location.reload(false)
-            console.log("details updated")
+        update(_, { data: updateProfileData }){
+            window.location.reload(false);
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -264,7 +263,7 @@ function Profile(props) {
         updateProfileDetails();
     }
 
-	
+  
     return (
         <>
         <Sidebar/>

@@ -20,7 +20,7 @@ module.exports = {
 	getUserInfo: async function (id){
 		ret = {}
 		await User.findById(id).then((user) => {
-			ret = {email: user.email, username: user.username};
+			ret = {email: user.email, username: user.username, imgUrl: user.imgUrl};
 		});
 		return ret;
 	},

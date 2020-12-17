@@ -43,6 +43,11 @@ module.exports = gql`
         downvotes: [Downvote]
         tags: JSONObject
     }
+    type searchUser{
+        _id: ID!
+        username: String!
+        email: String!
+    }
     type Upvote{
         id: ID
         email: String
@@ -109,8 +114,9 @@ module.exports = gql`
         id: ID!
         match: Float!
         email: String!
-	username: String!
-	meet: Int!
+	    username: String!
+	    meet: Int!
+        imgUrl: String!
     }
     type Info{
 	    id: ID!
@@ -165,6 +171,7 @@ module.exports = gql`
         getSkills(email: String!): JSONObject
         getTimelineInfo(username: String!): JSONObject
         searchByTextPost(query: String!): [searchPost]
+        searchForUsers(query: String!): [searchUser]
         getTimelineData: JSONObject
         getUserTimelineData(id: ID) : JSONObject
         getUserBlogs(email: String): [Blog]
