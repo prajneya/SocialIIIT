@@ -54,10 +54,10 @@ function UserSearchResult(props){
 
             		<div className="container-fluid">
 
-                  <div className="explore-posts pr-3">
+                  <div className="explore-posts pr-3 my-5">
                     <form class="searchbox">
                       <input type="text" id="search_query" placeholder="Search People in IIIT-H" autocomplete="off"/>
-                      <button type="button" className="rounded m-2 search-button float-right" onClick={searchCallback}><i><FontAwesomeIcon icon={faSearch} /></i></button>
+                      <button type="button" className="rounded m-2 search-button float-right my-4" onClick={searchCallback}><i><FontAwesomeIcon icon={faSearch} /></i></button>
                     </form>
                     <br/> <br/> <br/> 
                     {/*<div class="trending-tags desktop-only">

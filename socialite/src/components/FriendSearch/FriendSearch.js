@@ -30,10 +30,10 @@ function FriendSearch(props){
 
             		<div className="container-fluid">
 
-                  <div className="explore-posts pr-3">
+                  <div className="explore-posts pr-3 my-5">
                     <form class="searchbox">
                       <input type="text" id="search_query" placeholder="Search People in IIIT-H" autocomplete="off"/>
-                      <button className="rounded m-2 search-button float-right" onClick={searchCallback}><i><FontAwesomeIcon icon={faSearch} /></i></button>
+                      <button className="rounded m-2 search-button float-right my-4" onClick={searchCallback}><i><FontAwesomeIcon icon={faSearch} /></i></button>
                     </form>
                     <br/> <br/> <br/> 
                     {/*<div class="trending-tags desktop-only">
@@ -54,7 +54,7 @@ function FriendSearch(props){
                       <div className="text-center">
                         <button className="my-1 create-post w-100 py-3" onClick={recommendFriend}>TAKE A VIBE CHECK > </button>
                       </div>
-                      <div className="my-3 p-2 top-users-post">
+                      {/* <div className="my-3 p-2 top-users-post">
                         <div className="card-header">
                           TOP USERS
                         </div>
@@ -62,7 +62,7 @@ function FriendSearch(props){
                           <ul>
                           </ul>
                         </div>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
             		</div>
