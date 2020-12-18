@@ -18,6 +18,8 @@ function Verify(props) {
 
 	const [verify] = useMutation(VERIFY_LINK, {
 		update(_, { data: userData }){
+			localStorage.removeItem('username')
+			localStorage.removeItem('email')
 			context.login(userData)
 			props.history.push('/dashboard')
 		},
