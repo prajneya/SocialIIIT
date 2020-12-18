@@ -175,6 +175,7 @@ module.exports = gql`
         getTimelineData: JSONObject
         getUserTimelineData(id: ID) : JSONObject
         getUserBlogs(email: String): [Blog]
+        getUserImage(id: ID): String
         getBlog(blogId: ID!): Blog
         forgotPass(email: String!): String
 	friendList(id: String!): [Info]!

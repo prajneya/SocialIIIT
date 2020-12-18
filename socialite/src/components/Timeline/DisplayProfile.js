@@ -395,7 +395,7 @@ const username = props.match.params.username;
                               {timeline_data.skills && Object.keys(timeline_data.skills).map(skill => (
                       timeline_data.skills[skill] > 0 ?
                               <li className="mt-4">{skill}
-                                <div className="no-post float-right">{timeline_data.skills[skill]}</div>
+                                <div className="no-post float-right">{parseInt(timeline_data.skills[skill])}</div>
                               </li>: ""
                                 ))}
                             </ul>

@@ -16,6 +16,13 @@ function Timeline(props){
 
 	const { user } = useContext(AuthContext)
 
+  const { data: userProfilePicData } = useQuery(FETCH_PROFILE_PICTURE, {
+        variables: {
+            id: user.id
+        }
+  });
+  var userImgUrl = userProfilePicData ? userProfilePicData.getUserImage : "";
+
   const { data: skillData } = useQuery(FETCH_SKILLS, {
         variables: {
             email: user.email
@@ -56,7 +63,7 @@ function Timeline(props){
                           <div className="row">
                             <div className="col-xl-12">
                               <div className="profile-picture">
-                                {user.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={user.imgUrl} alt="display"/> }
+                                {userImgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={userImgUrl} alt="display"/> }
                               </div>
                                 <hr className="picture-seprator"/>
                             </div>                            
@@ -257,7 +264,7 @@ function Timeline(props){
                               {skill_data && Object.keys(skill_data).map(skill => (
                                   skill_data[skill] > 0 ?
                               <li className="mt-4">{skill}
-                                <div className="no-post float-right">{skill_data[skill]}</div>
+                                <div className="no-post float-right">{parseInt(skill_data[skill])}</div>
                               </li> : ""
                                 ))}
                               {Object.keys(skill_data).length > 0 ? "" : <div className="text-center">{user.username} has not accumulated any gratitude points.</div> }
@@ -274,6 +281,12 @@ function Timeline(props){
       )
   	
 }
+
+const FETCH_PROFILE_PICTURE = gql`
+    query($id: ID!){
+        getUserImage(id: $id)
+    }
+`;
 
 const FETCH_SKILLS = gql`
     query($email: String!){
