@@ -199,9 +199,6 @@ function Recommend(props){
             <main className="s-layout__content">
                 <div className="container-fluid mt-5">
                     <div className="feature-display mt-5 mobile-only">
-                  	    <div className="noReco">
-                  	    {recommendations.length === 0 ? "No recommendations for you at the moment. Please come back later. :(": ""}
-                  	    </div>
                         <div className="no-recommendations">No recommendations for you at the moment. Please come back later. :(</div>
                         {recommendations && recommendations.slice(0).reverse().map(recommendation => (
                             <>

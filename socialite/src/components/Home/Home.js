@@ -98,10 +98,11 @@ function Home(props) {
 									<button type="submit" className="rounded" onClick={register}>Allow notifications</button>
 								</div>
 							</div> */}
-							<div className="signin">Sign in</div>
+							<div className="signin desktop-only">Sign in</div>
+							<div className="signin mobile-only"><strong>peersity</strong></div>
 							<form onSubmit={onSubmit} autocomplete="off">
 							<div className="email">
-							  <label for="email">Email Address/Username</label>
+							  <label for="email">Email/Username</label>
 							  <br/>
 							  <input type="text" name="credential" placeholder="Enter your email or username" onChange={onChange} value={values.credential} />
 							</div>
