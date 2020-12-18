@@ -1,14 +1,12 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {useSpring, animated} from 'react-spring'
 
-import { AuthContext } from '../../context/auth';
 import './checkMail.css'
 
 function Verify(props) {
 
-	const context = useContext(AuthContext)
 	const tok = props.match.params.token;
 
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})

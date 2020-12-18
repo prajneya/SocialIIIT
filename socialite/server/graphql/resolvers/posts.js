@@ -188,6 +188,20 @@ module.exports = {
                 throw new Error('User not Found');
             }
         },
+        async getUserImage(_, { id }){
+            try{
+                const user = await User.findById(id);
+                if(user){
+                    return user.imgUrl;
+                }
+                else{
+                    throw new Error('User not Found');
+                }
+            } catch (err){
+                throw new Error(err)
+            }
+
+        },
         async getPost(_, { postId }){
             try{
                 const post = await Post.findById(postId);
@@ -580,14 +594,21 @@ module.exports = {
                             const author = await Skills.findOne({ email: answer.email })
                             if(author){
                                 for(tag in post.tags){
-                                    if(author.skills[tag]){
-                                        author.skills[tag] = parseFloat(author.skills[tag])+(user.rating/1000)
+                                    if(author.skills){
+                                        if(author.skills[tag]){
+                                            author.skills[tag] = parseFloat(author.skills[tag])+(user.rating/1000)
+                                        }
+                                        else{
+                                            author.skills[tag] = (user.rating/1000)
+                                        }
+                                        await author.updateOne({ skills: author.skills });
                                     }
                                     else{
-                                        author.skills[tag] = (user.rating/1000)
+                                        var tempAuthorSkills = {};
+                                        tempAuthorSkills[tag] = (user.rating/1000);
+                                        await author.updateOne({ skills: tempAuthorSkills });
                                     }
                                 }
-                                await author.updateOne({ skills: author.skills });
                             }
                             else{
                                 var answerSkills = {};
