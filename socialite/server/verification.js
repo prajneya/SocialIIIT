@@ -15,7 +15,7 @@ module.exports = async function verify(user)
 		{ expiresIn: '1h' }
 	);
 
-	link = "http://localhost:3000/verify/" + tok;
+	link = "http://peersity.in/verify/" + tok;
 	msg = `<head>
   <title></title>
   <!--[if !mso]><!-- -->

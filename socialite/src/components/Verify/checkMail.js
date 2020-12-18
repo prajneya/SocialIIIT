@@ -21,6 +21,15 @@ function Resend(props) {
 		update(_, { data: resendData }){
 			window.location.reload(false)
 		},
+		onError(err){
+			console.log(err)
+			if(err.graphQLErrors[0].message === "User already verified")
+			{
+				localStorage.removeItem('username')
+				localStorage.removeItem('email')
+				props.history.push('/')
+			}
+		},
 		variables: {
 			id,
 			username,

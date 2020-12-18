@@ -38,7 +38,7 @@ function Dashboard(props){
     }
 
       function stackOverflow(){
-        props.history.push('/stack-overflow')
+        props.history.push('/querify')
     }
 
     function Marauders(){
@@ -140,7 +140,7 @@ function Dashboard(props){
                     <div className="popular-posts my-5">
                       <div className="popular-header">
                         POPULAR POSTS
-                        <a href="/stack-overflow"><span class="see-more float-right">MORE</span></a>
+                        <a href="/querify"><span class="see-more float-right">MORE</span></a>
                       </div>
                       <animated.div style={slideInFast}>
                       <div className="popular-post mt-4 hover-pointer" onClick={() => showIssue(trending_posts_list[0].id)}>
