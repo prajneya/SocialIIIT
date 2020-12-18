@@ -20,8 +20,7 @@ function Verify(props) {
 		update(_, { data: userData }){
 			localStorage.removeItem('username')
 			localStorage.removeItem('email')
-			context.login(userData)
-			props.history.push('/dashboard')
+			props.history.push('/')
 		},
 		onError(err){
 			if(err.graphQLErrors.length > 0)
