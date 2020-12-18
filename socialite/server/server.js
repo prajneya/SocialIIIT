@@ -9,6 +9,7 @@ const postFullTextSearch = require('./search.js')
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    playground: false,
     context: ({ req }) => ({ req })
 });
 
