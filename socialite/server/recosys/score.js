@@ -36,7 +36,7 @@ async function friendlist(id, flag)
 		marked[mapping[curdets.send[i]]] = 1;
 
 	for(i = 0; i < curdets.request.length; ++i)
-		marked[mapping[curdets.send[i]]] = 1;
+		marked[mapping[curdets.request[i]]] = 1;
 
 	l = -1;
 	score = []
@@ -49,6 +49,8 @@ async function friendlist(id, flag)
 			continue;
 
 		info =  await data.getUserInfo(users[i]._id);
+		if(flag == 0 && !info.verified)
+			continue
 		email = info.email
 		username = info.username
 		if(cur.cluster_no != -1 && cur.cluster_no == users[i].cluster_no)
