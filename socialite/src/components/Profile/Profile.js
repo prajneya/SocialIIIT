@@ -167,7 +167,18 @@ function Profile(props) {
 
     const [ uploadProfilePic ] = useMutation(UPLOAD_PROFILE_PICTURE, {
         update(_, { data: profilePicUpdate }){
-            window.location.reload(false);
+            Swal.fire({title: "Our database is jealous of your beauty.",
+                  html: "Profile Picture updated",
+                  footer: "Checkout your timeline.",
+                  imageUrl: '/img/cat.png',
+                  customClass: {
+                    title: 'text-success error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -191,7 +202,6 @@ function Profile(props) {
         if(photo===""){
             return;
         }
-        console.log(photo)
         uploadProfilePic();
     }
 
@@ -282,7 +292,7 @@ function Profile(props) {
                             singleImage={true}
                             accept="Accept"
                           />
-                          <button type="button" onClick={uploadImage}>Submit</button>
+                          <button className="btn-submit" type="button" onClick={uploadImage}>Update Profile Picture</button>
                     </form>
                     <form> 
                         <div className="row">
