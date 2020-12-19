@@ -85,11 +85,13 @@ function Recommend(props){
     }
 
     async function send_frenrequest(fren_id){
+	document.getElementById("freq").disabled = true
         await setfren_id(fren_id);
         frenrequest();
     }
 
     async function send_meetrequest(fren_id){
+	document.getElementById("mreq").disabled = true
         await setfren_id(fren_id);
         meetrequest();
     }
@@ -241,7 +243,7 @@ function Recommend(props){
                                               <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
                                       <br />
                                     </div>
-                                    <div className="request-buttons"><button className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>SEND MEET REQUEST</button> : ""}</div>
+                                    <div className="request-buttons"><button id="freq" className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>SEND MEET REQUEST</button> : ""}</div>
                                     </div>
                                     <div className="image-container">
                                       {recommendation.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={recommendation.imgUrl} alt="display"/> }

@@ -64,21 +64,25 @@ function Notifications(props){
     });
 
     async function do_frenaccept(fren_id){
+	document.getElementById("facc").disabled = true
         await setfren_id(fren_id);
         frenaccept();
     }
 
     async function do_frenreject(fren_id){
+	document.getElementById("frej").disabled = true
         await setfren_id(fren_id);
         frenreject();
     }
 
     async function do_meetaccept(fren_id){
+	document.getElementById("macc").disabled = true
         await setfren_id(fren_id);
         meetaccept();
     }
 
     async function do_meetreject(fren_id){
+	document.getElementById("mrej").disabled = true
         await setfren_id(fren_id);
         meetreject();
     }
@@ -113,14 +117,14 @@ function Notifications(props){
                                             <div className="w-100 text-right d-inline-block">
                                             {notification['type'] === "freq" ? 
                                             <div>
-                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_frenaccept(notification['userId'])}>ACCEPT FRIEND REQUEST</button>
-                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_frenreject(notification['userId'])}>REJECT FRIEND REQUEST</button>
+                                                <button id="facc" className="rounded ml-1 my-2 interact" onClick={() => do_frenaccept(notification['userId'])}>ACCEPT FRIEND REQUEST</button>
+                                                <button id="frej" className="rounded ml-1 my-2 interact" onClick={() => do_frenreject(notification['userId'])}>REJECT FRIEND REQUEST</button>
                                             </div>
                                             : ""}
                                             {notification['type'] === "mreq" ?
                                             <div>
-                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_meetaccept(notification['userId'])}>ACCEPT MEET REQUEST</button>
-                                                <button className="rounded ml-1 my-2 interact" onClick={() => do_meetreject(notification['userId'])}>REJECT MEET REQUEST</button>
+                                                <button id="macc" className="rounded ml-1 my-2 interact" onClick={() => do_meetaccept(notification['userId'])}>ACCEPT MEET REQUEST</button>
+                                                <button id="mrej" className="rounded ml-1 my-2 interact" onClick={() => do_meetreject(notification['userId'])}>REJECT MEET REQUEST</button>
                                             </div>
                                             : ""}
                                             {notification['type'] === "facc" ?
