@@ -294,7 +294,7 @@ function Profile(props) {
                             </div>
                             <div className="col-md-6">
                                 <label>USERNAME</label>
-                                <input defaultValue={users.username}/>
+                                <input value={user.username} disabled/>
                                 <label>GITHUB LINK</label>
                                 <input defaultValue={users.ghlink} id="ghlink"/>
                             </div>
@@ -303,7 +303,7 @@ function Profile(props) {
                         <textarea defaultValue={users.bio} id="about"/>
                         <div className="row">
                             <div className="col-md-6">
-                                <label>HOUSE</label>
+                                <label>HOUSE(Currently Saved: {profiles ? profiles.house.val : ""})</label>
                                 <Select
                                       styles={customStyles}
                                       closeMenuOnSelect={false}
@@ -320,7 +320,7 @@ function Profile(props) {
                                               },
                                             })}
                                     />
-                                <label>HOSTEL</label>
+                                <label>HOSTEL(Currently Saved: {profiles ? profiles.hosname.val : ""})</label>
                                 <Select
                                       styles={customStyles}
                                       closeMenuOnSelect={false}
@@ -339,7 +339,7 @@ function Profile(props) {
                                     />
                             </div>
                             <div className="col-md-6">
-                                <label>CLUBS</label>
+                                <label>CLUBS(Currently Saved: {profiles ? profiles.clubs.val.join(', ') : ""})</label>
                                 <Select
                                       styles={customStyles}
                                       closeMenuOnSelect={false}
@@ -357,7 +357,7 @@ function Profile(props) {
                                               },
                                             })}
                                     />
-                                <label>SPORTS</label>
+                                <label>SPORTS(Currently Saved: {profiles ? profiles.sports.val.join(', ') : ""})</label>
                                 <Select
                                       styles={customStyles}
                                       closeMenuOnSelect={false}
@@ -377,8 +377,8 @@ function Profile(props) {
                                     />                            
                             </div>
                         </div>
-                        <label>ROOM NUMBER</label>
-                        <input type="number" id="roomNo" defaultValue={profiles.hosnum}/>
+                        <label>ROOM NUMBER(Currently Saved: {profiles ? profiles.hosnum.val : ""})</label>
+                        <input type="number" id="roomNo"/>
                         <hr/>
                         <label style={{color: 'yellow'}}>PROJECT 1</label> <br/>
                         <label>PROJECT TITLE</label>
@@ -498,206 +498,6 @@ const FETCH_PROFILE = gql`
 			flag
 		}
 		clubs {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
-			val 
-			flag
-		}
-		hosnum {
 			val 
 			flag
 		}
