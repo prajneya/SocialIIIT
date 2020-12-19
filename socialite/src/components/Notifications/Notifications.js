@@ -89,6 +89,10 @@ function Notifications(props){
 
     var notifications = data ? data.getNotif : "";
 
+    const redirectUserCallback = (username) => {
+      props.history.push('/profile/'+username)
+    }
+
     return (
             <>
             <Sidebar/>
@@ -104,7 +108,7 @@ function Notifications(props){
                         <div className="row">
                             {notifications && notifications.map(notification => (
                                 <div className="col-lg-12">
-                                    <div className="notifications">
+                                    <div className="notifications" onClick={() => redirectUserCallback(notification['username'])}>
                                         <div className="notification-content">
                                             <div className="text-left d-inline-block">
                                             <strong>Username: {notification['username']}</strong>
