@@ -129,7 +129,7 @@ function Recommend(props){
         }
         else if(direction==='left'){
             Swal.fire({
-              title: 'Send Meet Request?',
+              title: 'Meet Up?',
               text: 'You are sending a Meet Request to ' + recommend_name,
               icon: 'warning',
               showCancelButton: true,
@@ -193,7 +193,7 @@ function Recommend(props){
             <Sidebar/>
 
             <div className="coach-mark-overlay" onClick={removeCoachOverlay} id="coachOverlay">
-              <div className="left-arrow"><i><FontAwesomeIcon icon={faHandPointLeft} /></i> <div className="coach-text">Swipe Left to send Meet Request</div> </div>
+              <div className="left-arrow"><i><FontAwesomeIcon icon={faHandPointLeft} /></i> <div className="coach-text">Swipe Left to Meet Up</div> </div>
               <div className="right-arrow"><i><FontAwesomeIcon icon={faHandPointRight} /></i> <div className="coach-text">Swipe Right to send Friend Request</div> </div>
               <div className="up-arrow"><i><FontAwesomeIcon icon={faHandPointUp} /></i> <div className="coach-text">Swipe Up to see other people</div> </div>
               <div className="down-arrow"><i><FontAwesomeIcon icon={faHandPointDown} /></i> <div className="coach-text">Swipe Down to check out user profile</div> </div>
@@ -243,7 +243,7 @@ function Recommend(props){
                                               <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
                                       <br />
                                     </div>
-                                    <div className="request-buttons"><button id="freq" className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>SEND MEET REQUEST</button> : ""}</div>
+                                    <div className="request-buttons"><button id="freq" className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>MEET UP</button> : ""}</div>
                                     </div>
                                     <div className="image-container">
                                       {recommendation.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={recommendation.imgUrl} alt="display"/> }
