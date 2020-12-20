@@ -117,7 +117,7 @@ function CreatePost(props){
             <main class="s-layout__content">
                 <div className="container-fluid">
                     <div className="create-post-container">
-                        <div className="create-post-header">Create Post</div>
+                        <div className="create-post-header">Ask Query</div>
                         <form>
                             <div className="title">
                                 <label for="title">Post title</label>

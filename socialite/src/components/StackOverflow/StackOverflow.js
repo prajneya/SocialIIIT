@@ -94,7 +94,7 @@ function StackOverflow(props){
                     </div>
                     <div className="col-xl-3 right-sidebar desktop-only">
                       <div className="text-center">
-                        <button className="my-1 create-post w-100 py-3" onClick={createPost}>CREATE POST + </button>
+                        <button className="my-1 create-post w-100 py-3" onClick={createPost}>ASK QUERY + </button>
                       </div>
                       <div className="my-3 p-2 top-users-post">
                         <div className="card-header">
@@ -104,7 +104,7 @@ function StackOverflow(props){
                           <ul>
                           {people_list && people_list.map(person => ( 
                             <li className="mt-4">{person['username']}
-                              <div className="no-post float-right">{person['times_answered']} posts</div>
+                              <div className="no-post float-right">{person['times_answered']} answers</div>
                             </li>
                             ))}
                           </ul>
