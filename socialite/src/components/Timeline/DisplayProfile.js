@@ -81,31 +81,37 @@ const [meetreject] = useMutation(MEET_REJECT, {
 })
 
 async function send_frenrequest(fren_id){
+	document.getElementById("freq").disabled = true
   await setfren_id(fren_id);
   frenrequest();
 }
 
 async function send_meetrequest(fren_id){
+	document.getElementById("mreq").disabled = true
   await setfren_id(fren_id);
   meetrequest();
 }
 
 async function do_frenaccept(fren_id){
+	document.getElementById("facc").disabled = true
   await setfren_id(fren_id);
   frenaccept();
 }
 
 async function do_frenreject(fren_id){
+	document.getElementById("frej").disabled = true
   await setfren_id(fren_id);
   frenreject();
 }
 
 async function do_meetaccept(fren_id){
+	document.getElementById("macc").disabled = true
   await setfren_id(fren_id);
   meetaccept();
 }
 
 async function do_meetreject(fren_id){
+	document.getElementById("mrej").disabled = true
   await setfren_id(fren_id);
   meetreject();
 }
@@ -180,7 +186,7 @@ const username = props.match.params.username;
                               </div>
                               <div className="text-center">
                                 {profile_data.friend === 0 ? 
-                                  <button className="rounded ml-2 my-2" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
+                                  <button id="freq" className="rounded ml-2 my-2" onClick={() => send_frenrequest(timeline_data.id)}>SEND A FRIEND REQUEST</button>
                                   : ""}
                                   {profile_data.friend === 1 ? 
                                   <div>You're Friends!</div>
@@ -190,21 +196,21 @@ const username = props.match.params.username;
                                   : ""}
                                   {profile_data.friend === 3 ?
                                   <div>
-                                  <button className="rounded ml-2 my-2" onClick={() => do_frenaccept(timeline_data.id)}>ACCEPT FRIEND REQUEST</button>
-                                  <button className="rounded ml-2 my-2" onClick={() => do_frenreject(timeline_data.id)}>REJECT FRIEND REQUEST</button>
+                                  <button id="facc" className="rounded ml-2 my-2" onClick={() => do_frenaccept(timeline_data.id)}>ACCEPT FRIEND REQUEST</button>
+                                  <button id="frej" className="rounded ml-2 my-2" onClick={() => do_frenreject(timeline_data.id)}>REJECT FRIEND REQUEST</button>
                                   </div>
                                   : ""}
 
                                   {profile_data.meet === 0 ? 
-                                  <button className="rounded ml-2 my-2" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
+                                  <button id="mreq" className="rounded ml-2 my-2" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
                                   : ""}
                                   {profile_data.meet === 2 ? 
                                   <div>Pending Meet Request!</div>
                                   : ""}
                                   {profile_data.meet === 3 ? 
                                   <div>
-                                  <button className="rounded ml-2 my-2" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET REQUEST</button>
-                                  <button className="rounded ml-2 my-2" onClick={() => do_meetreject(timeline_data.id)}>REJECT MEET REQUEST</button>
+                                  <button id="macc" className="rounded ml-2 my-2" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET REQUEST</button>
+                                  <button id="mrej" className="rounded ml-2 my-2" onClick={() => do_meetreject(timeline_data.id)}>REJECT MEET REQUEST</button>
                                   </div>
                                   : ""}
                               </div>

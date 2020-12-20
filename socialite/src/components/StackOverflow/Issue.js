@@ -257,6 +257,7 @@ function Issue(props){
   })
 
   function addAnswerCallback(){
+	document.getElementById("ansadd").disabled = true
     addAnswer();
   }
 
@@ -404,7 +405,7 @@ function Issue(props){
                       } }
                   />
                     <div className="answer-question text-right my-4">
-                      <button className="btn btn-primary" onClick={addAnswerCallback}>Add Answer</button>
+                      <button id="ansadd" className="btn btn-primary" onClick={addAnswerCallback}>Add Answer</button>
                     </div>
                   </div>
                 </div>

@@ -10,6 +10,11 @@
 	width: 100%;
 }
 
+.notifications:hover{
+	cursor: pointer;
+	background: #18242b;
+}
+
 .interact{
 	background-color: rgb(1, 1, 1);
 	color: white;

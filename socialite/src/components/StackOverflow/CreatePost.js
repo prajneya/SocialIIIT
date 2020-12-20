@@ -69,6 +69,7 @@ function CreatePost(props){
     })
 
     async function createPostCallback(){
+	document.getElementById("submit").disabled = true
         await setTitle(document.getElementById("question_title").value);
 
         console.log(tags)
@@ -159,7 +160,7 @@ function CreatePost(props){
                                     />
                                 </div>
                             </div>
-                            <button className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
+                            <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
                         </form>
                     </div>
                 </div>
