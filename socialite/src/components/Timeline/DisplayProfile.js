@@ -197,20 +197,20 @@ const username = props.match.params.username;
                                   {profile_data.friend === 3 ?
                                   <div>
                                   <button id="facc" className="rounded ml-2 my-2" onClick={() => do_frenaccept(timeline_data.id)}>ACCEPT FRIEND REQUEST</button>
-                                  <button id="frej" className="rounded ml-2 my-2" onClick={() => do_frenreject(timeline_data.id)}>REJECT FRIEND REQUEST</button>
+                                  <button id="frej" className="rounded ml-2 my-2" onClick={() => do_frenreject(timeline_data.id)}>IGNORE FRIEND REQUEST</button>
                                   </div>
                                   : ""}
 
                                   {profile_data.meet === 0 ? 
-                                  <button id="mreq" className="rounded ml-2 my-2" onClick={() => send_meetrequest(timeline_data.id)}>SEND A MEET REQUEST</button>
+                                  <button id="mreq" className="rounded ml-2 my-2" onClick={() => send_meetrequest(timeline_data.id)}>MEET UP</button>
                                   : ""}
                                   {profile_data.meet === 2 ? 
                                   <div>Pending Meet Request!</div>
                                   : ""}
                                   {profile_data.meet === 3 ? 
                                   <div>
-                                  <button id="macc" className="rounded ml-2 my-2" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET REQUEST</button>
-                                  <button id="mrej" className="rounded ml-2 my-2" onClick={() => do_meetreject(timeline_data.id)}>REJECT MEET REQUEST</button>
+                                  <button id="macc" className="rounded ml-2 my-2" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET UP</button>
+                                  <button id="mrej" className="rounded ml-2 my-2" onClick={() => do_meetreject(timeline_data.id)}>IGNORE MEET UP</button>
                                   </div>
                                   : ""}
                               </div>
