@@ -210,6 +210,7 @@ module.exports = gql`
         updateProfile(name: String, fblink: String, ghlink: String, about: String, house: String, clubs: JSONObject, hostel: String, sports: JSONObject, pOneTitle: String, pOneGhLink: String, pOneELink: String, pOneDesc: String, pTwoTitle: String, pTwoGhLink: String, pTwoELink: String, pTwoDesc: String, pThreeTitle: String, pThreeGhLink: String, pThreeELink: String, pThreeDesc: String, roomNo: Int): String
         resend(data: ResendInput!): Int!
         passChange(token: String!, password: String!, confirmPassword: String!): Int
+	dbFix(random: String): String
     } 
 `;
 
