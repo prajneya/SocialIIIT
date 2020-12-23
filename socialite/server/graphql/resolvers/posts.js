@@ -14,6 +14,14 @@ module.exports = {
                 throw new Error(err);
             }
         },
+        async getBlogs(){
+            try{
+                const blogs = await Blog.find().sort({ createdAt: -1 });
+                return blogs;
+            } catch(err){
+                throw new Error(err);
+            }
+        },
         async getUserBlogs(_, { email }){
             try{
                 const blogs = await Blog.find({email}).sort({ createdAt: -1 });

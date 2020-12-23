@@ -177,8 +177,9 @@ module.exports = gql`
         getUserBlogs(email: String): [Blog]
         getUserImage(id: ID): String
         getBlog(blogId: ID!): Blog
+        getBlogs: [Blog]
         forgotPass(email: String!): String
-	friendList(id: String!): [Info]!
+	friendList(id: ID!): [Info]!
     }
     type Mutation{
         insertTag(name: String!): Tag!

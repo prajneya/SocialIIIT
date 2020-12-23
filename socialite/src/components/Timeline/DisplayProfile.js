@@ -154,6 +154,14 @@ const username = props.match.params.username;
     props.history.push('/blog/'+blogId);
   }
 
+  const { data: people } = useQuery(FETCH_PEOPLE_QUERY, {
+    variables: {
+      id: timeline_data.id
+    }
+  });
+
+  var people_list = people ? people.friendList : "";
+
   if(!timeline_data){
     return (<>USER NOT FOUND</>)
   }
@@ -409,6 +417,20 @@ const username = props.match.params.username;
                           </div>
                         </div>
                       </div>
+                      <div className="my-3 p-2 top-users-post">
+                        <div className="card-header">
+                          {username}'s FRIENDS
+                        </div>
+                        <div className="top-users m-4">
+                          {people_list.length > 0 ? "" : <div className="text-center">{username} does not have any friends so far.</div> }
+                          <ul>
+                            {people_list && people_list.map(person => ( 
+                            <li className="mt-4"><a href={"/profile/"+person['username']}>{person['username']}</a>
+                            </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </div>
                       </div>
                     </div>
                   </div>
@@ -483,5 +505,13 @@ const FETCH_BLOGS = gql`
         }
     }
 `;
+
+const FETCH_PEOPLE_QUERY = gql`
+    query($id: ID!){
+        friendList(id: $id){
+          username
+        }
+    }
+`
 
 export default Timeline;
