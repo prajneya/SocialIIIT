@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { faHome, faAddressCard, faComments, faUserGraduate, faStreetView, faBars, faCogs, faSignOutAlt, faMap } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faAddressCard, faComments, faUserGraduate, faStreetView, faBars, faCogs, faSignOutAlt, faMap, faNewspaper } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import './Sidebar.css'
@@ -51,6 +51,11 @@ function Sidebar(props) {
 			        <li>
 			           <a className="s-sidebar__nav-link" href="/marauder">
 			              <i><FontAwesomeIcon icon={faMap} /></i><em>Marauders</em>
+			           </a>
+			        </li>
+			        <li>
+			           <a className="s-sidebar__nav-link" href="/blog">
+			              <i><FontAwesomeIcon icon={faNewspaper} /></i><em>Blogs</em>
 			           </a>
 			        </li>
 			        <li>

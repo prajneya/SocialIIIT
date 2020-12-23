@@ -36,3 +36,35 @@ blockquote:before {
 blockquote p {
   display: inline;
 }
+
+.navbar-brand{
+  font-size: 2.5rem !important;
+  padding: 2rem;
+  font-weight: bolder;
+}
+
+.hero-header{
+  font-size: 3rem;
+  font-weight: bolder;
+  color: antiquewhite;
+}
+
+.hero-description{
+  width: 450px;
+  font-size: 1.5rem;
+}
+
+.fixed-scroller{
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.fixed-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.fixed-scroller {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}

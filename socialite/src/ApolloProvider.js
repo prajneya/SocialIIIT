@@ -25,6 +25,7 @@ import SearchResult from './components/StackOverflow/SearchResult';
 
 import CreateBlog from './components/Blog/CreateBlog';
 import Blog from './components/Blog/Blog';
+import LandingBlog from './components/Blog/LandingBlog';
 
 import Timeline from './components/Timeline/Timeline';
 import DisplayProfile from './components/Timeline/DisplayProfile';
@@ -81,6 +82,7 @@ export default (
             <AuthRoute exact path="/marauder" component={FriendSearch} />
             <AuthRoute exact path="/marauder/search" component={UserSearchResult} />
             <Route exact path="/blog/:blogId" component={Blog} />
+            <Route exact path="/blog" component={LandingBlog} />
             <LoginRoute exact path="/checkMail" component={CheckMail} />
             <LoginRoute exact path="/verify/:token" component={Verify} />
             <Route path="" component={NotFound} />
