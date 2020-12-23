@@ -1,4 +1,6 @@
 import React, { useContext } from 'react';
+import { useQuery } from '@apollo/react-hooks';
+import gql from 'graphql-tag';
 import { faHome, faAddressCard, faComments, faUserGraduate, faStreetView, faBars, faCogs, faSignOutAlt, faMap } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -8,11 +10,20 @@ import { AuthContext } from '../context/auth'
 
 function Sidebar(props) {
 
-	const { logout } = useContext(AuthContext)
+	const { user, logout } = useContext(AuthContext)
+	var user_id = user.id
 
 	function logUserOut(){
 		logout();
 	}
+
+	const { data } = useQuery(FETCH_NOTIFICATIONS_QUERY, {
+		variables: {
+			user_id
+		}
+	});
+	var notifications = data ? data.getNotif : "";
+	console.log(notifications.length, "bye")
 
 	return (
 		<>	
@@ -71,5 +82,12 @@ function Sidebar(props) {
 	)
 }
 
+const FETCH_NOTIFICATIONS_QUERY = gql`
+    query($user_id: String!){
+        getNotif(id: $user_id){
+            userId email match type username
+        }
+    }
+`
 
 export default Sidebar;
