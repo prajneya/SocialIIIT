@@ -17,7 +17,8 @@ module.exports = async function userPartialTextSearch(query) {
 		            '$options': 'i'
 		          }
 		        }
-		      ]
+		      ],
+		      '$and': [{'verified': true}]
 		    }
 		}
 		];

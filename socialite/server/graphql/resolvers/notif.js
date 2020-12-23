@@ -26,6 +26,7 @@ module.exports = {
 					throw new Error('No new notification');
 				}
 				ret.sort((a, b) => (a.time < b.time) ? 1 : -1);
+				console.log(ret.length, "bey")
 				return	ret;
 			} 
 			catch (err)
