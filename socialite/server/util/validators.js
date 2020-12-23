@@ -15,13 +15,15 @@ module.exports.validateRegisterInput = (
 		}
 		else if(!email.endsWith("iiit.ac.in"))
 			errors.email = 'Only IIIT emails allowed.'
+		else if(email.endsWith("lists.iiit.ac.in"))
+			errors.email = 'Mailing lists not allowed.'
 	}
 
-	usernameRegex= /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+	usernameRegex= /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/
 	if(username.length > 14)
 		errors.username = 'Username must be 14 characters or less'
 	else if(username.match(usernameRegex))
-		errors.username = 'Username must not contain any special characters'
+		errors.username = 'Username must not contain any special characters except _'
 	var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
 	if (password === '') {
     	errors.password = 'Password must not be empty';

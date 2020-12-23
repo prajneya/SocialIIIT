@@ -39,7 +39,6 @@ function CreatePost(props){
 
     const [ createPost ] = useMutation(CREATE_POST, {
         update(_, { data: createPostData }){
-            window.location.reload(false)
             props.history.push('/querify')
         },
         onError(err){
