@@ -38,9 +38,9 @@ function LandingBlog(props){
                       {blog_data && blog_data.map(blog => ( 
                           <div className="project-container mt-3 pb-5 hover-pointer" onClick={() => showBlog(blog['id'])}>
                               <div className="project-header">
-                                <div className="float-left mt-5 ml-5"><i><FontAwesomeIcon icon={faNewspaper} size="2x"/></i></div>
+                                <div className="float-left mt-5 mx-5"><i><FontAwesomeIcon icon={faNewspaper} size="2x"/></i></div>
                               </div>
-                              <div className="project-title ml-5">
+                              <div className="project-title mx-5">
                                 {blog['title']}
                               </div>
                               <div className="tags d-inline-block mx-5 mt-5">
