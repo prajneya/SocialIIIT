@@ -461,6 +461,131 @@ module.exports = {
             }
         },
 
+        async deletePost(_, { postId }, context){
+            const user = checkAuth(context);
+            const mongo = require('mongodb');
+            var client = mongo.MongoClient;
+            var url = "mongodb+srv://SRDewan:abcd1234@database.vvxaz.mongodb.net/Data?retryWrites=true&w=majority";
+        
+            const post = await Post.findById(postId);
+        
+            if(post){
+                client.connect(url, function(err, db) {
+                    if (err) throw err;
+                    var dbo = db.db("Data");
+                    var myquery = {"_id": new mongo.ObjectId(postId)};
+        
+                    for(var i = 0; i < Object.keys(post.tags).length; i++)
+                    {
+                        var new1 = {"name": Object.keys(post.tags)[i]};
+                        var new2 = { $inc: { "weekly": -1, "lifetime": -1 }};
+        
+                        dbo.collection("Tags").updateOne(new1, new2, function(err, obj){
+                            if (err) throw err;
+                            console.log("Updated Tag");       
+                        });
+                    }
+        
+                    dbo.collection("posts").deleteOne(myquery, function(err, obj){
+                        if (err) throw err;
+                        console.log("Deleted Post");       
+                    });
+                    dbo.collection("Queue").deleteOne(myquery, function(err, obj){
+                        if (err) throw err;
+                        console.log("Deleted Queue");       
+                    });
+        
+                    db.close();
+                });
+        
+                return "The query has been deleted";
+            }
+            else
+            {
+                throw new Error('Post not Found');
+            }
+                
+        },
+        
+        // async deleteAnswer(_, { postId, answerId }, context){
+        //     const user = checkAuth(context);
+        //     const mongo = require('mongodb');
+        //     var client = mongo.MongoClient;
+        //     var url = "mongodb+srv://SRDewan:abcd1234@database.vvxaz.mongodb.net/Data?retryWrites=true&w=majority";
+        
+        //     const post = await Post.findById(postId);
+        
+        //     if(post){
+        //         var found = 0;
+        //         console.log(answerId);
+        //         console.log(post.answers.length)
+        //         for(var i = 0; i < post.answers.length; i++)
+        //         {
+        //             console.log(post.answers[i]["_id"])
+        //             if(post.answers[i]["_id"] == answerId)
+        //             {
+        //                 found = 1;
+        //             }
+        
+        //             if(found)
+        //             {
+        //                 console.log("Found");
+        //                 const a_email = post.answers[i]["email"];
+        
+        //                 for(var j = 0; j < Object.keys(post.tags).length; j++)
+        //                 {
+        //                     var tagname = Object.keys(post.tags)[i];
+        
+        //                     var new1 = {"email": a_email};
+        //                     var new2 = { $inc: { skills[j]: -1}};       
+        //                 }
+        
+        //                 post.answers.splice(i, 1);
+        //                 post.save();
+        //                 break;
+        //             }
+        //         }
+        
+        //         return "The answer has been deleted";
+        //     }
+        //     else
+        //     {
+        //         throw new Error('Answer not Found');
+        //     }
+                
+        // },
+        
+        async deleteBlog(_, { blogId }, context){
+            const user = checkAuth(context);
+            const mongo = require('mongodb');
+            var client = mongo.MongoClient;
+            var url = "mongodb+srv://SRDewan:abcd1234@database.vvxaz.mongodb.net/Data?retryWrites=true&w=majority";
+        
+            const blog = await Blog.findById(blogId);
+        
+            if(blog){
+                client.connect(url, function(err, db) {
+                    if (err) throw err;
+                    var dbo = db.db("Data");
+                    var myquery = {"_id": new mongo.ObjectId(blogId)};
+        
+                    dbo.collection("Blog").deleteOne(myquery, function(err, obj){
+                        if (err) throw err;
+                        console.log("Deleted Blog");       
+                    });
+                    
+                    db.close();
+                });
+        
+                return "The blog has been deleted";
+            }
+            else
+            {
+                throw new Error('Blog not Found');
+            }
+                
+        },
+
         async addAnswer(_, { postId, body }, context){
             const user = checkAuth(context);
 
