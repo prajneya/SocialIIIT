@@ -30,7 +30,7 @@ function Blog(props){
                           <div className="issue-author mt-5">
                               Authored by {blog_data['email']}
                           </div>
-                          <div className="blog-title">
+                          <div className="issue-question">
                             {blog_data['title']}
                           </div>
                           <div className="issue-description mt-5">
