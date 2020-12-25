@@ -468,8 +468,8 @@ module.exports = {
             var url = "mongodb+srv://SRDewan:abcd1234@database.vvxaz.mongodb.net/Data?retryWrites=true&w=majority";
         
             const post = await Post.findById(postId);
-        
-            if(post){
+            
+            if(post && user.email == post.email && !post.answers.length){
                 client.connect(url, function(err, db) {
                     if (err) throw err;
                     var dbo = db.db("Data");
@@ -563,7 +563,7 @@ module.exports = {
         
             const blog = await Blog.findById(blogId);
         
-            if(blog){
+            if(blog && user.email == blog.email){
                 client.connect(url, function(err, db) {
                     if (err) throw err;
                     var dbo = db.db("Data");
