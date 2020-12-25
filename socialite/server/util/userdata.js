@@ -66,13 +66,18 @@ module.exports = {
 	removeNotif: async function (ida, idb, type){
 		await UserDets.update( { _id: ida }, { $pull: { notif: { user: idb, ntype: type }} } ); 
 	},
-	updateAccRejMeet: async function (ida, idb, flag = 1){
-		await UserDets.update( { _id: ida }, { $pull: { requestmeet: idb } } ); // this is to remove the send request from user of the friend id
+	updateAccRejMeet: async function (ida, idb, meet, flag = 1){
+		await UserDets.update( { _id: ida }, { $pull: { requestmeet: meet } } ); // this is to remove the send request from user of the friend id
+		await UserDets.update( { _id: idb }, { $pull: { sendmeet: meet } } ); // this is to remove the request from friend of the user
+
 		if(flag)
-			await UserDets.update( { _id: idb }, { $pull: { sendmeet: ida } } ); // this is to remove the request from friend of the user
+		{
+			await UserDets.update( { _id: ida }, { $push: { meets: meet } } ); 
+			await UserDets.update( { _id: idb }, { $push: { meets: meet } } );
+		}
 	},
-	updateRequestMeet: async function (ida, idb){
-		await UserDets.update( { _id: ida }, { $push: { sendmeet: idb } } ); 
-		await UserDets.update( { _id: idb }, { $push: { requestmeet: ida } } ); 
+	updateRequestMeet: async function (ida, idb, meet){
+		await UserDets.update( { _id: ida }, { $push: { sendmeet: meet } } ); 
+		await UserDets.update( { _id: idb }, { $push: { requestmeet: meet } } ); 
 	}
 }

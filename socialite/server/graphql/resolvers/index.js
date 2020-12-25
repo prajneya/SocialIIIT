@@ -24,7 +24,9 @@ module.exports = {
 		...searchResolvers.search,
 		...forgotPassResolvers.forgotPass,
 		...friendListResolvers.friendList,
-		...userSearchResolvers.userSearch
+		...userSearchResolvers.userSearch,
+		...meetrequestResolvers.meetDisp,
+		...meetrequestResolvers.allMeets
 	},
 	Mutation: {
 		...userResolvers.Mutation,
@@ -35,6 +37,7 @@ module.exports = {
 		...requestResolvers.frenreject,
 		...subResolvers.subsave,
 		...meetrequestResolvers.meetrequest,
+		...meetrequestResolvers.meetEdit,
 		...meetrequestResolvers.meetaccept,
 		...meetrequestResolvers.meetreject,
 		...editResolvers.edit,
