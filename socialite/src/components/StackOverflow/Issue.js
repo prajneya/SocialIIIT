@@ -554,7 +554,7 @@ const DOWNVOTE_ANSWER_CHECK_QUERY = gql`
 `;
 
 const DELETE_POST = gql`
-  mutation addAnswer($postId: ID!) {
+  mutation deletePost($postId: ID!) {
     deletePost(postId: $postId)
   }
 `;

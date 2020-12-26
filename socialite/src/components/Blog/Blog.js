@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Parser from 'html-react-parser';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Swal from 'sweetalert2';
+import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
+
+import { AuthContext } from '../../context/auth'
 
 import "./Blog.css"
 
 function Blog(props){
+
+  const { user } = useContext(AuthContext)
+  const email = user.email;
 
   const blogId = props.match.params.blogId;
 
@@ -16,6 +24,64 @@ function Blog(props){
         }
   });
   var blog_data = blogData ? blogData.getBlog : "";
+
+  const [deleteBlog] = useMutation(DELETE_BLOG, {
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Where did it go?",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while deleting the blog.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
+    },
+    variables: {
+      blogId
+    }
+  })
+
+  function showDropDown(){
+    if(document.getElementById("dropdown_menu_blog").style.display === "block"){
+      document.getElementById("dropdown_menu_blog").style.display = "none";
+    }
+    else{
+      document.getElementById("dropdown_menu_blog").style.display = "block";
+    }
+  }
+
+  function deleteBlogCallback(){
+    Swal.fire({
+              title: 'Delete Blog?',
+              text: 'You are about to delete this blog. This cannot be undone',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, go ahead!',
+              cancelButtonText: 'No, go back'
+            }).then((result) => {
+              if (result.value) {
+                deleteBlog();
+                Swal.fire(
+                  'Sad to see this go.',
+                  'Deleting Post...',
+                  'error'
+                )
+              // For more information about handling dismissals please visit
+              // https://sweetalert2.github.io/#handling-dismissals
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                  'Phew! That was close.',
+                  'Did not delete the blog. :)',
+                  'success'
+                )
+              }
+            })
+  }
 
 	return (
           <>
@@ -32,6 +98,13 @@ function Blog(props){
                           </div>
                           <div className="issue-question">
                             {blog_data['title']}
+                            {blog_data['email'] === email ?
+                            <div className="float-right">
+                              <i className="mx-2 hover-pointer float-right" onClick={showDropDown}><FontAwesomeIcon icon={faEllipsisV} size="xs"/></i>
+                              <div id="dropdown_menu_blog">
+                                <div className="dropdown-menu-item" onClick={deleteBlogCallback}>Delete Blog</div>
+                              </div>
+                            </div> : "" }
                           </div>
                           <div className="issue-description mt-5">
                             {blog_data ? Parser(blog_data['body']) : ""}
@@ -74,6 +147,12 @@ const FETCH_BLOG_QUERY = gql`
             id title body email createdAt tags
         }
     }
+`;
+
+const DELETE_BLOG = gql`
+  mutation deleteBlog($blogId: ID!) {
+    deleteBlog(blogId: $blogId)
+  }
 `;
 
 export default Blog;
