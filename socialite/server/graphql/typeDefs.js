@@ -179,6 +179,7 @@ module.exports = gql`
     }
     type Query{
         getPosts: [Post]
+        getPostsFiltered(filter: String): [searchPost]
         getTopPosts: [Post]
         getPost(postId: ID!): Post
         getTopRated: [User]

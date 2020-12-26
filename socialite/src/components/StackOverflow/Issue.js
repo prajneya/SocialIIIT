@@ -281,13 +281,23 @@ function Issue(props){
     downvoteAnswer();
   }
 
+  var temp_answers_array = [];
+  const [answers_array, setAnswersArray] = useState([]);
+
   const { data: postData } = useQuery(FETCH_POST_QUERY, {
+        onCompleted(){
+          for(var answer in postData.getPost['answers']){
+            temp_answers_array.push(postData.getPost['answers'][answer]);
+          }
+          temp_answers_array.sort(function(a,b){return b['upvotes'].length - a['upvotes'].length});
+          setAnswersArray(temp_answers_array)
+        },
         variables: {
             postId
         }
   });
   var post_data = postData ? postData.getPost : "";
-  console.log(post_data)
+  
 
   const { data: upvoteQuestionData } = useQuery(UPVOTE_QUESTION_CHECK_QUERY, {
         variables: {
@@ -414,7 +424,7 @@ function Issue(props){
                 {/* ANSWER CONTAINER STARTS */}
 
                 <div className="issue-container my-3">
-                  {post_data['answers'] && post_data['answers'].map(answer => (
+                  {post_data['answers'] && answers_array.map(answer => (
                   <div className="answer-content">
                     <div className="issue-body">
                       <div className="issue-author mt-1">

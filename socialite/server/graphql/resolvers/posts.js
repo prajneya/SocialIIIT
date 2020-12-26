@@ -14,6 +14,38 @@ module.exports = {
                 throw new Error(err);
             }
         },
+        async getPostsFiltered(_, { filter }){
+            try{
+                var posts;
+                if(filter=="newest")
+                    posts = await Post.find().sort({ createdAt: -1 });
+                else if(filter=="active")
+                    posts = await Post.aggregate([
+                                                  {
+                                                    '$project': {
+                                                      'id': 1, 
+                                                      'title': 1, 
+                                                      'tags': 1, 
+                                                      'body': 1,
+                                                      'answers': 1, 
+                                                      'upvotes': 1, 
+                                                      'length': {
+                                                        '$size': '$upvotes'
+                                                      }
+                                                    }
+                                                  }, {
+                                                    '$sort': {
+                                                      'length': -1
+                                                    }
+                                                  }
+                                                ]);
+                else if(filter=="unanswered")
+                    posts = await Post.find({ answers: { $size: 0 } } ).sort({ createdAt: -1 });
+                return posts;
+            } catch(err){
+                throw new Error(err);
+            }
+        },
         async getBlogs(){
             try{
                 const blogs = await Blog.find().sort({ createdAt: -1 });
