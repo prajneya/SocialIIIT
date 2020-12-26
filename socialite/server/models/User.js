@@ -36,9 +36,10 @@ const UserDets = new mongoose.Schema({
 	clubs: [Number],
 	send: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 	request: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-	sendmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-	requestmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
-	notif: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, ntype: String, createdAt: {type: Date, default: Date.now} }]
+	sendmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meet' }],
+	requestmeet: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meet' }],
+	notif: [{ user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }, ntype: String, createdAt: {type: Date, default: Date.now} }],
+	meets: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Meet' }],
 });
 
 const UserSub = new mongoose.Schema({
@@ -72,4 +73,16 @@ const timelineSchema = new mongoose.Schema({
 	blogs: [String]
 })
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails'), Timeline: mongoose.model('timelineDetails', timelineSchema, 'timelineDetails')};
+const Meet = new mongoose.Schema({
+	people: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+	type: String,
+	date: String,
+	time: String,
+	duration: Number,
+	link: String,
+	msg: String,
+	place: String,
+	notif: Boolean
+});
+
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails'), Timeline: mongoose.model('timelineDetails', timelineSchema, 'timelineDetails'), Meet: mongoose.model('Meet', Meet, 'Meet')};

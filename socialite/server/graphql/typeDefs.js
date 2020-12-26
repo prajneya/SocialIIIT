@@ -137,6 +137,30 @@ module.exports = gql`
 	    username: String!
 	    time: String!
     }
+    input MeetInput{
+	    sender: String!
+	    sendee: String!
+	    type: String!
+	    date: String!
+	    time: String!
+	    duration: Int
+	    link: String
+	    msg: String
+	    place: String
+	    notif: Boolean!
+    }
+    type Meet{
+	    id: ID!
+	    people: [String]!
+	    type: String!
+	    date: String!
+	    time: String!
+	    duration: String!
+	    link: String!
+	    msg: String!
+	    place: String!
+	    notif: Boolean!
+    }
     type Notif{
         userId: String!
         match: Float!
@@ -181,6 +205,8 @@ module.exports = gql`
         getBlogs: [Blog]
         forgotPass(email: String!): String
 	friendList(id: ID!): [Info]!
+	meetDisp(user: String!, other: String!): Meet! 
+	allMeets(user: String!): [Meet]! 
     }
     type Mutation{
         insertTag(name: String!): Tag!
@@ -203,10 +229,11 @@ module.exports = gql`
         frenaccept(user_id: String!, fren_id: String!): ID
         frenreject(user_id: String!, fren_id: String!): ID
         frenrequest(user_id: String!, fren_id: String!): ID
-	    subsave(id: String!, sub: String!): ID
+	subsave(id: String!, sub: String!): ID
         meetaccept(user_id: String!, fren_id: String!): ID
         meetreject(user_id: String!, fren_id: String!): ID
-        meetrequest(user_id: String!, fren_id: String!): ID
+        meetrequest(data: MeetInput!): ID
+        meetEdit(data: MeetInput!): ID
         edit(input: ProfileEdits): ID
         uploadPhoto(photo: Upload!): String
         updateProfile(name: String, fblink: String, ghlink: String, about: String, house: String, clubs: JSONObject, hostel: String, sports: JSONObject, pOneTitle: String, pOneGhLink: String, pOneELink: String, pOneDesc: String, pTwoTitle: String, pTwoGhLink: String, pTwoELink: String, pTwoDesc: String, pThreeTitle: String, pThreeGhLink: String, pThreeELink: String, pThreeDesc: String, roomNo: Int): String
