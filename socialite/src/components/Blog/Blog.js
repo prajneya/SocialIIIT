@@ -26,6 +26,9 @@ function Blog(props){
   var blog_data = blogData ? blogData.getBlog : "";
 
   const [deleteBlog] = useMutation(DELETE_BLOG, {
+    update(){
+      props.history.push('/timeline')
+    },
     onError(err){
       if(err.graphQLErrors.length > 0)
         Swal.fire({title: "Where did it go?",

@@ -231,6 +231,9 @@ function Issue(props){
   })
 
   const [deletePost] = useMutation(DELETE_POST, {
+    update(){
+      props.history.push('/querify');
+    },
     onError(err){
       if(err.graphQLErrors.length > 0)
         Swal.fire({title: "Where did it go?",
