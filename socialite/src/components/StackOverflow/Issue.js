@@ -9,7 +9,7 @@ import Parser from 'html-react-parser';
 import moment from 'moment';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Swal from 'sweetalert2';
-import { faArrowUp, faExclamationCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faExclamationCircle, faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
 
 import { AuthContext } from '../../context/auth'
@@ -230,6 +230,30 @@ function Issue(props){
     }
   })
 
+  const [deletePost] = useMutation(DELETE_POST, {
+    update(){
+      props.history.push('/querify');
+    },
+    onError(err){
+      if(err.graphQLErrors.length > 0)
+        Swal.fire({title: "Where did it go?",
+              html: Object.values(err.graphQLErrors[0])[0],
+              footer: "The above error popped up while deleting the post.",
+              imageUrl: '/img/study.png',
+              customClass: {
+                title: 'text-danger error-message',
+                content: 'error-message text-white',
+                confirmButton: 'game-button bg-danger',
+                image: 'error-image-swal',
+              },
+              background: `rgba(0,0,0,0.9)`
+            });
+    },
+    variables: {
+      postId
+    }
+  })
+
   const [removeDownvoteAnswer] = useMutation(REMOVE_DOWNVOTE_ANSWER, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
@@ -257,7 +281,7 @@ function Issue(props){
   })
 
   function addAnswerCallback(){
-	document.getElementById("ansadd").disabled = true
+    document.getElementById("ansadd").disabled = true
     addAnswer();
   }
 
@@ -340,6 +364,43 @@ function Issue(props){
     answerBox.scrollIntoView();
   }
 
+  function showDropDown(){
+    if(document.getElementById("dropdown_menu").style.display === "block"){
+      document.getElementById("dropdown_menu").style.display = "none";
+    }
+    else{
+      document.getElementById("dropdown_menu").style.display = "block";
+    }
+  }
+
+  function deletePostCallback(){
+    Swal.fire({
+              title: 'Delete Post?',
+              text: 'You are about to delete this post. This cannot be undone',
+              icon: 'warning',
+              showCancelButton: true,
+              confirmButtonText: 'Yes, go ahead!',
+              cancelButtonText: 'No, go back'
+            }).then((result) => {
+              if (result.value) {
+                deletePost();
+                Swal.fire(
+                  'Sad to see this go.',
+                  'Deleting Post...',
+                  'error'
+                )
+              // For more information about handling dismissals please visit
+              // https://sweetalert2.github.io/#handling-dismissals
+              } else if (result.dismiss === Swal.DismissReason.cancel) {
+                Swal.fire(
+                  'Phew! That was close.',
+                  'Did not delete the post. :)',
+                  'success'
+                )
+              }
+            })
+  }
+
 	return (
           <>
             <Sidebar/>
@@ -371,6 +432,13 @@ function Issue(props){
                           </div>
                           <div className="issue-question mt-3">
                             {post_data['title']}
+                            {post_data['email'] === email && answers_array.length === 0 ?
+                            <div className="float-right">
+                              <i className="mx-2 hover-pointer" onClick={showDropDown}><FontAwesomeIcon icon={faEllipsisV} size="xs"/></i>
+                              <div id="dropdown_menu">
+                                <div className="dropdown-menu-item" onClick={deletePostCallback}>Delete Post</div>
+                              </div>
+                            </div> : "" }
                           </div>
                           <div className="issue-author mt-1">
                             {post_data['email']}
@@ -486,6 +554,12 @@ const DOWNVOTE_ANSWER_CHECK_QUERY = gql`
     query($postId: ID!, $email: String!){
         didIDownvoteAnswer(postId: $postId, email: $email)
     }
+`;
+
+const DELETE_POST = gql`
+  mutation deletePost($postId: ID!) {
+    deletePost(postId: $postId)
+  }
 `;
 
 const ADD_ANSWER = gql`

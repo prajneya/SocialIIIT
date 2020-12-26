@@ -91,7 +91,7 @@ function StackOverflow(props){
                   <div className="row">
                     <div className="col-xl-9">
                       <div className="explore-posts">
-                        <div className="trending-tags desktop-only text-right">
+                        <div className="trending-tags text-right">
                           <div className="explore-subheader mb-4">Sort By:</div>
                           <select id="filterBy" onChange={changePosts}>
                             <option value="newest">Newest</option>
