@@ -508,7 +508,7 @@ module.exports = {
                         var dbo = db.db("Data");
                         var myquery = {"_id": new mongo.ObjectId(postId)};
                         
-                        if(Object.keys(post.tags).length)
+                        if(post.tags)
                         {
                             for(var i = 0; i < Object.keys(post.tags).length; i++)
                             {
