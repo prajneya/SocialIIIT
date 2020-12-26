@@ -542,7 +542,7 @@ module.exports = {
 
             else
             {
-                throw new Error('Post not Found');
+                throw new Error('You cannot delete this post');
             }
                 
         },

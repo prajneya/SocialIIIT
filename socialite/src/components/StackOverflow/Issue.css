@@ -21,6 +21,7 @@
 
 .issue-author{
 	color: grey;
+	word-break: break-all;
 }
 
 .issue-body{
@@ -155,6 +156,32 @@
 
 #answer_container{
 	display: none;
+}
+
+#dropdown_menu{
+	display: none;
+	position: fixed;
+	right: 3rem;
+	background: rgba(0, 0, 0);
+	padding: 1rem 2rem;
+	font-size: 1rem;
+	z-index: 20
+}
+
+#dropdown_menu_blog{
+	display: none;
+	position: relative;
+	top: 2rem;
+	right: 1rem;
+	background: rgba(0, 0, 0);
+	padding: 1rem 2rem;
+	font-size: 1rem;
+	z-index: 20;
+}
+
+.dropdown-menu-item:hover{
+	cursor: pointer;
+	color: red;
 }
 
 @media only screen and (max-width: 762px) {
