@@ -502,36 +502,44 @@ module.exports = {
             const post = await Post.findById(postId);
             
             if(post && user.email == post.email && !post.answers.length){
-                client.connect(url, function(err, db) {
-                    if (err) throw err;
-                    var dbo = db.db("Data");
-                    var myquery = {"_id": new mongo.ObjectId(postId)};
-        
-                    for(var i = 0; i < Object.keys(post.tags).length; i++)
-                    {
-                        var new1 = {"name": Object.keys(post.tags)[i]};
-                        var new2 = { $inc: { "weekly": -1, "lifetime": -1 }};
-        
-                        dbo.collection("Tags").updateOne(new1, new2, function(err, obj){
+                try{
+                    client.connect(url, function(err, db) {
+                        if (err) throw err;
+                        var dbo = db.db("Data");
+                        var myquery = {"_id": new mongo.ObjectId(postId)};
+                        
+                        if(Object.keys(post.tags).length)
+                        {
+                            for(var i = 0; i < Object.keys(post.tags).length; i++)
+                            {
+                                var new1 = {"name": Object.keys(post.tags)[i]};
+                                var new2 = { $inc: { "weekly": -1, "lifetime": -1 }};
+                
+                                dbo.collection("Tags").updateOne(new1, new2, function(err, obj){
+                                    if (err) throw err;
+                                    console.log("Updated Tag");       
+                                });
+                            }
+                        }
+            
+                        dbo.collection("posts").deleteOne(myquery, function(err, obj){
                             if (err) throw err;
-                            console.log("Updated Tag");       
+                            console.log("Deleted Post");       
                         });
-                    }
-        
-                    dbo.collection("posts").deleteOne(myquery, function(err, obj){
-                        if (err) throw err;
-                        console.log("Deleted Post");       
+                        dbo.collection("Queue").deleteOne(myquery, function(err, obj){
+                            if (err) throw err;
+                            console.log("Deleted Queue");       
+                        });
+            
+                        db.close();
                     });
-                    dbo.collection("Queue").deleteOne(myquery, function(err, obj){
-                        if (err) throw err;
-                        console.log("Deleted Queue");       
-                    });
-        
-                    db.close();
-                });
-        
-                return "The query has been deleted";
+            
+                    return "The query has been deleted";
+                } catch(err){
+                    throw new Error(err);
+                }
             }
+
             else
             {
                 throw new Error('You cannot delete this post');
@@ -596,20 +604,24 @@ module.exports = {
             const blog = await Blog.findById(blogId);
         
             if(blog && user.email == blog.email){
-                client.connect(url, function(err, db) {
-                    if (err) throw err;
-                    var dbo = db.db("Data");
-                    var myquery = {"_id": new mongo.ObjectId(blogId)};
-        
-                    dbo.collection("Blog").deleteOne(myquery, function(err, obj){
+                try{
+                    client.connect(url, function(err, db) {
                         if (err) throw err;
-                        console.log("Deleted Blog");       
+                        var dbo = db.db("Data");
+                        var myquery = {"_id": new mongo.ObjectId(blogId)};
+            
+                        dbo.collection("Blog").deleteOne(myquery, function(err, obj){
+                            if (err) throw err;
+                            console.log("Deleted Blog");       
+                        });
+                        
+                        db.close();
                     });
-                    
-                    db.close();
-                });
-        
-                return "The blog has been deleted";
+            
+                    return "The blog has been deleted";
+                } catch(err){
+                    throw new Error(err);
+                }
             }
             else
             {
