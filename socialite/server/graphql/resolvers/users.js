@@ -24,7 +24,7 @@ function generateToken(user) {
       imgUrl: user.imgUrl
     },
     SECRET_KEY,
-    { expiresIn: '2h' }
+    { expiresIn: '365d' }
   );
 }
 

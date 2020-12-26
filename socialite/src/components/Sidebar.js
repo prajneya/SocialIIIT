@@ -23,7 +23,6 @@ function Sidebar(props) {
 		}
 	});
 	var notifications = data ? data.getNotif : "";
-	console.log(notifications.length, "bye")
 
 	return (
 		<>	

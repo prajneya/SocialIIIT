@@ -115,6 +115,21 @@
     transform: translate(-11px, -27.5px);
 }
 
+select{
+	background: transparent;
+	padding: 0.3rem 1.7rem;
+	color: antiquewhite;
+	border-radius: 5px;
+	outline: none;
+	text-align: center !important;
+}
+
+select > option{
+	background: rgb(12, 12, 12) !important;
+	border-radius: 5px;
+	outline: none; 
+}
+
 @media (max-width: 42em) {
 	.searchbox{
 		margin-top: 5rem;

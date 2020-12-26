@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import Parser from 'html-react-parser';
 import { faSearch, faEdit } from "@fortawesome/free-solid-svg-icons";
@@ -30,10 +30,10 @@ function StackOverflow(props){
     });
   }
 
-  const { data } = useQuery(FETCH_POSTS_QUERY);
-
-  var post_list = data ? data.getPosts : "";
-
+  const [filter, setFilter] = useState("newest");
+  const [post_list, setPostList] = useState([]);
+  const [firstCheck, setFirstCheck] = useState(true)
+  
   const { data: people } = useQuery(FETCH_PEOPLE_QUERY);
 
   var people_list = people ? people.getTopAnswered : "";
@@ -42,34 +42,66 @@ function StackOverflow(props){
 
   var trending_tags_list = trending_tags ? trending_tags.getTopTags : "";
 
+  const { loading, data } = useQuery(FETCH_POSTS_QUERY);
+
+  const [filterData, { data: filter_data }] = useLazyQuery(FETCH_FILTERED_POSTS_QUERY, {
+      onCompleted(){
+        setPostList(filter_data.getPostsFiltered);
+      },
+      variables: {
+        filter
+      }
+  });
+
+  if(!loading && firstCheck){
+    setFirstCheck(false);
+    setPostList(data.getPosts);
+  }
+
+  async function setPostChangeData(){
+    await setFilter(document.getElementById("filterBy").value);
+  }
+
+  function changePosts(){
+    setPostChangeData();
+    filterData();
+  }
+
 	return (
             <>
               <Sidebar/>
-              <main class="s-layout__content">
-
+              <main className="s-layout__content">
                 <div className="create-post-button" onClick={createPost}><span className="create-post-icon"><i><FontAwesomeIcon icon={faEdit} size="xs"/></i></span></div>
 
             		<div className="container-fluid">
 
                   <div className="explore-posts pr-3 my-5">
-                    <form class="searchbox">
-                      <input type="text" id="search_query" placeholder="Search Questions" autocomplete="off"/>
+                    <form className="searchbox">
+                      <input type="text" id="search_query" placeholder="Search Questions" autoComplete="off"/>
                       <button className="rounded m-2 search-button float-right my-4" onClick={searchCallback}><i><FontAwesomeIcon icon={faSearch} /></i></button>
                     </form>
                     <br/> <br/> <br/> 
-                    <div class="trending-tags desktop-only">
-                      <div className="explore-subheader my-4">Trending:</div>
+                    <div className="trending-tags desktop-only">
+                      <div className="explore-subheader mt-4">Trending:</div>
                       {trending_tags_list && trending_tags_list.map(trending_tag => ( 
-                      <div className="tag px-3 py-2 mr-1 my-1">#{trending_tag['name']}</div>
+                      <div className="tag px-3 py-2 mr-1 mt-1">#{trending_tag['name']}</div>
                       ))}
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-xl-9">
                       <div className="explore-posts">
+                        <div className="trending-tags desktop-only text-right">
+                          <div className="explore-subheader mb-4">Sort By:</div>
+                          <select id="filterBy" onChange={changePosts}>
+                            <option value="newest">Newest</option>
+                            <option value="active">Active</option>
+                            <option value="unanswered">Unanswered</option>
+                          </select>
+                        </div>
                         <div className="posts-list">
                           {post_list && post_list.map(post => ( 
-                            <div className="single-post p-3 my-2" onClick={() => showIssue(post['id'])}>
+                            <div className="single-post p-3 my-2" onClick={() => showIssue(post['id'] ? post['id'] : post['_id'])}>
                               <div className="post">
                                 <div className="post-body">
                                   <div className="post-header">{post['title']}</div>
@@ -121,10 +153,19 @@ function StackOverflow(props){
 const FETCH_POSTS_QUERY = gql`
     query{
         getPosts{
-            id title body email answers{ id } upvotes{ id } createdAt tags
+            id title body email answers{ id } upvotes{ id } tags
         }
     }
 `
+
+const FETCH_FILTERED_POSTS_QUERY = gql`
+    query($filter: String!){
+        getPostsFiltered(filter: $filter){
+            _id title body answers{ id } tags
+        }
+    }
+`
+
 const FETCH_PEOPLE_QUERY = gql`
     query{
         getTopAnswered{
