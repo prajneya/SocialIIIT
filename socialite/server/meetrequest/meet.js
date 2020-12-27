@@ -8,12 +8,7 @@ const { UserInputError } = require('apollo-server')
 async function meetaccept(user_id, fren_id)
 {
 	try{
-		arr1 = [user_id, fren_id]
-		arr2 = [fren_id, user_id]
-		var meet = await Meet.findOne({people: arr1})
-		if(!meet)
-			var meet = await Meet.findOne({people: arr2})
-
+		var meet = await data.getMeet(user_id, fren_id);	
 		await data.updateAccRejMeet(user_id, fren_id, meet._id);	
 		await data.newNotif(fren_id, user_id, "macc");
 		await data.removeNotif(user_id, fren_id, "mreq");
@@ -26,13 +21,7 @@ async function meetaccept(user_id, fren_id)
 async function meetreject(user_id, fren_id)
 {
 	try{
-
-		arr1 = [user_id, fren_id]
-		arr2 = [fren_id, user_id]
-		var meet = await Meet.findOne({people: arr1})
-		if(!meet)
-			var meet = await Meet.findOne({people: arr2})
-
+		var meet = await data.getMeet(user_id, fren_id);	
 		await data.updateAccRejMeet(user_id, fren_id, meet._id, 0);
 		await data.removeNotif(user_id, fren_id, "mreq");
 		await Meet.deleteOne({_id: meet._id})
@@ -76,7 +65,6 @@ async function meetrequest(meetdata)
 
 		if(meetdata.notif)
 		{
-			console.log("ni")
 			var task = schedule.scheduleJob('mail', moment(now).format(), 'Asia/Kolkota', function() {
 				console.log("hi")
 			})
@@ -92,12 +80,7 @@ async function meetrequest(meetdata)
 async function meetDisp(user, other)
 {
 	try{
-		arr1 = [user, other]
-		arr2 = [other, user]
-		var meet = await Meet.findOne({people: arr1})
-		if(!meet)
-			var meet = await Meet.findOne({people: arr2})
-
+		var meet = await data.getMeet(user, other);	
 		return meet
 	} catch(err){
 		throw new Error(err);
@@ -144,11 +127,7 @@ async function meetEdit(meetdata)
 
 		user_id = meetdata.sender
 		fren_id = meetdata.sendee
-		arr1 = [user_id, fren_id]
-		arr2 = [fren_id, user_id]
-		var meet = await Meet.findOne({people: arr1})
-		if(!meet)
-			var meet = await Meet.findOne({people: arr2})
+		var meet = await data.getMeet(user_id, fren_id);	
 
 		await data.removeNotif(user_id, fren_id, "mreq");
 		await data.newNotif(fren_id, user_id, "mreq");

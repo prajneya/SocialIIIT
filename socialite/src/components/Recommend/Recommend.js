@@ -5,6 +5,7 @@ import { useState } from 'react';
 import gql from 'graphql-tag';
 import TinderCard from 'react-tinder-card';
 import Swal from 'sweetalert2';
+import moment from "moment-timezone"
 import {useSpring, animated} from 'react-spring'
 import { faHandPointLeft, faHandPointRight, faHandPointUp, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +23,7 @@ function Recommend(props){
 
     const user_id = user.id;
     const [fren_id, setfren_id] = useState('');
+    const [values, setValues] = useState({});
 
     const [frenrequest] = useMutation(FREN_REQUEST, {
         update(_, { data: fRequestData }){
@@ -67,11 +69,57 @@ function Recommend(props){
                   background: `rgba(0,0,0,0.9)`
                 });
         },
-        variables: {
-            user_id,
-            fren_id
-        }
+	    variables: {
+		    'sender': values.sender,
+		    'sendee': values.sendee,
+		    'type': values.type,
+		    'date': values.date,
+		    'time': values.time,
+		    'duration': values.duration,
+		    'link': values.link,
+		    'msg': values.msg,
+		    'place': values.place,
+		    'notif': values.notif,
+	    }
     })
+
+	const [meetedit] = useMutation(MEET_EDIT, {
+		update(_, { data: { login: userData } }){
+			window.location.reload(false);
+		},
+		variables: {
+			'sender': values.sender,
+			'sendee': values.sendee,
+			'type': values.type,
+			'date': values.date,
+			'time': values.time,
+			'duration': values.duration,
+			'link': values.link,
+			'msg': values.msg,
+			'place': values.place,
+			'notif': values.notif,
+		}
+	})
+
+	const [meetaccept] = useMutation(MEET_ACCEPT, {
+		update(_, { data: { login: userData } }){
+			window.location.reload(false);
+		},
+		variables: {
+			user_id,
+			fren_id
+		}
+	})
+
+	const [meetreject] = useMutation(MEET_REJECT, {
+		update(_, { data: { login: userData } }){
+			window.location.reload(false);
+		},
+		variables: {
+			user_id,
+			fren_id
+		}
+	})
 
     const { data, loading } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
         variables: {
@@ -93,8 +141,270 @@ function Recommend(props){
     async function send_meetrequest(fren_id){
 	document.getElementById("mreq").disabled = true
         await setfren_id(fren_id);
-        meetrequest();
+	    await Swal.fire({
+		    title: 'Meet Details',
+		    html: `
+			    <div className="type">
+				<label for="type">Type*</label>
+				<br/>
+			    </div>
+			    <input type="radio" id="type" name="option" value="online">Online<br>
+			    <input type="radio" id="type" name="option" value="offline">Offline<br>
+			    <div className="textfield">
+				<label for="date">Date*</label>
+				<br/>
+				<input type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="time">Time*</label>
+				<br/>
+				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="duration">Duration(in minutes)</label>
+				<br/>
+				<input type="number" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="msg">Message</label>
+				<br/>
+				<input type="text" id="msg" name="msg" placeholder="Enter message" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="link">Link</label>
+				<br/>
+				<input type="text" id="link" name="link" placeholder="Enter meet link" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="place">Place</label>
+				<br/>
+				<input type="text" id="place" name="place" placeholder="Enter meet location" onChange={onChange} />
+			    </div>
+			    <div className="notif">
+				<label for="notif">Reminder*</label>
+				<br/>
+				<input type="radio" id="notif" name="option" value=true>Yes<br>
+				<input type="radio" id="notif" name="option" value=false>No<br>
+			    </div>
+			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
+		    `,
+		    confirmButtonText: 'Schedule Meet',
+		    showCancelButton: true,
+		    focusConfirm: false,
+		    preConfirm: () => {
+			    const type = Swal.getPopup().querySelector('#type').value
+			    const date = Swal.getPopup().querySelector('#date').value
+			    const time = Swal.getPopup().querySelector('#time').value
+			    const duration = Swal.getPopup().querySelector('#duration').value
+			    const link = Swal.getPopup().querySelector('#link').value
+			    const msg = Swal.getPopup().querySelector('#msg').value
+			    const place = Swal.getPopup().querySelector('#place').value
+			    const notif = Swal.getPopup().querySelector('#notif').value
+			    if(!type)
+			    {
+				    Swal.showValidationMessage(
+					    `Type is a required field`
+				    )
+			    }
+			    else if(!date)
+			    {
+				    Swal.showValidationMessage(
+					    `Date is a required field`
+				    )
+			    }
+			    else if(!time)
+			    {
+				    Swal.showValidationMessage(
+					    `Time is a required field`
+				    )
+			    }
+			    else if(!notif)
+			    {
+				    Swal.showValidationMessage(
+					    `Reminder is a required field`
+				    )
+			    }
+
+			    var today = new Date()
+			    var fdate, ftime, fts, now
+			    fdate = moment(date).format("DD-MM-YYYY")
+			    ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
+			    fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
+			    fts = moment(fts)
+			    now = moment().format('YYYY-MM-DD HH:mm:ss')
+			    now = moment(now)
+
+			    if(now > fts)
+			    {
+				    Swal.showValidationMessage(
+					    `Invalid timestamp`
+				    )
+			    }
+
+			    return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
+		    }
+	    }).then((result) => {
+		    if(!result)
+			    return
+		    if(result.value.notif == "true")
+			    result.value.notif = true
+		    else
+			    result.value.notif = false 
+
+		    result.value.duration = Number(result.value.duration)
+		    values.sender = user_id
+		    values.sendee = fren_id
+		    values.type = result.value.type
+		    values.date = result.value.date
+		    values.time = result.value.time
+		    values.duration = result.value.duration
+		    values.link = result.value.link
+		    values.msg = result.value.msg
+		    values.place = result.value.place
+		    values.notif = result.value.notif
+	    })
+	    meetrequest()
     }
+
+	async function do_meetedit(fren_id){
+		document.getElementById("medit").disabled = true
+		await setfren_id(fren_id);
+		await Swal.fire({
+			title: 'Meet Details',
+			html: `
+			    <div className="type">
+				<label for="type">Type*</label>
+				<br/>
+			    </div>
+			    <input type="radio" id="type" name="option" value="online">Online<br>
+			    <input type="radio" id="type" name="option" value="offline">Offline<br>
+			    <div className="textfield">
+				<label for="date">Date*</label>
+				<br/>
+				<input type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="time">Time*</label>
+				<br/>
+				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="duration">Duration(in minutes)</label>
+				<br/>
+				<input type="number" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="msg">Message</label>
+				<br/>
+				<input type="text" id="msg" name="msg" placeholder="Enter message" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="link">Link</label>
+				<br/>
+				<input type="text" id="link" name="link" placeholder="Enter meet link" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="place">Place</label>
+				<br/>
+				<input type="text" id="place" name="place" placeholder="Enter meet location" onChange={onChange} />
+			    </div>
+			    <div className="notif">
+				<label for="notif">Reminder*</label>
+				<br/>
+				<input type="radio" id="notif" name="option" value=true>Yes<br>
+				<input type="radio" id="notif" name="option" value=false>No<br>
+			    </div>
+			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
+		    `,
+			confirmButtonText: 'Schedule Meet',
+			showCancelButton: true,
+			focusConfirm: false,
+			preConfirm: () => {
+				const type = Swal.getPopup().querySelector('#type').value
+				const date = Swal.getPopup().querySelector('#date').value
+				const time = Swal.getPopup().querySelector('#time').value
+				const duration = Swal.getPopup().querySelector('#duration').value
+				const link = Swal.getPopup().querySelector('#link').value
+				const msg = Swal.getPopup().querySelector('#msg').value
+				const place = Swal.getPopup().querySelector('#place').value
+				const notif = Swal.getPopup().querySelector('#notif').value
+				if(!type)
+				{
+					Swal.showValidationMessage(
+						`Type is a required field`
+					)
+				}
+				else if(!date)
+				{
+					Swal.showValidationMessage(
+						`Date is a required field`
+					)
+				}
+				else if(!time)
+				{
+					Swal.showValidationMessage(
+						`Time is a required field`
+					)
+				}
+				else if(!notif)
+				{
+					Swal.showValidationMessage(
+						`Reminder is a required field`
+					)
+				}
+
+				var today = new Date()
+				var fdate, ftime, fts, now
+				fdate = moment(date).format("DD-MM-YYYY")
+				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
+				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
+				fts = moment(fts)
+				now = moment().format('YYYY-MM-DD HH:mm:ss')
+				now = moment(now)
+
+				if(now > fts)
+				{
+					Swal.showValidationMessage(
+						`Invalid timestamp`
+					)
+				}
+
+				return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
+			}
+		}).then((result) => {
+			if(!result)
+				return;
+			if(result.value.notif == "true")
+				result.value.notif = true
+			else
+				result.value.notif = false 
+
+			result.value.duration = Number(result.value.duration)
+			values.sender = user_id
+			values.sendee = fren_id
+			values.type = result.value.type
+			values.date = result.value.date
+			values.time = result.value.time
+			values.duration = result.value.duration
+			values.link = result.value.link
+			values.msg = result.value.msg
+			values.place = result.value.place
+			values.notif = result.value.notif
+		})
+		meetedit();
+	}
+
+	async function do_meetaccept(fren_id){
+		document.getElementById("macc").disabled = true
+		await setfren_id(fren_id);
+		meetaccept();
+	}
+
+	async function do_meetreject(fren_id){
+		document.getElementById("mrej").disabled = true
+		await setfren_id(fren_id);
+		meetreject();
+	}
 
     var recommendations = data ? data.recommend : "";
 
@@ -243,7 +553,18 @@ function Recommend(props){
                                               <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
                                       <br />
                                     </div>
-                                    <div className="request-buttons"><button id="freq" className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>MEET UP</button> : ""}</div>
+                                    <div className="request-buttons">
+				<button id="freq" className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>
+				{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>MEET UP</button> : ""}
+				{recommendation.meet === 2 ? <div>Pending Meet Request!</div> : ""}
+{recommendation.meet === 3 ? 
+		<div>
+		<button id="medit" className="rounded ml-2 my-2 float-right" onClick={() => do_meetedit(recommendation['id'])}>EDIT MEET DETAILS</button> 
+		<button id="macc" className="rounded ml-2 my-2 float-right" onClick={() => do_meetaccept(recommendation['id'])}>ACCEPT MEET UP</button> 
+		<button id="mrej" className="rounded ml-2 my-2 float-right" onClick={() => do_meetreject(recommendation['id'])}>IGNORE MEET UP</button> 
+		</div>
+		: ""}
+				</div>
                                     </div>
                                     <div className="image-container">
                                       {recommendation.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={recommendation.imgUrl} alt="display"/> }
@@ -273,8 +594,82 @@ const FREN_REQUEST = gql`
 `;
 
 const MEET_REQUEST = gql`
-    mutation meetrequest($user_id: String!, $fren_id: String!) {
-        meetrequest(user_id: $user_id, fren_id: $fren_id)
+    mutation meetrequest(
+	    $sender: String!
+	    $sendee: String!
+	    $type: String!
+	    $date: String!
+	    $time: String!
+	    $duration: Int
+	    $link: String
+	    $msg: String
+	    $place: String
+	    $notif: Boolean!
+    ) {
+	    meetrequest(
+		    data: {
+			    sender: $sender
+			    sendee: $sendee
+			    type: $type
+			    date: $date
+			    time: $time
+			    duration: $duration
+			    link: $link
+			    msg: $msg
+			    place: $place
+			    notif: $notif
+		    }
+	    )
+    }
+`;
+
+const FETCH_MEET = gql`
+    query($user: String!, $other: String!){
+        meetDisp(user: $user, other: $other){
+		id people type date time duration link msg place notif
+        }
+    }
+`
+
+const MEET_EDIT = gql`
+    mutation meetEdit(
+	    $sender: String!
+	    $sendee: String!
+	    $type: String!
+	    $date: String!
+	    $time: String!
+	    $duration: Int
+	    $link: String
+	    $msg: String
+	    $place: String
+	    $notif: Boolean!
+    ) {
+	    meetEdit(
+		    data: {
+			    sender: $sender
+			    sendee: $sendee
+			    type: $type
+			    date: $date
+			    time: $time
+			    duration: $duration
+			    link: $link
+			    msg: $msg
+			    place: $place
+			    notif: $notif
+		    }
+	    )
+    }
+`;
+
+const MEET_ACCEPT = gql`
+    mutation meetaccept($user_id: String!, $fren_id: String!) {
+        meetaccept(user_id: $user_id, fren_id: $fren_id)
+    }
+`;
+
+const MEET_REJECT = gql`
+    mutation meetreject($user_id: String!, $fren_id: String!) {
+        meetreject(user_id: $user_id, fren_id: $fren_id)
     }
 `;
 
