@@ -160,8 +160,8 @@ async function send_meetrequest(fren_id){
 			    <div className="notif">
 				<label for="notif">Reminder*</label>
 				<br/>
-				<input type="radio" id="notif" name="option" value=true>Yes<br>
-				<input type="radio" id="notif" name="option" value=false>No<br>
+				<input type="radio" id="notif" name="options" value=true>Yes<br>
+				<input type="radio" id="notif" name="options" value=false>No<br>
 			    </div>
 			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
 		    `,
@@ -366,8 +366,8 @@ async function do_meetedit(){
 			    <div className="notif">
 				<label for="notif">Reminder*</label>
 				<br/>
-				<input type="radio" id="notif" name="option" value=true>Yes<br>
-				<input type="radio" id="notif" name="option" value=false>No<br>
+				<input type="radio" id="notif" name="options" value=true>Yes<br>
+				<input type="radio" id="notif" name="options" value=false>No<br>
 			    </div>
 			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
 		    `,

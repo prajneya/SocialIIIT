@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery, useMutation} from '@apollo/react-hooks';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import TinderCard from 'react-tinder-card';
@@ -183,8 +183,8 @@ function Recommend(props){
 			    <div className="notif">
 				<label for="notif">Reminder*</label>
 				<br/>
-				<input type="radio" id="notif" name="option" value=true>Yes<br>
-				<input type="radio" id="notif" name="option" value=false>No<br>
+				<input type="radio" id="notif" name="options" value=true>Yes<br>
+				<input type="radio" id="notif" name="options" value=false>No<br>
 			    </div>
 			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
 		    `,
@@ -311,8 +311,8 @@ function Recommend(props){
 			    <div className="notif">
 				<label for="notif">Reminder*</label>
 				<br/>
-				<input type="radio" id="notif" name="option" value=true>Yes<br>
-				<input type="radio" id="notif" name="option" value=false>No<br>
+				<input type="radio" id="notif" name="options" value=true>Yes<br>
+				<input type="radio" id="notif" name="options" value=false>No<br>
 			    </div>
 			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
 		    `,
