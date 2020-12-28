@@ -1,8 +1,26 @@
-const {User, Profile, UserDets, UserSub} = require("../models/User");
+const {User, Profile, UserDets, UserSub, Meet} = require("../models/User");
 const e = require("express");
 
 
 module.exports = {
+	getMeet: async function getMeet(curid, id){
+		curdets = await UserDets.findOne({_id: curid})
+		arr1 = [curid, id]
+		arr2 = [id, curid]
+		var meetf = await Meet.find({people: arr1})
+		if(!meetf.length)
+			meetf = await Meet.find({people: arr2})
+
+		var ret = {}
+		for(var i = 0; i < meetf.length; ++i)
+		{
+			if(curdets.meets.includes(meetf[i]._id))
+				continue
+			ret = meetf[i]
+			break
+		}
+		return ret 
+	},
 	getProfileById: async function getProfileById(id){
 		ret = {};
 		await Profile.findById(id).then((profile) => {

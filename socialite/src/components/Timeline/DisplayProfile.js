@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
+import Swal from 'sweetalert2';
+import moment from "moment-timezone"
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faExternalLinkAlt, faNewspaper } from "@fortawesome/free-solid-svg-icons";
@@ -19,14 +21,15 @@ function Timeline(props){
 
   const curid = user.id;
   const [fren_id, setfren_id] = useState('');
+  const [values, setValues] = useState({});
   
   const [frenrequest] = useMutation(FREN_REQUEST, {
     update(_, { data: { login: userData } }){
       window.location.reload(false);
     },
     variables: {
-        curid,
-        fren_id
+	    user_id: curid,
+	    fren_id: fren_id
     }
 })
 
@@ -35,8 +38,16 @@ const [meetrequest] = useMutation(MEET_REQUEST, {
       window.location.reload(false);
     },
     variables: {
-        curid,
-        fren_id
+	'sender': values.sender,
+	'sendee': values.sendee,
+	'type': values.type,
+	'date': values.date,
+	'time': values.time,
+	'duration': values.duration,
+	'link': values.link,
+	'msg': values.msg,
+	'place': values.place,
+	'notif': values.notif,
     }
 })
 
@@ -45,8 +56,8 @@ const [frenaccept] = useMutation(FREN_ACCEPT, {
     window.location.reload(false);
   },
   variables: {
-      curid,
-      fren_id
+	  user_id: curid,
+	  fren_id: fren_id
   }
 })
 
@@ -55,9 +66,27 @@ const [frenreject] = useMutation(FREN_REJECT, {
     window.location.reload(false);
   },
   variables: {
-      curid,
-      fren_id
+	  user_id: curid,
+	  fren_id: fren_id
   }
+})
+
+const [meetedit] = useMutation(MEET_EDIT, {
+    update(_, { data: { login: userData } }){
+      window.location.reload(false);
+    },
+    variables: {
+	'sender': values.sender,
+	'sendee': values.sendee,
+	'type': values.type,
+	'date': values.date,
+	'time': values.time,
+	'duration': values.duration,
+	'link': values.link,
+	'msg': values.msg,
+	'place': values.place,
+	'notif': values.notif,
+    }
 })
 
 const [meetaccept] = useMutation(MEET_ACCEPT, {
@@ -65,8 +94,8 @@ const [meetaccept] = useMutation(MEET_ACCEPT, {
     window.location.reload(false);
   },
   variables: {
-      curid,
-      fren_id
+	  user_id: curid,
+	  fren_id: fren_id
   }
 })
 
@@ -75,8 +104,8 @@ const [meetreject] = useMutation(MEET_REJECT, {
     window.location.reload(false);
   },
   variables: {
-      curid,
-      fren_id
+	  user_id: curid,
+	  fren_id: fren_id
   }
 })
 
@@ -88,8 +117,130 @@ async function send_frenrequest(fren_id){
 
 async function send_meetrequest(fren_id){
 	document.getElementById("mreq").disabled = true
-  await setfren_id(fren_id);
-  meetrequest();
+	await setfren_id(fren_id);
+	await Swal.fire({
+		title: 'Meet Details',
+		html: `
+			    <div className="type">
+				<label for="type">Type*</label>
+				<br/>
+			    </div>
+			    <input type="radio" id="type" name="option" value="online">Online<br>
+			    <input type="radio" id="type" name="option" value="offline">Offline<br>
+			    <div className="textfield">
+				<label for="date">Date*</label>
+				<br/>
+				<input type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="time">Time*</label>
+				<br/>
+				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="duration">Duration(in minutes)</label>
+				<br/>
+				<input type="number" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="msg">Message</label>
+				<br/>
+				<input type="text" id="msg" name="msg" placeholder="Enter message" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="link">Link</label>
+				<br/>
+				<input type="text" id="link" name="link" placeholder="Enter meet link" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="place">Place</label>
+				<br/>
+				<input type="text" id="place" name="place" placeholder="Enter meet location" onChange={onChange} />
+			    </div>
+			    <div className="notif">
+				<label for="notif">Reminder*</label>
+				<br/>
+				<input type="radio" id="notif" name="options" value=true>Yes<br>
+				<input type="radio" id="notif" name="options" value=false>No<br>
+			    </div>
+			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
+		    `,
+		confirmButtonText: 'Schedule Meet',
+		showCancelButton: true,
+		focusConfirm: false,
+		preConfirm: () => {
+			const type = Swal.getPopup().querySelector('#type').value
+			const date = Swal.getPopup().querySelector('#date').value
+			const time = Swal.getPopup().querySelector('#time').value
+			const duration = Swal.getPopup().querySelector('#duration').value
+			const link = Swal.getPopup().querySelector('#link').value
+			const msg = Swal.getPopup().querySelector('#msg').value
+			const place = Swal.getPopup().querySelector('#place').value
+			const notif = Swal.getPopup().querySelector('#notif').value
+			if(!type)
+			{
+				Swal.showValidationMessage(
+					`Type is a required field`
+				)
+			}
+			else if(!date)
+			{
+				Swal.showValidationMessage(
+					`Date is a required field`
+				)
+			}
+			else if(!time)
+			{
+				Swal.showValidationMessage(
+					`Time is a required field`
+				)
+			}
+			else if(!notif)
+			{
+				Swal.showValidationMessage(
+					`Reminder is a required field`
+				)
+			}
+
+			var today = new Date()
+			var fdate, ftime, fts, now
+			fdate = moment(date).format("DD-MM-YYYY")
+			ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
+			fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
+			fts = moment(fts)
+			now = moment().format('YYYY-MM-DD HH:mm:ss')
+			now = moment(now)
+
+			if(now > fts)
+			{
+				Swal.showValidationMessage(
+					`Invalid timestamp`
+				)
+			}
+
+			return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
+		}
+	}).then((result) => {
+		if(!result)
+			return;
+		if(result.value.notif == "true")
+			result.value.notif = true
+		else
+			result.value.notif = false 
+
+		result.value.duration = Number(result.value.duration)
+		values.sender = curid
+		values.sendee = fren_id
+		values.type = result.value.type
+		values.date = result.value.date
+		values.time = result.value.time
+		values.duration = result.value.duration
+		values.link = result.value.link
+		values.msg = result.value.msg
+		values.place = result.value.place
+		values.notif = result.value.notif
+	})
+	meetrequest();
 }
 
 async function do_frenaccept(fren_id){
@@ -162,6 +313,142 @@ const username = props.match.params.username;
 
   var people_list = people ? people.friendList : "";
 
+  const { data: meetData } = useQuery(FETCH_MEET, {
+        variables: {
+		user: curid,
+		other: id
+        }
+  });
+
+  var meet_data = meetData ? meetData.meetDisp : "";
+
+async function do_meetedit(){
+	document.getElementById("medit").disabled = true
+	await Swal.fire({
+		title: 'Meet Details',
+		html: `
+			    <div className="type">
+				<label for="type">Type*</label>
+				<br/>
+			    </div>
+			    <input type="radio" id="type" name="option" value="online">Online<br>
+			    <input type="radio" id="type" name="option" value="offline">Offline<br>
+			    <div className="textfield">
+				<label for="date">Date*</label>
+				<br/>
+				<input type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="time">Time*</label>
+				<br/>
+				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="duration">Duration(in minutes)</label>
+				<br/>
+				<input type="number" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="msg">Message</label>
+				<br/>
+				<input type="text" id="msg" name="msg" placeholder="Enter message" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="link">Link</label>
+				<br/>
+				<input type="text" id="link" name="link" placeholder="Enter meet link" onChange={onChange} />
+			    </div>
+			    <div className="textfield">
+				<label for="place">Place</label>
+				<br/>
+				<input type="text" id="place" name="place" placeholder="Enter meet location" onChange={onChange} />
+			    </div>
+			    <div className="notif">
+				<label for="notif">Reminder*</label>
+				<br/>
+				<input type="radio" id="notif" name="options" value=true>Yes<br>
+				<input type="radio" id="notif" name="options" value=false>No<br>
+			    </div>
+			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
+		    `,
+		confirmButtonText: 'Schedule Meet',
+		showCancelButton: true,
+		focusConfirm: false,
+		preConfirm: () => {
+			const type = Swal.getPopup().querySelector('#type').value
+			const date = Swal.getPopup().querySelector('#date').value
+			const time = Swal.getPopup().querySelector('#time').value
+			const duration = Swal.getPopup().querySelector('#duration').value
+			const link = Swal.getPopup().querySelector('#link').value
+			const msg = Swal.getPopup().querySelector('#msg').value
+			const place = Swal.getPopup().querySelector('#place').value
+			const notif = Swal.getPopup().querySelector('#notif').value
+			if(!type)
+			{
+				Swal.showValidationMessage(
+					`Type is a required field`
+				)
+			}
+			else if(!date)
+			{
+				Swal.showValidationMessage(
+					`Date is a required field`
+				)
+			}
+			else if(!time)
+			{
+				Swal.showValidationMessage(
+					`Time is a required field`
+				)
+			}
+			else if(!notif)
+			{
+				Swal.showValidationMessage(
+					`Reminder is a required field`
+				)
+			}
+
+			var today = new Date()
+			var fdate, ftime, fts, now
+			fdate = moment(date).format("DD-MM-YYYY")
+			ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
+			fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
+			fts = moment(fts)
+			now = moment().format('YYYY-MM-DD HH:mm:ss')
+			now = moment(now)
+
+			if(now > fts)
+			{
+				Swal.showValidationMessage(
+					`Invalid timestamp`
+				)
+			}
+
+			return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
+		}
+	}).then((result) => {
+		if(!result)
+			return;
+		if(result.value.notif == "true")
+			result.value.notif = true
+		else
+			result.value.notif = false 
+
+		result.value.duration = Number(result.value.duration)
+		values.sender = curid
+		values.sendee = id
+		values.type = result.value.type
+		values.date = result.value.date
+		values.time = result.value.time
+		values.duration = result.value.duration
+		values.link = result.value.link
+		values.msg = result.value.msg
+		values.place = result.value.place
+		values.notif = result.value.notif
+	})
+	meetedit();
+}
+
   if(!timeline_data){
     return (<>USER NOT FOUND</>)
   }
@@ -217,6 +504,7 @@ const username = props.match.params.username;
                                   : ""}
                                   {profile_data.meet === 3 ? 
                                   <div>
+                                  <button id="medit" className="rounded ml-2 my-2" onClick={() => do_meetedit()}>EDIT MEET DETAILS</button>
                                   <button id="macc" className="rounded ml-2 my-2" onClick={() => do_meetaccept(timeline_data.id)}>ACCEPT MEET UP</button>
                                   <button id="mrej" className="rounded ml-2 my-2" onClick={() => do_meetreject(timeline_data.id)}>IGNORE MEET UP</button>
                                   </div>
@@ -441,38 +729,100 @@ const username = props.match.params.username;
 }
 
 const FREN_REQUEST = gql`
-    mutation frenrequest($curid: String!, $fren_id: String!) {
-        frenrequest(user_id: $curid, fren_id: $fren_id)
+    mutation frenrequest($user_id: String!, $fren_id: String!) {
+        frenrequest(user_id: $user_id, fren_id: $fren_id)
     }
 `;
 
 const MEET_REQUEST = gql`
-    mutation meetrequest($curid: String!, $fren_id: String!) {
-        meetrequest(user_id: $curid, fren_id: $fren_id)
+    mutation meetrequest(
+	    $sender: String!
+	    $sendee: String!
+	    $type: String!
+	    $date: String!
+	    $time: String!
+	    $duration: Int
+	    $link: String
+	    $msg: String
+	    $place: String
+	    $notif: Boolean!
+    ) {
+	    meetrequest(
+		    data: {
+			    sender: $sender
+			    sendee: $sendee
+			    type: $type
+			    date: $date
+			    time: $time
+			    duration: $duration
+			    link: $link
+			    msg: $msg
+			    place: $place
+			    notif: $notif
+		    }
+	    )
     }
 `;
 
 const FREN_ACCEPT = gql`
-    mutation frenaccept($curid: String!, $fren_id: String!) {
-        frenaccept(user_id: $curid, fren_id: $fren_id)
+    mutation frenaccept($user_id: String!, $fren_id: String!) {
+        frenaccept(user_id: $user_id, fren_id: $fren_id)
     }
 `;
 
 const FREN_REJECT = gql`
-    mutation frenreject($curid: String!, $fren_id: String!) {
-        frenreject(user_id: $curid, fren_id: $fren_id)
+    mutation frenreject($user_id: String!, $fren_id: String!) {
+        frenreject(user_id: $user_id, fren_id: $fren_id)
+    }
+`;
+
+const FETCH_MEET = gql`
+    query($user: String!, $other: String!){
+        meetDisp(user: $user, other: $other){
+		id people type date time duration link msg place notif
+        }
+    }
+`
+
+const MEET_EDIT = gql`
+    mutation meetEdit(
+	    $sender: String!
+	    $sendee: String!
+	    $type: String!
+	    $date: String!
+	    $time: String!
+	    $duration: Int
+	    $link: String
+	    $msg: String
+	    $place: String
+	    $notif: Boolean!
+    ) {
+	    meetEdit(
+		    data: {
+			    sender: $sender
+			    sendee: $sendee
+			    type: $type
+			    date: $date
+			    time: $time
+			    duration: $duration
+			    link: $link
+			    msg: $msg
+			    place: $place
+			    notif: $notif
+		    }
+	    )
     }
 `;
 
 const MEET_ACCEPT = gql`
-    mutation meetaccept($curid: String!, $fren_id: String!) {
-        meetaccept(user_id: $curid, fren_id: $fren_id)
+    mutation meetaccept($user_id: String!, $fren_id: String!) {
+        meetaccept(user_id: $user_id, fren_id: $fren_id)
     }
 `;
 
 const MEET_REJECT = gql`
     mutation meetreject($user_id: String!, $fren_id: String!) {
-        meetreject(user_id: $curid, fren_id: $fren_id)
+        meetreject(user_id: $user_id, fren_id: $fren_id)
     }
 `;
 

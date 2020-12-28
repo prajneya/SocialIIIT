@@ -13,8 +13,8 @@ module.exports.validateRegisterInput = (
 		if (!email.match(regEx)) {
       		errors.email = 'Email must be a valid email address';
 		}
-		else if(!email.endsWith("iiit.ac.in"))
-			errors.email = 'Only IIIT emails allowed.'
+		else if(!(email.endsWith("students.iiit.ac.in") || email.endsWith("research.iiit.ac.in")))
+			errors.email = 'Only student IIIT emails allowed.'
 		else if(email.endsWith("lists.iiit.ac.in"))
 			errors.email = 'Mailing lists not allowed.'
 	}
