@@ -7,7 +7,8 @@ function Terms(props){
 
 	return (
           <>
-          		<div className="container">
+            <div className="container">
+          		<div className="policy-container">
                       <br /> <br />
                   <h1><center><b>Terms of Service</b></center></h1>
 
@@ -122,7 +123,7 @@ We are unable to make predictions about issues that may appear on our Products. 
 The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.
 <br /><br />
           		</div>
-
+                  </div>
           </>
       )
   	

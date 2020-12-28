@@ -1,18 +1,16 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Parser from 'html-react-parser';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Swal from 'sweetalert2';
-import { faEllipsisV } from "@fortawesome/free-solid-svg-icons";
 
-import { AuthContext } from '../../context/auth'
+import "./Policy.css"
 
 function Cookies(props){
 
 	return (
           <>
-          		<div className="container">
+          <div className="container">
+          		<div className="policy-container">
                     <br /><br />
+                    
                   <h1><center><b>Cookie Policy</b></center></h1>
 
 We employ the use of cookies. Cookies are small pieces of text used to store information on web browsers. Cookies are used to store and receive identifiers and other information on computers, phones and other devices. Other technologies, including data that we store on your web browser or device, identifiers associated with your device and other software, are used for similar purposes. In this policy, we refer to all of these technologies as "cookies".
@@ -40,7 +38,8 @@ We use cookies that support and enhance our public Q&A platform by enabling impo
 We use cookies to validate the authenticity of persons attempting to gain access to a specific user account, enable the core platform of community-generated questions and answers, including diagnosing and resolving issues within our Q&A platform and identify individual users to attribute activities and awards.
 </ol>
 <br /><br />
-          		</div>
+          	</div>
+              </div>
 
           </>
       )
