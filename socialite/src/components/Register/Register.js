@@ -183,6 +183,10 @@ function Register(props) {
 
 							<button type="submit" className="btn-submit">Sign Up</button>
 
+							<div>
+							By clicking Sign Up, you agree to our <a href="https://www.peersity.in/policies/terms">Terms</a> and <a href ="https://www.peersity.in/policies/cookies">Cookie Policy</a>.
+							</div>
+
 							</form>
 
 							<div className="no-account">

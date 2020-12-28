@@ -39,6 +39,8 @@ import FriendSearch from './components/FriendSearch/FriendSearch';
 import UserSearchResult from './components/FriendSearch/UserSearchResult';
 
 import NotFound from './components/ErrorPages/NotFound';
+import Terms from './components/Policies/Terms';
+import Cookies from './components/Policies/Cookie';
 
 import './App.css';
 
@@ -83,6 +85,8 @@ export default (
             <AuthRoute exact path="/marauder/search" component={UserSearchResult} />
             <Route exact path="/blog/:blogId" component={Blog} />
             <Route exact path="/blog" component={LandingBlog} />
+            <Route exact path="/policies/terms" component={Terms} />
+            <Route exact path="/policies/cookies" component={Cookies} />
             <LoginRoute exact path="/checkMail" component={CheckMail} />
             <LoginRoute exact path="/verify/:token" component={Verify} />
             <Route path="" component={NotFound} />
