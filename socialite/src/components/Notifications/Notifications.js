@@ -91,49 +91,40 @@ function Notifications(props){
 		await Swal.fire({
 			title: 'Meet Details',
 			html: `
-			    <div className="type">
-				<label for="type">Type*</label>
-				<br/>
-			    </div>
-			    <input type="radio" id="type" name="option" value="online">Online<br>
-			    <input type="radio" id="type" name="option" value="offline">Offline<br>
-			    <div className="textfield">
-				<label for="date">Date*</label>
-				<br/>
-				<input type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
-			    </div>
-			    <div className="textfield">
-				<label for="time">Time*</label>
-				<br/>
+			    <label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
+				<input type="radio" id="online" name="option" value="online">
+    			<label for="online">Online</label>
+    			<input type="radio" id="offline" name="option" value="offline">
+    			<label for="offline">Offline</label><br><br>
+			    <div class="textfield">
+				<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
+				<input class="d-inline-block" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
 				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
-			    </div>
-			    <div className="textfield">
-				<label for="duration">Duration(in minutes)</label>
-				<br/>
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="duration">Duration(in minutes):</label>
 				<input type="number" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
-			    </div>
-			    <div className="textfield">
-				<label for="msg">Message</label>
-				<br/>
-				<input type="text" id="msg" name="msg" placeholder="Enter message" onChange={onChange} />
-			    </div>
-			    <div className="textfield">
-				<label for="link">Link</label>
-				<br/>
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="msg">Message:</label>
+				<textarea type="text" id="msg" name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}></textarea>
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="link">Link:</label>
 				<input type="text" id="link" name="link" placeholder="Enter meet link" onChange={onChange} />
-			    </div>
-			    <div className="textfield">
-				<label for="place">Place</label>
-				<br/>
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="place">Place:</label>
 				<input type="text" id="place" name="place" placeholder="Enter meet location" onChange={onChange} />
+			    </div><br>
+			    <div class="notif">
+				<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
+				<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
+				<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
 			    </div>
-			    <div className="notif">
-				<label for="notif">Reminder*</label>
-				<br/>
-				<input type="radio" id="notif" name="options" value=true>Yes<br>
-				<input type="radio" id="notif" name="options" value=false>No<br>
-			    </div>
-			    <button id="submit" className="btn-submit" type="button" onClick={createPostCallback}>Submit Post</button>
 		    `,
 			confirmButtonText: 'Schedule Meet',
 			showCancelButton: true,
@@ -191,7 +182,7 @@ function Notifications(props){
 				return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
 			}
 		}).then((result) => {
-			if(!result)
+			if(!result.isConfirmed)
 				return;
 			if(result.value.notif == "true")
 				result.value.notif = true
