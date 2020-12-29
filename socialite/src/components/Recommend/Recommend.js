@@ -265,7 +265,6 @@ function Recommend(props){
 		    }
 	    }).then((result) => {
 		    if(!result.isConfirmed)
-		    	document.getElementById("mreq").disabled = false;
 			    return
 		    if(result.value && result.value.notif == "true")
 			    result.value.notif = true
