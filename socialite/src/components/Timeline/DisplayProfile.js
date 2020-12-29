@@ -116,7 +116,6 @@ async function send_frenrequest(fren_id){
 }
 
 async function send_meetrequest(fren_id){
-	document.getElementById("mreq").disabled = true
 	await setfren_id(fren_id);
 	await Swal.fire({
 		title: 'Meet Details',
@@ -160,14 +159,29 @@ async function send_meetrequest(fren_id){
 		showCancelButton: true,
 		focusConfirm: false,
 		preConfirm: () => {
-			const type = Swal.getPopup().querySelector('#type').value
+			var types = document.getElementsByName('option')
+			var i, save
+			for(i = 0; i < types.length; ++i)
+			{
+				if(types[i].checked)
+					save = types[i].value
+			}
+
+			const type = save
 			const date = Swal.getPopup().querySelector('#date').value
 			const time = Swal.getPopup().querySelector('#time').value
 			const duration = Swal.getPopup().querySelector('#duration').value
 			const link = Swal.getPopup().querySelector('#link').value
 			const msg = Swal.getPopup().querySelector('#msg').value
 			const place = Swal.getPopup().querySelector('#place').value
-			const notif = Swal.getPopup().querySelector('#notif').value
+			var notifs = document.getElementsByName('options')
+			for(i = 0; i < notifs.length; ++i)
+			{
+				if(notifs[i].checked)
+					save = notifs[i].value
+			}
+			const notif = save
+
 			if(!type)
 			{
 				Swal.showValidationMessage(
@@ -230,8 +244,8 @@ async function send_meetrequest(fren_id){
 		values.msg = result.value.msg
 		values.place = result.value.place
 		values.notif = result.value.notif
+		meetrequest()
 	})
-	meetrequest();
 }
 
 async function do_frenaccept(fren_id){
@@ -314,7 +328,6 @@ const username = props.match.params.username;
   var meet_data = meetData ? meetData.meetDisp : "";
 
 async function do_meetedit(){
-	document.getElementById("medit").disabled = true
 	await Swal.fire({
 		title: 'Meet Details',
 		html: `
@@ -357,14 +370,29 @@ async function do_meetedit(){
 		showCancelButton: true,
 		focusConfirm: false,
 		preConfirm: () => {
-			const type = Swal.getPopup().querySelector('#type').value
+			var types = document.getElementsByName('option')
+			var i, save
+			for(i = 0; i < types.length; ++i)
+			{
+				if(types[i].checked)
+					save = types[i].value
+			}
+
+			const type = save
 			const date = Swal.getPopup().querySelector('#date').value
 			const time = Swal.getPopup().querySelector('#time').value
 			const duration = Swal.getPopup().querySelector('#duration').value
 			const link = Swal.getPopup().querySelector('#link').value
 			const msg = Swal.getPopup().querySelector('#msg').value
 			const place = Swal.getPopup().querySelector('#place').value
-			const notif = Swal.getPopup().querySelector('#notif').value
+			var notifs = document.getElementsByName('options')
+			for(i = 0; i < notifs.length; ++i)
+			{
+				if(notifs[i].checked)
+					save = notifs[i].value
+			}
+			const notif = save
+
 			if(!type)
 			{
 				Swal.showValidationMessage(
@@ -427,8 +455,8 @@ async function do_meetedit(){
 		values.msg = result.value.msg
 		values.place = result.value.place
 		values.notif = result.value.notif
+		meetedit();
 	})
-	meetedit();
 }
 
   if(!timeline_data){

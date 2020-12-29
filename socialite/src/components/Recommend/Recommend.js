@@ -121,7 +121,14 @@ function Recommend(props){
 		}
 	})
 
-    const { data, loading } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
+	const [loadMeet, { called, data: meetDets }] = useLazyQuery(FETCH_MEET, { 
+		variables: { 
+			user_id,
+			fren_id
+		} 
+	});
+
+    const { data: recos, loading } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
         variables: {
             user_id
         }
@@ -139,7 +146,6 @@ function Recommend(props){
     }
 
     async function send_meetrequest(fren_id){
-	document.getElementById("mreq").disabled = true
         await setfren_id(fren_id);
 	    await Swal.fire({
 		    title: 'Meet Details',
@@ -191,14 +197,29 @@ function Recommend(props){
 								confirmButton: 'game-button bg-danger',
 							},
 		    preConfirm: () => {
-			    const type = Swal.getPopup().querySelector('#type').value
+			    var types = document.getElementsByName('option')
+			    var i, save
+			    for(i = 0; i < types.length; ++i)
+			    {
+				    if(types[i].checked)
+					    save = types[i].value
+			    }
+
+			    const type = save
 			    const date = Swal.getPopup().querySelector('#date').value
 			    const time = Swal.getPopup().querySelector('#time').value
 			    const duration = Swal.getPopup().querySelector('#duration').value
 			    const link = Swal.getPopup().querySelector('#link').value
 			    const msg = Swal.getPopup().querySelector('#msg').value
 			    const place = Swal.getPopup().querySelector('#place').value
-			    const notif = Swal.getPopup().querySelector('#notif').value
+			    var notifs = document.getElementsByName('options')
+			    for(i = 0; i < notifs.length; ++i)
+			    {
+				    if(notifs[i].checked)
+					    save = notifs[i].value
+			    }
+			    const notif = save
+
 			    if(!type)
 			    {
 				    Swal.showValidationMessage(
@@ -262,12 +283,11 @@ function Recommend(props){
 		    values.msg = result.value.msg
 		    values.place = result.value.place
 		    values.notif = result.value.notif
+		    meetrequest()
 	    })
-	    meetrequest()
     }
 
 	async function do_meetedit(fren_id){
-		document.getElementById("medit").disabled = true
 		await setfren_id(fren_id);
 		await Swal.fire({
 			title: 'Meet Details',
@@ -311,14 +331,29 @@ function Recommend(props){
 			showCancelButton: true,
 			focusConfirm: false,
 			preConfirm: () => {
-				const type = Swal.getPopup().querySelector('#type').value
+				var types = document.getElementsByName('option')
+				var i, save
+				for(i = 0; i < types.length; ++i)
+				{
+					if(types[i].checked)
+						save = types[i].value
+				}
+
+				const type = save
 				const date = Swal.getPopup().querySelector('#date').value
 				const time = Swal.getPopup().querySelector('#time').value
 				const duration = Swal.getPopup().querySelector('#duration').value
 				const link = Swal.getPopup().querySelector('#link').value
 				const msg = Swal.getPopup().querySelector('#msg').value
 				const place = Swal.getPopup().querySelector('#place').value
-				const notif = Swal.getPopup().querySelector('#notif').value
+				var notifs = document.getElementsByName('options')
+				for(i = 0; i < notifs.length; ++i)
+				{
+					if(notifs[i].checked)
+						save = notifs[i].value
+				}
+				const notif = save
+
 				if(!type)
 				{
 					Swal.showValidationMessage(
@@ -381,8 +416,8 @@ function Recommend(props){
 			values.msg = result.value.msg
 			values.place = result.value.place
 			values.notif = result.value.notif
+			meetedit();
 		})
-		meetedit();
 	}
 
 	async function do_meetaccept(fren_id){
@@ -397,7 +432,7 @@ function Recommend(props){
 		meetreject();
 	}
 
-    var recommendations = data ? data.recommend : "";
+    var recommendations = recos ? recos.recommend : "";
 
     const onSwipe = (direction, recommend_id, recommend_name) => {
         console.log(direction, recommend_id)
@@ -489,6 +524,7 @@ function Recommend(props){
       props.history.push('/profile/'+username)
     }
 
+	console.log(meetDets)
     return (
             <>
             <Sidebar/>

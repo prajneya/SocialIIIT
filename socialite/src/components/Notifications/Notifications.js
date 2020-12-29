@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery, useMutation} from '@apollo/react-hooks';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import Swal from 'sweetalert2';
@@ -78,7 +78,14 @@ function Notifications(props){
         }
     })
 
-    const { data } = useQuery(FETCH_NOTIFICATIONS_QUERY, {
+	const [loadMeet, { called, data: meetDets }] = useLazyQuery(FETCH_MEET, { 
+		variables: { 
+			user_id,
+			fren_id
+		} 
+	});
+
+    const { data: notifs, loading } = useQuery(FETCH_NOTIFICATIONS_QUERY, {
         variables: {
             user_id
         }
@@ -86,7 +93,6 @@ function Notifications(props){
 
 	async function do_meetedit(e, fren_id){
 		e.stopPropagation()
-		document.getElementById("medit").disabled = true
 		await setfren_id(fren_id);
 		await Swal.fire({
 			title: 'Meet Details',
@@ -130,14 +136,29 @@ function Notifications(props){
 			showCancelButton: true,
 			focusConfirm: false,
 			preConfirm: () => {
-				const type = Swal.getPopup().querySelector('#type').value
+				var types = document.getElementsByName('option')
+				var i, save
+				for(i = 0; i < types.length; ++i)
+				{
+					if(types[i].checked)
+						save = types[i].value
+				}
+
+				const type = save
 				const date = Swal.getPopup().querySelector('#date').value
 				const time = Swal.getPopup().querySelector('#time').value
 				const duration = Swal.getPopup().querySelector('#duration').value
 				const link = Swal.getPopup().querySelector('#link').value
 				const msg = Swal.getPopup().querySelector('#msg').value
 				const place = Swal.getPopup().querySelector('#place').value
-				const notif = Swal.getPopup().querySelector('#notif').value
+				var notifs = document.getElementsByName('options')
+				for(i = 0; i < notifs.length; ++i)
+				{
+					if(notifs[i].checked)
+						save = notifs[i].value
+				}
+				const notif = save
+
 				if(!type)
 				{
 					Swal.showValidationMessage(
@@ -200,8 +221,8 @@ function Notifications(props){
 			values.msg = result.value.msg
 			values.place = result.value.place
 			values.notif = result.value.notif
+			meetedit();
 		})
-		meetedit();
 	}
 
     async function do_frenaccept(e, fren_id){
@@ -232,12 +253,13 @@ function Notifications(props){
         meetreject();
     }
 
-    var notifications = data ? data.getNotif : "";
+    var notifications = notifs ? notifs.getNotif : "";
 
     const redirectUserCallback = (username) => {
       props.history.push('/profile/'+username)
     }
 
+	console.log(meetDets)
     return (
             <>
             <Sidebar/>

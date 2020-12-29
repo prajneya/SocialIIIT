@@ -8,8 +8,7 @@ module.exports = {
 		arr1 = [curid, id]
 		arr2 = [id, curid]
 		var meetf = await Meet.find({people: arr1})
-		if(!meetf.length)
-			meetf = await Meet.find({people: arr2})
+		var meetfb = await Meet.find({people: arr2})
 
 		var ret = {}
 		for(var i = 0; i < meetf.length; ++i)
@@ -17,6 +16,14 @@ module.exports = {
 			if(curdets.meets.includes(meetf[i]._id))
 				continue
 			ret = meetf[i]
+			break
+		}
+
+		for(var j = 0; !Object.keys(ret).length && j < meetfb.length; ++j)
+		{
+			if(curdets.meets.includes(meetfb[j]._id))
+				continue
+			ret = meetfb[j]
 			break
 		}
 		return ret 
