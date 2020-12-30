@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import Swal from 'sweetalert2';
@@ -263,6 +263,14 @@ async function send_meetrequest(fren_id){
 		confirmButtonText: 'Schedule Meet',
 		showCancelButton: true,
 		focusConfirm: false,
+		width: '64rem',
+		    backdrop: `rgba(0,0,0,0.9)`,
+			background: `rgba(0,0,0,0.9)`,
+			customClass: {
+								title: 'text-danger',
+								content: 'text-left text-white',
+								confirmButton: 'game-button bg-danger',
+							},
 		preConfirm: () => {
 			var types = document.getElementsByName('option')
 			var i, save
@@ -423,145 +431,299 @@ const username = props.match.params.username;
 
   var people_list = people ? people.friendList : "";
 
-  const { data: meetData } = useQuery(FETCH_MEET, {
-        variables: {
-		user: curid,
-		other: id
-        }
-  });
+  const [firstCheck, setFirstCheck] = useState(true);
 
-  var meet_data = meetData ? meetData.meetDisp : "";
+  const [loadMeet, { loading, data: meetData }] = useLazyQuery(FETCH_MEET, { 
+  		async onCompleted(){
+
+  			await Swal.fire({
+			title: 'Meet Details',
+			html: `
+				    <label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
+					<input type="radio" id="online" name="option" value="online" ${meetData.meetDisp['type']==="online" ? "checked" : ""}>
+	    			<label for="online">Online</label>
+	    			<input type="radio" id="offline" name="option" value="offline" ${meetData.meetDisp['type']==="online" ? "" : "checked"}>
+	    			<label for="offline">Offline</label><br><br>
+				    <div class="textfield">
+					<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
+					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
+					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="duration">Duration(in minutes):</label>
+					<input type="number" value="${meetData.meetDisp['duration']}" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="msg">Message:</label>
+					<textarea type="text" id="msg"name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}>${meetData.meetDisp['msg']}</textarea>
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="link">Link:</label>
+					<input type="text" value="${meetData.meetDisp['link']}" id="link" name="link" placeholder="Enter meet link (if online)" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="place">Place:</label>
+					<input type="text" value="${meetData.meetDisp['place']}" id="place" name="place" placeholder="Enter meet location (if offline)" onChange={onChange} />
+				    </div><br>
+				    <div class="notif">
+					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
+					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
+					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
+				    </div>
+			    `,
+			confirmButtonText: 'Schedule Meet',
+			showCancelButton: true,
+			focusConfirm: false,
+			width: '64rem',
+			    backdrop: `rgba(0,0,0,0.9)`,
+				background: `rgba(0,0,0,0.9)`,
+				customClass: {
+									title: 'text-danger',
+									content: 'text-left text-white',
+									confirmButton: 'game-button bg-danger',
+								},
+			preConfirm: () => {
+				var types = document.getElementsByName('option')
+				var i, save
+				for(i = 0; i < types.length; ++i)
+				{
+					if(types[i].checked)
+						save = types[i].value
+				}
+
+				const type = save
+				const date = Swal.getPopup().querySelector('#date').value
+				const time = Swal.getPopup().querySelector('#time').value
+				const duration = Swal.getPopup().querySelector('#duration').value
+				const link = Swal.getPopup().querySelector('#link').value
+				const msg = Swal.getPopup().querySelector('#msg').value
+				const place = Swal.getPopup().querySelector('#place').value
+				var notifs = document.getElementsByName('options')
+				for(i = 0; i < notifs.length; ++i)
+				{
+					if(notifs[i].checked)
+						save = notifs[i].value
+				}
+				const notif = save
+
+				if(!type)
+				{
+					Swal.showValidationMessage(
+						`Type is a required field`
+					)
+				}
+				else if(!date)
+				{
+					Swal.showValidationMessage(
+						`Date is a required field`
+					)
+				}
+				else if(!time)
+				{
+					Swal.showValidationMessage(
+						`Time is a required field`
+					)
+				}
+				else if(!notif)
+				{
+					Swal.showValidationMessage(
+						`Reminder is a required field`
+					)
+				}
+
+				var today = new Date()
+				var fdate, ftime, fts, now
+				fdate = moment(date).format("DD-MM-YYYY")
+				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
+				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
+				fts = moment(fts)
+				now = moment().format('YYYY-MM-DD HH:mm:ss')
+				now = moment(now)
+
+				if(now > fts)
+				{
+					Swal.showValidationMessage(
+						`Invalid timestamp`
+					)
+				}
+
+				return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
+			}
+		}).then((result) => {
+			if(!result.isConfirmed)
+				return;
+			if(result.value.notif == "true")
+				result.value.notif = true
+			else
+				result.value.notif = false 
+
+			result.value.duration = Number(result.value.duration)
+			values.sender = curid
+			values.sendee = id
+			values.type = result.value.type
+			values.date = result.value.date
+			values.time = result.value.time
+			values.duration = result.value.duration
+			values.link = result.value.link
+			values.msg = result.value.msg
+			values.place = result.value.place
+			values.notif = result.value.notif
+			meetedit();
+		})
+  		},
+		variables: { 
+			user: curid,
+			other: id
+		} 
+	});
 
 async function do_meetedit(){
-	await Swal.fire({
-		title: 'Meet Details',
-		html: `
-			    <label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
-				<input type="radio" id="online" name="option" value="online">
-    			<label for="online">Online</label>
-    			<input type="radio" id="offline" name="option" value="offline">
-    			<label for="offline">Offline</label><br><br>
-			    <div class="textfield">
-				<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
-				<input class="d-inline-block" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
-			    </div><br>
-			    <div class="textfield">
-				<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
-				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
-			    </div><br>
-			    <div class="textfield">
-				<label class="text-warning" for="duration">Duration(in minutes):</label>
-				<input type="number" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
-			    </div><br>
-			    <div class="textfield">
-				<label class="text-warning" for="msg">Message:</label>
-				<textarea type="text" id="msg" name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}></textarea>
-			    </div><br>
-			    <div class="textfield">
-				<label class="text-warning" for="link">Link:</label>
-				<input type="text" id="link" name="link" placeholder="Enter meet link" onChange={onChange} />
-			    </div><br>
-			    <div class="textfield">
-				<label class="text-warning" for="place">Place:</label>
-				<input type="text" id="place" name="place" placeholder="Enter meet location" onChange={onChange} />
-			    </div><br>
-			    <div class="notif">
-				<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
-				<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
-				<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
-			    </div>
-		    `,
-		confirmButtonText: 'Schedule Meet',
-		showCancelButton: true,
-		focusConfirm: false,
-		preConfirm: () => {
-			var types = document.getElementsByName('option')
-			var i, save
-			for(i = 0; i < types.length; ++i)
-			{
-				if(types[i].checked)
-					save = types[i].value
-			}
+	if(firstCheck){
+		await setFirstCheck(false);
+		loadMeet();
+	}
+	else{
+		await Swal.fire({
+			title: 'Meet Details',
+			html: `
+				    <label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
+					<input type="radio" id="online" name="option" value="online" ${meetData.meetDisp['type']==="online" ? "checked" : ""}>
+	    			<label for="online">Online</label>
+	    			<input type="radio" id="offline" name="option" value="offline" ${meetData.meetDisp['type']==="online" ? "" : "checked"}>
+	    			<label for="offline">Offline</label><br><br>
+				    <div class="textfield">
+					<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
+					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
+					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="duration">Duration(in minutes):</label>
+					<input type="number" value="${meetData.meetDisp['duration']}" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="msg">Message:</label>
+					<textarea type="text" id="msg"name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}>${meetData.meetDisp['msg']}</textarea>
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="link">Link:</label>
+					<input type="text" value="${meetData.meetDisp['link']}" id="link" name="link" placeholder="Enter meet link (if online)" onChange={onChange} />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="place">Place:</label>
+					<input type="text" value="${meetData.meetDisp['place']}" id="place" name="place" placeholder="Enter meet location (if offline)" onChange={onChange} />
+				    </div><br>
+				    <div class="notif">
+					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
+					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
+					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
+				    </div>
+			    `,
+			confirmButtonText: 'Schedule Meet',
+			showCancelButton: true,
+			focusConfirm: false,
+			width: '64rem',
+			    backdrop: `rgba(0,0,0,0.9)`,
+				background: `rgba(0,0,0,0.9)`,
+				customClass: {
+									title: 'text-danger',
+									content: 'text-left text-white',
+									confirmButton: 'game-button bg-danger',
+								},
+			preConfirm: () => {
+				var types = document.getElementsByName('option')
+				var i, save
+				for(i = 0; i < types.length; ++i)
+				{
+					if(types[i].checked)
+						save = types[i].value
+				}
 
-			const type = save
-			const date = Swal.getPopup().querySelector('#date').value
-			const time = Swal.getPopup().querySelector('#time').value
-			const duration = Swal.getPopup().querySelector('#duration').value
-			const link = Swal.getPopup().querySelector('#link').value
-			const msg = Swal.getPopup().querySelector('#msg').value
-			const place = Swal.getPopup().querySelector('#place').value
-			var notifs = document.getElementsByName('options')
-			for(i = 0; i < notifs.length; ++i)
-			{
-				if(notifs[i].checked)
-					save = notifs[i].value
-			}
-			const notif = save
+				const type = save
+				const date = Swal.getPopup().querySelector('#date').value
+				const time = Swal.getPopup().querySelector('#time').value
+				const duration = Swal.getPopup().querySelector('#duration').value
+				const link = Swal.getPopup().querySelector('#link').value
+				const msg = Swal.getPopup().querySelector('#msg').value
+				const place = Swal.getPopup().querySelector('#place').value
+				var notifs = document.getElementsByName('options')
+				for(i = 0; i < notifs.length; ++i)
+				{
+					if(notifs[i].checked)
+						save = notifs[i].value
+				}
+				const notif = save
 
-			if(!type)
-			{
-				Swal.showValidationMessage(
-					`Type is a required field`
-				)
-			}
-			else if(!date)
-			{
-				Swal.showValidationMessage(
-					`Date is a required field`
-				)
-			}
-			else if(!time)
-			{
-				Swal.showValidationMessage(
-					`Time is a required field`
-				)
-			}
-			else if(!notif)
-			{
-				Swal.showValidationMessage(
-					`Reminder is a required field`
-				)
-			}
+				if(!type)
+				{
+					Swal.showValidationMessage(
+						`Type is a required field`
+					)
+				}
+				else if(!date)
+				{
+					Swal.showValidationMessage(
+						`Date is a required field`
+					)
+				}
+				else if(!time)
+				{
+					Swal.showValidationMessage(
+						`Time is a required field`
+					)
+				}
+				else if(!notif)
+				{
+					Swal.showValidationMessage(
+						`Reminder is a required field`
+					)
+				}
 
-			var today = new Date()
-			var fdate, ftime, fts, now
-			fdate = moment(date).format("DD-MM-YYYY")
-			ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
-			fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
-			fts = moment(fts)
-			now = moment().format('YYYY-MM-DD HH:mm:ss')
-			now = moment(now)
+				var today = new Date()
+				var fdate, ftime, fts, now
+				fdate = moment(date).format("DD-MM-YYYY")
+				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
+				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
+				fts = moment(fts)
+				now = moment().format('YYYY-MM-DD HH:mm:ss')
+				now = moment(now)
 
-			if(now > fts)
-			{
-				Swal.showValidationMessage(
-					`Invalid timestamp`
-				)
+				if(now > fts)
+				{
+					Swal.showValidationMessage(
+						`Invalid timestamp`
+					)
+				}
+
+				return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
 			}
+		}).then((result) => {
+			if(!result.isConfirmed)
+				return;
+			if(result.value.notif == "true")
+				result.value.notif = true
+			else
+				result.value.notif = false 
 
-			return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
-		}
-	}).then((result) => {
-		if(!result.isConfirmed)
-			return;
-		if(result.value.notif == "true")
-			result.value.notif = true
-		else
-			result.value.notif = false 
-
-		result.value.duration = Number(result.value.duration)
-		values.sender = curid
-		values.sendee = id
-		values.type = result.value.type
-		values.date = result.value.date
-		values.time = result.value.time
-		values.duration = result.value.duration
-		values.link = result.value.link
-		values.msg = result.value.msg
-		values.place = result.value.place
-		values.notif = result.value.notif
-		meetedit();
-	})
+			result.value.duration = Number(result.value.duration)
+			values.sender = curid
+			values.sendee = id
+			values.type = result.value.type
+			values.date = result.value.date
+			values.time = result.value.time
+			values.duration = result.value.duration
+			values.link = result.value.link
+			values.msg = result.value.msg
+			values.place = result.value.place
+			values.notif = result.value.notif
+			meetedit();
+		})
+	}
 }
 
   if(!timeline_data){
