@@ -24,6 +24,21 @@ function Notifications(props){
 		update(_, { data: { login: userData } }){
 			window.location.reload(false);
 		},
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "The Mafia hijacked our convoy.",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while editing the meet request.",
+                  imageUrl: '/img/study.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
+        },
 		variables: {
 			'sender': values.sender,
 				'sendee': values.sendee,
@@ -42,6 +57,21 @@ function Notifications(props){
         update(_, { data: { login: userData } }){
           window.location.reload(false);
         },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "Our pigeon got lost somewhere.",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while accepting the friend request.",
+                  imageUrl: '/img/pigeon.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
+        },
         variables: {
             user_id,
             fren_id
@@ -51,6 +81,21 @@ function Notifications(props){
     const [frenreject] = useMutation(FREN_REJECT, {
         update(_, { data: { login: userData } }){
           window.location.reload(false);
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "Our pigeon got lost somewhere.",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while ignoring the friend request.",
+                  imageUrl: '/img/pigeon.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
         },
         variables: {
             user_id,
@@ -62,6 +107,21 @@ function Notifications(props){
         update(_, { data: { login: userData } }){
           window.location.reload(false);
         },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "The Mafia hijacked our convoy.",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while accepting the meet request.",
+                  imageUrl: '/img/study.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
+        },
         variables: {
             user_id,
             fren_id
@@ -71,6 +131,21 @@ function Notifications(props){
     const [meetreject] = useMutation(MEET_REJECT, {
         update(_, { data: { login: userData } }){
           window.location.reload(false);
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "The Mafia hijacked our convoy.",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while ignoring the meet request.",
+                  imageUrl: '/img/study.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
         },
         variables: {
             user_id,

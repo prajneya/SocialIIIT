@@ -1,8 +1,17 @@
 const {User, Profile, UserDets, UserSub, Meet} = require("../models/User");
+const mail = require('../email')
 const e = require("express");
+const schedule = require('node-schedule')
 
 
 module.exports = {
+	mailSched: async function(ts, mdets)
+	{
+		fts = new Date(ts)
+		var task = await schedule.scheduleJob(fts, async function() {
+			err = await mail(mdets.email, mdets.title, mdets.msg);
+		})
+	},
 	getMeet: async function getMeet(curid, id){
 		curdets = await UserDets.findOne({_id: curid})
 		arr1 = [curid, id]
