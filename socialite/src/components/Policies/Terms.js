@@ -33,6 +33,7 @@ We want people to use Peersity to express themselves and to share content that i
 </ul>
 <li>You may not upload viruses or malicious code, or do anything that could disable, overburden or impair the proper working or appearance of our Products.</li>
 <li>You may not access or collect data from our Products using automated means (without our prior permission) or attempt to access data that you do not have permission to access.</li>
+<li>Any information/comment/data you publicly post on Peersity is viewable by all other users (users include everyone and everybody who possess an email address ending with .iiit.ac.in) on Peersity. Peersity is not responsible for any content that is posted on the platforms it provides (including but not limited to PeersityBlog, Querify). Each user is solely responsible for their own content that they post on Peersity.</li>
 </ol>
 We can remove or restrict access to content that is in violation of these provisions.
 If we remove content that you have shared in violation of our Community Standards, we'll let you know and explain any options you have to request another review, unless you seriously or repeatedly violate these Terms or if doing so may expose us or others to legal liability; harm our community of users; compromise or interfere with the integrity or operation of any of our services, systems or Products; where we are restricted due to technical limitations; or where we are prohibited from doing so for legal reasons.
