@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery, useMutation, useLazyQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import TinderCard from 'react-tinder-card';
@@ -83,238 +83,6 @@ function Recommend(props){
 	    }
     })
 
-	const [meetedit] = useMutation(MEET_EDIT, {
-		update(_, { data: { login: userData } }){
-			window.location.reload(false);
-		},
-        onError(err){
-          if(err.graphQLErrors.length > 0)
-            Swal.fire({title: "The Mafia hijacked our convoy.",
-                  html: Object.values(err.graphQLErrors[0])[0],
-                  footer: "The above error popped up while editing the meet request.",
-                  imageUrl: '/img/study.png',
-                  customClass: {
-                    title: 'text-danger error-message',
-                    content: 'error-message text-white',
-                    confirmButton: 'game-button bg-danger',
-                    image: 'error-image-swal',
-                  },
-                  background: `rgba(0,0,0,0.9)`
-                });
-        },
-		variables: {
-			'sender': values.sender,
-			'sendee': values.sendee,
-			'type': values.type,
-			'date': values.date,
-			'time': values.time,
-			'duration': values.duration,
-			'link': values.link,
-			'msg': values.msg,
-			'place': values.place,
-			'notif': values.notif,
-		}
-	})
-
-	const [meetaccept] = useMutation(MEET_ACCEPT, {
-		update(_, { data: { login: userData } }){
-			window.location.reload(false);
-		},
-        onError(err){
-          if(err.graphQLErrors.length > 0)
-            Swal.fire({title: "The Mafia hijacked our convoy.",
-                  html: Object.values(err.graphQLErrors[0])[0],
-                  footer: "The above error popped up while accepting the meet request.",
-                  imageUrl: '/img/study.png',
-                  customClass: {
-                    title: 'text-danger error-message',
-                    content: 'error-message text-white',
-                    confirmButton: 'game-button bg-danger',
-                    image: 'error-image-swal',
-                  },
-                  background: `rgba(0,0,0,0.9)`
-                });
-        },
-		variables: {
-			user_id,
-			fren_id
-		}
-	})
-
-	const [meetreject] = useMutation(MEET_REJECT, {
-		update(_, { data: { login: userData } }){
-			window.location.reload(false);
-		},
-        onError(err){
-          if(err.graphQLErrors.length > 0)
-            Swal.fire({title: "The Mafia hijacked our convoy.",
-                  html: Object.values(err.graphQLErrors[0])[0],
-                  footer: "The above error popped up while ignoring the meet request.",
-                  imageUrl: '/img/study.png',
-                  customClass: {
-                    title: 'text-danger error-message',
-                    content: 'error-message text-white',
-                    confirmButton: 'game-button bg-danger',
-                    image: 'error-image-swal',
-                  },
-                  background: `rgba(0,0,0,0.9)`
-                });
-        },
-		variables: {
-			user_id,
-			fren_id
-		}
-	})
-
-	const [firstCheck, setFirstCheck] = useState(true);
-
-	const [loadMeet, { called, data: meetData }] = useLazyQuery(FETCH_MEET, { 
-		async onCompleted(){
-			await Swal.fire({
-			title: 'Meet Details',
-			html: `
-				<label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
-					<input type="radio" id="online" name="option" value="online" ${meetData.meetDisp['type']==="online" ? "checked" : ""}>
-	    			<label for="online">Online</label>
-	    			<input type="radio" id="offline" name="option" value="offline" ${meetData.meetDisp['type']==="online" ? "" : "checked"}>
-	    			<label for="offline">Offline</label><br><br>
-				    <div class="textfield">
-					<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
-					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
-					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="duration">Duration(in minutes):</label>
-					<input type="number" value="${meetData.meetDisp['duration']}" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="msg">Message:</label>
-					<textarea type="text" id="msg"name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}>${meetData.meetDisp['msg']}</textarea>
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="link">Link:</label>
-					<input type="text" value="${meetData.meetDisp['link']}" id="link" name="link" placeholder="Enter meet link (if online)" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="place">Place:</label>
-					<input type="text" value="${meetData.meetDisp['place']}" id="place" name="place" placeholder="Enter meet location (if offline)" onChange={onChange} />
-				    </div><br>
-				    <div class="notif">
-					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
-					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
-					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
-				    </div>
-		    `,
-			confirmButtonText: 'Schedule Meet',
-			showCancelButton: true,
-			focusConfirm: false,
-			width: '64rem',
-		    backdrop: `rgba(0,0,0,0.9)`,
-			background: `rgba(0,0,0,0.9)`,
-			customClass: {
-								title: 'text-danger',
-								content: 'text-left text-white',
-								confirmButton: 'game-button bg-danger',
-							},
-			preConfirm: () => {
-				var types = document.getElementsByName('option')
-				var i, save
-				for(i = 0; i < types.length; ++i)
-				{
-					if(types[i].checked)
-						save = types[i].value
-				}
-
-				const type = save
-				const date = Swal.getPopup().querySelector('#date').value
-				const time = Swal.getPopup().querySelector('#time').value
-				const duration = Swal.getPopup().querySelector('#duration').value
-				const link = Swal.getPopup().querySelector('#link').value
-				const msg = Swal.getPopup().querySelector('#msg').value
-				const place = Swal.getPopup().querySelector('#place').value
-				var notifs = document.getElementsByName('options')
-				for(i = 0; i < notifs.length; ++i)
-				{
-					if(notifs[i].checked)
-						save = notifs[i].value
-				}
-				const notif = save
-
-				if(!type)
-				{
-					Swal.showValidationMessage(
-						`Type is a required field`
-					)
-				}
-				else if(!date)
-				{
-					Swal.showValidationMessage(
-						`Date is a required field`
-					)
-				}
-				else if(!time)
-				{
-					Swal.showValidationMessage(
-						`Time is a required field`
-					)
-				}
-				else if(!notif)
-				{
-					Swal.showValidationMessage(
-						`Reminder is a required field`
-					)
-				}
-
-				var today = new Date()
-				var fdate, ftime, fts, now
-				moment.tz.setDefault('Asia/Calcutta')
-				fdate = moment(date).format("DD-MM-YYYY")
-				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
-				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
-				fts = moment(fts)
-				now = moment().format('YYYY-MM-DD HH:mm:ss')
-				now = moment(now)
-
-				if(now > fts)
-				{
-					Swal.showValidationMessage(
-						`Invalid timestamp`
-					)
-				}
-
-				return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
-			}
-		}).then((result) => {
-			if(!result.isConfirmed)
-				return;
-			if(result.value.notif == "true")
-				result.value.notif = true
-			else
-				result.value.notif = false 
-
-			result.value.duration = Number(result.value.duration)
-			values.sender = user_id
-			values.sendee = fren_id
-			values.type = result.value.type
-			values.date = result.value.date
-			values.time = result.value.time
-			values.duration = result.value.duration
-			values.link = result.value.link
-			values.msg = result.value.msg
-			values.place = result.value.place
-			values.notif = result.value.notif
-			meetedit();
-		})
-		},
-		variables: { 
-			user_id,
-			fren_id
-		} 
-	});
-
     const { data: recos, loading } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
         variables: {
             user_id
@@ -347,7 +115,7 @@ function Recommend(props){
 				<input class="d-inline-block" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
 			    </div><br>
 			    <div class="textfield">
-				<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
+				<label class="text-warning" for="time">Time (IST):<span class="text-danger">*</span></label>
 				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
 			    </div><br>
 			    <div class="textfield">
@@ -432,7 +200,6 @@ function Recommend(props){
 				    )
 			    }
 
-			    var today = new Date()
 			    var fdate, ftime, fts, now
 			    moment.tz.setDefault('Asia/Calcutta')
 			    fdate = moment(date).format("DD-MM-YYYY")
@@ -473,166 +240,6 @@ function Recommend(props){
 		    meetrequest()
 	    })
     }
-
-	async function do_meetedit(fren_id){
-		await setfren_id(fren_id);
-		if(firstCheck){
-			await setFirstCheck(false);
-			loadMeet();
-		}
-		else{
-			await Swal.fire({
-			title: 'Meet Details',
-			html: `
-				<label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
-					<input type="radio" id="online" name="option" value="online" ${meetData.meetDisp['type']==="online" ? "checked" : ""}>
-	    			<label for="online">Online</label>
-	    			<input type="radio" id="offline" name="option" value="offline" ${meetData.meetDisp['type']==="online" ? "" : "checked"}>
-	    			<label for="offline">Offline</label><br><br>
-				    <div class="textfield">
-					<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
-					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
-					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="duration">Duration(in minutes):</label>
-					<input type="number" value="${meetData.meetDisp['duration']}" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="msg">Message:</label>
-					<textarea type="text" id="msg"name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}>${meetData.meetDisp['msg']}</textarea>
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="link">Link:</label>
-					<input type="text" value="${meetData.meetDisp['link']}" id="link" name="link" placeholder="Enter meet link (if online)" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="place">Place:</label>
-					<input type="text" value="${meetData.meetDisp['place']}" id="place" name="place" placeholder="Enter meet location (if offline)" onChange={onChange} />
-				    </div><br>
-				    <div class="notif">
-					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
-					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
-					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
-				    </div>
-		    `,
-			confirmButtonText: 'Schedule Meet',
-			showCancelButton: true,
-			focusConfirm: false,
-			width: '64rem',
-		    backdrop: `rgba(0,0,0,0.9)`,
-			background: `rgba(0,0,0,0.9)`,
-			customClass: {
-								title: 'text-danger',
-								content: 'text-left text-white',
-								confirmButton: 'game-button bg-danger',
-							},
-			preConfirm: () => {
-				var types = document.getElementsByName('option')
-				var i, save
-				for(i = 0; i < types.length; ++i)
-				{
-					if(types[i].checked)
-						save = types[i].value
-				}
-
-				const type = save
-				const date = Swal.getPopup().querySelector('#date').value
-				const time = Swal.getPopup().querySelector('#time').value
-				const duration = Swal.getPopup().querySelector('#duration').value
-				const link = Swal.getPopup().querySelector('#link').value
-				const msg = Swal.getPopup().querySelector('#msg').value
-				const place = Swal.getPopup().querySelector('#place').value
-				var notifs = document.getElementsByName('options')
-				for(i = 0; i < notifs.length; ++i)
-				{
-					if(notifs[i].checked)
-						save = notifs[i].value
-				}
-				const notif = save
-
-				if(!type)
-				{
-					Swal.showValidationMessage(
-						`Type is a required field`
-					)
-				}
-				else if(!date)
-				{
-					Swal.showValidationMessage(
-						`Date is a required field`
-					)
-				}
-				else if(!time)
-				{
-					Swal.showValidationMessage(
-						`Time is a required field`
-					)
-				}
-				else if(!notif)
-				{
-					Swal.showValidationMessage(
-						`Reminder is a required field`
-					)
-				}
-
-				var today = new Date()
-				var fdate, ftime, fts, now
-				moment.tz.setDefault('Asia/Calcutta')
-				fdate = moment(date).format("DD-MM-YYYY")
-				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
-				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
-				fts = moment(fts)
-				now = moment().format('YYYY-MM-DD HH:mm:ss')
-				now = moment(now)
-
-				if(now > fts)
-				{
-					Swal.showValidationMessage(
-						`Invalid timestamp`
-					)
-				}
-
-				return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
-			}
-		}).then((result) => {
-			if(!result.isConfirmed)
-				return;
-			if(result.value.notif == "true")
-				result.value.notif = true
-			else
-				result.value.notif = false 
-
-			result.value.duration = Number(result.value.duration)
-			values.sender = user_id
-			values.sendee = fren_id
-			values.type = result.value.type
-			values.date = result.value.date
-			values.time = result.value.time
-			values.duration = result.value.duration
-			values.link = result.value.link
-			values.msg = result.value.msg
-			values.place = result.value.place
-			values.notif = result.value.notif
-			meetedit();
-		})
-		}
-	}
-
-	async function do_meetaccept(fren_id){
-		document.getElementById("macc").disabled = true
-		await setfren_id(fren_id);
-		meetaccept();
-	}
-
-	async function do_meetreject(fren_id){
-		document.getElementById("mrej").disabled = true
-		await setfren_id(fren_id);
-		meetreject();
-	}
 
     var recommendations = recos ? recos.recommend : "";
 
@@ -803,7 +410,7 @@ function Recommend(props){
                                     <div className="request-buttons">
 				<button id="freq" className="rounded ml-2 my-2" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>
 				{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2" onClick={() => send_meetrequest(recommendation['id'])}>MEET UP</button> : ""}
-				{recommendation.meet === 2 ? <div>Pending Meet Request!</div> : ""}
+				{recommendation.meet === 2 ? <button className="rounded ml-2 my-2">PENDING MEET</button> : ""}
 				</div>
                                     </div>
                                     <div className="image-container">
@@ -860,56 +467,6 @@ const MEET_REQUEST = gql`
 			    notif: $notif
 		    }
 	    )
-    }
-`;
-
-const FETCH_MEET = gql`
-    query($user: String!, $other: String!){
-        meetDisp(user: $user, other: $other){
-		id people type date time duration link msg place notif
-        }
-    }
-`
-
-const MEET_EDIT = gql`
-    mutation meetEdit(
-	    $sender: String!
-	    $sendee: String!
-	    $type: String!
-	    $date: String!
-	    $time: String!
-	    $duration: Int
-	    $link: String
-	    $msg: String
-	    $place: String
-	    $notif: Boolean!
-    ) {
-	    meetEdit(
-		    data: {
-			    sender: $sender
-			    sendee: $sendee
-			    type: $type
-			    date: $date
-			    time: $time
-			    duration: $duration
-			    link: $link
-			    msg: $msg
-			    place: $place
-			    notif: $notif
-		    }
-	    )
-    }
-`;
-
-const MEET_ACCEPT = gql`
-    mutation meetaccept($user_id: String!, $fren_id: String!) {
-        meetaccept(user_id: $user_id, fren_id: $fren_id)
-    }
-`;
-
-const MEET_REJECT = gql`
-    mutation meetreject($user_id: String!, $fren_id: String!) {
-        meetreject(user_id: $user_id, fren_id: $fren_id)
     }
 `;
 

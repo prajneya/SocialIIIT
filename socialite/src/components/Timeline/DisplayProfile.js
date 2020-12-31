@@ -235,7 +235,7 @@ async function send_meetrequest(fren_id){
 				<input class="d-inline-block" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
 			    </div><br>
 			    <div class="textfield">
-				<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
+				<label class="text-warning" for="time">Time (IST):<span class="text-danger">*</span></label>
 				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
 			    </div><br>
 			    <div class="textfield">
@@ -320,7 +320,6 @@ async function send_meetrequest(fren_id){
 				)
 			}
 
-			var today = new Date()
 			var fdate, ftime, fts, now
 			moment.tz.setDefault('Asia/Calcutta')
 			fdate = moment(date).format("DD-MM-YYYY")
@@ -434,7 +433,7 @@ const username = props.match.params.username;
 
   const [firstCheck, setFirstCheck] = useState(true);
 
-  const [loadMeet, { loading, data: meetData }] = useLazyQuery(FETCH_MEET, { 
+  const [loadMeet, { data: meetData }] = useLazyQuery(FETCH_MEET, { 
   		async onCompleted(){
 
   			await Swal.fire({
@@ -450,7 +449,7 @@ const username = props.match.params.username;
 					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
 				    </div><br>
 				    <div class="textfield">
-					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
+					<label class="text-warning" for="time">Time (IST):<span class="text-danger">*</span></label>
 					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
 				    </div><br>
 				    <div class="textfield">
@@ -471,8 +470,8 @@ const username = props.match.params.username;
 				    </div><br>
 				    <div class="notif">
 					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
-					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
-					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
+					<input type="radio" id="reminder_yes" name="options" value=true ${meetData.meetDisp['notif'] ? "checked" : ""}><label for="reminder_yes">Yes</label>
+          <input type="radio" id="reminder_no" name="options" value=false ${meetData.meetDisp['notif'] ? "" : "checked"}><label for="reminder_no">No</label>
 				    </div>
 			    `,
 			confirmButtonText: 'Schedule Meet',
@@ -535,7 +534,6 @@ const username = props.match.params.username;
 					)
 				}
 
-				var today = new Date()
 				var fdate, ftime, fts, now
 				moment.tz.setDefault('Asia/Calcutta')
 				fdate = moment(date).format("DD-MM-YYYY")
@@ -601,7 +599,7 @@ async function do_meetedit(){
 					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
 				    </div><br>
 				    <div class="textfield">
-					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
+					<label class="text-warning" for="time">Time (IST):<span class="text-danger">*</span></label>
 					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
 				    </div><br>
 				    <div class="textfield">
@@ -622,8 +620,8 @@ async function do_meetedit(){
 				    </div><br>
 				    <div class="notif">
 					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
-					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
-					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
+					<input type="radio" id="reminder_yes" name="options" value=true ${meetData.meetDisp['notif'] ? "checked" : ""}><label for="reminder_yes">Yes</label>
+          <input type="radio" id="reminder_no" name="options" value=false ${meetData.meetDisp['notif'] ? "" : "checked"}><label for="reminder_no">No</label>
 				    </div>
 			    `,
 			confirmButtonText: 'Schedule Meet',
@@ -686,7 +684,6 @@ async function do_meetedit(){
 					)
 				}
 
-				var today = new Date()
 				var fdate, ftime, fts, now
 				moment.tz.setDefault('Asia/Calcutta')
 				fdate = moment(date).format("DD-MM-YYYY")

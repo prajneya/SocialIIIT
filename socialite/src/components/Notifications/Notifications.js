@@ -105,7 +105,7 @@ function Notifications(props){
 
     const [meetaccept] = useMutation(MEET_ACCEPT, {
         update(_, { data: { login: userData } }){
-          window.location.reload(false);
+          
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
@@ -153,9 +153,7 @@ function Notifications(props){
         }
     })
 
-    const [firstCheck, setFirstCheck] = useState(true);
-
-	const [loadMeet, { called, data: meetData }] = useLazyQuery(FETCH_MEET, { 
+	const [loadMeet, { data: meetData }] = useLazyQuery(FETCH_MEET, { 
 		async onCompleted(){
 			await Swal.fire({
 			title: 'Meet Details',
@@ -170,7 +168,7 @@ function Notifications(props){
 					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
 				    </div><br>
 				    <div class="textfield">
-					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
+					<label class="text-warning" for="time">Time (IST):<span class="text-danger">*</span></label>
 					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
 				    </div><br>
 				    <div class="textfield">
@@ -191,8 +189,8 @@ function Notifications(props){
 				    </div><br>
 				    <div class="notif">
 					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
-					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
-					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
+					<input type="radio" id="reminder_yes" name="options" value=true ${meetData.meetDisp['notif'] ? "checked" : ""}><label for="reminder_yes">Yes</label>
+					<input type="radio" id="reminder_no" name="options" value=false ${meetData.meetDisp['notif'] ? "" : "checked"}><label for="reminder_no">No</label>
 				    </div>
 		    `,
 			confirmButtonText: 'Schedule Meet',
@@ -255,7 +253,6 @@ function Notifications(props){
 					)
 				}
 
-				var today = new Date()
 				var fdate, ftime, fts, now
 				moment.tz.setDefault('Asia/Calcutta')
 				fdate = moment(date).format("DD-MM-YYYY")
@@ -302,164 +299,15 @@ function Notifications(props){
 		} 
 	});
 
-    const { data: notifs, loading } = useQuery(FETCH_NOTIFICATIONS_QUERY, {
-        variables: {
-            user_id
-        }
-    });
-
 	async function do_meetedit(e, fren_id){
 		e.stopPropagation()
 		await setfren_id(fren_id);
-		if(firstCheck){
-			await setFirstCheck(false);
-			loadMeet();
-		}
-		else{
-			await Swal.fire({
-			title: 'Meet Details',
-			html: `
-			    <label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
-					<input type="radio" id="online" name="option" value="online" ${meetData.meetDisp['type']==="online" ? "checked" : ""}>
-	    			<label for="online">Online</label>
-	    			<input type="radio" id="offline" name="option" value="offline" ${meetData.meetDisp['type']==="online" ? "" : "checked"}>
-	    			<label for="offline">Offline</label><br><br>
-				    <div class="textfield">
-					<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
-					<input class="d-inline-block" value="${meetData.meetDisp['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="time">Time:<span class="text-danger">*</span></label>
-					<input type="time" value="${meetData.meetDisp['time']}" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="duration">Duration(in minutes):</label>
-					<input type="number" value="${meetData.meetDisp['duration']}" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="msg">Message:</label>
-					<textarea type="text" id="msg"name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}>${meetData.meetDisp['msg']}</textarea>
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="link">Link:</label>
-					<input type="text" value="${meetData.meetDisp['link']}" id="link" name="link" placeholder="Enter meet link (if online)" onChange={onChange} />
-				    </div><br>
-				    <div class="textfield">
-					<label class="text-warning" for="place">Place:</label>
-					<input type="text" value="${meetData.meetDisp['place']}" id="place" name="place" placeholder="Enter meet location (if offline)" onChange={onChange} />
-				    </div><br>
-				    <div class="notif">
-					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
-					<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
-					<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
-				    </div>
-		    `,
-			confirmButtonText: 'Schedule Meet',
-			showCancelButton: true,
-			focusConfirm: false,
-			width: '64rem',
-		    backdrop: `rgba(0,0,0,0.9)`,
-			background: `rgba(0,0,0,0.9)`,
-			customClass: {
-								title: 'text-danger',
-								content: 'text-left text-white',
-								confirmButton: 'game-button bg-danger',
-							},
-			preConfirm: () => {
-				var types = document.getElementsByName('option')
-				var i, save
-				for(i = 0; i < types.length; ++i)
-				{
-					if(types[i].checked)
-						save = types[i].value
-				}
-
-				const type = save
-				const date = Swal.getPopup().querySelector('#date').value
-				const time = Swal.getPopup().querySelector('#time').value
-				const duration = Swal.getPopup().querySelector('#duration').value
-				const link = Swal.getPopup().querySelector('#link').value
-				const msg = Swal.getPopup().querySelector('#msg').value
-				const place = Swal.getPopup().querySelector('#place').value
-				var notifs = document.getElementsByName('options')
-				for(i = 0; i < notifs.length; ++i)
-				{
-					if(notifs[i].checked)
-						save = notifs[i].value
-				}
-				const notif = save
-
-				if(!type)
-				{
-					Swal.showValidationMessage(
-						`Type is a required field`
-					)
-				}
-				else if(!date)
-				{
-					Swal.showValidationMessage(
-						`Date is a required field`
-					)
-				}
-				else if(!time)
-				{
-					Swal.showValidationMessage(
-						`Time is a required field`
-					)
-				}
-				else if(!notif)
-				{
-					Swal.showValidationMessage(
-						`Reminder is a required field`
-					)
-				}
-
-				var today = new Date()
-				var fdate, ftime, fts, now
-				moment.tz.setDefault('Asia/Calcutta')
-				fdate = moment(date).format("DD-MM-YYYY")
-				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
-				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
-				fts = moment(fts)
-				now = moment().format('YYYY-MM-DD HH:mm:ss')
-				now = moment(now)
-
-				if(now > fts)
-				{
-					Swal.showValidationMessage(
-						`Invalid timestamp`
-					)
-				}
-
-				return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
-			}
-			}).then((result) => {
-				if(!result.isConfirmed)
-					return;
-				if(result.value.notif == "true")
-					result.value.notif = true
-				else
-					result.value.notif = false 
-
-				result.value.duration = Number(result.value.duration)
-				values.sender = user_id
-				values.sendee = fren_id
-				values.type = result.value.type
-				values.date = result.value.date
-				values.time = result.value.time
-				values.duration = result.value.duration
-				values.link = result.value.link
-				values.msg = result.value.msg
-				values.place = result.value.place
-				values.notif = result.value.notif
-				meetedit();
-			})
-		}
+		loadMeet();
 	}
 
     async function do_frenaccept(e, fren_id){
 	    e.stopPropagation()
-	document.getElementById("facc").disabled = true
+		document.getElementById("facc").disabled = true
         await setfren_id(fren_id);
         frenaccept();
     }
@@ -473,16 +321,94 @@ function Notifications(props){
 
     async function do_meetaccept(e, fren_id){
 	    e.stopPropagation()
-	document.getElementById("macc").disabled = true
+		document.getElementById("macc").disabled = true
         await setfren_id(fren_id);
         meetaccept();
     }
 
     async function do_meetreject(e, fren_id){
 	    e.stopPropagation()
-	document.getElementById("mrej").disabled = true
+		document.getElementById("mrej").disabled = true
         await setfren_id(fren_id);
         meetreject();
+    }
+
+    const [notificationId, setNotificationId] = useState("");
+
+    const [meetview, { data: meetViewData }] = useLazyQuery(FETCH_MEETDETS, { 
+    	async onCompleted(){
+    		await Swal.fire({
+			title: 'Meet Details',
+			html: `
+			    <label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
+			    	<div class="textfield">
+					<input class="d-inline-block" value="${meetViewData.schedMeet['type']}" type="text" id="type" name="type" readonly />
+					</div><br>
+				    <div class="textfield">
+					<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
+					<input class="d-inline-block" value="${meetViewData.schedMeet['date']}" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" readonly />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="time">Time (IST):<span class="text-danger">*</span></label>
+					<input type="time" value="${meetViewData.schedMeet['time']}" id="time" name="time" placeholder="Enter meet time" readonly />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="duration">Duration(in minutes):</label>
+					<input type="number" value="${meetViewData.schedMeet['duration']}" id="duration" name="duration" placeholder="Enter meet duration" readonly />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="msg">Message:</label>
+					<textarea type="text" id="msg"name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." readonly>${meetViewData.schedMeet['msg']}</textarea>
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="link">Link:</label>
+					<input type="text" value="${meetViewData.schedMeet['link']}" id="link" name="link" placeholder="Enter meet link (if online)" readonly />
+				    </div><br>
+				    <div class="textfield">
+					<label class="text-warning" for="place">Place:</label>
+					<input type="text" value="${meetViewData.schedMeet['place']}" id="place" name="place" placeholder="Enter meet location (if offline)" readonly />
+				    </div><br>
+				    <div class="notif">
+					<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
+					<div class="textfield">
+					<input class="d-inline-block" value="${meetViewData.schedMeet['notif'] ? "Reminder is on" : "Reminder is off"}" type="text" id="notif" name="nbtif" readonly />
+				    </div>
+				    </div>
+		    `,
+		    confirmButtonText: 'Okay!',
+			showCancelButton: false,
+			focusConfirm: false,
+			width: '64rem',
+		    backdrop: `rgba(0,0,0,0.9)`,
+			background: `rgba(0,0,0,0.9)`,
+			customClass: {
+								title: 'text-danger',
+								content: 'text-left text-white',
+								confirmButton: 'game-button bg-danger',
+							}
+			})
+    	},
+    	variables: {
+    		notifid : notificationId
+    	}
+    })
+
+    async function do_meetview(e, notif_id){
+    	e.stopPropagation()
+    	await setNotificationId(notif_id);
+    	meetview();
+    }
+
+
+    const { data: notifs, loading } = useQuery(FETCH_NOTIFICATIONS_QUERY, {
+        variables: {
+            user_id
+        }
+    });
+
+    if(loading){
+        return (<><div id="overlay" style={{display: "block"}}></div>
+            <div id="vibe-animation" style={{display: "block"}}><div className="loader">Loading...</div><br/>HACKING INTO THE PEERSITY DATABASE ...</div></>)
     }
 
     var notifications = notifs ? notifs.getNotif : "";
@@ -537,7 +463,7 @@ function Notifications(props){
                                             : ""}
                                             {notification['type'] === "macc" ?
                                             <div>
-                                                Meet request accepted! Schedule your meet now!
+                                                <button id="mdet" className="rounded ml-1 my-2 interact" onClick={(event) => do_meetview(event, notification['id'])}>VIEW MEET DETAILS</button>
                                             </div>
                                             : ""}
                                             </div>
