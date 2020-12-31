@@ -30,13 +30,13 @@ async function meetaccept(user_id, fren_id)
 			throw new UserInputError('Invalid timestamp', { errors });
 		}
 
-		//await data.updateAccRejMeet(user_id, fren_id, meet._id)	
-		//var notifida = await data.newNotif(fren_id, user_id, "macc");
-		//await data.removeNotif(user_id, fren_id, "mreq");
-		//var notifidb = await data.newNotif(user_id, fren_id, "macc");
+		await data.updateAccRejMeet(user_id, fren_id, meet._id)	
+		var notifida = await data.newNotif(fren_id, user_id, "macc");
+		await data.removeNotif(user_id, fren_id, "mreq");
+		var notifidb = await data.newNotif(user_id, fren_id, "macc");
 
-		//await Meet.updateOne({_id: meet._id}, {$push: {sched: notifida}})
-		//await Meet.updateOne({_id: meet._id}, {$push: {sched: notifidb}})
+		await Meet.updateOne({_id: meet._id}, {$push: {sched: notifida}})
+		await Meet.updateOne({_id: meet._id}, {$push: {sched: notifidb}})
 
 		if(meet.notif)
 		{
