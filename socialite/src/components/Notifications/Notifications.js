@@ -105,7 +105,7 @@ function Notifications(props){
 
     const [meetaccept] = useMutation(MEET_ACCEPT, {
         update(_, { data: { login: userData } }){
-          
+          window.location.reload(false);
         },
         onError(err){
           if(err.graphQLErrors.length > 0)
