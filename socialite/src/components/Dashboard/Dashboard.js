@@ -172,7 +172,7 @@ function Dashboard(props){
                     </div>
                     <div className="popular-posts my-5">
                       <div className="popular-header">
-                        PEOPLE YOU MAY LIKE
+                        LEADERBOARD
                         <a href="/recommend"><span class="see-more float-right">MORE</span></a>
                       </div>
                       <animated.div style={slideInFast}>
