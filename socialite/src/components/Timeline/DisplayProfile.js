@@ -322,6 +322,7 @@ async function send_meetrequest(fren_id){
 
 			var today = new Date()
 			var fdate, ftime, fts, now
+			moment.tz.setDefault('Asia/Calcutta')
 			fdate = moment(date).format("DD-MM-YYYY")
 			ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
 			fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
@@ -536,6 +537,7 @@ const username = props.match.params.username;
 
 				var today = new Date()
 				var fdate, ftime, fts, now
+				moment.tz.setDefault('Asia/Calcutta')
 				fdate = moment(date).format("DD-MM-YYYY")
 				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
 				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
@@ -686,6 +688,7 @@ async function do_meetedit(){
 
 				var today = new Date()
 				var fdate, ftime, fts, now
+				moment.tz.setDefault('Asia/Calcutta')
 				fdate = moment(date).format("DD-MM-YYYY")
 				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
 				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();

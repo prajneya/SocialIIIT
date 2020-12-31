@@ -270,6 +270,7 @@ function Recommend(props){
 
 				var today = new Date()
 				var fdate, ftime, fts, now
+				moment.tz.setDefault('Asia/Calcutta')
 				fdate = moment(date).format("DD-MM-YYYY")
 				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
 				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
@@ -433,6 +434,7 @@ function Recommend(props){
 
 			    var today = new Date()
 			    var fdate, ftime, fts, now
+			    moment.tz.setDefault('Asia/Calcutta')
 			    fdate = moment(date).format("DD-MM-YYYY")
 			    ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
 			    fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
@@ -579,6 +581,7 @@ function Recommend(props){
 
 				var today = new Date()
 				var fdate, ftime, fts, now
+				moment.tz.setDefault('Asia/Calcutta')
 				fdate = moment(date).format("DD-MM-YYYY")
 				ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
 				fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();

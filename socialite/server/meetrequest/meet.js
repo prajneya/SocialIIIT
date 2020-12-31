@@ -16,6 +16,7 @@ async function meetaccept(user_id, fren_id)
 			throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
 		}
 
+		moment.tz.setDefault('Asia/Calcutta')
 		fdate = moment(meet.date).format("DD-MM-YYYY")
 		ftime = moment(moment(meet.time, "HH:mm:ss")).format("HH:mm:ss")
 		var fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
@@ -29,13 +30,13 @@ async function meetaccept(user_id, fren_id)
 			throw new UserInputError('Invalid timestamp', { errors });
 		}
 
-		await data.updateAccRejMeet(user_id, fren_id, meet._id)	
-		var notifida = await data.newNotif(fren_id, user_id, "macc");
-		await data.removeNotif(user_id, fren_id, "mreq");
-		var notifidb = await data.newNotif(user_id, fren_id, "macc");
+		//await data.updateAccRejMeet(user_id, fren_id, meet._id)	
+		//var notifida = await data.newNotif(fren_id, user_id, "macc");
+		//await data.removeNotif(user_id, fren_id, "mreq");
+		//var notifidb = await data.newNotif(user_id, fren_id, "macc");
 
-		await Meet.updateOne({_id: meet._id}, {$push: {sched: notifida}})
-		await Meet.updateOne({_id: meet._id}, {$push: {sched: notifidb}})
+		//await Meet.updateOne({_id: meet._id}, {$push: {sched: notifida}})
+		//await Meet.updateOne({_id: meet._id}, {$push: {sched: notifidb}})
 
 		if(meet.notif)
 		{
@@ -404,6 +405,7 @@ async function meetrequest(meetdata)
 {
 	try{
 		errors = {}
+		moment.tz.setDefault('Asia/Calcutta')
 		fdate = moment(meetdata.date).format("DD-MM-YYYY")
 		ftime = moment(moment(meetdata.time, "HH:mm:ss")).format("HH:mm:ss")
 		var fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
@@ -493,6 +495,7 @@ async function meetEdit(meetdata)
 {
 	try{
 		errors = {}
+		moment.tz.setDefault('Asia/Calcutta')
 		fdate = moment(meetdata.date).format("DD-MM-YYYY")
 		ftime = moment(moment(meetdata.time, "HH:mm:ss")).format("HH:mm:ss")
 		var fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
