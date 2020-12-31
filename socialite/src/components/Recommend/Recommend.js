@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery, useMutation} from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { useState } from 'react';
 import gql from 'graphql-tag';
 import TinderCard from 'react-tinder-card';
 import Swal from 'sweetalert2';
+import moment from "moment-timezone"
 import {useSpring, animated} from 'react-spring'
 import { faHandPointLeft, faHandPointRight, faHandPointUp, faHandPointDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -22,6 +23,7 @@ function Recommend(props){
 
     const user_id = user.id;
     const [fren_id, setfren_id] = useState('');
+    const [values, setValues] = useState({});
 
     const [frenrequest] = useMutation(FREN_REQUEST, {
         update(_, { data: fRequestData }){
@@ -30,7 +32,7 @@ function Recommend(props){
         onError(err){
           if(err.graphQLErrors.length > 0)
             Swal.fire({title: "Our pigeon got lost somewhere.",
-                  html: Object.values(err.graphQLErrors[0].extensions.exception.errors)[0],
+                  html: Object.values(err.graphQLErrors[0])[0],
                   footer: "The above error popped up while sending the friend request.",
                   imageUrl: '/img/pigeon.png',
                   customClass: {
@@ -55,7 +57,7 @@ function Recommend(props){
         onError(err){
           if(err.graphQLErrors.length > 0)
             Swal.fire({title: "The Mafia hijacked our convoy.",
-                  html: Object.values(err.graphQLErrors[0].extensions.exception.errors)[0],
+                  html: Object.values(err.graphQLErrors[0])[0],
                   footer: "The above error popped up while sending the meet request.",
                   imageUrl: '/img/study.png',
                   customClass: {
@@ -67,13 +69,21 @@ function Recommend(props){
                   background: `rgba(0,0,0,0.9)`
                 });
         },
-        variables: {
-            user_id,
-            fren_id
-        }
+	    variables: {
+		    'sender': values.sender,
+		    'sendee': values.sendee,
+		    'type': values.type,
+		    'date': values.date,
+		    'time': values.time,
+		    'duration': values.duration,
+		    'link': values.link,
+		    'msg': values.msg,
+		    'place': values.place,
+		    'notif': values.notif,
+	    }
     })
 
-    const { data, loading } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
+    const { data: recos, loading } = useQuery(FETCH_RECOMMENDATIONS_QUERY, {
         variables: {
             user_id
         }
@@ -91,14 +101,149 @@ function Recommend(props){
     }
 
     async function send_meetrequest(fren_id){
-	document.getElementById("mreq").disabled = true
         await setfren_id(fren_id);
-        meetrequest();
+	    await Swal.fire({
+		    title: 'Meet Details',
+		    html: `
+				<label class="d-inline-block text-warning" for="type">Type:<span class="text-danger">*</span></label>
+				<input type="radio" id="online" name="option" value="online">
+    			<label for="online">Online</label>
+    			<input type="radio" id="offline" name="option" value="offline">
+    			<label for="offline">Offline</label><br><br>
+			    <div class="textfield">
+				<label class="d-inline-block text-warning" for="date">Date:<span class="text-danger">*</span></label>
+				<input class="d-inline-block" type="date" id="date" name="date" placeholder="dd-mm-yyyy" min="" onChange={onChange} />
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="time">Time (IST):<span class="text-danger">*</span></label>
+				<input type="time" id="time" name="time" placeholder="Enter meet time" onChange={onChange} />
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="duration">Duration(in minutes):</label>
+				<input type="number" id="duration" name="duration" placeholder="Enter meet duration" onChange={onChange} />
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="msg">Message:</label>
+				<textarea type="text" id="msg" name="msg" placeholder="Craft a beautiful message. Maybe drop your Instagram ID first? No one likes a creep." onChange={onChange}></textarea>
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="link">Link:</label>
+				<input type="text" id="link" name="link" placeholder="Enter meet link" onChange={onChange} />
+			    </div><br>
+			    <div class="textfield">
+				<label class="text-warning" for="place">Place:</label>
+				<input type="text" id="place" name="place" placeholder="Enter meet location" onChange={onChange} />
+			    </div><br>
+			    <div class="notif">
+				<label class="text-warning" for="notif">Reminder:<span class="text-danger">*</span></label>
+				<input type="radio" id="reminder_yes" name="options" value=true><label for="reminder_yes">Yes</label>
+				<input type="radio" id="reminder_no" name="options" value=false><label for="reminder_no">No</label>
+			    </div>
+		    `,
+		    confirmButtonText: 'Schedule Meet',
+		    showCancelButton: true,
+		    focusConfirm: false,
+		    width: '64rem',
+		    backdrop: `rgba(0,0,0,0.9)`,
+			background: `rgba(0,0,0,0.9)`,
+			customClass: {
+								title: 'text-danger',
+								content: 'text-left text-white',
+								confirmButton: 'game-button bg-danger',
+							},
+		    preConfirm: () => {
+			    var types = document.getElementsByName('option')
+			    var i, save
+			    for(i = 0; i < types.length; ++i)
+			    {
+				    if(types[i].checked)
+					    save = types[i].value
+			    }
+
+			    const type = save
+			    const date = Swal.getPopup().querySelector('#date').value
+			    const time = Swal.getPopup().querySelector('#time').value
+			    const duration = Swal.getPopup().querySelector('#duration').value
+			    const link = Swal.getPopup().querySelector('#link').value
+			    const msg = Swal.getPopup().querySelector('#msg').value
+			    const place = Swal.getPopup().querySelector('#place').value
+			    var notifs = document.getElementsByName('options')
+			    for(i = 0; i < notifs.length; ++i)
+			    {
+				    if(notifs[i].checked)
+					    save = notifs[i].value
+			    }
+			    const notif = save
+
+			    if(!type)
+			    {
+				    Swal.showValidationMessage(
+					    `Type is a required field`
+				    )
+			    }
+			    else if(!date)
+			    {
+				    Swal.showValidationMessage(
+					    `Date is a required field`
+				    )
+			    }
+			    else if(!time)
+			    {
+				    Swal.showValidationMessage(
+					    `Time is a required field`
+				    )
+			    }
+			    else if(!notif)
+			    {
+				    Swal.showValidationMessage(
+					    `Reminder is a required field`
+				    )
+			    }
+
+			    var fdate, ftime, fts, now
+			    moment.tz.setDefault('Asia/Calcutta')
+			    fdate = moment(date).format("DD-MM-YYYY")
+			    ftime = moment(moment(time, "HH:mm:ss")).format("HH:mm:ss")
+			    fts = moment(`${fdate} ${ftime}`, 'DD-MM-YYYY HH:mm:ss').format();
+			    fts = moment(fts)
+			    now = moment().format('YYYY-MM-DD HH:mm:ss')
+			    now = moment(now)
+
+			    if(now > fts)
+			    {
+				    Swal.showValidationMessage(
+					    `Invalid timestamp`
+				    )
+			    }
+
+			    return { type: type, date: date, time: time, duration: duration, link: link, msg: msg, place: place, notif: notif }
+		    }
+	    }).then((result) => {
+		    if(!result.isConfirmed)
+			    return
+		    if(result.value && result.value.notif == "true")
+			    result.value.notif = true
+		    else
+			    result.value.notif = false 
+
+		    result.value.duration = Number(result.value.duration)
+		    values.sender = user_id
+		    values.sendee = fren_id
+		    values.type = result.value.type
+		    values.date = result.value.date
+		    values.time = result.value.time
+		    values.duration = result.value.duration
+		    values.link = result.value.link
+		    values.msg = result.value.msg
+		    values.place = result.value.place
+		    values.notif = result.value.notif
+		    meetrequest()
+	    })
     }
 
-    var recommendations = data ? data.recommend : "";
+    var recommendations = recos ? recos.recommend : "";
 
-    const onSwipe = (direction, recommend_id, recommend_name) => {
+    const onSwipe = (direction, recommend_id, recommend_name, recommend_meet) => {
         console.log(direction, recommend_id)
         if(direction==='right'){
             Swal.fire({
@@ -128,6 +273,25 @@ function Recommend(props){
             })
         }
         else if(direction==='left'){
+        	if(recommend_meet === 2){
+        		Swal.fire({
+	              title: 'Hold your horses!',
+	              text: 'You ahave already send a meet request to ' + recommend_name,
+	              icon: 'warning',
+	              showCancelButton: false,
+	              confirmButtonText: 'Yeah, yeah. I know.'
+	            })
+	            return;
+	        }
+	        else if(recommend_meet == 3){
+	        	Swal.fire({
+	              title: 'Tee, hee! Looks like a match!',
+	              text: 'You already have a meet request from ' + recommend_name + '. Check the notifications panel.',
+	              showCancelButton: false,
+	              confirmButtonText: 'Got it!'
+	            })
+	            return;
+	        }
             Swal.fire({
               title: 'Meet Up?',
               text: 'You are sending a Meet Request to ' + recommend_name,
@@ -204,7 +368,7 @@ function Recommend(props){
                         <div className="no-recommendations">No recommendations for you at the moment. Please come back later. :(</div>
                         {recommendations && recommendations.slice(0).reverse().map(recommendation => (
                             <>
-                                <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['username'])} onCardLeftScreen={() => onCardLeftScreen(recommendation['username'])}>
+                                <TinderCard onSwipe={(dir) => onSwipe(dir, recommendation['id'], recommendation['username'], recommendation.meet)} onCardLeftScreen={() => onCardLeftScreen(recommendation['username'])}>
                                     <div className="friend">
                                       <div className="image-container">
                                         {recommendation.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={recommendation.imgUrl} alt="display"/> }
@@ -243,7 +407,11 @@ function Recommend(props){
                                               <div className="similarity"><span className="similarity-number">&nbsp;{Math.round((recommendation['match'] + Number.EPSILON) * 100)/100} </span>%</div>
                                       <br />
                                     </div>
-                                    <div className="request-buttons"><button id="freq" className="rounded ml-2 my-2 float-right" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2 float-right" onClick={() => send_meetrequest(recommendation['id'])}>MEET UP</button> : ""}</div>
+                                    <div className="request-buttons">
+				<button id="freq" className="rounded ml-2 my-2" onClick={() => send_frenrequest(recommendation['id'])}>SEND FRIEND REQUEST</button>
+				{recommendation.meet === 0 ? <button id="mreq" className="rounded ml-2 my-2" onClick={() => send_meetrequest(recommendation['id'])}>MEET UP</button> : ""}
+				{recommendation.meet === 2 ? <button className="rounded ml-2 my-2">PENDING MEET</button> : ""}
+				</div>
                                     </div>
                                     <div className="image-container">
                                       {recommendation.imgUrl === "" ? <img src='/img/dp.jpeg' alt="display"/> : <img src={recommendation.imgUrl} alt="display"/> }
@@ -273,8 +441,32 @@ const FREN_REQUEST = gql`
 `;
 
 const MEET_REQUEST = gql`
-    mutation meetrequest($user_id: String!, $fren_id: String!) {
-        meetrequest(user_id: $user_id, fren_id: $fren_id)
+    mutation meetrequest(
+	    $sender: String!
+	    $sendee: String!
+	    $type: String!
+	    $date: String!
+	    $time: String!
+	    $duration: Int
+	    $link: String
+	    $msg: String
+	    $place: String
+	    $notif: Boolean!
+    ) {
+	    meetrequest(
+		    data: {
+			    sender: $sender
+			    sendee: $sendee
+			    type: $type
+			    date: $date
+			    time: $time
+			    duration: $duration
+			    link: $link
+			    msg: $msg
+			    place: $place
+			    notif: $notif
+		    }
+	    )
     }
 `;
 

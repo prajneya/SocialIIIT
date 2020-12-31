@@ -2,9 +2,18 @@ const data = require("../util/userdata");
 const ratio = require("../recosys/ratio");
 const collab = require("../recosys/collab");
 const notif = require("../notif");
+const { UserInputError } = require('apollo-server')
 
 async function frenaccept(user_id, fren_id)
 {
+	errors = {}
+	dets = await data.getUserDetsById(user_id)
+	if(dets.send.includes(fren_id))
+	{
+		errors.general = 'You have already sent the request. Kindly refresh the page.';
+		throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
+	}
+
 	await data.updateFriendlist(user_id, fren_id);
 	await data.updateAccRej(user_id, fren_id);
 	await data.newNotif(fren_id, user_id, "facc");
@@ -28,12 +37,40 @@ async function frenaccept(user_id, fren_id)
 
 async function frenreject(user_id, fren_id)
 {
+	errors = {}
+	dets = await data.getUserDetsById(user_id)
+	if(dets.send.includes(fren_id))
+	{
+		errors.general = 'You have already sent the request. Kindly refresh the page.';
+		throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
+	}
+
 	await data.updateAccRej(user_id, fren_id, 0);
 	await data.removeNotif(user_id, fren_id, "freq");
 }
 
 async function frenrequest(user_id, fren_id)
 {
+	errors = {}
+	dets = await data.getUserDetsById(user_id)
+	prof = await data.getProfileById(user_id)
+	if(dets.send.includes(fren_id))
+	{
+		errors.general = 'You have already sent the request. Kindly refresh the page.';
+		throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
+	}
+
+	else if(dets.request.includes(fren_id))
+	{
+		errors.general = 'You already have a pending request. Kindly refresh the page.';
+		throw new UserInputError('You already have a pending request. Kindly refresh the page.', { errors });
+	}
+
+	else if(prof.friends.includes(fren_id))
+	{
+		errors.general = 'You are already friends. Kindly refresh the page.';
+		throw new UserInputError('You are already friends. Kindly refresh the page.', { errors });
+	}
 	// await notif.sendNotif(fren_id);
 	await data.updateRequest(user_id, fren_id);
 	await data.newNotif(fren_id, user_id, "freq");

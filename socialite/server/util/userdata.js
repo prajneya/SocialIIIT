@@ -1,8 +1,42 @@
-const {User, Profile, UserDets, UserSub} = require("../models/User");
+const {User, Profile, UserDets, UserSub, Meet} = require("../models/User");
+const mail = require('../email')
 const e = require("express");
+const schedule = require('node-schedule')
 
 
 module.exports = {
+	mailSched: async function(ts, mdets)
+	{
+		fts = new Date(ts)
+		var task = await schedule.scheduleJob(fts, async function() {
+			err = await mail(mdets.email, mdets.title, mdets.msg);
+		})
+	},
+	getMeet: async function getMeet(curid, id){
+		curdets = await UserDets.findOne({_id: curid})
+		arr1 = [curid, id]
+		arr2 = [id, curid]
+		var meetf = await Meet.find({people: arr1})
+		var meetfb = await Meet.find({people: arr2})
+
+		var ret = {}
+		for(var i = 0; i < meetf.length; ++i)
+		{
+			if(curdets.meets.includes(meetf[i]._id))
+				continue
+			ret = meetf[i]
+			break
+		}
+
+		for(var j = 0; !Object.keys(ret).length && j < meetfb.length; ++j)
+		{
+			if(curdets.meets.includes(meetfb[j]._id))
+				continue
+			ret = meetfb[j]
+			break
+		}
+		return ret 
+	},
 	getProfileById: async function getProfileById(id){
 		ret = {};
 		await Profile.findById(id).then((profile) => {
@@ -62,6 +96,9 @@ module.exports = {
 	},
 	newNotif: async function (ida, idb, type){
 		await UserDets.update( { _id: ida }, { $push: { notif: { user: idb, ntype: type }} } ); 
+		dets = await UserDets.findOne({_id: ida})
+		ret = dets.notif[dets.notif.length - 1]._id
+		return ret
 	},
 	removeNotif: async function (ida, idb, type){
 		await UserDets.update( { _id: ida }, { $pull: { notif: { user: idb, ntype: type }} } ); 

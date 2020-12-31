@@ -14,6 +14,7 @@ const resendResolvers = require('./resend')
 const forgotPassResolvers = require('./forgotPass')
 const passChangeResolvers = require('./passChange')
 const friendListResolvers = require('./friends')
+const dbFixResolvers = require('./dbFix')
 
 module.exports = {
 	Query: {
@@ -26,6 +27,7 @@ module.exports = {
 		...friendListResolvers.friendList,
 		...userSearchResolvers.userSearch,
 		...meetrequestResolvers.meetDisp,
+		...meetrequestResolvers.schedMeet,
 		...meetrequestResolvers.allMeets
 	},
 	Mutation: {
@@ -42,6 +44,7 @@ module.exports = {
 		...meetrequestResolvers.meetreject,
 		...editResolvers.edit,
 		...resendResolvers.resend,
-		...passChangeResolvers.passChange
+		...passChangeResolvers.passChange,
+		...dbFixResolvers.dbFix
 	}
 }
