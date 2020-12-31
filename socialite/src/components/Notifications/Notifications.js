@@ -408,7 +408,7 @@ function Notifications(props){
 
     if(loading){
         return (<><div id="overlay" style={{display: "block"}}></div>
-            <div id="vibe-animation" style={{display: "block"}}><div className="loader">Loading...</div><br/>HACKING INTO THE PEERSITY DATABASE ...</div></>)
+            <div id="vibe-animation" style={{display: "block"}}><div className="loader">Loading...</div><br/>HACKING PEERSITY ...</div></>)
     }
 
     var notifications = notifs ? notifs.getNotif : "";
