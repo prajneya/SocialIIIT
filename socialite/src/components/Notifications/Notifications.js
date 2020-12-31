@@ -572,6 +572,14 @@ const FETCH_MEET = gql`
     }
 `
 
+const FETCH_MEETDETS = gql`
+    query($notifid: String!){
+        schedMeet(notifid: $notifid){
+		id people type date time duration link msg place notif
+        }
+    }
+`
+
 const MEET_EDIT = gql`
     mutation meetEdit(
 	    $sender: String!
@@ -617,7 +625,7 @@ const MEET_REJECT = gql`
 const FETCH_NOTIFICATIONS_QUERY = gql`
     query($user_id: String!){
         getNotif(id: $user_id){
-            userId email match type username
+            id userId email match type username
         }
     }
 `

@@ -27,6 +27,7 @@ module.exports = {
 		...friendListResolvers.friendList,
 		...userSearchResolvers.userSearch,
 		...meetrequestResolvers.meetDisp,
+		...meetrequestResolvers.schedMeet,
 		...meetrequestResolvers.allMeets
 	},
 	Mutation: {

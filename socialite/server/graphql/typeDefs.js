@@ -162,12 +162,13 @@ module.exports = gql`
 	    notif: Boolean!
     }
     type Notif{
+	id: String!
         userId: String!
         match: Float!
         email: String!
 	username: String!
         type: String!
-	    time: String!
+	time: String!
     }
     input ProfileEdits{
     	user_id: String!
@@ -206,6 +207,7 @@ module.exports = gql`
         forgotPass(email: String!): String
 	friendList(id: ID!): [Info]!
 	meetDisp(user: String!, other: String!): Meet! 
+	schedMeet(notifid: String!): Meet! 
 	allMeets(user: String!): [Meet]! 
     }
     type Mutation{

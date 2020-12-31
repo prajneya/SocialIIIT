@@ -82,7 +82,8 @@ const Meet = new mongoose.Schema({
 	link: String,
 	msg: String,
 	place: String,
-	notif: Boolean
+	notif: Boolean,
+	sched: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserDets.notif' }]
 });
 
 module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails'), Timeline: mongoose.model('timelineDetails', timelineSchema, 'timelineDetails'), Meet: mongoose.model('Meet', Meet, 'Meet')};

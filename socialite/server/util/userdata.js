@@ -96,6 +96,9 @@ module.exports = {
 	},
 	newNotif: async function (ida, idb, type){
 		await UserDets.update( { _id: ida }, { $push: { notif: { user: idb, ntype: type }} } ); 
+		dets = await UserDets.findOne({_id: ida})
+		ret = dets.notif[dets.notif.length - 1]._id
+		return ret
 	},
 	removeNotif: async function (ida, idb, type){
 		await UserDets.update( { _id: ida }, { $pull: { notif: { user: idb, ntype: type }} } ); 

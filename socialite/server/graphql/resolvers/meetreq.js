@@ -38,6 +38,15 @@ module.exports = {
 			}
 		}
 	},
+	schedMeet: {
+		async schedMeet(_, { notifid }) {
+			try{
+				return await meet.schedMeet(notifid);
+			} catch(err){
+				throw new Error(err);
+			}
+		}
+	},
 	allMeets: {
 		async allMeets(_, { user }) {
 			try{

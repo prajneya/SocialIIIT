@@ -30,9 +30,12 @@ async function meetaccept(user_id, fren_id)
 		}
 
 		await data.updateAccRejMeet(user_id, fren_id, meet._id)	
-		await data.newNotif(fren_id, user_id, "macc");
+		var notifida = await data.newNotif(fren_id, user_id, "macc");
 		await data.removeNotif(user_id, fren_id, "mreq");
-		await data.newNotif(user_id, fren_id, "macc");
+		var notifidb = await data.newNotif(user_id, fren_id, "macc");
+
+		await Meet.updateOne({_id: meet._id}, {$push: {sched: notifida}})
+		await Meet.updateOne({_id: meet._id}, {$push: {sched: notifidb}})
 
 		if(meet.notif)
 		{
@@ -433,7 +436,8 @@ async function meetrequest(meetdata)
 			link: meetdata.link,
 			msg: meetdata.msg,
 			place: meetdata.place,
-			notif: meetdata.notif
+			notif: meetdata.notif,
+			sched: []
 		});
 
 		await newMeet.save().then(async(saved) => {
@@ -449,6 +453,16 @@ async function meetDisp(user, other)
 	try{
 		var meet = await data.getMeet(user, other);	
 		return meet
+	} catch(err){
+		throw new Error(err);
+	}
+}
+
+async function schedMeet(notifid)
+{
+	try{
+		ret = await Meet.findOne({ sched: notifid })
+		return ret
 	} catch(err){
 		throw new Error(err);
 	}
@@ -525,4 +539,4 @@ async function meetEdit(meetdata)
 }
 
 
-module.exports = { "meetrequest": meetrequest, "meetaccept": meetaccept, "meetreject": meetreject, "meetDisp": meetDisp, "allMeets": allMeets, "meetEdit": meetEdit };
+module.exports = { "meetrequest": meetrequest, "meetaccept": meetaccept, "meetreject": meetreject, "meetDisp": meetDisp, "schedMeet": schedMeet, "allMeets": allMeets, "meetEdit": meetEdit };

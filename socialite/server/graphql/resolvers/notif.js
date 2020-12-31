@@ -17,7 +17,7 @@ module.exports = {
 				for(let i = 0; i < curdets.notif.length; ++i)
 				{
 					mat = await getscore(id, curdets.notif[i].user);
-					ret.push({userId: curdets.notif[i].user, match: mat[0].match, email: mat[0].email, username: mat[0].username, type: curdets.notif[i].ntype, time: curdets.notif[i].createdAt});
+					ret.push({id: curdets.notif[i]._id, userId: curdets.notif[i].user, match: mat[0].match, email: mat[0].email, username: mat[0].username, type: curdets.notif[i].ntype, time: curdets.notif[i].createdAt});
 					j++;
 				}	
 
@@ -26,7 +26,6 @@ module.exports = {
 					throw new Error('No new notification');
 				}
 				ret.sort((a, b) => (a.time < b.time) ? 1 : -1);
-				console.log(ret.length, "bey")
 				return	ret;
 			} 
 			catch (err)
