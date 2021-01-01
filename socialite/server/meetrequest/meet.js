@@ -157,7 +157,7 @@ async function meetaccept(user_id, fren_id)
 			<br>Duration: ${meet.duration}
 			<br>Message: ${meet.msg}
 			<br>Link: <a href=${meet.link} style="text-decoration:none;line-height:100%;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:15px;font-weight:normal;text-transform:none;margin:0px;" target="_blank">
-            ${meet.link}</a>
+            <pre>${meet.link}</pre></a>
 			<br>Place: ${meet.place}
 			</p>
 		  
@@ -318,7 +318,7 @@ async function meetaccept(user_id, fren_id)
 			<br>Duration: ${meet.duration}
 			<br>Message: ${meet.msg}
 			<br>Link: <a href=${meet.link} style="text-decoration:none;line-height:100%;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:15px;font-weight:normal;text-transform:none;margin:0px;" target="_blank">
-            ${meet.link}</a>
+            <pre>${meet.link}</pre></a>
 			<br>Place: ${meet.place}
 			</p>
 		  
