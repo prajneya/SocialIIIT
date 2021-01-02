@@ -63,9 +63,9 @@ async function friendlist(id, flag)
 
 		var meetf = await data.getMeet(id, users[i]._id)
 		var meet = 0;
-		if(meetf && curdets.sendmeet.includes(meetf._id))
+		if(meetf && await curdets.sendmeet.includes(meetf._id))
 			meet = 2
-		else if(meetf && curdets.requestmeet.includes(meetf._id))
+		else if(meetf && await curdets.requestmeet.includes(meetf._id))
 			meet = 3;
 
 		if(sval == 0)
