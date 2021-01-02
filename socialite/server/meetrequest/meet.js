@@ -10,7 +10,7 @@ async function meetaccept(user_id, fren_id)
 		errors = {}
 		var meet = await data.getMeet(user_id, fren_id);	
 		dets = await data.getUserDetsById(user_id)
-		if(dets.sendmeet.includes(meet._id))
+		if(await dets.sendmeet.includes(meet._id))
 		{
 			errors.general = 'You have already sent the request. Kindly refresh the page.';
 			throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
@@ -387,7 +387,7 @@ async function meetreject(user_id, fren_id)
 		errors = {}
 		var meet = await data.getMeet(user_id, fren_id);	
 		dets = await data.getUserDetsById(user_id)
-		if(dets.sendmeet.includes(meet._id))
+		if(await dets.sendmeet.includes(meet._id))
 		{
 			errors.general = 'You have already sent the request. Kindly refresh the page.';
 			throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
@@ -514,7 +514,7 @@ async function meetEdit(meetdata)
 		var meet = await data.getMeet(user_id, fren_id);	
 
 		dets = await data.getUserDetsById(user_id)
-		if(dets.sendmeet.includes(meet._id))
+		if(await dets.sendmeet.includes(meet._id))
 		{
 			errors.general = 'You have already sent the request. Kindly refresh the page.';
 			throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });

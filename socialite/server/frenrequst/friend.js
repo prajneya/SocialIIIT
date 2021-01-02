@@ -8,7 +8,7 @@ async function frenaccept(user_id, fren_id)
 {
 	errors = {}
 	dets = await data.getUserDetsById(user_id)
-	if(dets.send.includes(fren_id))
+	if(await dets.send.includes(fren_id))
 	{
 		errors.general = 'You have already sent the request. Kindly refresh the page.';
 		throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
@@ -39,7 +39,7 @@ async function frenreject(user_id, fren_id)
 {
 	errors = {}
 	dets = await data.getUserDetsById(user_id)
-	if(dets.send.includes(fren_id))
+	if(await dets.send.includes(fren_id))
 	{
 		errors.general = 'You have already sent the request. Kindly refresh the page.';
 		throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
@@ -54,19 +54,19 @@ async function frenrequest(user_id, fren_id)
 	errors = {}
 	dets = await data.getUserDetsById(user_id)
 	prof = await data.getProfileById(user_id)
-	if(dets.send.includes(fren_id))
+	if(await dets.send.includes(fren_id))
 	{
 		errors.general = 'You have already sent the request. Kindly refresh the page.';
 		throw new UserInputError('You have already sent the request. Kindly refresh the page.', { errors });
 	}
 
-	else if(dets.request.includes(fren_id))
+	else if(await dets.request.includes(fren_id))
 	{
 		errors.general = 'You already have a pending request. Kindly refresh the page.';
 		throw new UserInputError('You already have a pending request. Kindly refresh the page.', { errors });
 	}
 
-	else if(prof.friends.includes(fren_id))
+	else if(await prof.friends.includes(fren_id))
 	{
 		errors.general = 'You are already friends. Kindly refresh the page.';
 		throw new UserInputError('You are already friends. Kindly refresh the page.', { errors });
