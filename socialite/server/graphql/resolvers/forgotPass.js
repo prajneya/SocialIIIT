@@ -31,7 +31,7 @@ module.exports = {
 				{ expiresIn: '1h' }
 			);
 
-			link = "https://peersity.in/passChange/" + token;
+			link = "http://peersity.in/passChange/" + token;
 			msg = `Kindly click on the attached link to change your password: ${link}`;
 			err = await mail(user.email, "Reset Password", msg);
 			if(err)

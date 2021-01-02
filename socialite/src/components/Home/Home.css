@@ -185,6 +185,10 @@ input{
   margin-top: 1rem;
 }
 
+.link{
+	text-align: center;
+}
+
 .no-account{
   position: absolute;
   bottom: 0;
