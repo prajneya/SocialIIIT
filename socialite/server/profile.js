@@ -25,14 +25,14 @@ module.exports = async function profiledisp(curid, id) {
 		ret.friend = flag;
 		ret.meet = 0
 		ret.username = username
-		if(meetf && curdets.sendmeet.includes(meetf._id))
+		if(meetf && await curdets.sendmeet.includes(meetf._id))
 			ret.meet = 2
-		else if(meetf && curdets.requestmeet.includes(meetf._id))
+		else if(meetf && await curdets.requestmeet.includes(meetf._id))
 			ret.meet = 3
 
-		if(curdets.send.includes(user._id))
+		if(await curdets.send.includes(user._id))
 			ret.friend = 2
-		else if(curdets.request.includes(user._id))
+		else if(await curdets.request.includes(user._id))
 			ret.friend = 3
 
 		if(curid == id)

@@ -22,7 +22,7 @@ module.exports = {
 		var ret = {}
 		for(var i = 0; i < meetf.length; ++i)
 		{
-			if(curdets.meets.includes(meetf[i]._id))
+			if(await curdets.meets.includes(meetf[i]._id))
 				continue
 			ret = meetf[i]
 			break
@@ -30,7 +30,7 @@ module.exports = {
 
 		for(var j = 0; !Object.keys(ret).length && j < meetfb.length; ++j)
 		{
-			if(curdets.meets.includes(meetfb[j]._id))
+			if(await curdets.meets.includes(meetfb[j]._id))
 				continue
 			ret = meetfb[j]
 			break
