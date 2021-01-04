@@ -131,6 +131,7 @@ function Register(props) {
                                 				<br/>
                                 				<div className="batch-drop">
                                     					<Select
+                                    					defaultValue={options.filter(option => option.label === 'UG2k20')}
                                       					styles={customStyles}
                                       					closeMenuOnSelect={false}
                 				                      	components={animatedComponents}
@@ -154,6 +155,7 @@ function Register(props) {
                                 				<br/>
                                 				<div className="stream-drop">
                                     					<Select
+                                    					defaultValue={options2.filter(option => option.label === 'CSE')}
                                       					styles={customStyles}
                                       					closeMenuOnSelect={false}
                 				                      	components={animatedComponents}
