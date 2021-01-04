@@ -23,7 +23,6 @@ module.exports = {
 		...profileResolvers.profile,
 		...notifResolvers.Query,
 		...searchResolvers.search,
-		...forgotPassResolvers.forgotPass,
 		...friendListResolvers.friendList,
 		...userSearchResolvers.userSearch,
 		...meetrequestResolvers.meetDisp,
@@ -44,6 +43,7 @@ module.exports = {
 		...meetrequestResolvers.meetreject,
 		...editResolvers.edit,
 		...resendResolvers.resend,
+		...forgotPassResolvers.forgotPass,
 		...passChangeResolvers.passChange,
 		...dbFixResolvers.dbFix
 	}

@@ -112,6 +112,7 @@ function Home(props) {
 							</div>
 							<button type="submit" className="btn-submit">Sign In</button>
 							</form>
+							<a className="link" href="/forgotpass">Forgot Password?</a>
 							<div className="no-account">
 								<span>Don't have an account yet?</span>
 								<a href="/register"><button className="signup">Sign Up</button></a>

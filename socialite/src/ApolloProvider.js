@@ -13,6 +13,8 @@ import LoginRoute from './util/LoginRoute';
 
 import Home from './components/Home/Home';
 import Register from './components/Register/Register';
+import ForgotPass from './components/resetPass/forgotPass';
+import ResetPass from './components/resetPass/passChange';
 
 import Dashboard from './components/Dashboard/Dashboard';
 import Recommend from './components/Recommend/Recommend';
@@ -70,6 +72,8 @@ export default (
           <Switch>
             <LoginRoute exact path="/" component={Home} />
             <LoginRoute exact path="/register" component={Register} />
+            <LoginRoute exact path="/forgotpass" component={ForgotPass} />
+            <LoginRoute exact path="/passChange/:token" component={ResetPass} />
             <AuthRoute exact path="/dashboard" component={Dashboard} />
             <AuthRoute exact path="/recommend" component={Recommend} />
             <AuthRoute exact path="/profile" component={Profile} />
