@@ -103,7 +103,7 @@ function ForgotPass(props) {
 							</div>
 
 							<button type="submit" className="btn-submit">Reset Password</button><br/><br/>
-							<p>If your email address exists in our database, a link will be sent to your email address alongwith instructions to reset your password.</p>
+							<p>If your email address exists in our database, a link will be sent to your email address along with instructions to reset your password.</p>
 							</form>
 
 							<div className="no-account">
