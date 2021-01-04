@@ -44,6 +44,39 @@ function Timeline(props){
   const { data: displayBadgeData } = useQuery(FETCH_DISPLAY_BADGE);
   var badge_data = displayBadgeData ? displayBadgeData.getBadge : "";
 
+  const [ removeBadge ] = useMutation(REMOVE_BADGE, {
+        update(_){
+            Swal.fire({title: "Badge Removed!",
+                  footer: "Your badge has been removed!",
+                  imageUrl: '/img/egg.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                }).then(() => {
+                  window.location.reload(false);
+                });
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "You must be the mysterious one!",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while removing your badge.",
+                  imageUrl: '/img/sorry.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
+        }
+    })
+
   const [ addBadge ] = useMutation(ADD_BADGE, {
         update(_){
             Swal.fire({title: "Badge Added!",
@@ -135,6 +168,31 @@ function Timeline(props){
     props.history.push('/blog/'+blogId);
   }
 
+  function removeBadgesCallback(){
+    Swal.fire({
+    title: 'Remove Badge?',
+    footer: 'Are you sure you want to remove your badge from display?',
+    confirmButtonText: 'Yes I am Sure',
+    showCancelButton: true,
+    focusConfirm: false,
+    width: '64rem',
+      backdrop: `rgba(0,0,0,0.9)`,
+    background: `rgba(0,0,0,0.9)`,
+    customClass: {
+              title: 'text-danger',
+              text: 'text-center',
+              content: 'text-left text-white',
+              confirmButton: 'game-button bg-danger',
+            },
+    }).then((result) => {
+      if(!result.isConfirmed)
+        window.location.reload(false)
+      else{
+        removeBadge();
+      }
+    })
+  }
+
   function getBadgesCallback(){
     getPotentialBadges();
   }
@@ -167,7 +225,7 @@ function Timeline(props){
                                 {timeline_data['ghlink'] ? <a href={timeline_data['ghlink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
 
                               </div>
-                              {badge_data !== "NoBadge" ? "" : <div className="text-center mt-3"><button className="btn btn-primary" onClick={getBadgesCallback}>ADD BADGE + </button></div>}
+                              {badge_data !== "NoBadge" ? <div className="text-center mt-3"><button className="btn btn-primary" onClick={removeBadgesCallback}>REMOVE BADGE - </button></div> : <div className="text-center mt-3"><button className="btn btn-primary" onClick={getBadgesCallback}>ADD BADGE + </button></div>}
                             </div>
                           </div>
                         </div>
@@ -374,6 +432,12 @@ function Timeline(props){
       )
   	
 }
+
+const REMOVE_BADGE = gql`
+  mutation{
+    removeBadge
+  }
+`
 
 const ADD_BADGE = gql`
   mutation($display: String!){

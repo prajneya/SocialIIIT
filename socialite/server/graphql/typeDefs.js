@@ -248,6 +248,7 @@ module.exports = gql`
         passChange(token: String!, password: String!, confirmPassword: String!): Int
 	dbFix(random: String): String
         addBadge(display: String): String!
+        removeBadge: String!
     } 
 `;
 

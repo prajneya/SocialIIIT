@@ -316,5 +316,22 @@ module.exports = {
 			}
 			
 		},
+		async removeBadge(_, {}, context){
+			try{
+				const user = checkAuth(context);
+
+				const badgeUser = await Badge.findById(user.id);
+				if(badgeUser){
+					await Badge.updateOne({_id: user.id}, {$set: {display: "NoBadge"}});
+					return "NoBadge";
+				}
+				else{
+					throw new Error("No Badge alloted.")
+				}
+			} catch (err){
+				throw new Error(err);
+			}
+			
+		},
 	}
 }
