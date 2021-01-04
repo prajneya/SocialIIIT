@@ -239,7 +239,7 @@ module.exports = gql`
         meetEdit(data: MeetInput!): ID
         edit(input: ProfileEdits): ID
         uploadPhoto(photo: Upload!): String
-        updateProfile(name: String, fblink: String, ghlink: String, about: String, house: String, clubs: JSONObject, hostel: String, sports: JSONObject, pOneTitle: String, pOneGhLink: String, pOneELink: String, pOneDesc: String, pTwoTitle: String, pTwoGhLink: String, pTwoELink: String, pTwoDesc: String, pThreeTitle: String, pThreeGhLink: String, pThreeELink: String, pThreeDesc: String, roomNo: Int): String
+        updateProfile(name: String, username: String, fblink: String, ghlink: String, about: String, house: String, clubs: JSONObject, hostel: String, sports: JSONObject, pOneTitle: String, pOneGhLink: String, pOneELink: String, pOneDesc: String, pTwoTitle: String, pTwoGhLink: String, pTwoELink: String, pTwoDesc: String, pThreeTitle: String, pThreeGhLink: String, pThreeELink: String, pThreeDesc: String, roomNo: Int): String
         resend(data: ResendInput!): Int!
         forgotPass(email: String!): String
         passChange(token: String!, password: String!, confirmPassword: String!): Int
