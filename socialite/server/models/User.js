@@ -86,4 +86,10 @@ const Meet = new mongoose.Schema({
 	sched: [{ type: mongoose.Schema.Types.ObjectId, ref: 'UserDets.notif' }]
 });
 
-module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails'), Timeline: mongoose.model('timelineDetails', timelineSchema, 'timelineDetails'), Meet: mongoose.model('Meet', Meet, 'Meet')};
+const Badge = new mongoose.Schema({
+	id: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+	potential: [String],
+	display: String
+})
+
+module.exports = {User: mongoose.model('User', userSchema), Profile: mongoose.model('Profile', Profile, 'Profile'), UserDets: mongoose.model('UserDets', UserDets, 'UserDets'), UserSub: mongoose.model('UserSub', UserSub, 'UserSub'), Skills: mongoose.model('skillDetails', skillSchema, 'skillDetails'), Timeline: mongoose.model('timelineDetails', timelineSchema, 'timelineDetails'), Meet: mongoose.model('Meet', Meet, 'Meet'), Badge: mongoose.model('Badge', Badge, 'Badge')};

@@ -18,6 +18,7 @@ const dbFixResolvers = require('./dbFix')
 
 module.exports = {
 	Query: {
+		...userResolvers.Query,
 		...postResolvers.Query,
 		...recoResolvers.recommend,
 		...profileResolvers.profile,
