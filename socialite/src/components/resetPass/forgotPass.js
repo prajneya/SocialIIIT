@@ -1,29 +1,10 @@
-import React, { useState } from 'react';
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated';
+import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {useSpring, animated} from 'react-spring'
 
 import { useForm } from '../../util/hooks';
 import Swal from 'sweetalert2';
-
-const animatedComponents = makeAnimated();
-
-const customStyles = {
-  option: (provided, state) => ({
-    ...provided,
-    borderBottom: '1px dotted pink',
-    color: state.isSelected ? 'red' : 'blue',
-    padding: 20,
-  }),
-  singleValue: (provided, state) => {
-    const opacity = state.isDisabled ? 0.5 : 1;
-    const transition = 'opacity 300ms';
-
-    return { ...provided, opacity, transition };
-  }
-}
 
 function ForgotPass(props) {
 

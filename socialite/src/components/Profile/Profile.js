@@ -105,6 +105,7 @@ function Profile(props) {
 	var users = userTimelineData ? userTimelineData.getUserTimelineData : "";
 
     const [fullName, setFullName] = useState('');
+    const [userName, setUserName] = useState('');
     const [fbLink, setFbLink] = useState('');
     const [ghLink, setGhLink] = useState('');
     const [about, setAbout] = useState('');
@@ -225,6 +226,7 @@ function Profile(props) {
                 });
         },
         variables: { "name": fullName,
+		    "username": userName,
                     "fblink": fbLink,
                     "ghlink": ghLink,
                     "about": about,
@@ -249,6 +251,7 @@ function Profile(props) {
     
     async function profileUpdateCallBack(){
         await setFullName(document.getElementById('fullname').value);
+        await setUserName(document.getElementById('username').value);
         await setFbLink(document.getElementById('fblink').value);
         await setGhLink(document.getElementById('ghlink').value);
         await setAbout(document.getElementById('about').value);
@@ -304,7 +307,7 @@ function Profile(props) {
                             </div>
                             <div className="col-md-6">
                                 <label>USERNAME</label>
-                                <input value={user.username} disabled/>
+                                <input id="username" defaultValue={user.username} />
                                 <label>GITHUB LINK</label>
                                 <input defaultValue={users.ghlink} id="ghlink"/>
                             </div>
@@ -441,6 +444,7 @@ const UPLOAD_PROFILE_PICTURE = gql`
 const UPDATE_PROFILE = gql`
   mutation updateProfile(
     $name: String
+    $username: String
     $fblink: String
     $ghlink: String
     $about: String
@@ -464,6 +468,7 @@ const UPDATE_PROFILE = gql`
   ) {
     updateProfile(
         name: $name
+        username: $username
         fblink: $fblink
         ghlink: $ghlink
         about: $about

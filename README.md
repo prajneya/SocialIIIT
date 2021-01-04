@@ -1,4 +1,4 @@
-# SocailIIIT: A Social Network Exclusive for IIIT-H
+# SocialIIIT: A Social Network Exclusive for IIIT-H
 
 ## Project Overview
 
