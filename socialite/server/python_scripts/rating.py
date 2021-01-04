@@ -114,29 +114,37 @@ for q in queue.find():
 
             for i in list(zip(user_rating, volatility, times_answered, answers)):
                 print(i)
-
-            if(len(answers) != 1):
+                
+            if len(answers) > 1:
                 rank_answers(answers)
                 user_rating, volatility, times_answered = updateUserRating(user_rating, volatility, times_answered, answers)
-
+                
+            if len(answers) == 1:
+                index = 0
+                for y in x['answers']:
+                    myquery = { "email": y['email'] }
+                    newtimes_answered = { "$inc": { "times_answered": 1 } }
+                    users.update_one(myquery, newtimes_answered)
+                    
+            else:
+                index = 0
+                for y in x['answers']:
+                    myquery = { "email": y['email'] }
+                    newrating = { "$set": { "rating": user_rating[index] } }
+                    newvolatility = { "$set": { "volatility": volatility[index] } }
+                    newtimes_answered = { "$set": { "times_answered": times_answered[index] } }
+                    users.update_one(myquery, newrating)
+                    users.update_one(myquery, newvolatility)
+                    users.update_one(myquery, newtimes_answered)
+                    index += 1
+        
             print("After Algo")
 
             for i in list(zip(user_rating, volatility, times_answered, answers)):
                 print(i)
-
-            index = 0
-            for y in x['answers']:
-                myquery = { "email": y['email'] }
-                newrating = { "$set": { "rating": user_rating[index] } }
-                newvolatility = { "$set": { "volatility": volatility[index] } }
-                newtimes_answered = { "$set": { "times_answered": times_answered[index] } }
-                users.update_one(myquery, newrating)
-                users.update_one(myquery, newvolatility)
-                users.update_one(myquery, newtimes_answered)
-                index += 1
-
+                
             print()
-
+            
         queue.delete_one({"_id": q['_id']})
 
 print("No more documents")
