@@ -1,3 +1,18 @@
+function usernameVal(username)
+{
+	err = ""
+	usernameRegex= /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/
+	if(username.trim() === ''){
+		err = 'Username must not be empty';
+	}
+	else if(username.length > 14)
+		err = 'Username must be 14 characters or less'
+	else if(username.match(usernameRegex))
+		err = 'Username must not contain any special characters except _'
+	return err
+}
+module.exports.usernameVal = usernameVal
+
 module.exports.validateRegisterInput = (
 	email,
 	username,
@@ -19,11 +34,9 @@ module.exports.validateRegisterInput = (
 			errors.email = 'Mailing lists not allowed.'
 	}
 
-	usernameRegex= /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/
-	if(username.length > 14)
-		errors.username = 'Username must be 14 characters or less'
-	else if(username.match(usernameRegex))
-		errors.username = 'Username must not contain any special characters except _'
+	usernameErr = usernameVal(username)
+	if(usernameErr != "")
+		errors.username = usernameErr
 	var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.{8,})");
 	if (password === '') {
     	errors.password = 'Password must not be empty';

@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const { UserInputError } = require('apollo-server')
 const cloudinary = require("cloudinary");
 
-const { validateRegisterInput, validateLoginInput } = require('../../util/validators')
+const { usernameVal, validateRegisterInput, validateLoginInput } = require('../../util/validators')
 const { SECRET_KEY, VERIFY_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = require('../../config');
 const {User, Profile, UserDets, Timeline} = require('../../models/User');
 const checkAuth = require('../../util/check-auth');
@@ -173,9 +173,27 @@ module.exports = {
 		*/
 		      return `Successfully uploaded!`;
 		},
-		async updateProfile(_, { name, fblink, ghlink, about, house, clubs, hostel, sports, pOneTitle, pOneGhLink, pOneELink, pOneDesc, pTwoTitle, pTwoGhLink, pTwoELink, pTwoDesc, pThreeTitle, pThreeGhLink, pThreeELink, pThreeDesc, roomNo }, context) {
+		async updateProfile(_, { name, username, fblink, ghlink, about, house, clubs, hostel, sports, pOneTitle, pOneGhLink, pOneELink, pOneDesc, pTwoTitle, pTwoGhLink, pTwoELink, pTwoDesc, pThreeTitle, pThreeGhLink, pThreeELink, pThreeDesc, roomNo }, context) {
 			try{
 				const user = checkAuth(context);
+
+				usernameErr = usernameVal(username)
+				const user_byName = await User.findOne({ username });
+				if(user_byName && user_byName._id != user.id){
+					throw new UserInputError('Username is already taken', {
+						errors: {
+							username: username + ' is already taken'
+						}
+					})
+				}
+
+				else if(usernameErr != "")
+				{
+					errors.general = usernameErr;
+					throw new UserInputError(usernameErr, { errors });
+				}
+
+				await User.updateOne({_id: user.id}, { $set: { username: username } })
 
 				sports_arr = [];
 				for(sport in sports){

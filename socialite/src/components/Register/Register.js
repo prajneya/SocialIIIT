@@ -75,6 +75,7 @@ function Register(props) {
 	})
 
 	function registerUser(){
+		document.getElementById('register').disabled = true
 		addUser();
 		localStorage.setItem("username", values.username)
 		localStorage.setItem("email", values.email)
@@ -181,7 +182,7 @@ function Register(props) {
 								<input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter your password" onChange={onChange} value={values.confirmPassword} />
 							</div>
 
-							<button type="submit" className="btn-submit">Sign Up</button>
+							<button id="register" type="submit" className="btn-submit">Sign Up</button>
 
 							<div className="my-2">
 							By clicking Sign Up, you agree to our <a href="/policies/terms" target="_blank">Terms</a> and <a href ="/policies/cookies" target="_blank">Cookie Policy</a>.
