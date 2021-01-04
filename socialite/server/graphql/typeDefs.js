@@ -204,10 +204,13 @@ module.exports = gql`
         getUserImage(id: ID): String
         getBlog(blogId: ID!): Blog
         getBlogs: [Blog]
-	friendList(id: ID!): [Info]!
-	meetDisp(user: String!, other: String!): Meet! 
-	schedMeet(notifid: String!): Meet! 
-	allMeets(user: String!): [Meet]! 
+	   friendList(id: ID!): [Info]!
+	   meetDisp(user: String!, other: String!): Meet! 
+	   schedMeet(notifid: String!): Meet! 
+	   allMeets(user: String!): [Meet]! 
+       getPotentialBadges: [String]
+       getBadge: String
+       getBadgeById(id: String!): String
     }
     type Mutation{
         insertTag(name: String!): Tag!
@@ -244,6 +247,8 @@ module.exports = gql`
         forgotPass(email: String!): String
         passChange(token: String!, password: String!, confirmPassword: String!): Int
 	dbFix(random: String): String
+        addBadge(display: String): String!
+        removeBadge: String!
     } 
 `;
 

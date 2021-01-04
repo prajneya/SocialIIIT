@@ -431,6 +431,13 @@ const username = props.match.params.username;
 
   var people_list = people ? people.friendList : "";
 
+  const { data: displayBadgeData } = useQuery(FETCH_DISPLAY_BADGE, {
+    variables: {
+      id: id
+    }
+  });
+  var badge_data = displayBadgeData ? displayBadgeData.getBadgeById : "";
+
   const [firstCheck, setFirstCheck] = useState(true);
 
   const [loadMeet, { data: meetData }] = useLazyQuery(FETCH_MEET, { 
@@ -740,6 +747,7 @@ async function do_meetedit(){
                       <div className="display text-center my-5">
                         <div className="mx-2 username">{username}</div><br/><br/><div className="rating mt-1 mx-2 p-2">RATING: {timeline_data ? timeline_data.rating : ""}</div>
                         <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{timeline_data ? timeline_data.contributions : ""}</strong></div>                        
+                        {badge_data !== "NoBadge" ? <div className="times-answered bg-danger mt-1 mx-2 p-2"><strong>{badge_data}</strong></div> : "" } 
                         <br/><br/>
                         <div className="about-me mx-2 my-5">
                           <div className="row">
@@ -1004,6 +1012,12 @@ async function do_meetedit(){
       )
     
 }
+
+const FETCH_DISPLAY_BADGE = gql`
+    query($id: String!){
+        getBadgeById(id: $id)
+    }
+`;
 
 const FREN_REQUEST = gql`
     mutation frenrequest($user_id: String!, $fren_id: String!) {

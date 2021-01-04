@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useLazyQuery, useMutation } from '@apollo/react-hooks';
+import Swal from 'sweetalert2';
 import gql from 'graphql-tag';
 import { faFolderOpen } from "@fortawesome/free-regular-svg-icons";
 import { faFacebook, faGithub } from "@fortawesome/free-brands-svg-icons";
@@ -40,12 +41,160 @@ function Timeline(props){
   });
   var blog_data = blogData ? blogData.getUserBlogs : "";
 
+  const { data: displayBadgeData } = useQuery(FETCH_DISPLAY_BADGE);
+  var badge_data = displayBadgeData ? displayBadgeData.getBadge : "";
+
+  const [ removeBadge ] = useMutation(REMOVE_BADGE, {
+        update(_){
+            Swal.fire({title: "Badge Removed!",
+                  footer: "Your badge has been removed!",
+                  imageUrl: '/img/egg.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                }).then(() => {
+                  window.location.reload(false);
+                });
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "You must be the mysterious one!",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while removing your badge.",
+                  imageUrl: '/img/sorry.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
+        }
+    })
+
+  const [ addBadge ] = useMutation(ADD_BADGE, {
+        update(_){
+            Swal.fire({title: "Badge Added!",
+                  footer: "You are marked as DASSTaken!",
+                  imageUrl: '/img/egg.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                }).then(() => {
+                  window.location.reload(false);
+                });
+        },
+        onError(err){
+          if(err.graphQLErrors.length > 0)
+            Swal.fire({title: "You must be the mysterious one!",
+                  html: Object.values(err.graphQLErrors[0])[0],
+                  footer: "The above error popped up while updating your badge.",
+                  imageUrl: '/img/sorry.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                });
+        },
+        variables: { "display": "DASSTaken"}
+    })
+
+  const [getPotentialBadges, { data: badgeData }] = useLazyQuery(FETCH_POTENTIAL_BADGES, {
+        onCompleted(){
+          if(!badgeData.getPotentialBadges || badgeData.getPotentialBadges.length === 0){
+            Swal.fire({title: "Find those Easter Eggs!",
+                  footer: "You do not have any potential badges currently.",
+                  imageUrl: '/img/egg.png',
+                  customClass: {
+                    title: 'text-danger error-message',
+                    content: 'error-message text-white',
+                    confirmButton: 'game-button bg-danger',
+                    image: 'error-image-swal',
+                  },
+                  background: `rgba(0,0,0,0.9)`
+                }).then(() => {
+                  window.location.reload(false);
+                });
+          }
+          else{
+            Swal.fire({
+            title: 'Add Badge',
+            html: `
+                <div class="textfield">
+                <label class="text-warning" for="potential">You have a potential Badge!:</label>
+                <input type="text" value="DASSTaken" id="potential" name="potential" readonly/>
+                </div><br>
+                <label class="text-info" for="potential">Do you want to add this badge?</label>
+              `,
+            confirmButtonText: 'Add Badge',
+            showCancelButton: true,
+            focusConfirm: false,
+            width: '64rem',
+              backdrop: `rgba(0,0,0,0.9)`,
+            background: `rgba(0,0,0,0.9)`,
+            customClass: {
+                      title: 'text-danger',
+                      content: 'text-left text-white',
+                      confirmButton: 'game-button bg-danger',
+                    },
+            }).then((result) => {
+              if(!result.isConfirmed)
+                window.location.reload(false)
+              else{
+                addBadge();
+              }
+            })
+          }
+        }
+  });
+
   function addNewBlog(){
     props.history.push('/createblog')
   }
 
   function showBlog(blogId){
     props.history.push('/blog/'+blogId);
+  }
+
+  function removeBadgesCallback(){
+    Swal.fire({
+    title: 'Remove Badge?',
+    footer: 'Are you sure you want to remove your badge from display?',
+    confirmButtonText: 'Yes I am Sure',
+    showCancelButton: true,
+    focusConfirm: false,
+    width: '64rem',
+      backdrop: `rgba(0,0,0,0.9)`,
+    background: `rgba(0,0,0,0.9)`,
+    customClass: {
+              title: 'text-danger',
+              text: 'text-center',
+              content: 'text-left text-white',
+              confirmButton: 'game-button bg-danger',
+            },
+    }).then((result) => {
+      if(!result.isConfirmed)
+        window.location.reload(false)
+      else{
+        removeBadge();
+      }
+    })
+  }
+
+  function getBadgesCallback(){
+    getPotentialBadges();
   }
 
 	return (
@@ -57,7 +206,8 @@ function Timeline(props){
                     <div className="col-xl-9">
                       <div className="display text-center my-5">
                         <div className="mx-2 username">{user.username}</div><br/><br/><div className="rating mt-1 mx-2 p-2">RATING: <strong>{user.rating}</strong></div>
-                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>    
+                        <div className="times-answered mt-1 mx-2 p-2">CONTRIBUTION: <strong>{user.times_answered}</strong></div>  
+                        {badge_data !== "NoBadge" ? <div className="times-answered bg-danger mt-1 mx-2 p-2"><strong>{badge_data}</strong></div> : "" }  
                         <br/><br/>                    
                         <div className="about-me mx-2 my-4">
                           <div className="row">
@@ -75,6 +225,7 @@ function Timeline(props){
                                 {timeline_data['ghlink'] ? <a href={timeline_data['ghlink']} target="_blank" rel="noreferrer"><i><FontAwesomeIcon icon={faGithub} size="2x"/></i></a> : ""}
 
                               </div>
+                              {badge_data !== "NoBadge" ? <div className="text-center mt-3"><button className="btn btn-primary" onClick={removeBadgesCallback}>REMOVE BADGE - </button></div> : <div className="text-center mt-3"><button className="btn btn-primary" onClick={getBadgesCallback}>ADD BADGE + </button></div>}
                             </div>
                           </div>
                         </div>
@@ -282,6 +433,18 @@ function Timeline(props){
   	
 }
 
+const REMOVE_BADGE = gql`
+  mutation{
+    removeBadge
+  }
+`
+
+const ADD_BADGE = gql`
+  mutation($display: String!){
+    addBadge(display: $display)
+  }
+`
+
 const FETCH_PROFILE_PICTURE = gql`
     query($id: ID!){
         getUserImage(id: $id)
@@ -299,6 +462,19 @@ const FETCH_TIMELINE = gql`
         getTimelineData
     }
 `;
+
+const FETCH_DISPLAY_BADGE = gql`
+    query{
+        getBadge
+    }
+`;
+
+const FETCH_POTENTIAL_BADGES = gql`
+    query{
+        getPotentialBadges
+    }
+`;
+
 
 const FETCH_BLOGS = gql`
     query($email: String){

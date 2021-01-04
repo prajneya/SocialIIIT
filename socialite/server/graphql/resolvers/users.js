@@ -5,12 +5,14 @@ const cloudinary = require("cloudinary");
 
 const { usernameVal, validateRegisterInput, validateLoginInput } = require('../../util/validators')
 const { SECRET_KEY, VERIFY_KEY, CLOUDINARY_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } = require('../../config');
-const {User, Profile, UserDets, Timeline} = require('../../models/User');
+const {User, Profile, UserDets, Timeline, Badge} = require('../../models/User');
 const checkAuth = require('../../util/check-auth');
 
 const util = require('../../util/userdata')
 const {scoring, common, resetratio} = require('../../recosys/content')
 const verify = require('../../verification')
+
+const {ObjectId} = require('mongodb');
 
 
 function generateToken(user) {
@@ -29,6 +31,55 @@ function generateToken(user) {
 }
 
 module.exports = {
+	Query:{
+		async getPotentialBadges(_, {}, context){
+			try{
+				var user = checkAuth(context);
+
+				var badgeUser = await Badge.findById(user.id);
+
+				if(badgeUser){
+					return badgeUser.potential;
+				}
+				else{
+					return [];
+				}
+			} catch(err){
+				throw new Error(err);
+			}
+		},
+		async getBadge(_, {}, context){
+			try{
+				var user = checkAuth(context);
+
+				var badgeUser = await Badge.findById(user.id);
+
+				if(badgeUser){
+					return badgeUser.display;
+				}
+				else{
+					return "NoBadge";
+				}
+			} catch(err){
+				throw new Error(err);
+			}
+		},
+		async getBadgeById(_, { id }){
+			try{
+
+				var badgeUser = await Badge.findById(id);
+
+				if(badgeUser){
+					return badgeUser.display;
+				}
+				else{
+					return "NoBadge";
+				}
+			} catch(err){
+				throw new Error(err);
+			}
+		}
+	},
 	Mutation: {
 
 		async login(_, { credential, password }) {
@@ -258,6 +309,47 @@ module.exports = {
 				throw new Error(err);
 			}
 
-		}
+		},
+		async addBadge(_, { display }, context){
+			try{
+				const user = checkAuth(context);
+
+				const badgeUser = await Badge.findById(user.id);
+				if(badgeUser){
+					await Badge.updateOne({_id: user.id}, {$set: {display: display}});
+					return display;
+				}
+				else{
+					const newBadgeUser = new Badge({
+						_id: user.id,
+						potential: [],
+						display: display
+					})
+					await newBadgeUser.save();
+
+					return display;
+				}
+			} catch (err){
+				throw new Error(err);
+			}
+			
+		},
+		async removeBadge(_, {}, context){
+			try{
+				const user = checkAuth(context);
+
+				const badgeUser = await Badge.findById(user.id);
+				if(badgeUser){
+					await Badge.updateOne({_id: user.id}, {$set: {display: "NoBadge"}});
+					return "NoBadge";
+				}
+				else{
+					throw new Error("No Badge alloted.")
+				}
+			} catch (err){
+				throw new Error(err);
+			}
+			
+		},
 	}
 }

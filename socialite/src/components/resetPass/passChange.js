@@ -1,14 +1,10 @@
-import React, { useState } from 'react';
-import Select from 'react-select'
-import makeAnimated from 'react-select/animated';
+import React from 'react';
 import { useMutation } from '@apollo/react-hooks';
 import gql from 'graphql-tag';
 import {useSpring, animated} from 'react-spring'
 
 import { useForm } from '../../util/hooks';
 import Swal from 'sweetalert2';
-
-const animatedComponents = makeAnimated();
 
 function ResetPass(props) {
 
