@@ -239,7 +239,7 @@ function Blog(props){
                       <div className="issue-description mt-4">
                         {Parser(comment['body'])}
                       </div>
-                      <div className="info-details float-right desktop-only">
+                      <div className="info-details float-right">
                         { blog_data['email'] === email || comment['email'] === email ? <><i onClick={() => removeCommentCallback(comment['id'])}><FontAwesomeIcon icon={faTrash} /></i> </>: "" }
                         </div>
                     </div>

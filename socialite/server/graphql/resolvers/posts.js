@@ -495,24 +495,24 @@ module.exports = {
         async deleteComment(_, { blogId, commentId }, context){
             try{
                 const user = checkAuth(context);
-
                 const blog = await Blog.findById(blogId);
                 if(blog){
                     if(blog.email == user.email){
-                        const commentIndex = blog.comments.findIndex((c) => c.id === commentId);
-
-                        if (blog.comments[commentIndex].email === user.email) {
-                          blog.comments.splice(commentIndex, 1);
-                          await blog.save();
-                          console.log("everything is good");
-                          return blog;
-                        } else {
-                          throw new Error('You do not have permission to delete this.');
-                        }
-
+                        const commentIndex = await blog.comments.findIndex((c) => c.id === commentId);
+                        blog.comments.splice(commentIndex, 1);
+                        await blog.save();
+                        return blog;
                     }
                     else{
-                        throw new Error('You do not have permission to delete this.');
+                        const commentIndex = await blog.comments.findIndex((c) => c.id === commentId);
+                        if (blog.comments[commentIndex].email === user.email) {
+                            blog.comments.splice(commentIndex, 1);
+                            await blog.save();
+                            return blog;
+                        } 
+                        else {
+                          throw new Error('You do not have permission to delete this.');
+                        }
                     }
                 }
                 else{
