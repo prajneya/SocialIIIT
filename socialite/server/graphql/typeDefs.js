@@ -224,6 +224,8 @@ module.exports = gql`
         deleteAnswer(postId:ID!, answerId: ID!): String!
         deleteBlog(blogId: ID!): String!
         addAnswer(postId: ID!, body: String!): Post!
+        addComment(blogId: ID!, body: String!): Blog!
+        deleteComment(blogId: ID!, commentId: ID!): Blog!
         upvoteQuestion(postId: ID!, email: String!): Post!
         upvoteAnswer(postId: ID!, answerId: ID!, email: String!): Post!
         downvoteQuestion(postId: ID!, email: String!): Post!
