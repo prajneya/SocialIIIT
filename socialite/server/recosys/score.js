@@ -68,7 +68,7 @@ async function friendlist(id, flag)
 		else if(meetf && await curdets.requestmeet.includes(meetf._id))
 			meet = 3;
 
-		if(sval == 0)
+		if(!flag && sval == 0)
 			continue
 		score.push({})
 		score[++l] = {"id": users[i]._id, "match": sval, "email": email, username: username, meet: meet, imgUrl: info.imgUrl};

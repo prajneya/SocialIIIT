@@ -492,7 +492,37 @@ module.exports = {
                 throw new Error('Tag not Found');
             }
         },
+        async deleteComment(_, { blogId, commentId }, context){
+            try{
+                const user = checkAuth(context);
 
+                const blog = await Blog.findById(blogId);
+                if(blog){
+                    if(blog.email == user.email){
+                        const commentIndex = blog.comments.findIndex((c) => c.id === commentId);
+
+                        if (blog.comments[commentIndex].email === user.email) {
+                          blog.comments.splice(commentIndex, 1);
+                          await blog.save();
+                          console.log("everything is good");
+                          return blog;
+                        } else {
+                          throw new Error('You do not have permission to delete this.');
+                        }
+
+                    }
+                    else{
+                        throw new Error('You do not have permission to delete this.');
+                    }
+                }
+                else{
+                    throw new Error('Blog not Found');
+                }   
+            } catch(err){
+                throw new Error(err)
+            }
+            
+        },
         async deletePost(_, { postId }, context){
             const user = checkAuth(context);
             const mongo = require('mongodb');
@@ -629,7 +659,6 @@ module.exports = {
             }
                 
         },
-
         async addAnswer(_, { postId, body }, context){
             const user = checkAuth(context);
 
@@ -653,6 +682,32 @@ module.exports = {
             }
             else{
                 throw new Error('Post not Found');
+            }
+                
+        },
+        async addComment(_, { blogId, body }, context){
+            const user = checkAuth(context);
+
+            if (body.trim() === '') {
+                throw new UserInputError('Empty Comment', {
+                  errors: {
+                    body: 'Comment body must not empty'
+                  }
+                });
+            }
+
+            const blog = await Blog.findById(blogId);
+            if(blog){
+                blog.comments.unshift({
+                    body,
+                    email: user.email,
+                    createdAt: new Date().toISOString()
+                });
+                await blog.save();
+                return blog;
+            }
+            else{
+                throw new Error('Blog not Found');
             }
                 
         },

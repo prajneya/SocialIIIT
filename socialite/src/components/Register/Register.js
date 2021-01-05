@@ -30,8 +30,8 @@ const customStyles = {
 
 function Register(props) {
 
-	const [batch, setBatch] = useState({});
-	const [stream, setStream] = useState({});
+	const [batch, setBatch] = useState("UG2k20");
+	const [stream, setStream] = useState("CSE");
 
 	const fadeInFast = useSpring({opacity: 1, from: {opacity: 0}, config: { duration: 3000 }})
 	const fadeInMedium = useSpring({opacity: 1, from: {opacity: 0}, delay: 300, config: { duration: 2000 }})
