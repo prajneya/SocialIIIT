@@ -9,5 +9,11 @@
       "src": "./build",
       "use": "@vercel/static"
     }
-  ]
+  ],
+  "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/"
+        }
+    ]
 }
